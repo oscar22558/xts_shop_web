@@ -17,7 +17,7 @@ public class CategoryModelAssembler implements
         return EntityModel.of(
             CategoryModel.from(entity),
             linkTo(methodOn(CategoriesController.class).one(entity.getId())).withSelfRel(),
-            linkTo(methodOn(CategoriesController.class).all()).withRel("categories")
+            linkTo(methodOn(CategoriesController.class).all()).withRel("categories"),
         );
     }
 }
