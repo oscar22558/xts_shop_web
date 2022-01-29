@@ -3,6 +3,9 @@ package com.xtsshop.app.entities;
 import com.xtsshop.app.entities.payment.CreditCard;
 import com.xtsshop.app.entities.payment.EPS;
 import com.xtsshop.app.entities.payment.Payment;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
 import org.hibernate.annotations.MetaValue;
@@ -13,6 +16,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Order {
     @Id
     @GeneratedValue
@@ -34,18 +40,7 @@ public class Order {
     @JoinColumn(nullable = false, name = "shipping_address")
     private Address shippingAddress;
 
-    @Any(
-      metaColumn = @Column(name = "payment_type")
-    )
-    @AnyMetaDef(
-            idType = "long",
-            metaType = "string",
-            metaValues = {
-                    @MetaValue(targetEntity = CreditCard.class, value = "CreditCard"),
-                    @MetaValue(targetEntity = EPS.class, value = "EPS")
-            }
-    )
-    @JoinColumn(name = "payment_id")
+    @OneToOne(mappedBy = "order")
     private Payment payment;
 
     @ManyToOne
@@ -57,86 +52,4 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<PurchasedItem> purchasedItems;
-
-    public Order(){}
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
-    public double getDiscountedTotal() {
-        return discountedTotal;
-    }
-
-    public void setDiscountedTotal(double discountedTotal) {
-        this.discountedTotal = discountedTotal;
-    }
-
-    public Address getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public void setShippingAddress(Address shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
-
-    public Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Coupon> getCoupon() {
-        return coupon;
-    }
-
-    public void setCoupon(List<Coupon> coupon) {
-        this.coupon = coupon;
-    }
-
-    public List<PurchasedItem> getPurchasedItems() {
-        return purchasedItems;
-    }
-
-    public void setPurchasedItems(List<PurchasedItem> purchasedItems) {
-        this.purchasedItems = purchasedItems;
-    }
 }

@@ -6,7 +6,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "eps")
 @DiscriminatorValue("EPS")
-public class EPS implements Payment {
+public class EPS extends Payment {
 
     @Id
     @GeneratedValue
