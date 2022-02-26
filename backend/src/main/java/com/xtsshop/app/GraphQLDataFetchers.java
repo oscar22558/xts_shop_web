@@ -1,7 +1,7 @@
 package com.xtsshop.app;
 
-import com.xtsshop.app.model.CategoryModel;
-import com.xtsshop.app.repository.CategoryRepository;
+import com.xtsshop.app.viewmodel.CategoryModel;
+import com.xtsshop.app.db.repositories.CategoryRepository;
 import graphql.schema.DataFetcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

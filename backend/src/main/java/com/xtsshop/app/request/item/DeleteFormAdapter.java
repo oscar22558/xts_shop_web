@@ -1,9 +1,6 @@
 package com.xtsshop.app.request.item;
 
-import com.xtsshop.app.entities.Item;
-
-import java.sql.Date;
-import java.util.Calendar;
+import com.xtsshop.app.db.entities.Item;
 
 public class DeleteFormAdapter extends Item {
     private DeleteForm form;

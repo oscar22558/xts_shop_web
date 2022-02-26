@@ -1,7 +1,7 @@
-const protocol = "http"
-const domain = "localhost"
-const port = "8080"
-const routePrefix = "api"
+export const protocol = "http"
+export const domain = "localhost"
+export const port = "8080"
+export const routePrefix = "api"
 const config = {
     baseURL: `${protocol}://${domain}:${port}/${routePrefix}`,
     method: "get",
