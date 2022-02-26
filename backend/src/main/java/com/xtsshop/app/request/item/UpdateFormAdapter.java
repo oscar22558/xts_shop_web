@@ -1,12 +1,8 @@
 package com.xtsshop.app.request.item;
 
-import com.xtsshop.app.entities.Category;
-import com.xtsshop.app.entities.Item;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.xtsshop.app.db.entities.Category;
+import com.xtsshop.app.db.entities.Item;
 
-import javax.annotation.Nullable;
 import java.sql.Date;
 import java.util.Calendar;
 

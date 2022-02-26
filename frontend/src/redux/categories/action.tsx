@@ -1,21 +1,21 @@
 import {slice} from "./reducer";
 import {createAction} from "@reduxjs/toolkit";
 
+const sliceActions = slice.actions
 const actions = {
-    ...slice.actions,
-    getAllAsync: createAction("categories/get_all_async"),
-    getAsync: createAction<string>("categories/get_async")
+    getAll: {
+        start   : sliceActions.getAllStart,
+        end     : sliceActions.getAllEnd,
+        success : sliceActions.getAllSuccess,
+        fail    : sliceActions.getAllFail,
+        async   : createAction("categories/getAllAsync"),
+    },
+    get: {
+        start   : sliceActions.getStart,
+        end     : sliceActions.getEnd,
+        success : sliceActions.getSuccess,
+        fail    : sliceActions.getFail,
+        async: createAction<string>("categories/getAsync")
+    }
 }
-export const {
-    getAllStart,
-    getAllEnd,
-    getAllSuccess,
-    getAllFail,
-    getAllAsync,
-    getStart,
-    getEnd,
-    getSuccess,
-    getFail,
-    getAsync,
-} = actions
 export default actions

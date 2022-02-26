@@ -1,54 +1,48 @@
 import {call, put, select, takeEvery} from "@redux-saga/core/effects";
-import {
-    getAllAsync,
-    getAllSuccess,
-    getAllStart,
-    getAllEnd,
-    getAllFail,
-    getEnd,
-    getFail,
-    getSuccess,
-    getStart, getAsync
-} from "./action";
-import routesSelector from "../routes/selector"
+import actions from "./action";
+import routesSelector from "../apiRoutes/selector"
 import api from "./api"
 import {PayloadAction} from "@reduxjs/toolkit";
 
+
 export function* getAll(): Generator<any, any, any>{
-    yield put(getAllStart())
+    const { start, end, success, fail } = actions.getAll
+    yield put(start())
     try{
         const routes = yield select(routesSelector)
         const url = routes.get?.data?.categories
         console.log(`Getting Data......, url: ${url}`)
         const res = yield call(api.getAll, url)
         console.log(res.data)
-        yield put(getAllSuccess(res.data._embedded.categoryModelList))
+        yield put(success(res.data?._embedded?.categoryModelList ?? []))
     }catch (ex: any) {
        console.error(ex)
-        yield put(getAllFail(ex.message as string))
+        yield put(fail(ex.message as string))
     }finally {
-        yield put(getAllEnd())
+        yield put(end())
     }
 }
 
 export function* get(action: PayloadAction<string>): Generator<any, any, any>{
-    yield put(getStart())
+    const { start, end, success, fail } = actions.get
+    yield put(start())
     try{
         const url = action.payload
         console.log(`Getting Data......, url: ${url}`)
         const res = yield call(api.get, url)
-        yield put(getSuccess(res.data._embedded))
+        console.log(res.data)
+        yield put(success(res.data))
     }catch (ex: any) {
         console.error(ex)
-        yield put(getFail(ex.message as string))
+        yield put(fail(ex.message as string))
     }finally {
-        yield put(getEnd())
+        yield put(end())
     }
 }
 
 export function* getAllSaga(){
-    yield takeEvery(getAllAsync, getAll)
+    yield takeEvery(actions.getAll.async, getAll)
 }
 export function* getSaga(){
-    yield takeEvery(getAsync, get)
+    yield takeEvery(actions.get.async, get)
 }

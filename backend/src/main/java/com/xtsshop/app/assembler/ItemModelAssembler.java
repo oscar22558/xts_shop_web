@@ -1,9 +1,9 @@
 package com.xtsshop.app.assembler;
 
-import com.xtsshop.app.controller.CategoriesController;
-import com.xtsshop.app.entities.Category;
-import com.xtsshop.app.entities.Item;
-import com.xtsshop.app.model.CategoryModel;
+import com.xtsshop.app.controller.ItemsController;
+import com.xtsshop.app.controller.categories.CategoriesController;
+import com.xtsshop.app.db.entities.Item;
+import com.xtsshop.app.viewmodel.ItemModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
@@ -13,13 +13,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class ItemModelAssembler implements
-        RepresentationModelAssembler<Item, EntityModel<Item>> {
+        RepresentationModelAssembler<Item, EntityModel<ItemModel>> {
     @Override
-    public EntityModel<Item> toModel(Item entity) {
+    public EntityModel<ItemModel> toModel(Item entity) {
         return EntityModel.of(
-            entity,
-            linkTo(methodOn(CategoriesController.class).one(entity.getId())).withSelfRel(),
-            linkTo(methodOn(CategoriesController.class).all()).withRel("items")
+                ItemModel.from(entity),
+            linkTo(methodOn(ItemsController.class).one(entity.getId())).withSelfRel(),
+            linkTo(methodOn(ItemsController.class).all()).withRel("all")
+
         );
     }
 }
