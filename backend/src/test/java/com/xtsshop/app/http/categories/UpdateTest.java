@@ -61,8 +61,4 @@ class UpdateTest {
 		assertEquals("tools", repository.findAll().get(2).getParent().getName());
 	}
 
-	@BeforeEach
-	void initDB(){
-
-	}
 }
