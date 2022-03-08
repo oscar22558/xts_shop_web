@@ -14,13 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "items")
 public class Item extends AppEntity{
-
-    @Column(nullable = false, name = "created_at")
-    private Date createdAt;
-
-    @Column(name = "updated_at")
-    private Date updatedAt;
-
     @Column(nullable = false)
     private String name;
 
@@ -30,24 +23,32 @@ public class Item extends AppEntity{
     @Column(nullable = false)
     private String manufacturer;
 
-    @Column(name = "img_url", nullable = false)
-    private String imgUrl;
+    @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Image image;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchasedItem> purchasedItems;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    public Item(Date createdAt, Date updatedAt, String name, float price, String manufacturer, String imgUrl, Category category) {
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    public Item(Date createdAt, String name, float price, String manufacturer, Category category) {
+        super(createdAt, null);
         this.name = name;
         this.price = price;
         this.manufacturer = manufacturer;
-        this.imgUrl = imgUrl;
         this.category = category;
+    }
+    public Item(Date createdAt, Date updatedAt, String name, float price, String manufacturer, Category category) {
+        super(createdAt, updatedAt);
+        this.name = name;
+        this.price = price;
+        this.manufacturer = manufacturer;
+        this.category = category;
+    }
+    public Item(long id){
+        super(id);
     }
 
 }

@@ -2,16 +2,17 @@ package com.xtsshop.app.service.categories;
 
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.repositories.CategoryRepository;
-import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.request.CategoryForm;
+import com.xtsshop.app.request.CategoryRequest;
 import com.xtsshop.app.service.AbstractService;
 import com.xtsshop.app.service.categories.items.ItemsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CategoriesService extends AbstractService<CategoryForm, Category> {
+public class CategoriesService extends AbstractService<CategoryRequest, Category> {
     private final CategoryRepository repository;
     private final ItemsService itemsService;
     public CategoriesService(CategoryRepository repository, ItemsService itemsService){
@@ -33,7 +34,7 @@ public class CategoriesService extends AbstractService<CategoryForm, Category> {
     }
 
     public List<Category> allRoot(){
-        return repository.getAllTopLevel();
+        return repository.findAllTopLevel();
     }
 
 

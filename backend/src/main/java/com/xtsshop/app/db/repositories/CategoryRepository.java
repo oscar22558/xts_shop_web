@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query(value = "select * from categories where parent_id is null", nativeQuery = true)
-    List<Category> getAllTopLevel();
+    List<Category> findAllTopLevel();
 }

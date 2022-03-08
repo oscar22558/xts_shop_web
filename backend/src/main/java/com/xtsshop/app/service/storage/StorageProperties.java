@@ -8,14 +8,18 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    private String location = "upload-dir";
-
-    public String getLocation() {
-        return location;
+    private String root = "storage";
+    private String urlRoot = "storage";
+    private boolean production = false;
+    public String getEnvRoot(){
+        return root + "/" + (production ? "production" : "develop");
+    }
+    public String getRoot() {
+        return root;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public String getImageRoot() {
+        return getEnvRoot() + "/images";
     }
-
+    public String getUrlRoot(){ return urlRoot; }
 }

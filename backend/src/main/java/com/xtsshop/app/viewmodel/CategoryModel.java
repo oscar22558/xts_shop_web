@@ -6,6 +6,8 @@ import com.xtsshop.app.db.entities.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.EntityModel;
 
 import java.sql.Date;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 public class CategoryModel implements AbstractViewModel {
+    static Logger logger = LoggerFactory.getLogger(CategoryModel.class);
     private long id;
 
     private Date created_at;
@@ -36,9 +39,15 @@ public class CategoryModel implements AbstractViewModel {
         this.items = items;
     }
 
-    public static CategoryModel from(Category categoryEntity){
-        CategoryModelAssembler assembler = new CategoryModelAssembler();
-        ItemModelAssembler itemAssembler = new ItemModelAssembler();
+    public static CategoryModel from(
+        Category categoryEntity,
+        CategoryModelAssembler assembler,
+        ItemModelAssembler itemAssembler
+    ){
+//        CategoryModelAssembler assembler = new CategoryModelAssembler();
+//        ItemModelAssembler itemAssembler = new ItemModelAssembler();
+        logger.info("=====================categortModel from=======================");
+       logger.info("subCategory.size: "+ (categoryEntity.getSubCategories() != null ? categoryEntity.getSubCategories().stream().count() : -1));
         List<EntityModel<CategoryModel>> subModels = categoryEntity.getSubCategories().stream().map(assembler::toModel).collect(Collectors.toList());
         List<EntityModel<ItemModel>> itemModels = categoryEntity.getItems().stream().map(itemAssembler::toModel).collect(Collectors.toList());
         return new CategoryModel(

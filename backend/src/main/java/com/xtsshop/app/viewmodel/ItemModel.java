@@ -1,16 +1,18 @@
 package com.xtsshop.app.viewmodel;
 
 import com.xtsshop.app.db.entities.Item;
+import com.xtsshop.app.service.storage.StorageService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoProperties;
 
 import java.sql.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class ItemModel {
+public class ItemModel implements AbstractViewModel {
     private long id;
     private Date created_at;
     private Date updated_at;
@@ -29,14 +31,24 @@ public class ItemModel {
         this.manufacturer = manufacturer;
     }
 
-    public static ItemModel from(Item itemEntity){
+    public static ItemModel from(Item itemEntity, StorageService storageService){
+
+        try{
+            if(storageService == null) throw new Exception("storageService is null");
+            if(itemEntity.getImage() == null) throw new Exception("item.image is null");
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        String imgUrl = storageService.url(itemEntity.getImage().getPath());
         return new ItemModel(
             itemEntity.getId(),
             itemEntity.getCreatedAt(),
             itemEntity.getUpdatedAt(),
             itemEntity.getName(),
             itemEntity.getPrice(),
-            itemEntity.getImgUrl(),
+            imgUrl,
             itemEntity.getManufacturer()
         );
     }
