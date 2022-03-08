@@ -1,6 +1,6 @@
 package com.xtsshop.app.viewmodel;
 
-import com.xtsshop.app.controller.categories.CategoriesController;
+import com.xtsshop.app.controller.categories.CategoriesCRUDController;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,5 +13,5 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @NoArgsConstructor
 public class RouteList {
     private String categories =
-            linkTo(methodOn(CategoriesController.class).all()).withRel("categories").getHref();
+            linkTo(methodOn(CategoriesCRUDController.class).all()).withRel("categories").getHref();
 }

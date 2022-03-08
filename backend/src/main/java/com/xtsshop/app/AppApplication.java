@@ -2,6 +2,7 @@ package com.xtsshop.app;
 
 import com.xtsshop.app.service.storage.StorageProperties;
 import com.xtsshop.app.service.storage.StorageService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,10 +31,11 @@ public class AppApplication {
 		};
 	}
 	@Bean
-	CommandLineRunner init(StorageService storageService) {
+	CommandLineRunner init(@Qualifier("FileStorageService") StorageService storageService, @Qualifier("ImageStorageService") StorageService imageStorageService) {
 		return (args) -> {
-//			storageService.deleteAll();
-//			storageService.init();
+			storageService.deleteAll();
+			storageService.init();
+			imageStorageService.init();
 		};
 	}
 }

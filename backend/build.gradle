@@ -20,15 +20,13 @@ dependencies {
 	implementation 'org.springframework:spring-web:5.3.13'
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'org.projectlombok:lombok:1.18.22'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
 	testImplementation 'org.projectlombok:lombok:1.18.22'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 
-	implementation 'com.graphql-java:graphql-java:11.0' // NEW
-	implementation 'com.graphql-java:graphql-java-spring-boot-starter-webmvc:1.0' // NEW
 	implementation 'com.google.guava:guava:26.0-jre' // NEW
-	testImplementation 'com.graphql-java-kickstart:graphql-spring-boot-starter-test:12.0.0'
 }
 
 test {

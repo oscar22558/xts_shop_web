@@ -1,10 +1,8 @@
 package com.xtsshop.app.http.categories;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.repositories.CategoryRepository;
-import com.xtsshop.app.request.CategoryForm;
-import org.junit.jupiter.api.BeforeEach;
+import com.xtsshop.app.request.CategoryRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,7 +34,7 @@ class UpdateTest {
 		long id =  repository.findAll().get(1).getId();
 		this.mockMvc
 			.perform(put(route + "/{id}", String.valueOf(id))
-					.content(mapper.writeValueAsString(new CategoryForm("Container", null)))
+					.content(mapper.writeValueAsString(new CategoryRequest("Container", null)))
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON)
 			)
@@ -50,13 +48,12 @@ class UpdateTest {
 		long id =  repository.findAll().get(2).getId();
 		this.mockMvc
 				.perform(put(route + "/{id}", String.valueOf(id))
-						.content(mapper.writeValueAsString(new CategoryForm(null, 2L)))
+						.content(mapper.writeValueAsString(new CategoryRequest(null, 2L)))
 						.contentType(MediaType.APPLICATION_JSON)
 						.accept(MediaType.APPLICATION_JSON)
 				)
 				.andDo(print())
 				.andExpect(status().isOk());
-		repository.flush();
 		assertNotNull(repository.findAll().get(2).getParent());
 		assertEquals("tools", repository.findAll().get(2).getParent().getName());
 	}

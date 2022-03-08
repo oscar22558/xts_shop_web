@@ -1,4 +1,4 @@
-package com.xtsshop.app.service.storage;
+package com.xtsshop.app.advice.exception;
 
 public class StorageException extends RuntimeException {
 
