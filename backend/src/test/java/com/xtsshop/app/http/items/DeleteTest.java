@@ -4,11 +4,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.repositories.CategoryRepository;
+import com.xtsshop.app.db.repositories.ImageRepository;
 import com.xtsshop.app.db.repositories.ItemRepository;
+import com.xtsshop.app.http.TestCase;
+import com.xtsshop.app.service.storage.StorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,28 +29,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class DeleteTest {
+class DeleteTest extends TestCase {
 
-	@Autowired
-	private MockMvc mockMvc;
 	private String route = "/api/items/{id}";
-	@Autowired
-	private ObjectMapper mapper;
-	@Autowired
-	private ItemRepository repository;
+	private Util util;
+	@TestConfiguration
+	public static class TestConfig{
+		@Bean
+		public Util util(
+				ItemRepository repository,
+				ImageRepository imageRepository,
+				@Qualifier("ImageStorageService") StorageService storageService
+		){
+			return new Util(repository, imageRepository, storageService);
+		}
+	}
+
 	@Test
 	void testCaseNormal() throws Exception {
-		int count = repository.findAll().size();
-		Item entity = repository.findAll().get(0);
+		int count = util.getRepository().findAll().size();
+		Item entity = util.getRepository().findAll().get(0);
 		String id =  String.valueOf(entity.getId());
-		this.mockMvc
-			.perform(delete(route, id)
-					.contentType(MediaType.APPLICATION_JSON)
-					.accept(MediaType.APPLICATION_JSON)
-			)
+		mvc
+			.perform(requestBuilder(HttpMethod.DELETE, route, id))
 			.andDo(print())
 			.andExpect(status().isOk());
-		assertEquals(-1, repository.findAll().size() - count);
+		assertEquals(-1, util.getRepository().findAll().size() - count);
 
 	}
 

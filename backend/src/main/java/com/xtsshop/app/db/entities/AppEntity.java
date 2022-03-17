@@ -24,18 +24,18 @@ public abstract class AppEntity {
     @Column(nullable = false, name = "created_at")
     private Date createdAt;
 
-    @Column(name = "updated_at")
+    @Column(nullable = false, name = "updated_at")
     private Date updatedAt;
 
 
     public AppEntity(long id) {
         this.id = id;
     }
-    public AppEntity(Date createdAt, @Nullable Date updatedAt){
+    public AppEntity(Date createdAt, Date updatedAt){
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-    public AppEntity(long id, Date createdAt, @Nullable Date updatedAt){
+    public AppEntity(long id, Date createdAt, Date updatedAt){
         this(id);
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

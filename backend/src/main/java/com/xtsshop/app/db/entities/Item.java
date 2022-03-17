@@ -33,22 +33,16 @@ public class Item extends AppEntity{
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    public Item(Date createdAt, String name, float price, String manufacturer, Category category) {
-        super(createdAt, null);
-        this.name = name;
-        this.price = price;
-        this.manufacturer = manufacturer;
-        this.category = category;
+    public Item(long id) {
+        super(id);
     }
+
     public Item(Date createdAt, Date updatedAt, String name, float price, String manufacturer, Category category) {
         super(createdAt, updatedAt);
         this.name = name;
         this.price = price;
         this.manufacturer = manufacturer;
         this.category = category;
-    }
-    public Item(long id){
-        super(id);
     }
 
 }

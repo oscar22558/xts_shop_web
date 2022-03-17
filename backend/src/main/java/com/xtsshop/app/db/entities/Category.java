@@ -34,8 +34,8 @@ public class Category extends AppEntity{
     public Category(long id) {
         super(id);
     }
-    public Category(Date createdAt, String name, Category parent) {
-        super(createdAt, null);
+    public Category(Date createdAt, Date updatedAt, String name, Category parent) {
+        super(createdAt, updatedAt);
         this.name = name;
         this.parent = parent;
     }

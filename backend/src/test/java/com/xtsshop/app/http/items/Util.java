@@ -17,20 +17,14 @@ import java.util.stream.Collectors;
 @Component("tests.http.items.Util")
 public class Util {
     private String route = "/api/items";
-    private MockMvc mvc;
-    private ObjectMapper mapper;
     private ItemRepository repository;
     private ImageRepository imageRepository;
     private StorageService storageService;
     public Util(
-        MockMvc mvc,
-        ObjectMapper mapper,
         ItemRepository repository,
         ImageRepository imageRepository,
         @Qualifier("ImageStorageService") StorageService storageService
     ){
-        this.mvc = mvc;
-        this.mapper = mapper;
         this.repository = repository;
         this.imageRepository = imageRepository;
         this.storageService = storageService;

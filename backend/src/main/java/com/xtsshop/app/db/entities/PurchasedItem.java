@@ -1,21 +1,18 @@
 package com.xtsshop.app.db.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.sql.Date;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "purchased_items")
-public class PurchasedItem {
-    @Id
-    @GeneratedValue
-    private long id;
-
-    @Column(nullable = false, name = "created_at")
-    private Date createdAt;
-
-    @Column(name = "updated_at")
-    private Date updatedAt;
-
+public class PurchasedItem extends AppEntity {
     @ManyToOne
     @JoinColumn(nullable = false, name = "item_id")
     private Item item;
