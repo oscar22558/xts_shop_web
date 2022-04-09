@@ -1,5 +1,6 @@
 package com.xtsshop.app.service;
 
+import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.AppEntity;
 import com.xtsshop.app.request.Request;
 import org.slf4j.Logger;
@@ -17,23 +18,21 @@ public abstract class AbstractService <R extends Request<E>, E extends AppEntity
         this.repository = repository;
     }
 
-    public E get(Long id){
-        return repository.findById(id).orElseThrow();
+    public E get(Long id) throws RecordNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record with id " + id + " not found."));
     }
 
     public List<E> all(){
         return repository.findAll();
     }
     public E create(R request){
-       E entity = repository.save(request.toEntity());
-       repository.flush();
-       return entity;
+       return repository.save(request.toEntity());
     }
 
-    public E update(long id, R request){
+    public E update(long id, R request) throws RecordNotFoundException{
         return repository.save(
             request.update(
-                repository.findById(id).orElseThrow()
+                get(id)
             ));
     }
 

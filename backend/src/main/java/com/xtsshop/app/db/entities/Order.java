@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -29,6 +30,27 @@ public class Order extends AppEntity {
     @OneToMany(mappedBy = "order")
     private List<Coupon> coupon;
 
-    @OneToMany(mappedBy = "order")
-    private List<PurchasedItem> purchasedItems;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    @ManyToMany
+    @JoinTable(
+            name = "orders_price_histories",
+            joinColumns = @JoinColumn(
+                    name = "order_id", referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "price_history_id", referencedColumnName = "id"
+            )
+    )
+    private Set<PriceHistory> priceHistories;
+
+    public void addPriceHistory(PriceHistory priceHistory){
+        this.priceHistories.add(priceHistory);
+        priceHistory.getOrders().add(this);
+    }
+    public void removePriceHistory(PriceHistory priceHistory){
+        this.priceHistories.remove(priceHistory);
+        priceHistory.getOrders().remove(this);
+    }
 }

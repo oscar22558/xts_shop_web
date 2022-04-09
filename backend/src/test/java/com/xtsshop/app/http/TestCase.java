@@ -26,13 +26,26 @@ public class TestCase {
     @Autowired
     protected ObjectMapper mapper;
     protected String authRoute = "/api/auth";
+    protected AuthForm credential;
 
+    public TestCase(){
+        credential = new AuthForm("ken123", "123");
+    }
     protected String getAuthRoute(){
         return authRoute;
     }
 
+    protected String getAdminUserUsername(){ return "ken123"; }
+    protected String getUserUsername(){ return "marry123"; }
+    protected String getPassword(){return "123"; }
+    protected AuthForm getCredential(){
+        return this.credential;
+    }
+    protected void setUserCredential(String username, String password){
+        credential = new AuthForm(username, password);
+    }
     protected String getToken() throws Exception {
-        AuthForm authForm = new AuthForm("ken123", "123");
+        AuthForm authForm = getCredential();
 
         MvcResult result = mvc.perform(
                     post(getAuthRoute()).content(mapper.writeValueAsString(authForm)).contentType(MediaType.APPLICATION_JSON)
@@ -42,9 +55,6 @@ public class TestCase {
         JSONObject res = new JSONObject(result.getResponse().getContentAsString());
         return res.getString("token");
     }
-
-    protected String getAdminUserUsername(){ return "ken123"; }
-    protected String getUserUsername(){ return "marry123"; }
     protected MockHttpServletRequestBuilder requestBuilder(HttpMethod method, String urlTemplate, Object... uriVars) throws Exception {
         return MockMvcRequestBuilders.request(method, urlTemplate, uriVars).header("Authorization", getToken());
     }

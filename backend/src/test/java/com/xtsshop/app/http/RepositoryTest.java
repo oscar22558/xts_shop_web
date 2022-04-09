@@ -1,6 +1,7 @@
 package com.xtsshop.app.http;
 
 
+import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
@@ -10,6 +11,8 @@ import com.xtsshop.app.db.repositories.ItemRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +36,7 @@ public class RepositoryTest {
     void beforeEach(){
         Date now = now();
         Category category = getCategory();
-        Item item = itemRepository.save(new Item(now, now, "item 1", 12.2f, "manufactorer 1", category));
+        Item item = itemRepository.save(new Item(now, now, "item 1", 12.2f, "manufactorer 1", category, 100));
         Item itemWithOnlyId = new Item(item.getId());
         Image image = new Image(now, now, "/storage/image1.png", "image1.png", "png", itemWithOnlyId);
         imageRepository.save(image);
@@ -50,7 +53,7 @@ public class RepositoryTest {
 
         Date now = now();
         Category category = getCategory();
-        Item item = itemRepository.save(new Item(now, now, "item 1", 12.2f, "manufactorer 1", category));
+        Item item = itemRepository.save(new Item(now, now, "item 1", 12.2f, "manufactorer 1", category, 100));
         Item itemWithOnlyId = new Item(item.getId());
         Image image = new Image(now, now, "/storage/image1.png", "image1.png", "png", itemWithOnlyId);
         image = imageRepository.save(image);
@@ -73,6 +76,34 @@ public class RepositoryTest {
         assertNotNull(image.getItem());
         assertNotNull(image.getItem().getImage());
         assertNull(imageRepository.findById(oldImageId).orElse(null));
+    }
+    @Test
+    void testSaveItemAndImageEntityDirectly() throws Exception{
+        Logger logger = LoggerFactory.getLogger(RepositoryTest.class);
+        Date now = now();
+        Category category = getCategory();
+        Item item = new Item(now, now, "item 1", 12.2f, "manufactorer 1", category, 100);
+        Image image = new Image(now, now, "/storage/image1.png", "image1.png", "png", item);
+        item.setImage(image);
+        Long insertedItemId = itemRepository.save(item).getId();
+        Item insertedItem = itemRepository.findById(insertedItemId).orElseThrow(()->new RecordNotFoundException("Item with id "+insertedItemId+" not found."));
+        assertNotNull(insertedItem.getImage().getId());
+        logger.info(String.valueOf(insertedItem.getImage().getId()));
+        logger.info(String.valueOf(insertedItem.getId()));
+    }
+
+    @Test
+    void testSaveImageOnly() throws Exception{
+        Date now = now();
+        Category category = getCategory();
+        Item item = new Item(now, now, "item 1", 12.2f, "manufactorer 1", category, 100);
+        item = itemRepository.save(item);
+        long itemId = item.getId();
+        Image image = new Image(now, now, "/storage/image1.png", "image1.png", "png", item);
+        item.setImage(image);
+        imageRepository.save(image);
+        item = itemRepository.findById(itemId).orElseThrow(()-> new RecordNotFoundException("Item with id "+ itemId+ " not found."));
+        assertNotNull(item.getImage());
     }
     private Date now(){
        long nowInMillis = Calendar.getInstance().getTimeInMillis();

@@ -7,16 +7,15 @@ import lombok.Setter;
 import javax.annotation.Nullable;
 
 @Setter
-public class CategoryForm implements Form<CategoryRequest, Category> {
+public class CategoryForm{
     @Nullable
     private String name;
     @Nullable
     private Long parentId;
-    @Override
     public CategoryRequest toRequest(){
-        CategoryRequest request = new CategoryRequest();
-        request.setName(name);
-        request.setParentId(parentId);
-        return request;
+        return new CategoryRequest(
+                name,
+                parentId
+        );
     }
 }

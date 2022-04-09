@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,6 +26,7 @@ public class AppUser extends AppEntity{
 
     @Column(name = "last_login_at")
     private Date lastLoginAt;
+
     @Column(length = 20)
     private String phone;
 
@@ -39,23 +41,37 @@ public class AppUser extends AppEntity{
                     name ="role_id", referencedColumnName = "id"
             )
     )
-    private List<Role> roles;
+    private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Coupon> coupons;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
-    public AppUser(Date createdAt, Date updatedAt, String username, String password, String email, Date lastLoginAt, String phone) {
+    @ManyToMany
+    @JoinTable(
+            name = "carts",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id")
+    )
+    private Set<Item> cart;
+
+    public AppUser(Date createdAt, Date updatedAt, String username, String password, String email, String phone, List<Role> roles) {
         super(createdAt, updatedAt);
         this.username = username;
         this.password = password;
         this.email = email;
-        this.lastLoginAt = lastLoginAt;
+        this.phone = phone;
+    }
+    public AppUser(Date createdAt, Date updatedAt, String username, String password, String email, String phone) {
+        super(createdAt, updatedAt);
+        this.username = username;
+        this.password = password;
+        this.email = email;
         this.phone = phone;
     }
 
@@ -64,5 +80,24 @@ public class AppUser extends AppEntity{
         this.password = password;
         this.email = email;
         this.phone = phone;
+    }
+
+    public void addItemToCart(Item item){
+        cart.add(item);
+        item.getUsers().add(this);
+    }
+    public void removeItemFromCart(Item item){
+        cart.remove(item);
+        item.getUsers().remove(this);
+    }
+
+    public void addRole(Role role){
+        this.roles.add(role);
+        role.getUsers().add(this);
+    }
+
+    public void removeRole(Role role){
+        this.roles.remove(role);
+        role.getUsers().remove(this);
     }
 }

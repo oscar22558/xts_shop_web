@@ -9,56 +9,41 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Nullable;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Optional;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class ItemRequest implements Request<Item> {
-    @Nullable
-    private String name;
-    @Nullable
-    private Float price;
-    @Nullable
-    private String manufacturer;
-    @Nullable
-    MultipartFile image;
-    @Nullable
-    private Long categoryId;
-    @Override
-    public Item toEntity() {
+public class ItemRequest {
+
+    private Optional<String> name;
+    private Optional<Float> price;
+    private Optional<String> manufacturer;
+    Optional<MultipartFile> image;
+    private Optional<Long> categoryId;
+    private Optional<Integer> stack;
+
+    public Item toEntity(Category category) {
         long now = Calendar.getInstance().getTimeInMillis();
-        Category category = new Category();
-        category.setId(categoryId);
         Item item = new Item();
-        item.setName(name);
+        item.setName(name.orElseThrow(NullPointerException::new));
         item.setCreatedAt(new Date(now));
         item.setUpdatedAt(new Date(now));
-        item.setPrice(price);
-        item.setManufacturer(manufacturer);
+        item.setPrice(price.orElseThrow(NullPointerException::new));
+        item.setManufacturer(manufacturer.orElseThrow(NullPointerException::new));
         item.setCategory(category);
+        item.setStock(stack.orElseThrow(NullPointerException::new));
         return item;
     }
 
-
-    @Override
-    public Item update(Item original) {
-        Category category = getCategory();
-        original.setName(name != null ? name : original.getName());
-        original.setPrice(price != null ? price : original.getPrice());
-        original.setManufacturer(manufacturer != null ? manufacturer : original.getManufacturer());
-        original.setCategory(category != null ? category : original.getCategory());
+    public Item update(Item original, Optional<Category> category) {
+        original.setName(name.orElse(original.getName()));
+        original.setPrice(price.orElse(original.getPrice()));
+        original.setManufacturer(manufacturer.orElse(original.getManufacturer()));
+        original.setStock(stack.orElse(original.getStock()));
+        original.setCategory(category.orElse(original.getCategory()));
         return original;
     }
 
-    private Category getCategory(){
-        if(categoryId != null){
-            Category category = new Category();
-            category.setId(categoryId);
-            return category;
-        }else{
-            return null;
-        }
-    }
 }

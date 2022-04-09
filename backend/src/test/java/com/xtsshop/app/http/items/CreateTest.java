@@ -53,20 +53,15 @@ class CreateTest extends TestCase {
 				MediaType.IMAGE_PNG_VALUE,
 				"Hello, World!".getBytes()
 		);
-
-		ItemForm form = new ItemForm();
-		form.setName("Scissors");
-		form.setCategoryId(5L);
-		form.setPrice(12.2f);
-		form.setManufacturer("Manufacturer 1");
 		mvc
 			.perform( addToken(multipart(util.getRoute())
 					.file(file)
-					.param("name", form.getName())
-					.param("categoryId", form.getCategoryId().toString())
-					.param("price", form.getPrice().toString())
-					.param("manufacturer", form.getManufacturer()))
-			)
+					.param("name", "Scissors")
+					.param("categoryId", "5")
+					.param("price", "12.2f")
+					.param("manufacturer", "Manufacturer 1")
+					.param("stack", "100")
+			))
 			.andDo(print())
 			.andExpect(status().isCreated())
 			.andExpect(jsonPath("$.imgUrl", is(
@@ -74,11 +69,52 @@ class CreateTest extends TestCase {
 			)))
 			.andExpect(jsonPath("$.name", is("Scissors")))
 			.andExpect(jsonPath("$.price", is(12.2)))
-			.andExpect(jsonPath("$.manufacturer", is("Manufacturer 1")));
+			.andExpect(jsonPath("$.manufacturer", is("Manufacturer 1")))
+				.andExpect(jsonPath("$.stack", is(100)));
+
 		assertEquals(1, util.getRepository().findAll().size() - count);
 		assertEquals(1, util.getImageRepository().findAll().size() - imageCount);
 
 		assertTrue(Paths.get(util.latestImage().getPath()).toFile().exists());
 	}
+	@Test
+	void testCaseNoStackManufacturer() throws Exception {
+		int count = util.getRepository().findAll().size();
+		int imageCount = util.getImageRepository().findAll().size();
+		MockMultipartFile file
+				= new MockMultipartFile(
+				"image",
+				"hello.png",
+				MediaType.IMAGE_PNG_VALUE,
+				"Hello, World!".getBytes()
+		);
 
+		ItemForm form = new ItemForm();
+		form.setName("Scissors");
+		form.setCategoryId(5L);
+		form.setPrice(12.2f);
+		form.setManufacturer("Manufacturer 1");
+		mvc
+				.perform( addToken(multipart(util.getRoute())
+						.file(file)
+						.param("name", form.getName())
+						.param("categoryId", form.getCategoryId().toString())
+						.param("price", form.getPrice().toString())
+						.param("manufacturer", form.getManufacturer())
+						)
+				)
+				.andDo(print())
+				.andExpect(status().isCreated())
+				.andExpect(jsonPath("$.imgUrl", is(
+						util.getStorageService().url(util.latestImage().getPath())
+				)))
+				.andExpect(jsonPath("$.name", is("Scissors")))
+				.andExpect(jsonPath("$.price", is(12.2)))
+				.andExpect(jsonPath("$.manufacturer", is("Manufacturer 1")))
+				.andExpect(jsonPath("$.stack", is(0)));
+		assertEquals(1, util.getRepository().findAll().size() - count);
+		assertEquals(1, util.getImageRepository().findAll().size() - imageCount);
+
+		assertTrue(Paths.get(util.latestImage().getPath()).toFile().exists());
+	}
 }

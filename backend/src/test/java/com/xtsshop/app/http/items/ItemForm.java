@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.annotation.Nullable;
+import javax.validation.constraints.Null;
 
 @Setter
 @Getter
@@ -18,4 +19,6 @@ public class ItemForm {
     private String manufacturer;
     @Nullable
     private Long categoryId;
+    @Nullable
+    private Integer stack;
 }

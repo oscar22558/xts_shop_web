@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 @Configuration
 class LoadDatabase {
@@ -29,10 +30,10 @@ class LoadDatabase {
         Category newCat4 = repository.save(new Category(now, now,"meat", newCat1));
         Category newCat5 = repository.save(new Category(now, now,"mobile device peripheral", newCat2));
         Category newCat6 = repository.save(new Category(now, now,"drawing tools", newCat2));
-        Item item1 = itemRepository.save(new Item(now, now, "apple", 12.2f, "manufacturer 1",  newCat3));
-        Item item2 = itemRepository.save(new Item(now, now, "orange", 23.2f, "manufacturer 2", newCat3));
-        Item item3 = itemRepository.save(new Item(now, now, "USB data cable", 44.2f, "manufacturer 1", newCat5));
-        Item item4 = itemRepository.save(new Item(now, now, "stand", 55.2f, "manufacturer 2", newCat5));
+        Item item1 = itemRepository.save(new Item(now, now, "apple", 12.2f, "manufacturer 1",  newCat3, 100));
+        Item item2 = itemRepository.save(new Item(now, now, "orange", 23.2f, "manufacturer 2", newCat3, 101));
+        Item item3 = itemRepository.save(new Item(now, now, "USB data cable", 44.2f, "manufacturer 1", newCat5, 102));
+        Item item4 = itemRepository.save(new Item(now, now, "stand", 55.2f, "manufacturer 2", newCat5, 103));
         Image image1 = imageRepository.save(new Image(now, now, "files/apple.png", "apple", "png", item1));
         Image image2 = imageRepository.save(new Image(now, now, "files/orange.png", "orange", "png", item2));
         Image image3 = imageRepository.save(new Image(now, now, "files/usb_data_cable.png", "usb_data_cable", "png", item3));
@@ -40,15 +41,15 @@ class LoadDatabase {
         Privilege readPrivilege = privilegeRepository.save(new Privilege(now, now, PrivilegeType.READ_PRIVILEGE));
         Privilege writePrivilege = privilegeRepository.save(new Privilege(now, now, PrivilegeType.WRITE_PRIVILEGE));
         Role adminRole = new Role(now, now, RoleType.ROLE_ADMIN);
-        adminRole.setPrivileges(List.of(readPrivilege, writePrivilege));
+        adminRole.setPrivileges(Set.of(readPrivilege, writePrivilege));
         adminRole = roleRepository.save(adminRole);
         Role userRole = new Role(now, now, RoleType.ROLE_USER);
-        userRole.setPrivileges(List.of(readPrivilege, writePrivilege));
+        userRole.setPrivileges(Set.of(readPrivilege, writePrivilege));
         userRole = roleRepository.save(userRole);
-        AppUser adminUser  = new AppUser(now, now, "ken123", passwordEncoder.encode("123"), "ken123@xts-shop.com", null, "ken123");
-        AppUser user = new AppUser(now, now, "marry123", passwordEncoder.encode("123"), "marry123@xts-shop.com", null, "marry123");
-        adminUser.setRoles(List.of(adminRole));
-        user.setRoles(List.of(userRole));
+        AppUser adminUser  = new AppUser(now, now, "ken123", passwordEncoder.encode("123"), "ken123@xts-shop.com", "23245566");
+        AppUser user = new AppUser(now, now, "marry123", passwordEncoder.encode("123"), "marry123@xts-shop.com", "28735601");
+        adminUser.setRoles(Set.of(adminRole));
+        user.setRoles(Set.of(userRole));
         userRepository.save(adminUser);
         userRepository.save(user);
 
