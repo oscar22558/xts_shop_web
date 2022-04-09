@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
+import java.sql.Date;
 import java.util.ArrayList;
 
 @Getter
@@ -25,8 +26,10 @@ public class CategoryRequest implements Request<Category> {
         this.parentId = parentId;
     }
     public Category toEntity(){
+        Date now = new DateTimeUtil().now();
         Category category = new Category(
-            new DateTimeUtil().now(),
+            now,
+            now,
             name,
             parentId == null ? null : new Category(parentId)
         );

@@ -45,10 +45,10 @@ public class ItemsService extends AbstractService<ItemRequest, Item> {
         MultipartFile uploadedImg = request.getImage();
         Image image = null;
         if (uploadedImg != null) {
-            ImageRequest imageForm = new ImageRequest();
-            imageForm.setImage(uploadedImg);
-            imageForm.setItem(originalItem);
-            image = imagesService.update(originalItem.getImage().getId(), imageForm);
+            ImageRequest imageRequest = new ImageRequest();
+            imageRequest.setImage(uploadedImg);
+            imageRequest.setItem(originalItem);
+            image = imagesService.update(originalItem.getImage().getId(), imageRequest);
         }
         Item item = request.update(originalItem);
         if(image != null)

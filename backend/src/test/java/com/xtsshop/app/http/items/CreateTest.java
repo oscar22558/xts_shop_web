@@ -3,6 +3,7 @@ package com.xtsshop.app.http.items;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xtsshop.app.db.repositories.ImageRepository;
 import com.xtsshop.app.db.repositories.ItemRepository;
+import com.xtsshop.app.http.TestCase;
 import com.xtsshop.app.service.storage.StorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.MockMvc;
 import java.nio.file.Paths;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class CreateTest {
+class CreateTest extends TestCase {
 
 	@Autowired
 	private Util util;
@@ -33,15 +33,14 @@ class CreateTest {
 	public static class TestConfig{
 		@Bean
 		public Util util(
-			MockMvc mvc,
-			ObjectMapper mapper,
-			ItemRepository repository,
-			ImageRepository imageRepository,
-			@Qualifier("ImageStorageService") StorageService storageService
+				ItemRepository repository,
+				ImageRepository imageRepository,
+				@Qualifier("ImageStorageService") StorageService storageService
 		){
-			return new Util(mvc, mapper, repository, imageRepository, storageService);
+			return new Util(repository, imageRepository, storageService);
 		}
 	}
+
 
 	@Test
 	void testCaseNormal() throws Exception {
@@ -60,13 +59,13 @@ class CreateTest {
 		form.setCategoryId(5L);
 		form.setPrice(12.2f);
 		form.setManufacturer("Manufacturer 1");
-		util.getMvc()
-			.perform(multipart(util.getRoute())
+		mvc
+			.perform( addToken(multipart(util.getRoute())
 					.file(file)
 					.param("name", form.getName())
 					.param("categoryId", form.getCategoryId().toString())
 					.param("price", form.getPrice().toString())
-					.param("manufacturer", form.getManufacturer())
+					.param("manufacturer", form.getManufacturer()))
 			)
 			.andDo(print())
 			.andExpect(status().isCreated())

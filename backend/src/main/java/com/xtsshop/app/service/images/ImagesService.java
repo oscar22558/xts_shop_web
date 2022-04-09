@@ -54,9 +54,7 @@ public class ImagesService extends AbstractService<ImageRequest, Image>{
         request.setPath(path.toString());
         request.setFileName(fileName);
         request.setExtension(extension);
-        Image newImage = repository.save(request.toEntity());
-        repository.delete(originalImage);
-        return newImage;
+        return repository.save(request.toEntity());
     }
 
     @Override
