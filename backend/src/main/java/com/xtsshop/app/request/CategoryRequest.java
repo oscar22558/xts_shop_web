@@ -1,6 +1,7 @@
 package com.xtsshop.app.request;
 
 import com.xtsshop.app.db.entities.Category;
+import com.xtsshop.app.db.entities.builder.CategoryBuilder;
 import com.xtsshop.app.util.DateTimeUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,37 +10,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
+import javax.validation.constraints.Null;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class CategoryRequest implements Request<Category> {
-    @Nullable
-    private String name;
-    @Nullable
-    private Long parentId;
+public class CategoryRequest{
+    private Optional<String> name;
+    private Optional<Long> parentId;
 
     public CategoryRequest(@Nullable String name, @Nullable Long parentId) {
-        this.name = name;
-        this.parentId = parentId;
+        this.name = Optional.ofNullable(name);
+        this.parentId = Optional.ofNullable(parentId);
     }
-    public Category toEntity(){
-        Date now = new DateTimeUtil().now();
-        Category category = new Category(
-            now,
-            now,
-            name,
-            parentId == null ? null : new Category(parentId)
-        );
-        category.setSubCategories(new ArrayList<>());
-        category.setItems(new ArrayList<>());
-        return category;
+    public Category toEntity(Optional<Category> parent){
+        return new CategoryBuilder()
+                .setItems(new ArrayList<>())
+                .setName(name.orElseThrow(NullPointerException::new))
+                .setSubCategories(new ArrayList<>())
+                .setParent(parent.orElse(null))
+                .build();
     }
-    public Category update(Category original){
-        original.setName(name != null ? name: original.getName());
-        original.setParent(parentId != null ? new Category(parentId) : original.getParent());
+    public Category update(Category original,  Optional<Category> newParent){
+        original.setName(name.orElseGet(original::getName));
+        original.setParent(newParent.orElse(original.getParent()));
         return original;
     }
 }

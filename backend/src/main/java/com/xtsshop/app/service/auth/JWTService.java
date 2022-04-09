@@ -1,5 +1,6 @@
 package com.xtsshop.app.service.auth;
 
+import com.xtsshop.app.form.user.SpringUser;
 import com.xtsshop.app.request.AuthRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
@@ -25,13 +26,13 @@ public class JWTService {
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
         authentication = authenticationManager.authenticate(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        SpringUser springUser = (SpringUser) authentication.getPrincipal();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 2);
+        calendar.add(Calendar.MINUTE, 120);
 
         Claims claims = Jwts.claims();
-        claims.put("username", userDetails.getUsername());
+        claims.put("userId", springUser.getId());
         claims.setExpiration(calendar.getTime());
         claims.setIssuer("xts-shop");
 

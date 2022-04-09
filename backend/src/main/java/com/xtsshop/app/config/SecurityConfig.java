@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.transaction.annotation.Transactional;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -46,6 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/items/**").hasAuthority(RoleType.ROLE_ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/auth/parse").hasAuthority(RoleType.ROLE_ADMIN.name())
 
+                .antMatchers(HttpMethod.GET, "api/users").hasAnyAuthority(RoleType.ROLE_ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/api/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/items/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/auth").permitAll()

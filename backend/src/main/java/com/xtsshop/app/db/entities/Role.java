@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -18,7 +19,7 @@ public class Role extends AppEntity{
     @Enumerated(EnumType.STRING)
     private RoleType name;
     @ManyToMany(mappedBy = "roles")
-    private List<AppUser> users;
+    private Set<AppUser> users;
 
     @ManyToMany
     @JoinTable(
@@ -30,10 +31,19 @@ public class Role extends AppEntity{
                     name = "privilege_id", referencedColumnName = "id"
             )
     )
-    private List<Privilege> privileges;
+    private Set<Privilege> privileges;
 
     public Role(Date createAt, Date updatedAt, RoleType name){
         super(createAt, updatedAt);
         this.name = name;
+    }
+
+    public void addPrivilege(Privilege privilege){
+        privileges.add(privilege);
+        privilege.getRoles().add(this);
+    }
+    public void removePrivilege(Privilege privilege){
+        privileges.remove(privilege);
+        privilege.getRoles().remove(this);
     }
 }

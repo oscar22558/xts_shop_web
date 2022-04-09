@@ -1,15 +1,17 @@
 package com.xtsshop.app.controller;
 
+import com.xtsshop.app.assembler.UserModelAssembler;
+import com.xtsshop.app.db.entities.AppUser;
+import com.xtsshop.app.form.user.SpringUser;
 import com.xtsshop.app.request.AuthRequest;
 import com.xtsshop.app.service.auth.JWTService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.xtsshop.app.service.auth.UserIdentityService;
+import com.xtsshop.app.viewmodel.UserViewModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -21,10 +23,14 @@ public class AuthController {
 
     private JWTService jwtService;
     private AuthenticationManager authenticationManager;
+    private UserIdentityService userIdentityService;
+    private UserModelAssembler assembler;
 
-    public AuthController(JWTService jwtService, AuthenticationManager authenticationManager) {
+    public AuthController(JWTService jwtService, AuthenticationManager authenticationManager, UserIdentityService userIdentityService, UserModelAssembler assembler) {
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.userIdentityService = userIdentityService;
+        this.assembler = assembler;
     }
 
     @PostMapping
@@ -41,5 +47,15 @@ public class AuthController {
         Map<String, Object> response = jwtService.parseToken(token);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/user")
+    public EntityModel<UserViewModel> user(){
+        SpringUser springUser = userIdentityService.getSpringUser();
+        AppUser user = new AppUser();
+        user.setUsername(springUser.getUsername());
+        user.setEmail(springUser.getEmail());
+        user.setPhone(springUser.getPhone());
+        return assembler.toModel(user);
     }
 }

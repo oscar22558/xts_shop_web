@@ -1,6 +1,5 @@
 package com.xtsshop.app.http.items;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.repositories.ImageRepository;
@@ -52,6 +51,7 @@ class UpdateTest extends TestCase {
 		form.setName("Gold Scissors");
 		form.setPrice(13.3f);
 		form.setManufacturer("New Manufacturer 1");
+		form.setStack(200);
 		mvc
 			.perform(addToken(MultipartPutRequest.builder(util.getRouteWithId(), String.valueOf(id))
 					.content(mapper.writeValueAsString(form))
@@ -65,6 +65,7 @@ class UpdateTest extends TestCase {
 		assertEquals("Gold Scissors", item.getName());
 		assertEquals(13.3f, item.getPrice());
 		assertEquals("New Manufacturer 1", item.getManufacturer());
+		assertEquals(200, item.getStock());
 	}
 
 	@Test

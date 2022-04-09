@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -19,7 +20,7 @@ public class Privilege extends AppEntity{
     @Enumerated(EnumType.STRING)
     private PrivilegeType name;
     @ManyToMany(mappedBy = "privileges")
-    private List<Role> roles;
+    private Set<Role> roles;
 
     public Privilege(Date createdAt, Date updatedAt, PrivilegeType name) {
         super(createdAt, updatedAt);

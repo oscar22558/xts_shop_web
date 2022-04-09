@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class DeleteTest extends TestCase {
 
 	private String route = "/api/items/{id}";
+	@Autowired
 	private Util util;
 	@TestConfiguration
 	public static class TestConfig{

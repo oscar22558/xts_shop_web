@@ -1,7 +1,9 @@
 package com.xtsshop.app.controller.categories.items;
 
+import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.assembler.ItemModelAssembler;
 import com.xtsshop.app.db.entities.Item;
+import com.xtsshop.app.form.ItemForm;
 import com.xtsshop.app.request.ItemRequest;
 import com.xtsshop.app.service.categories.CategoriesService;
 import com.xtsshop.app.service.items.ItemsService;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@RestController("Categories.ItemsController")
+@RestController("categories.items.ItemsController")
 @RequestMapping("/api/categories/{categoryId}/items")
 public class ItemsController {
 
@@ -32,19 +34,15 @@ public class ItemsController {
     }
 
     @GetMapping()
-    public CollectionModel<EntityModel<ItemModel>> all(@PathVariable long categoryId){
-        List<Item> items = service.items(service.get(categoryId)).all();
-        List<EntityModel<ItemModel>> models = items
-                .stream()
-                .map(modelAssembler::toModel)
-                .collect(Collectors.toList());
-        return CollectionModel.of(models, linkTo(methodOn(ItemsController.class).all(categoryId)).withSelfRel());
+    public CollectionModel<EntityModel<ItemModel>> all(@PathVariable long categoryId) throws RecordNotFoundException {
+        List<Item> items = service.items(service.get(categoryId));
+        return modelAssembler.toCollectionModel(items);
     }
 
     @PostMapping()
-    public ResponseEntity<?> create(@PathVariable long categoryId, @RequestBody ItemRequest form){
+    public ResponseEntity<?> create(@PathVariable long categoryId, @RequestBody ItemForm form) throws RecordNotFoundException {
         form.setCategoryId(categoryId);
-        Item item = itemsService.create(form);
+        Item item = itemsService.create(form.toRequest());
         EntityModel<ItemModel> model = modelAssembler.toModel(item);
         return ResponseEntity
                 .created(model.getRequiredLink(IanaLinkRelations.SELF).toUri())

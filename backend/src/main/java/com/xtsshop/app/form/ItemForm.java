@@ -1,15 +1,16 @@
 package com.xtsshop.app.form;
 
-import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.request.ItemRequest;
+import com.xtsshop.app.request.builder.ItemRequestBuilder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Nullable;
 
 @Setter
 @NoArgsConstructor
-public class ItemForm implements Form<ItemRequest, Item> {
+public class ItemForm{
     @Nullable
     private String name;
     @Nullable
@@ -20,13 +21,15 @@ public class ItemForm implements Form<ItemRequest, Item> {
     MultipartFile image;
     @Nullable
     private Long categoryId;
-    @Override
+    @Nullable
+    private Integer stack;
     public ItemRequest toRequest(){
-        ItemRequest request = new ItemRequest();
-        request.setName(name);
-        request.setPrice(price);
-        request.setManufacturer(manufacturer);
-        request.setCategoryId(categoryId);
-        return request;
+        return new ItemRequestBuilder()
+            .setName(name)
+            .setPrice(price)
+            .setManufacturer(manufacturer)
+            .setCategoryId(categoryId)
+            .setStack(stack)
+            .build();
     }
 }

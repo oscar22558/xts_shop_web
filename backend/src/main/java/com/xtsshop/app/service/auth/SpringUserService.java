@@ -1,21 +1,19 @@
 package com.xtsshop.app.service.auth;
 
+import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.db.entities.Privilege;
 import com.xtsshop.app.db.entities.Role;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.xtsshop.app.form.user.SpringUser;
+import com.xtsshop.app.service.users.UsersCRUDService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,16 +22,20 @@ import java.util.stream.Stream;
 @Transactional
 public class SpringUserService implements UserDetailsService {
 
-    private UsersService usersService;
-    public SpringUserService(UsersService usersService){
-        this.usersService = usersService;
+    private UsersCRUDService usersCRUDService;
+    public SpringUserService(UsersCRUDService usersCRUDService){
+        this.usersCRUDService = usersCRUDService;
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser = usersService.getUserByUserName(username);
+        AppUser appUser = usersCRUDService.findUserByUserName(username);
         if(appUser == null) throw new UsernameNotFoundException("No such user " + username);
-        List<GrantedAuthority> authorities = toGrantedAuthorities(toPrivileges(appUser));
-        return new User(appUser.getUsername(), appUser.getPassword(), authorities);
+        return new SpringUser(appUser, toGrantedAuthorities(toPrivileges(appUser)));
+    }
+
+    public SpringUser loadUserById(Long id) throws RecordNotFoundException {
+        AppUser appUser = usersCRUDService.findUserById(id);
+        return new SpringUser(appUser, toGrantedAuthorities(toPrivileges(appUser)));
     }
 
     private List<String> toPrivileges(AppUser user){

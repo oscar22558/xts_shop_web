@@ -22,7 +22,7 @@ public class UpdateResponseBuilder<VM extends AbstractViewModel, E extends AppEn
         return this;
     }
 
-    public ResponseEntity<?> build(){
+    public ResponseEntity<EntityModel<VM>> build(){
         EntityModel<VM> model = modelAssembler.toModel(entity);
         return ResponseEntity.ok(model);
     }
