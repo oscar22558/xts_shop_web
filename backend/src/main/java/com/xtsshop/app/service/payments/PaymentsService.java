@@ -18,7 +18,4 @@ public class PaymentsService {
     public Payment get(Long id) throws RecordNotFoundException {
         return paymentRepository.findById(id).orElseThrow(()->new RecordNotFoundException("Payment with id "+id+" not found."));
     }
-    public Payment create(PaymentCreateRequest request) {
-        return paymentRepository.save(request.toEntity());
-    }
 }

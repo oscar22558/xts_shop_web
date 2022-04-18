@@ -1,5 +1,6 @@
 package com.xtsshop.app.http.items;
 
+import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.repositories.ImageRepository;
@@ -19,6 +20,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -45,6 +48,7 @@ class UpdateTest extends TestCase {
 		}
 	}
 	@Test
+	@Transactional
 	void testCaseNormal() throws Exception {
 		long id = util.getRepository().findAll().get(1).getId();
 		ItemForm form = new ItemForm();
@@ -66,6 +70,7 @@ class UpdateTest extends TestCase {
 		assertEquals(13.3f, item.getPrice());
 		assertEquals("New Manufacturer 1", item.getManufacturer());
 		assertEquals(200, item.getStock());
+		assertEquals(2, item.getPriceHistories().size());
 	}
 
 	@Test
@@ -83,7 +88,7 @@ class UpdateTest extends TestCase {
 		mvc
 				.perform(addToken(multipart(util.getUpdateImageRoute(), id).file(file)))
 				.andExpect(status().isCreated());
-		Image image = util.getRepository().findById(id).orElseThrow(null).getImage();
+		Image image = util.getRepository().findById(id).orElseThrow(()->new RecordNotFoundException("Image not found")).getImage();
 		assertTrue(Paths.get(image.getPath()).toFile().exists());
 		assertFalse(Paths.get(imgPath).toFile().exists());
 		assertNull(util.getImageRepository().findById(imgId).orElse(null));

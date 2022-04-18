@@ -3,6 +3,7 @@ package com.xtsshop.app.db.entities.builder;
 import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.payment.Payment;
 
+import java.util.List;
 import java.util.Set;
 
 public class OrderBuilder {
@@ -11,8 +12,7 @@ public class OrderBuilder {
     private Payment payment;
     private AppUser user;
     private OrderStatus status;
-    private Set<PriceHistory> priceHistories;
-
+    private List<OrderedItem> orderedItems;
     public OrderBuilder setPayment(Payment payment) {
         this.payment = payment;
         return this;
@@ -33,8 +33,8 @@ public class OrderBuilder {
         return this;
     }
 
-    public OrderBuilder setPriceHistories(Set<PriceHistory> priceHistories) {
-        this.priceHistories = priceHistories;
+    public OrderBuilder setOrderedItems(List<OrderedItem> orderedItems) {
+        this.orderedItems = orderedItems;
         return this;
     }
 
@@ -44,7 +44,7 @@ public class OrderBuilder {
         order.setPayment(payment);
         order.setUser(user);
         order.setStatus(status);
-        order.setPriceHistories(priceHistories);
+        order.setOrderedItems(orderedItems);
         return order;
     }
 

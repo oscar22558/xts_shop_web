@@ -63,7 +63,7 @@ public class ItemsController{
                 .setManufacturer(manufacturer)
                 .setCategoryId(categoryId)
                 .setImage(image)
-                .setStack(stack == null ? stack : 0)
+                .setStack(stack != null ? stack : 0)
                 .build();
         Item item = service.create(request);
         CreateResponseBuilder<ItemModel, Item> builder = new CreateResponseBuilder<>();

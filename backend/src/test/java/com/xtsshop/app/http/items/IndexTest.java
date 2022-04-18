@@ -41,6 +41,7 @@ class IndexTest extends TestCase {
 
 	@Test
 	void contextLoads() throws Exception {
+		util.updateAllItemsPrice();
 		mvc.perform(requestBuilder(HttpMethod.GET, util.getRoute()))
 				.andDo(print())
 				.andExpect(status().isOk())

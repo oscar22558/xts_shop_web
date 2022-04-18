@@ -35,8 +35,14 @@ public class CategoryRequest{
                 .build();
     }
     public Category update(Category original,  Optional<Category> newParent){
+        Date now = new DateTimeUtil().now();
         original.setName(name.orElseGet(original::getName));
         original.setParent(newParent.orElse(original.getParent()));
+        if(
+            name.isPresent() ||
+            parentId.isPresent()
+        )
+            original.setUpdatedAt(now);
         return original;
     }
 }

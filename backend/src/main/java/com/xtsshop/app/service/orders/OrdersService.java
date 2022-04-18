@@ -7,40 +7,52 @@ import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.AddressBuilder;
 import com.xtsshop.app.db.entities.builder.OrderBuilder;
 import com.xtsshop.app.db.entities.payment.Payment;
+import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.db.repositories.OrderRepository;
-import com.xtsshop.app.db.repositories.PriceHistoryRepository;
 import com.xtsshop.app.request.orders.OrderCreateRequest;
 import com.xtsshop.app.request.users.addresses.AddressCreateRequest;
 import com.xtsshop.app.request.users.payments.PaymentCreateRequest;
 import com.xtsshop.app.service.addresses.AddressesCRUDService;
-import com.xtsshop.app.service.auth.UserIdentityService;
 import com.xtsshop.app.service.payments.PaymentsService;
 import com.xtsshop.app.service.users.TargetUserService;
-import org.aspectj.weaver.ast.Or;
+import com.xtsshop.app.viewmodel.OrderModel;
+import com.xtsshop.app.viewmodel.builder.OrderModelBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-public class OrdersCRUDService {
+public class OrdersService {
     private OrderRepository repository;
-    private PriceHistoryRepository priceHistoryRepository;
     private PaymentsService paymentsService;
     private AddressesCRUDService addressesCRUDService;
     private TargetUserService targetUserService;
+    private ItemRepository itemRepository;
     private OrderAuthorizationService orderAuthorizationService;
-    public OrdersCRUDService(OrderRepository repository, PriceHistoryRepository priceHistoryRepository, PaymentsService paymentsService, AddressesCRUDService addressesCRUDService, TargetUserService targetUserService) {
+    public OrdersService(
+            OrderRepository repository,
+            PaymentsService paymentsService,
+            AddressesCRUDService addressesCRUDService,
+            TargetUserService targetUserService,
+            ItemRepository itemRepository,
+            OrderAuthorizationService orderAuthorizationService
+    ) {
         this.repository = repository;
-        this.priceHistoryRepository = priceHistoryRepository;
         this.paymentsService = paymentsService;
         this.addressesCRUDService = addressesCRUDService;
         this.targetUserService = targetUserService;
+        this.itemRepository = itemRepository;
+        this.orderAuthorizationService = orderAuthorizationService;
     }
 
-    public List<Order> all(){
-        return repository.findAll();
+    public List<OrderModel> all(){
+        return repository.findAll().stream().map(item-> new OrderModelBuilder()
+                .setEntity(item)
+                .build())
+                .collect(Collectors.toList());
     }
     public Order get(Long id) throws RecordNotFoundException, UnAuthorizationException {
         Order order =  repository.findById(id).orElseThrow(()->new RecordNotFoundException("Order with id "+id+" not found."));
@@ -49,7 +61,7 @@ public class OrdersCRUDService {
     }
 
     public Order create(OrderCreateRequest request) throws RecordNotFoundException, UnAuthorizationException {
-        Set<PriceHistory> priceHistories = new HashSet<>(priceHistoryRepository.findAllById(request.getPriceHistoryIds()));
+        Set<Item> items = new HashSet<>(itemRepository.findAllById(request.getPriceHistoryIds()));
         AppUser user = targetUserService.getUser(request.getUsername());
         Payment payment = request.getPaymentId() != null ? paymentsService.get(request.getPaymentId()) : null;
         Address address = getAddress(request, user);
@@ -64,7 +76,7 @@ public class OrdersCRUDService {
                 .setShippingAddress(address)
                 .setUser(user)
                 .setStatus(status)
-                .setPriceHistories(priceHistories)
+                .setOrderedItems(items)
                 .build();
         return repository.save(order);
     }

@@ -81,17 +81,19 @@ public class ItemsService implements CheckedFunction<Long, Optional<Category>> {
     public Item update(Long id, ItemRequest request) throws RecordNotFoundException {
         Optional<Category> category = request.getCategoryId().flatMap(CheckedFunction.wrap(this::apply));
         Item originalItem = get(id);
-        MultipartFile uploadedImg = request.getImage().orElseThrow(NullPointerException::new);
-        Image image = null;
-        if (uploadedImg != null) {
-            ImageRequest imageRequest = new ImageRequest();
-            imageRequest.setImage(uploadedImg);
-            imageRequest.setItem(originalItem);
-            image = imagesService.update(originalItem.getImage().getId(), imageRequest);
-        }
+        Optional<MultipartFile> uploadedImg = request.getImage();
+        Optional<Image> image = uploadedImg.flatMap(img->{
+            try{
+                ImageRequest imageRequest = new ImageRequest();
+                imageRequest.setImage(img);
+                imageRequest.setItem(originalItem);
+                return Optional.of(imagesService.update(originalItem.getImage().getId(), imageRequest));
+            }catch (RecordNotFoundException ex){
+                throw new RuntimeException(ex);
+            }
+        });
         Item item = request.update(originalItem, category);
-        if(image != null)
-            item.setImage(image);
+        image.ifPresent(item::setImage);
         return repository.save(item);
     }
 

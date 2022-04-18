@@ -3,6 +3,8 @@ package com.xtsshop.app.http.items;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
+import com.xtsshop.app.db.entities.PriceHistory;
+import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
 import com.xtsshop.app.db.repositories.ImageRepository;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.service.storage.StorageService;
@@ -10,7 +12,10 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
@@ -42,6 +47,24 @@ public class Util {
                 .sorted((t1, t2) -> (int)t2.getId() - (int)t1.getId())
                 .collect(Collectors.toList())
                 .get(0);
+    }
+
+    @Transactional
+    public void updateAllItemsPrice(){
+        List<Item> items = repository.findAll();
+        updatePrice(items.get(0), 22.2f);
+        updatePrice(items.get(1), 33.2f);
+        updatePrice(items.get(2), 54.2f);
+        updatePrice(items.get(3), 65.2f);
+    }
+    public void updatePrice(Item item, float price){
+        PriceHistory priceHistory = new PriceHistoryBuilder()
+                .setItem(item)
+                .setValue(price)
+                .build();
+        item.setPrice(price);
+        item.getPriceHistories().add(priceHistory);
+        repository.save(item);
     }
     public String getRoute(){
         return route;

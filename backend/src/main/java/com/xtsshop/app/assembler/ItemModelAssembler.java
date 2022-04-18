@@ -1,23 +1,15 @@
 package com.xtsshop.app.assembler;
 
 import com.xtsshop.app.advice.exception.RecordNotFoundException;
-import com.xtsshop.app.controller.categories.CategoriesCRUDController;
 import com.xtsshop.app.controller.items.ItemsController;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.service.storage.StorageProperties;
 import com.xtsshop.app.service.storage.StorageService;
 import com.xtsshop.app.viewmodel.ItemModel;
+import com.xtsshop.app.viewmodel.builder.ItemModelBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -36,7 +28,7 @@ public class ItemModelAssembler extends
     public EntityModel<ItemModel> toModel(Item entity) {
         try {
             return EntityModel.of(
-                    ItemModel.from(entity, storageService),
+                    new ItemModelBuilder().setItemEntity(entity).setStorageService(storageService).build(),
                     linkTo(methodOn(ItemsController.class).one(entity.getId())).withSelfRel(),
                     linkTo(methodOn(ItemsController.class).all()).withRel("create"),
                     linkTo(methodOn(ItemsController.class).update(entity.getId(), null)).withRel("update"),

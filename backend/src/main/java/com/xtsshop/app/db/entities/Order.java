@@ -33,24 +33,20 @@ public class Order extends AppEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @ManyToMany
-    @JoinTable(
-            name = "orders_price_histories",
-            joinColumns = @JoinColumn(
-                    name = "order_id", referencedColumnName = "id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "price_history_id", referencedColumnName = "id"
-            )
-    )
-    private Set<PriceHistory> priceHistories;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderedItem> orderedItems;
 
-    public void addPriceHistory(PriceHistory priceHistory){
-        this.priceHistories.add(priceHistory);
-        priceHistory.getOrders().add(this);
+    public void addOrderItems(OrderedItem orderedItem){
+        orderedItem.setOrder(this);
+        if(orderedItems != null)
+            orderedItems.add(orderedItem);
     }
-    public void removePriceHistory(PriceHistory priceHistory){
-        this.priceHistories.remove(priceHistory);
-        priceHistory.getOrders().remove(this);
+    public void removeOrderItems(Long orderItemId){
+        if(orderedItems != null){
+            orderedItems.stream().filter(item->item.getId() == orderItemId).findAny().ifPresent(item->{
+                item.setOrder(null);
+                orderedItems.remove(item);
+            });
+        }
     }
 }

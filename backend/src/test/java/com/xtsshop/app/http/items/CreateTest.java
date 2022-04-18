@@ -1,6 +1,5 @@
 package com.xtsshop.app.http.items;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xtsshop.app.db.repositories.ImageRepository;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.http.TestCase;
@@ -78,7 +77,7 @@ class CreateTest extends TestCase {
 		assertTrue(Paths.get(util.latestImage().getPath()).toFile().exists());
 	}
 	@Test
-	void testCaseNoStackManufacturer() throws Exception {
+	void testCaseNoStack() throws Exception {
 		int count = util.getRepository().findAll().size();
 		int imageCount = util.getImageRepository().findAll().size();
 		MockMultipartFile file

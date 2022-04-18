@@ -1,5 +1,6 @@
 package com.xtsshop.app.db.entities;
 
+import com.xtsshop.app.viewmodel.PriceHistoryModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
@@ -54,4 +56,14 @@ public class Item extends AppEntity{
         this.stock = stock;
     }
 
+    public float getLatestPrice(){
+        return getLatestPriceHistory().flatMap(priceHistory -> Optional.of(priceHistory.getValue())).orElse(0f);
+    }
+
+    public Optional<PriceHistory> getLatestPriceHistory(){
+        int index = priceHistories.size() - 1;
+        return Optional.ofNullable(
+                index <= -1 ? null : priceHistories.get(index)
+        );
+    }
 }
