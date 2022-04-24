@@ -3,7 +3,9 @@ package com.xtsshop.app.viewmodel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.hateoas.EntityModel;
 
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -13,5 +15,5 @@ public class OrderModel implements AbstractViewModel{
     private AddressViewModel address;
     private UserViewModel user;
     private String orderStatus;
-    private List<OrderedItemModel> items;
+    private Collection<OrderedItemModel> items;
 }

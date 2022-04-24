@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.sql.Date;
 
 @Setter
@@ -13,6 +14,9 @@ import java.sql.Date;
 @Entity
 @Table(name = "payments")
 public class Payment extends AppEntity {
+    @Column(nullable = false, name = "paid_total")
+    @Min(0)
+    private Float paidTotal;
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 

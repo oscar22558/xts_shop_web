@@ -1,5 +1,6 @@
 package com.xtsshop.app.service.orders;
 
+import com.xtsshop.app.advice.exception.ItemPriceNotDefinedException;
 import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.advice.exception.OrderStatusUpdateException;
 import com.xtsshop.app.advice.exception.UnAuthorizationException;
@@ -9,19 +10,17 @@ import com.xtsshop.app.db.entities.builder.OrderBuilder;
 import com.xtsshop.app.db.entities.payment.Payment;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.db.repositories.OrderRepository;
+import com.xtsshop.app.db.repositories.PriceHistoryRepository;
 import com.xtsshop.app.request.orders.OrderCreateRequest;
 import com.xtsshop.app.request.users.addresses.AddressCreateRequest;
-import com.xtsshop.app.request.users.payments.PaymentCreateRequest;
+import com.xtsshop.app.request.orders.PaymentCreateRequest;
 import com.xtsshop.app.service.addresses.AddressesCRUDService;
+import com.xtsshop.app.service.items.ItemsService;
 import com.xtsshop.app.service.payments.PaymentsService;
 import com.xtsshop.app.service.users.TargetUserService;
-import com.xtsshop.app.viewmodel.OrderModel;
-import com.xtsshop.app.viewmodel.builder.OrderModelBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,13 +31,17 @@ public class OrdersService {
     private TargetUserService targetUserService;
     private ItemRepository itemRepository;
     private OrderAuthorizationService orderAuthorizationService;
+    private PriceHistoryRepository priceHistoryRepository;
+    private ItemsService itemsService;
     public OrdersService(
             OrderRepository repository,
             PaymentsService paymentsService,
             AddressesCRUDService addressesCRUDService,
             TargetUserService targetUserService,
             ItemRepository itemRepository,
-            OrderAuthorizationService orderAuthorizationService
+            OrderAuthorizationService orderAuthorizationService,
+            PriceHistoryRepository priceHistoryRepository,
+            ItemsService itemsService
     ) {
         this.repository = repository;
         this.paymentsService = paymentsService;
@@ -46,13 +49,12 @@ public class OrdersService {
         this.targetUserService = targetUserService;
         this.itemRepository = itemRepository;
         this.orderAuthorizationService = orderAuthorizationService;
+        this.priceHistoryRepository = priceHistoryRepository;
+        this.itemsService = itemsService;
     }
 
-    public List<OrderModel> all(){
-        return repository.findAll().stream().map(item-> new OrderModelBuilder()
-                .setEntity(item)
-                .build())
-                .collect(Collectors.toList());
+    public List<Order> all(){
+        return repository.findAll();
     }
     public Order get(Long id) throws RecordNotFoundException, UnAuthorizationException {
         Order order =  repository.findById(id).orElseThrow(()->new RecordNotFoundException("Order with id "+id+" not found."));
@@ -61,22 +63,28 @@ public class OrdersService {
     }
 
     public Order create(OrderCreateRequest request) throws RecordNotFoundException, UnAuthorizationException {
-        Set<Item> items = new HashSet<>(itemRepository.findAllById(request.getPriceHistoryIds()));
+        List<OrderedItem> orderedItems = request.getOrderedItems().stream()
+                .map(item->{
+                    try {
+                        Item itemEntity = itemsService.get(item.getItemId());
+                        OrderedItem orderedItem = new OrderedItem();
+                        orderedItem.setItem(itemEntity);
+                        orderedItem.setQuantity(item.getQuantity());
+                        return orderedItem;
+                    } catch (RecordNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                })
+                .collect(Collectors.toList());
         AppUser user = targetUserService.getUser(request.getUsername());
-        Payment payment = request.getPaymentId() != null ? paymentsService.get(request.getPaymentId()) : null;
         Address address = getAddress(request, user);
-        OrderStatus status;
-        if(payment == null){
-            status = OrderStatus.WAITING_PAYMENT;
-        }else{
-            status = OrderStatus.PAID;
-        }
+        OrderStatus status = OrderStatus.WAITING_PAYMENT;
         Order order = new OrderBuilder()
-                .setPayment(payment)
                 .setShippingAddress(address)
                 .setUser(user)
                 .setStatus(status)
-                .setOrderedItems(items)
+                .setOrderedItems(orderedItems)
                 .build();
         return repository.save(order);
     }
@@ -92,10 +100,20 @@ public class OrdersService {
         if(order.getStatus() != OrderStatus.WAITING_PAYMENT){
             throw new OrderStatusUpdateException("Order is paid.");
         }
+        if(paymentCreateRequest.getPaidTotal() != paymentCreateRequest.getOrderItemPriceTotal())
+            throw new OrderStatusUpdateException("Paid total and item price total is not the same");
         Payment payment = paymentCreateRequest.toEntity();
         order.setPayment(payment);
         payment.setOrder(order);
         order.setStatus(OrderStatus.PAID);
+        order.getOrderedItems().forEach(orderedItem->{
+            Optional<PriceHistory> history = orderedItem.getItem().getLatestPriceHistory();
+            try {
+                orderedItem.setOrderPrice(history.orElseThrow(()->ItemPriceNotDefinedException.build(null)));
+            } catch (ItemPriceNotDefinedException e) {
+                throw new RuntimeException(e);
+            }
+        });
         return repository.save(order);
     }
     public Order startProcessing(Long id) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException{
@@ -151,5 +169,9 @@ public class OrdersService {
             return addressesCRUDService.get(request.getAddressId());
         }
     }
-
+    public float getItemPriceTotal(Order order){
+        return order.getOrderedItems().stream()
+                .map(orderItem->orderItem.getOrderPrice().getValue() * orderItem.getQuantity())
+                .reduce(0f, Float::sum);
+    }
 }

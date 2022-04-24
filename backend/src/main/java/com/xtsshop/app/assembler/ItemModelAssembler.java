@@ -41,4 +41,21 @@ public class ItemModelAssembler extends
             return null;
         }
     }
+
+    public EntityModel<ItemModel> toEntityModel(ItemModel model) {
+        try {
+            return EntityModel.of(
+                    model,
+                    linkTo(methodOn(ItemsController.class).one(model.getId())).withSelfRel(),
+                    linkTo(methodOn(ItemsController.class).all()).withRel("create"),
+                    linkTo(methodOn(ItemsController.class).update(model.getId(), null)).withRel("update"),
+                    linkTo(methodOn(ItemsController.class).updateImage(model.getId(), null)).withRel("updateImage"),
+                    linkTo(methodOn(ItemsController.class).delete(model.getId())).withRel("delete"),
+                    linkTo(methodOn(ItemsController.class).all()).withRel("all")
+            );
+        } catch (RecordNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

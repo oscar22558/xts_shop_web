@@ -8,7 +8,9 @@ import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.form.orders.PaymentCreateForm;
 import com.xtsshop.app.response.UpdateResponseBuilder;
 import com.xtsshop.app.service.orders.OrdersService;
+import com.xtsshop.app.service.storage.StorageService;
 import com.xtsshop.app.viewmodel.OrderModel;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +25,10 @@ public class OrderController {
 
     private OrdersService ordersService;
     private OrderModelAssembler modelAssembler;
-    public OrderController(OrdersService ordersService, OrderModelAssembler modelAssembler) {
+    public OrderController(OrdersService ordersService, OrderModelAssembler modelAssembler, @Qualifier("ImageStorageService") StorageService storageService) {
         this.ordersService = ordersService;
         this.modelAssembler = modelAssembler;
+        modelAssembler.setStorageService(storageService);
     }
 
     @GetMapping

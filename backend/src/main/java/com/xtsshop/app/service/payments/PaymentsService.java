@@ -3,8 +3,6 @@ package com.xtsshop.app.service.payments;
 import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.payment.Payment;
 import com.xtsshop.app.db.repositories.PaymentRepository;
-import com.xtsshop.app.request.users.payments.PaymentCreateRequest;
-import net.bytebuddy.dynamic.scaffold.TypeWriter;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,17 +1,15 @@
 package com.xtsshop.app.form.addresses;
 
 import com.xtsshop.app.request.users.addresses.AddressCreateRequest;
-import org.checkerframework.checker.units.qual.A;
-
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 public class AddressCreateForm {
-    @NotNull
+    @NotBlank
     private String country;
-    @NotNull
+    @NotBlank
     private String city;
-    @NotNull
+    @NotBlank
     private String row1;
     @Nullable
     private String row2;

@@ -1,5 +1,6 @@
 package com.xtsshop.app.viewmodel.builder;
 
+import com.xtsshop.app.assembler.ItemModelAssembler;
 import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.db.entities.OrderedItem;
 import com.xtsshop.app.db.entities.PriceHistory;
@@ -9,11 +10,11 @@ import com.xtsshop.app.viewmodel.*;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@NoArgsConstructor
 public class OrderModelBuilder {
     private Order entity;
     private StorageService storageService;
@@ -32,11 +33,11 @@ public class OrderModelBuilder {
         model.setAddress(AddressViewModel.from(entity.getShippingAddress()));
         model.setUser(UserViewModel.from(entity.getUser()));
         model.setOrderStatus(entity.getStatus().name());
-        List<OrderedItemModel> orderedItemModels = entity.getOrderedItems().stream().map(item->{
+        Collection<OrderedItemModel> orderedItemModels = entity.getOrderedItems().stream().map(orderedItem->{
             ItemModelBuilder itemModelBuilder = new ItemModelBuilder()
-                    .setItemEntity(item.getItem())
+                    .setItemEntity(orderedItem.getItem())
                     .setStorageService(storageService);
-            Optional.ofNullable(item.getOrderPrice())
+            Optional.ofNullable(orderedItem.getOrderPrice())
                     .ifPresent((history)->{
                         itemModelBuilder.setPriceHistoryModel(
                             new PriceHistoryModel(history.getId(), history.getCreatedAt(), history.getValue())
@@ -44,7 +45,7 @@ public class OrderModelBuilder {
                     });
             return new OrderedItemModel(
                     itemModelBuilder.build(),
-                    item.getQuantity()
+                    orderedItem.getQuantity()
             );
         }).collect(Collectors.toList());
         model.setItems(orderedItemModels);

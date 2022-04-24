@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ public class Item extends AppEntity{
     private String name;
 
     @Column(nullable = false)
+    @Min(0)
     private float price;
 
     @Column(nullable = false)

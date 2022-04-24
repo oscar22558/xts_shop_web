@@ -44,6 +44,9 @@ public class OrderBuilder {
         order.setPayment(payment);
         order.setUser(user);
         order.setStatus(status);
+        orderedItems.forEach(item->{
+            item.setOrder(order);
+        });
         order.setOrderedItems(orderedItems);
         return order;
     }
