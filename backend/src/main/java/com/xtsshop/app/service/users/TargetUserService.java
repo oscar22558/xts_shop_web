@@ -1,10 +1,15 @@
 package com.xtsshop.app.service.users;
 
+import com.xtsshop.app.advice.UsernameNotFoundAdvice;
 import com.xtsshop.app.advice.exception.UnAuthorizationException;
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.db.entities.Role;
 import com.xtsshop.app.db.entities.RoleType;
 import com.xtsshop.app.service.auth.UserIdentityService;
+import com.xtsshop.app.service.orders.OrdersService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
@@ -20,12 +25,12 @@ public class TargetUserService {
         this.usersCRUDService = usersCRUDService;
     }
 
-    public AppUser getUser(@Nullable String username) throws UnAuthorizationException {
+    public AppUser getUser(@Nullable String username) throws UnAuthorizationException, UsernameNotFoundException {
         Set<Role> authedUserRoles = userIdentityService.getUser().getRoles();
         boolean authedUserIsAdmin = authedUserRoles.stream()
-                .filter((role)-> role.getName().name() == RoleType.ROLE_ADMIN.name())
+                .filter((role)-> role.getName().name().equals(RoleType.ROLE_ADMIN.name()))
                 .findFirst()
-                .orElse(null) == null;
+                .orElse(null) != null;
         if(authedUserIsAdmin){
             return usersCRUDService.findUserByUserName(username);
         }else{

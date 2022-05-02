@@ -2,6 +2,9 @@ package com.xtsshop.app.db.entities.builder;
 
 import com.xtsshop.app.db.entities.Address;
 import com.xtsshop.app.db.entities.AppUser;
+import com.xtsshop.app.util.DateTimeUtil;
+
+import java.sql.Date;
 
 public class AddressBuilder {
     private String country;
@@ -41,7 +44,10 @@ public class AddressBuilder {
         return this;
     }
     public Address build(){
+        Date now = new DateTimeUtil().now();
         Address address = new Address();
+        address.setCreatedAt(now);
+        address.setUpdatedAt(now);
         address.setCountry(country);
         address.setCity(city);
         address.setRow1(row1);

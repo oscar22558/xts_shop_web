@@ -48,7 +48,8 @@ public class OrderController {
 
     @PatchMapping("/{orderId}/pay")
     public ResponseEntity<?> pay(@PathVariable @NotBlank Long orderId, @Valid PaymentCreateForm form) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException {
-        Order entity = ordersService.pay(orderId, form.toRequest());
+        float total = ordersService.getItemPriceTotal(ordersService.get(orderId));
+        Order entity = ordersService.pay(orderId, form.toRequest(total));
         return getUpdateStatusResponse(entity);
     }
 

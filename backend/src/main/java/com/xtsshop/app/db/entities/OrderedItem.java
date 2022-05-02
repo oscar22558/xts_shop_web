@@ -1,5 +1,6 @@
 package com.xtsshop.app.db.entities;
 
+import com.xtsshop.app.util.DateTimeUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.sql.Date;
 
 @Setter
 @Getter
@@ -24,4 +26,10 @@ public class OrderedItem extends AppEntity {
     @ManyToOne
     @JoinColumn(name = "price_history_id", referencedColumnName = "id")
     private PriceHistory orderPrice;
+
+    public OrderedItem(Date createAt, Date updated, Item item, int quantity){
+        super(createAt, updated);
+        this.quantity = quantity;
+        this.item = item;
+    }
 }

@@ -1,9 +1,14 @@
 package com.xtsshop.app.form.addresses;
 
 import com.xtsshop.app.request.users.addresses.AddressCreateRequest;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotBlank;
 
+@Setter
+@Getter
 public class AddressCreateForm {
     @NotBlank
     private String country;

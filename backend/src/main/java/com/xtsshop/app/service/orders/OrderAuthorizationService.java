@@ -18,9 +18,9 @@ public class OrderAuthorizationService {
         boolean userIsAdmin = userIdentityService.getUser().getRoles()
                 .stream().filter(role->role.getName() == RoleType.ROLE_ADMIN)
                 .findFirst()
-                .orElse(null) == null;
+                .orElse(null) != null;
         boolean result = userIsAdmin || order.getUser().getUsername().equals(userIdentityService.getSpringUser().getUsername());
         if(!result) throw new UnAuthorizationException("Access forbidden");
-        return result;
+        return true;
     }
 }

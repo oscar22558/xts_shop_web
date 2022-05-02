@@ -8,12 +8,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.Optional;
 
-@NoArgsConstructor
 public class ItemModelBuilder {
 
     private Item itemEntity;
     private StorageService storageService;
     private Optional<PriceHistoryModel> priceHistoryModel;
+    public ItemModelBuilder(){
+       priceHistoryModel = Optional.empty();
+    }
     public ItemModelBuilder setItemEntity(Item itemEntity) {
         this.itemEntity = itemEntity;
         return this;

@@ -8,9 +8,7 @@ import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.AddressBuilder;
 import com.xtsshop.app.db.entities.builder.OrderBuilder;
 import com.xtsshop.app.db.entities.payment.Payment;
-import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.db.repositories.OrderRepository;
-import com.xtsshop.app.db.repositories.PriceHistoryRepository;
+import com.xtsshop.app.db.repositories.*;
 import com.xtsshop.app.request.orders.OrderCreateRequest;
 import com.xtsshop.app.request.users.addresses.AddressCreateRequest;
 import com.xtsshop.app.request.orders.PaymentCreateRequest;
@@ -18,39 +16,41 @@ import com.xtsshop.app.service.addresses.AddressesCRUDService;
 import com.xtsshop.app.service.items.ItemsService;
 import com.xtsshop.app.service.payments.PaymentsService;
 import com.xtsshop.app.service.users.TargetUserService;
+import com.xtsshop.app.util.DateTimeUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.sql.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class OrdersService {
     private OrderRepository repository;
-    private PaymentsService paymentsService;
+    private PaymentRepository paymentRepository;
+    private UserRepository userRepository;
     private AddressesCRUDService addressesCRUDService;
     private TargetUserService targetUserService;
-    private ItemRepository itemRepository;
     private OrderAuthorizationService orderAuthorizationService;
-    private PriceHistoryRepository priceHistoryRepository;
     private ItemsService itemsService;
     public OrdersService(
             OrderRepository repository,
-            PaymentsService paymentsService,
             AddressesCRUDService addressesCRUDService,
             TargetUserService targetUserService,
-            ItemRepository itemRepository,
             OrderAuthorizationService orderAuthorizationService,
-            PriceHistoryRepository priceHistoryRepository,
-            ItemsService itemsService
+            ItemsService itemsService,
+            PaymentRepository paymentRepository,
+            UserRepository userRepository
     ) {
         this.repository = repository;
-        this.paymentsService = paymentsService;
         this.addressesCRUDService = addressesCRUDService;
         this.targetUserService = targetUserService;
-        this.itemRepository = itemRepository;
         this.orderAuthorizationService = orderAuthorizationService;
-        this.priceHistoryRepository = priceHistoryRepository;
         this.itemsService = itemsService;
+        this.paymentRepository = paymentRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Order> all(){
@@ -67,8 +67,12 @@ public class OrdersService {
                 .map(item->{
                     try {
                         Item itemEntity = itemsService.get(item.getItemId());
+                        Date now = new DateTimeUtil().now();
                         OrderedItem orderedItem = new OrderedItem();
+                        orderedItem.setCreatedAt(now);
+                        orderedItem.setUpdatedAt(now);
                         orderedItem.setItem(itemEntity);
+                        orderedItem.setOrderPrice(itemEntity.getLatestPriceHistory().orElseThrow());
                         orderedItem.setQuantity(item.getQuantity());
                         return orderedItem;
                     } catch (RecordNotFoundException e) {
@@ -77,7 +81,7 @@ public class OrdersService {
 
                 })
                 .collect(Collectors.toList());
-        AppUser user = targetUserService.getUser(request.getUsername());
+        AppUser user = targetUserService.getUser(null);
         Address address = getAddress(request, user);
         OrderStatus status = OrderStatus.WAITING_PAYMENT;
         Order order = new OrderBuilder()
@@ -86,6 +90,8 @@ public class OrdersService {
                 .setStatus(status)
                 .setOrderedItems(orderedItems)
                 .build();
+        user.getOrders().add(order);
+        userRepository.save(user);
         return repository.save(order);
     }
     public Order cancel(Long id) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException{
@@ -103,8 +109,10 @@ public class OrdersService {
         if(paymentCreateRequest.getPaidTotal() != paymentCreateRequest.getOrderItemPriceTotal())
             throw new OrderStatusUpdateException("Paid total and item price total is not the same");
         Payment payment = paymentCreateRequest.toEntity();
-        order.setPayment(payment);
         payment.setOrder(order);
+        payment.setPaidTotal(paymentCreateRequest.getPaidTotal());
+
+        order.setPayment(payment);
         order.setStatus(OrderStatus.PAID);
         order.getOrderedItems().forEach(orderedItem->{
             Optional<PriceHistory> history = orderedItem.getItem().getLatestPriceHistory();
@@ -114,6 +122,7 @@ public class OrdersService {
                 throw new RuntimeException(e);
             }
         });
+        paymentRepository.save(payment);
         return repository.save(order);
     }
     public Order startProcessing(Long id) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException{

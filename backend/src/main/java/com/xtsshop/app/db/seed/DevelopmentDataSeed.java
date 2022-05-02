@@ -1,6 +1,7 @@
 package com.xtsshop.app.db.seed;
 
 import com.xtsshop.app.db.entities.*;
+import com.xtsshop.app.db.entities.builder.AddressBuilder;
 import com.xtsshop.app.db.entities.builder.ItemBuilder;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
 import com.xtsshop.app.db.repositories.*;
@@ -8,7 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Set;
 
 public class DevelopmentDataSeed {
@@ -97,6 +100,16 @@ public class DevelopmentDataSeed {
         Role role = roleRepository.findByName(RoleType.ROLE_USER.name());
         AppUser user = new AppUser(now, now, "marry123", passwordEncoder.encode("123"), "marry123@xts-shop.com", "28735601");
         user.setRoles(Set.of(role));
+
+        List<Address> addresses = new ArrayList<>();
+        addresses.add(new AddressBuilder()
+                .setCountry("China")
+                .setCity("Hong Kong")
+                .setUser(user)
+                .setRow1("HKU MB166")
+                .build()
+        );
+        user.setAddresses(addresses);
         userRepository.save(user);
     }
     public void createRoles(Date now){

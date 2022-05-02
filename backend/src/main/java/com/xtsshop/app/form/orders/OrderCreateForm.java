@@ -2,24 +2,25 @@ package com.xtsshop.app.form.orders;
 
 import com.xtsshop.app.form.addresses.AddressCreateForm;
 import com.xtsshop.app.request.orders.OrderCreateRequest;
-import com.xtsshop.app.request.orders.OrderedItemCreateRequest;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public class OrderCreateForm {
     @NotBlank
     private String username;
     @NotNull
-    private Set<@NotNull OrderedItemCreatForm> orderedItems;
+    private List<@NotNull OrderedItemCreateForm> orderedItems;
     @Nullable
     @Min(0)
     private Long addressId;
@@ -30,7 +31,7 @@ public class OrderCreateForm {
     public OrderCreateRequest toRequest(){
         OrderCreateRequest request = new OrderCreateRequest();
         request.setOrderedItems(orderedItems.stream()
-                .map(OrderedItemCreatForm::toRequest)
+                .map(OrderedItemCreateForm::toRequest)
                 .collect(Collectors.toList()));
         if(addressId != null){
             request.setAddressId(addressId);

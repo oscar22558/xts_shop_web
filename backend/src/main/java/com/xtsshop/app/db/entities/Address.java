@@ -37,9 +37,8 @@ public class Address extends AppEntity{
     private List<Order> orders;
 
 
-    public Address(long id, Date createdAt, Date updatedAt, String country, String city, String row1, String row2, String row3, AppUser user) {
+    public Address(Date createdAt, Date updatedAt, String country, String city, String row1, String row2, String row3, AppUser user) {
         super(createdAt, updatedAt);
-        this.id = id;
         this.country = country;
         this.city = city;
         this.row1 = row1;

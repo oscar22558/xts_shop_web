@@ -45,9 +45,8 @@ public class OrderController {
         return modelAssembler.toCollectionModel(user.getOrders());
     }
     @PostMapping
-    public ResponseEntity<?> place(OrderCreateForm form) throws RecordNotFoundException, UnAuthorizationException {
+    public ResponseEntity<?> place(@Valid @RequestBody OrderCreateForm form) throws RecordNotFoundException, UnAuthorizationException {
         Order entity = ordersService.create(form.toRequest());
-
         Optional.ofNullable(form.getPayment()).ifPresent(paymentCreateForm -> {
             PaymentCreateRequest request = paymentCreateForm.toRequest(
                     ordersService.getItemPriceTotal(entity)
