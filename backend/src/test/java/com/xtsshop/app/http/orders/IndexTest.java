@@ -1,9 +1,6 @@
 package com.xtsshop.app.http.orders;
 
-import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.db.repositories.OrderRepository;
-import com.xtsshop.app.db.repositories.RoleRepository;
-import com.xtsshop.app.db.repositories.UserRepository;
+import com.xtsshop.app.db.repositories.*;
 import com.xtsshop.app.http.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +21,10 @@ import static org.hamcrest.Matchers.*;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class IndexTest extends TestCase {
-    @Autowired
-    private Util util;
-
-    @TestConfiguration
-    public static class TestConfig{
-        @Bean
-        Util util(OrderRepository orderRepository, UserRepository userRepository, RoleRepository roleRepository, ItemRepository itemRepository) {
-            return new Util(orderRepository, userRepository, roleRepository, itemRepository);
-        }
-    }
-
+public class IndexTest extends OrdersTest {
     @Test
     void test() throws Exception {
-        util.insertData();
+        util.insertDataWithNewUserOrder();
         mvc.perform(requestBuilder(HttpMethod.GET, util.getRoute()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -49,7 +35,7 @@ public class IndexTest extends TestCase {
     }
     @Test
     void testAccessAsNormalUser() throws Exception {
-        util.insertData();
+        util.insertDataWithNewUserOrder();
         setUserCredential("marry123", "123");
         mvc.perform(requestBuilder(HttpMethod.GET, util.getRoute()))
                 .andDo(print())

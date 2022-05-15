@@ -4,10 +4,12 @@ import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.db.repositories.UserRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Component("tests.http.carts.DataSet")
 public class DataSet {
     private UserRepository userRepository;
     private ItemRepository itemRepository;

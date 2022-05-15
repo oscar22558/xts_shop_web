@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("storage")
+@RequestMapping("storage/images")
 public class FileController {
     Logger logger = LoggerFactory.getLogger(FileController.class);
     private final StorageService service;
 
-    public FileController(@Qualifier("FileStorageService") StorageService service){
+    public FileController(@Qualifier("ImageStorageService") StorageService service){
         this.service = service;
     }
 

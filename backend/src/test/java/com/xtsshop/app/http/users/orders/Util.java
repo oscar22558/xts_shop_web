@@ -2,6 +2,7 @@ package com.xtsshop.app.http.users.orders;
 
 import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.OrderBuilder;
+import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
 import com.xtsshop.app.db.entities.payment.PaymentType;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.db.repositories.OrderRepository;
@@ -11,17 +12,21 @@ import com.xtsshop.app.form.orders.OrderCreateForm;
 import com.xtsshop.app.form.orders.OrderedItemCreateForm;
 import com.xtsshop.app.form.orders.PaymentCreateForm;
 import com.xtsshop.app.util.DateTimeUtil;
+import org.mockito.internal.exceptions.ExceptionIncludingMockitoWarnings;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@Component("tests.http.users.orders.Util")
 public class Util {
 
-    private String route = "/api/users/orders";
+    private String route = "/api/users/{username}/orders";
     private ItemRepository itemRepository;
     private UserRepository userRepository;
     private OrderRepository orderRepository;
@@ -43,14 +48,13 @@ public class Util {
 
         AppUser user = userRepository.findUserByUsername("marry123");
         OrderCreateForm form = new OrderCreateForm();
-        form.setUsername("marry123");
         form.setAddressId(user.getAddresses().get(0).getId());
         PaymentCreateForm payment = new PaymentCreateForm();
         payment.setPaymentType(PaymentType.CREDIT_CARD);
         payment.setBankCode("012");
         payment.setCardNum("1235132901842385824");
         payment.setHolderName("Chan Tai Man");
-        payment.setPaidTotal(377.2f);
+        payment.setPaidTotal(402.5f);
 
         OrderedItemCreateForm orderedItem = new OrderedItemCreateForm();
         orderedItem.setItemId(item1.getId());
@@ -74,7 +78,6 @@ public class Util {
 
         AppUser user = userRepository.findUserByUsername("marry123");
         OrderCreateForm form = new OrderCreateForm();
-        form.setUsername("marry123");
         form.setAddressId(user.getAddresses().get(0).getId());
 
         OrderedItemCreateForm orderedItem = new OrderedItemCreateForm();
@@ -111,7 +114,7 @@ public class Util {
                 .setOrderedItems(orderedItems)
                 .build();
         user.getOrders().add(order);
-        userRepository.save(user);
+        orderRepository.save(order);
     }
 
     public AppUser insertNewUser(){
@@ -124,9 +127,10 @@ public class Util {
         addresses.add(new Address(now, now, "China", "Hong Kong", "HKU MB155", null, null, user));
         user.setAddresses(addresses);
         user.setOrders(new ArrayList<>());
-        return insertOrderForNewUser(user);
+        return userRepository.save(user);
     }
-    public AppUser insertOrderForNewUser(AppUser user){
+    public Order insertOrderForNewUser(String username){
+        AppUser user = userRepository.findUserByUsername(username);
         Date now = new DateTimeUtil().now();
         List<Item> itemList = itemRepository.findAll();
         List<OrderedItem> orderedItems = new ArrayList<>();
@@ -140,6 +144,20 @@ public class Util {
                 .setOrderedItems(orderedItems)
                 .build();
         user.getOrders().add(order);
-        return userRepository.save(user);
+        return orderRepository.save(order);
     }
+    public void updatePriceOfItem(){
+        Item item = itemRepository.findAll().get(1);
+        PriceHistory priceHistory = new PriceHistoryBuilder()
+                .setItem(item)
+                .setValue(25.5f)
+                .build();
+        item.setPrice(25.5f);
+        item.getPriceHistories().add(priceHistory);
+        itemRepository.save(item);
+    }
+    public AppUser findUserByUsername(String username){
+        return userRepository.findUserByUsername(username);
+    }
+
 }

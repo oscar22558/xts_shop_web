@@ -7,14 +7,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.annotation.DirtiesContext;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,15 +36,13 @@ public class ListItemsTest extends TestCase {
             return new Util(itemRepository, userRepository);
         }
     }
-    @BeforeEach
-    public void beforeEach(){
-        dataSet.insert();
-    }
     @Test
     public void test() throws Exception {
+        dataSet.insert();
         setUserCredential(getUserUsername(), getPassword());
         mvc.perform(requestBuilder(HttpMethod.GET, util.getRoute()))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$._embedded.itemModelList", hasSize(2)))
                 .andExpect(jsonPath("$._embedded.itemModelList.[0].name").value("orange"))
                 .andExpect(jsonPath("$._embedded.itemModelList.[1].name").value("USB data cable"));
     }

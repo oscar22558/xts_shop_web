@@ -42,8 +42,8 @@ public class AddItemsTest extends TestCase {
         mvc.perform(requestBuilder(HttpMethod.POST, util.getRoute()).contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(form)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$._embedded.itemModelList.[0].name").value("orange"))
-                .andExpect(jsonPath("$._embedded.itemModelList.[0].price").value(23.2))
+                .andExpect(jsonPath("$._embedded.itemModelList.[0].price.value").value(23.2))
                 .andExpect(jsonPath("$._embedded.itemModelList.[1].name").value("USB data cable"))
-                .andExpect(jsonPath("$._embedded.itemModelList.[1].price").value(44.2));
+                .andExpect(jsonPath("$._embedded.itemModelList.[1].price.value").value(44.2));
     }
 }

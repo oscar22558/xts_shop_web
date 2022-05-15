@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 public class OrderCreateForm {
-    @NotBlank
-    private String username;
     @NotNull
     private List<@NotNull OrderedItemCreateForm> orderedItems;
     @Nullable

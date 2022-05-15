@@ -1,10 +1,10 @@
 package com.xtsshop.app.http.users.orders;
 
+import com.xtsshop.app.db.entities.OrderStatus;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.db.repositories.OrderRepository;
 import com.xtsshop.app.db.repositories.RoleRepository;
 import com.xtsshop.app.db.repositories.UserRepository;
-import com.xtsshop.app.form.orders.OrderListForm;
 import com.xtsshop.app.http.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +46,12 @@ public class IndexTest extends TestCase {
     public void test() throws Exception {
         util.insertOrderForUser();
         util.insertOrderForUser();
-        util.insertNewUser();
-        OrderListForm form = new OrderListForm();
-        form.setUsername("marry123");
-       mvc.perform(
-               requestBuilder(HttpMethod.GET, util.getRoute())
-                       .content(mapper.writeValueAsBytes(form))
-                       .contentType(MediaType.APPLICATION_JSON)
-       )
+        util.insertOrderForNewUser(util.insertNewUser().getUsername());
+        setUserCredential("marry123", "123");
+        mvc.perform(
+            requestBuilder(HttpMethod.GET, util.getRoute(), "marry123")
+               .contentType(MediaType.APPLICATION_JSON)
+        )
                .andExpect(status().isOk())
                .andDo(print())
                .andExpect(jsonPath("$._embedded.orderModelList.[0].items.[0].item.name", is("apple")))
@@ -62,10 +60,50 @@ public class IndexTest extends TestCase {
                .andExpect(jsonPath("$._embedded.orderModelList.[0].items.[1].item.name", is("orange")))
                .andExpect(jsonPath("$._embedded.orderModelList.[0].items.[1].item.price.value", is(23.2)))
                .andExpect(jsonPath("$._embedded.orderModelList.[0].items.[1].quantity", is(7)))
-               .andExpect(jsonPath("$._embedded.orderModelList.[0].orderStatus", is("WAITING_PAYMENT")))
+               .andExpect(jsonPath("$._embedded.orderModelList.[0].orderStatus", is(OrderStatus.WAITING_PAYMENT.name())))
                .andExpect(jsonPath("$._embedded.orderModelList.[0].user.username", is("marry123")))
-               .andExpect(jsonPath("$._embedded.orderModelList", hasSize(2))
-               );
+               .andExpect(jsonPath("$._embedded.orderModelList.[1].user.username", is("marry123")))
+               .andExpect(jsonPath("$._embedded.orderModelList", hasSize(2)));
 
+    }
+
+    @Test
+    @Transactional
+    public void testAccessAsAdmin() throws Exception {
+        util.insertOrderForUser();
+        util.insertOrderForUser();
+        util.insertOrderForNewUser(util.insertNewUser().getUsername());
+
+        mvc.perform(
+                        requestBuilder(HttpMethod.GET, util.getRoute(), "marry123")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$._embedded.orderModelList.[0].items.[0].item.name", is("apple")))
+                .andExpect(jsonPath("$._embedded.orderModelList.[0].items.[0].item.price.value", is(12.2)))
+                .andExpect(jsonPath("$._embedded.orderModelList.[0].items.[0].quantity", is(2)))
+                .andExpect(jsonPath("$._embedded.orderModelList.[0].items.[1].item.name", is("orange")))
+                .andExpect(jsonPath("$._embedded.orderModelList.[0].items.[1].item.price.value", is(23.2)))
+                .andExpect(jsonPath("$._embedded.orderModelList.[0].items.[1].quantity", is(7)))
+                .andExpect(jsonPath("$._embedded.orderModelList.[0].orderStatus", is(OrderStatus.WAITING_PAYMENT.name())))
+                .andExpect(jsonPath("$._embedded.orderModelList.[0].user.username", is("marry123")))
+                .andExpect(jsonPath("$._embedded.orderModelList.[1].user.username", is("marry123")))
+                .andExpect(jsonPath("$._embedded.orderModelList", hasSize(2)));
+
+    }
+
+    @Test
+    @Transactional
+    public void testAccessAsOtherUser() throws Exception {
+        util.insertOrderForUser();
+        util.insertOrderForUser();
+        util.insertOrderForNewUser(util.insertNewUser().getUsername());
+        setUserCredential("mario123", "123");
+        mvc.perform(
+                        requestBuilder(HttpMethod.GET, util.getRoute(), "marry123")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isForbidden());
     }
 }

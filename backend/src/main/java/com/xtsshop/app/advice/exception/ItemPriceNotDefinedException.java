@@ -18,4 +18,8 @@ public class ItemPriceNotDefinedException extends Exception{
     public static ItemPriceNotDefinedException build(@Nullable String message){
         return new ItemPriceNotDefinedException(message != null ? message : "Order Price not defined");
     }
+
+    public static ItemPriceNotDefinedException build(){
+        return new ItemPriceNotDefinedException("Order Price not defined");
+    }
 }

@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.annotation.DirtiesContext;
+
 import java.nio.file.Paths;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class CreateTest extends TestCase {
 
 	@Autowired
@@ -67,9 +70,9 @@ class CreateTest extends TestCase {
 					util.getStorageService().url(util.latestImage().getPath())
 			)))
 			.andExpect(jsonPath("$.name", is("Scissors")))
-			.andExpect(jsonPath("$.price", is(12.2)))
+			.andExpect(jsonPath("$.price.value", is(12.2)))
 			.andExpect(jsonPath("$.manufacturer", is("Manufacturer 1")))
-				.andExpect(jsonPath("$.stack", is(100)));
+				.andExpect(jsonPath("$.stock", is(100)));
 
 		assertEquals(1, util.getRepository().findAll().size() - count);
 		assertEquals(1, util.getImageRepository().findAll().size() - imageCount);
@@ -77,7 +80,7 @@ class CreateTest extends TestCase {
 		assertTrue(Paths.get(util.latestImage().getPath()).toFile().exists());
 	}
 	@Test
-	void testCaseNoStack() throws Exception {
+	void testCaseNoStock() throws Exception {
 		int count = util.getRepository().findAll().size();
 		int imageCount = util.getImageRepository().findAll().size();
 		MockMultipartFile file
@@ -108,9 +111,9 @@ class CreateTest extends TestCase {
 						util.getStorageService().url(util.latestImage().getPath())
 				)))
 				.andExpect(jsonPath("$.name", is("Scissors")))
-				.andExpect(jsonPath("$.price", is(12.2)))
+				.andExpect(jsonPath("$.price.value", is(12.2)))
 				.andExpect(jsonPath("$.manufacturer", is("Manufacturer 1")))
-				.andExpect(jsonPath("$.stack", is(0)));
+				.andExpect(jsonPath("$.stock", is(0)));
 		assertEquals(1, util.getRepository().findAll().size() - count);
 		assertEquals(1, util.getImageRepository().findAll().size() - imageCount);
 

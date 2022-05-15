@@ -1,9 +1,6 @@
 package com.xtsshop.app.service.orders;
 
-import com.xtsshop.app.advice.exception.ItemPriceNotDefinedException;
-import com.xtsshop.app.advice.exception.RecordNotFoundException;
-import com.xtsshop.app.advice.exception.OrderStatusUpdateException;
-import com.xtsshop.app.advice.exception.UnAuthorizationException;
+import com.xtsshop.app.advice.exception.*;
 import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.AddressBuilder;
 import com.xtsshop.app.db.entities.builder.OrderBuilder;
@@ -15,6 +12,7 @@ import com.xtsshop.app.request.orders.PaymentCreateRequest;
 import com.xtsshop.app.service.addresses.AddressesCRUDService;
 import com.xtsshop.app.service.items.ItemsService;
 import com.xtsshop.app.service.payments.PaymentsService;
+import com.xtsshop.app.service.users.AllowOnlySameUserService;
 import com.xtsshop.app.service.users.TargetUserService;
 import com.xtsshop.app.util.DateTimeUtil;
 import org.slf4j.Logger;
@@ -33,6 +31,7 @@ public class OrdersService {
     private UserRepository userRepository;
     private AddressesCRUDService addressesCRUDService;
     private TargetUserService targetUserService;
+    private AllowOnlySameUserService allowOnlySameUserService;
     private OrderAuthorizationService orderAuthorizationService;
     private ItemsService itemsService;
     public OrdersService(
@@ -42,7 +41,8 @@ public class OrdersService {
             OrderAuthorizationService orderAuthorizationService,
             ItemsService itemsService,
             PaymentRepository paymentRepository,
-            UserRepository userRepository
+            UserRepository userRepository,
+            AllowOnlySameUserService allowOnlySameUserService
     ) {
         this.repository = repository;
         this.addressesCRUDService = addressesCRUDService;
@@ -51,6 +51,7 @@ public class OrdersService {
         this.itemsService = itemsService;
         this.paymentRepository = paymentRepository;
         this.userRepository = userRepository;
+        this.allowOnlySameUserService = allowOnlySameUserService;
     }
 
     public List<Order> all(){
@@ -72,16 +73,15 @@ public class OrdersService {
                         orderedItem.setCreatedAt(now);
                         orderedItem.setUpdatedAt(now);
                         orderedItem.setItem(itemEntity);
-                        orderedItem.setOrderPrice(itemEntity.getLatestPriceHistory().orElseThrow());
                         orderedItem.setQuantity(item.getQuantity());
+                        updateItemStock(itemEntity, item.getQuantity());
                         return orderedItem;
-                    } catch (RecordNotFoundException e) {
+                    } catch (RecordNotFoundException | ItemOutOfStockException | InsufficientItemStockException e) {
                         throw new RuntimeException(e);
                     }
-
                 })
                 .collect(Collectors.toList());
-        AppUser user = targetUserService.getUser(null);
+        AppUser user = allowOnlySameUserService.getUser(request.getUsername());
         Address address = getAddress(request, user);
         OrderStatus status = OrderStatus.WAITING_PAYMENT;
         Order order = new OrderBuilder()
@@ -99,10 +99,17 @@ public class OrdersService {
         if(order.getStatus() == OrderStatus.SHIPPED || order.getStatus() == OrderStatus.SHIPPING)
             throw new OrderStatusUpdateException("Order cannot be canceled.");
         order.setStatus(OrderStatus.CANCELED);
+        order.getOrderedItems().forEach(orderedItem->{
+            int updatedItemStock = orderedItem.getItem().getStock() + orderedItem.getQuantity();
+            orderedItem.getItem().setStock(updatedItemStock);
+        });
         return repository.save(order);
     }
     public Order pay(Long id, PaymentCreateRequest paymentCreateRequest) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException{
         Order order = get(id);
+        if(!allowOnlySameUserService.canUserAccess(order.getUser().getUsername())){
+            throw new UnAuthorizationException();
+        }
         if(order.getStatus() != OrderStatus.WAITING_PAYMENT){
             throw new OrderStatusUpdateException("Order is paid.");
         }
@@ -180,7 +187,26 @@ public class OrdersService {
     }
     public float getItemPriceTotal(Order order){
         return order.getOrderedItems().stream()
-                .map(orderItem->orderItem.getOrderPrice().getValue() * orderItem.getQuantity())
+                .map(orderItem->{
+                    try {
+                        PriceHistory price = Optional.ofNullable(orderItem.getOrderPrice())
+                            .orElse(orderItem.getItem().getLatestPriceHistory().orElseThrow(()-> ItemPriceNotDefinedException.build()));
+                        return price.getValue() * orderItem.getQuantity();
+                    }catch (ItemPriceNotDefinedException ex){
+                        throw new RuntimeException(ex);
+                    }
+                })
                 .reduce(0f, Float::sum);
+    }
+    public void updateItemStock(Item item, int orderedQuantity) throws InsufficientItemStockException, ItemOutOfStockException {
+        int itemStock = item.getStock();
+        if(itemStock - orderedQuantity < 0){
+            throw new InsufficientItemStockException("Item "+item.getName()+" does not have enough stock");
+        }
+        if(itemStock <= 0){
+            throw ItemOutOfStockException.build();
+        }
+        item.setStock(itemStock - orderedQuantity);
+
     }
 }

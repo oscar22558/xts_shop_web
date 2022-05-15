@@ -4,7 +4,7 @@ import apiConfig from "../apiConfig";
 export const api = {
     get: ()=>axios({
         ...apiConfig,
-        url: "/",
+        url: "",
     })
 }
 export default api

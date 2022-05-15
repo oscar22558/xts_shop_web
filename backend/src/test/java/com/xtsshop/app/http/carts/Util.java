@@ -4,12 +4,14 @@ import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.db.repositories.UserRepository;
 import lombok.Getter;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Component("tests.http.carts.Util")
 public class Util {
     private ItemRepository itemRepository;
     private UserRepository userRepository;

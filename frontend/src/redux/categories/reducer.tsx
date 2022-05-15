@@ -1,5 +1,5 @@
 import {Action, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import Category from "../dto/Category";
+import Category from "./dto/Category";
 
 
 interface State {

@@ -4,6 +4,10 @@ import javax.annotation.Nullable;
 
 public class UnAuthorizationException extends Exception{
 
+    public UnAuthorizationException(){
+        super("Access Forbidden");
+    }
+
     public UnAuthorizationException(String message) {
         super(message);
     }

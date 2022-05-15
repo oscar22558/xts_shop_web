@@ -13,32 +13,44 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
+import javax.validation.constraints.Null;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
 public class TargetUserService {
-    private UserIdentityService userIdentityService;
-    private UsersCRUDService usersCRUDService;
+    protected UserIdentityService userIdentityService;
+    protected UsersCRUDService usersCRUDService;
 
     public TargetUserService(UserIdentityService userIdentityService, UsersCRUDService usersCRUDService) {
         this.userIdentityService = userIdentityService;
         this.usersCRUDService = usersCRUDService;
     }
 
-    public AppUser getUser(@Nullable String username) throws UnAuthorizationException, UsernameNotFoundException {
+    public boolean authedUserIsAdmin(){
         Set<Role> authedUserRoles = userIdentityService.getUser().getRoles();
-        boolean authedUserIsAdmin = authedUserRoles.stream()
+        return authedUserRoles.stream()
                 .filter((role)-> role.getName().name().equals(RoleType.ROLE_ADMIN.name()))
                 .findFirst()
                 .orElse(null) != null;
-        if(authedUserIsAdmin){
+    }
+    public boolean isSameUser(AppUser user1, AppUser user2){
+        return Objects.equals(user1.getUsername(), user2.getUsername());
+    }
+    public boolean canUserAccess(String username){
+        boolean authedUserIsAdmin = authedUserIsAdmin();
+        boolean isSameUser = isSameUser(
+                userIdentityService.getUser(),
+                usersCRUDService.findUserByUserName(username)
+                );
+        return authedUserIsAdmin || isSameUser;
+    }
+    public AppUser getUser(String username) throws UnAuthorizationException{
+        boolean userCanAccess = canUserAccess(username);
+        if(userCanAccess){
             return usersCRUDService.findUserByUserName(username);
-        }else{
-            if(username == null){
-                return userIdentityService.getUser();
-            }else{
-                throw new UnAuthorizationException("Access forbidden");
-            }
+        }else {
+            throw new UnAuthorizationException();
         }
     }
 }

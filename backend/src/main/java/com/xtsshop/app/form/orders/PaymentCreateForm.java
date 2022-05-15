@@ -17,7 +17,7 @@ public class PaymentCreateForm {
     @NotNull
     @Min(0)
     private Float paidTotal;
-    @NotBlank
+    @NotNull
     private PaymentType paymentType;
     @NotBlank
     private String cardNum;

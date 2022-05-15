@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class IndexTest {
     @Autowired
     private Util util;
@@ -37,13 +39,11 @@ public class IndexTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_HALJSON))
                 .andExpect(jsonPath("$._embedded.itemModelList", hasSize(2)))
-                .andExpect(jsonPath("$._embedded.itemModelList.[0].id", is(7)))
                 .andExpect(jsonPath("$._embedded.itemModelList.[0].name", is("apple")))
-                .andExpect(jsonPath("$._embedded.itemModelList.[0].price", is(12.2)))
+                .andExpect(jsonPath("$._embedded.itemModelList.[0].price.value", is(12.2)))
                 .andExpect(jsonPath("$._embedded.itemModelList.[0].manufacturer", is("manufacturer 1")))
-                .andExpect(jsonPath("$._embedded.itemModelList.[1].id", is(8)))
                 .andExpect(jsonPath("$._embedded.itemModelList.[1].name", is("orange")))
-                .andExpect(jsonPath("$._embedded.itemModelList.[1].price", is(23.2)))
+                .andExpect(jsonPath("$._embedded.itemModelList.[1].price.value", is(23.2)))
                 .andExpect(jsonPath("$._embedded.itemModelList.[1].manufacturer", is("manufacturer 2")));
 
     }

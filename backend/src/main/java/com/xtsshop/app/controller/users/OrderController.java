@@ -9,7 +9,7 @@ import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.db.entities.payment.Payment;
 import com.xtsshop.app.db.repositories.CategoryRepository;
 import com.xtsshop.app.form.orders.OrderCreateForm;
-import com.xtsshop.app.form.orders.OrderListForm;
+import com.xtsshop.app.request.orders.OrderCreateRequest;
 import com.xtsshop.app.request.orders.PaymentCreateRequest;
 import com.xtsshop.app.response.CreateResponseBuilder;
 import com.xtsshop.app.service.auth.UserIdentityService;
@@ -22,10 +22,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.Optional;
 
 @RestController("users.OrderController")
-@RequestMapping("/api/users/orders")
+@RequestMapping("/api/users/{username}/orders")
 public class OrderController {
     private UserIdentityService userIdentityService;
     private OrderModelAssembler modelAssembler;
@@ -40,13 +41,15 @@ public class OrderController {
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<OrderModel>> list(@Valid @RequestBody OrderListForm form) throws UnAuthorizationException {
-        AppUser user = targetUserService.getUser(form.getUsername());
+    public CollectionModel<EntityModel<OrderModel>> list(@NotBlank @PathVariable String username) throws UnAuthorizationException {
+        AppUser user = targetUserService.getUser(username);
         return modelAssembler.toCollectionModel(user.getOrders());
     }
     @PostMapping
-    public ResponseEntity<?> place(@Valid @RequestBody OrderCreateForm form) throws RecordNotFoundException, UnAuthorizationException {
-        Order entity = ordersService.create(form.toRequest());
+    public ResponseEntity<?> place(@NotBlank @PathVariable String username, @Valid @RequestBody OrderCreateForm form) throws RecordNotFoundException, UnAuthorizationException {
+        OrderCreateRequest orderCreateRequest = form.toRequest();
+        orderCreateRequest.setUsername(username);
+        Order entity = ordersService.create(orderCreateRequest);
         Optional.ofNullable(form.getPayment()).ifPresent(paymentCreateForm -> {
             PaymentCreateRequest request = paymentCreateForm.toRequest(
                     ordersService.getItemPriceTotal(entity)

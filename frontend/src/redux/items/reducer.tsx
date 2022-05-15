@@ -1,6 +1,6 @@
 import {Action, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import HttpResponse from "../dto/HttpResponse";
-import Item from "../dto/Item";
+import Item from "./dto/Item";
 interface State {
     all: {
         of: {
