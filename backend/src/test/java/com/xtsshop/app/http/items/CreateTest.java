@@ -3,7 +3,7 @@ package com.xtsshop.app.http.items;
 import com.xtsshop.app.db.repositories.ImageRepository;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.http.TestCase;
-import com.xtsshop.app.service.storage.StorageService;
+import com.xtsshop.app.domain.service.storage.StorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

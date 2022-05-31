@@ -1,10 +1,9 @@
 package com.xtsshop.app.viewmodel.builder;
 
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.service.storage.StorageService;
+import com.xtsshop.app.domain.service.storage.StorageService;
 import com.xtsshop.app.viewmodel.ItemModel;
 import com.xtsshop.app.viewmodel.PriceHistoryModel;
-import lombok.NoArgsConstructor;
 
 import java.util.Optional;
 

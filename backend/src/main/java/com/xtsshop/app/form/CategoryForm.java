@@ -1,7 +1,6 @@
 package com.xtsshop.app.form;
 
-import com.xtsshop.app.db.entities.Category;
-import com.xtsshop.app.request.CategoryRequest;
+import com.xtsshop.app.domain.request.categories.CategoryRequest;
 import lombok.Setter;
 
 import javax.annotation.Nullable;

@@ -9,7 +9,6 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import CategoriesTabs from "./CategoriesTabs";
 import {Link} from "@mui/material";
 
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -35,7 +34,7 @@ const ResponsiveAppBar = () => {
 
     return (
         <AppBar position="static">
-            <Container maxWidth="xl" sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+            <Container maxWidth="xl" sx={{display: "flex", flexDirection: "row", alignItems: "center", paddingTop: "10px", paddingBottom: "10px"}}>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
                         <IconButton
                             size="large"
@@ -92,7 +91,6 @@ const ResponsiveAppBar = () => {
                         </Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        <CategoriesTabs />
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>

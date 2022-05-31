@@ -1,13 +1,10 @@
 package com.xtsshop.app.http.items;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.db.repositories.CategoryRepository;
 import com.xtsshop.app.db.repositories.ImageRepository;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.http.TestCase;
-import com.xtsshop.app.service.storage.StorageService;
+import com.xtsshop.app.domain.service.storage.StorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,11 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;

@@ -1,6 +1,6 @@
 package com.xtsshop.app.form.orders;
 
-import com.xtsshop.app.request.orders.OrderedItemCreateRequest;
+import com.xtsshop.app.domain.request.orders.OrderedItemCreateRequest;
 import lombok.Getter;
 import lombok.Setter;
 

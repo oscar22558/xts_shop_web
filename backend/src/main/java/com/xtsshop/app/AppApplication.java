@@ -1,8 +1,7 @@
 package com.xtsshop.app;
 
-import com.xtsshop.app.db.repositories.PaymentRepository;
-import com.xtsshop.app.service.storage.StorageProperties;
-import com.xtsshop.app.service.storage.StorageService;
+import com.xtsshop.app.domain.service.storage.StorageProperties;
+import com.xtsshop.app.domain.service.storage.StorageService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

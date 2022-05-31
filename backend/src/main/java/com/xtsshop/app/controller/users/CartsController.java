@@ -5,7 +5,7 @@ import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.form.CartForm;
 import com.xtsshop.app.response.CreateResponseBuilder;
 import com.xtsshop.app.response.DeleteResponseBuilder;
-import com.xtsshop.app.service.users.carts.CartsService;
+import com.xtsshop.app.domain.service.users.carts.CartsService;
 import com.xtsshop.app.viewmodel.ItemModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

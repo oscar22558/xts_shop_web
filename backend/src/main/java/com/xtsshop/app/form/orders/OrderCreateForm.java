@@ -1,14 +1,13 @@
 package com.xtsshop.app.form.orders;
 
 import com.xtsshop.app.form.addresses.AddressCreateForm;
-import com.xtsshop.app.request.orders.OrderCreateRequest;
+import com.xtsshop.app.domain.request.orders.OrderCreateRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;

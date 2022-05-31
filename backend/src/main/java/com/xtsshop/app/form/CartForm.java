@@ -1,6 +1,6 @@
 package com.xtsshop.app.form;
 
-import com.xtsshop.app.request.users.cart.CartRequest;
+import com.xtsshop.app.domain.request.users.cart.CartRequest;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;

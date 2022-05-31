@@ -1,17 +1,10 @@
 package com.xtsshop.app.viewmodel.builder;
 
-import com.xtsshop.app.assembler.ItemModelAssembler;
 import com.xtsshop.app.db.entities.Order;
-import com.xtsshop.app.db.entities.OrderedItem;
-import com.xtsshop.app.db.entities.PriceHistory;
-import com.xtsshop.app.service.storage.StorageService;
-import com.xtsshop.app.util.DateTimeUtil;
+import com.xtsshop.app.domain.service.storage.StorageService;
 import com.xtsshop.app.viewmodel.*;
-import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

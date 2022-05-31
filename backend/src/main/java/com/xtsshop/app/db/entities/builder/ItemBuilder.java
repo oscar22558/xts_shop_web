@@ -21,7 +21,7 @@ public class ItemBuilder {
     private Image image;
     private List<PriceHistory> priceHistories;
     private Category category;
-
+    private Brand brand;
     public ItemBuilder setName(String name) {
         this.name = name;
         return this;
@@ -53,6 +53,12 @@ public class ItemBuilder {
         this.category = category;
         return this;
     }
+
+    public ItemBuilder setBrand(Brand brand) {
+        this.brand = brand;
+        return this;
+    }
+
     public Item build(){
         Date now = new Date(Calendar.getInstance().getTimeInMillis());
         Item item = new Item();

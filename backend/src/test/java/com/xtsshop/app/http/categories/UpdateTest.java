@@ -1,10 +1,9 @@
 package com.xtsshop.app.http.categories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.db.repositories.CategoryRepository;
 import com.xtsshop.app.http.TestCase;
-import com.xtsshop.app.request.CategoryRequest;
+import com.xtsshop.app.domain.request.categories.CategoryRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;

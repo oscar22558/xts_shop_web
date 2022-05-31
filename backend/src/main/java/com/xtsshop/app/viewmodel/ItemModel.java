@@ -1,13 +1,10 @@
 package com.xtsshop.app.viewmodel;
 
-import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.service.storage.StorageService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
-import java.util.Optional;
 
 @Getter
 @Setter

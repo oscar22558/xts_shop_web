@@ -1,7 +1,7 @@
 package com.xtsshop.app.form;
 
-import com.xtsshop.app.request.ItemRequest;
-import com.xtsshop.app.request.builder.ItemRequestBuilder;
+import com.xtsshop.app.domain.request.ItemRequest;
+import com.xtsshop.app.domain.request.builder.ItemRequestBuilder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,17 +1,15 @@
 package com.xtsshop.app.http.items;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.entities.PriceHistory;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
 import com.xtsshop.app.db.repositories.ImageRepository;
 import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.service.storage.StorageService;
+import com.xtsshop.app.domain.service.storage.StorageService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;

@@ -1,23 +1,19 @@
 package com.xtsshop.app.http.categories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.repositories.CategoryRepository;
 import com.xtsshop.app.http.TestCase;
-import com.xtsshop.app.request.CategoryRequest;
+import com.xtsshop.app.domain.request.categories.CategoryRequest;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.Comparator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

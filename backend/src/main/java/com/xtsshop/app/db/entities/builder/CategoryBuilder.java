@@ -4,6 +4,7 @@ import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.util.DateTimeUtil;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryBuilder {
@@ -11,7 +12,10 @@ public class CategoryBuilder {
     private Category parent;
     private List<Category> subCategories;
     private List<Item> items;
-
+    public CategoryBuilder(){
+        subCategories = new ArrayList<>();
+        items = new ArrayList<>();
+    }
     public CategoryBuilder setName(String name) {
         this.name = name;
         return this;

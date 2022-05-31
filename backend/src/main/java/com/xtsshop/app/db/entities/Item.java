@@ -31,10 +31,10 @@ public class Item extends AppEntity{
     @Column(nullable = false)
     private int stock;
 
-    @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Image image;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OrderBy(value = "createdAt DESC ")
     private List<PriceHistory> priceHistories;
 
@@ -44,6 +44,10 @@ public class Item extends AppEntity{
 
     @ManyToMany(mappedBy = "cart")
     private Set<AppUser> users;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
 
     public Item(long id) {
         super(id);

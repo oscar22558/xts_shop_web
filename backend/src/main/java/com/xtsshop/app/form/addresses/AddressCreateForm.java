@@ -1,6 +1,6 @@
 package com.xtsshop.app.form.addresses;
 
-import com.xtsshop.app.request.users.addresses.AddressCreateRequest;
+import com.xtsshop.app.domain.request.users.addresses.AddressCreateRequest;
 import lombok.Getter;
 import lombok.Setter;
 

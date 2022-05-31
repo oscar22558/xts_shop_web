@@ -3,7 +3,7 @@ package com.xtsshop.app.assembler;
 import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.controller.items.ItemsController;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.service.storage.StorageService;
+import com.xtsshop.app.domain.service.storage.StorageService;
 import com.xtsshop.app.viewmodel.ItemModel;
 import com.xtsshop.app.viewmodel.builder.ItemModelBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

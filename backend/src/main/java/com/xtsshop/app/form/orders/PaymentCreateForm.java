@@ -1,7 +1,7 @@
 package com.xtsshop.app.form.orders;
 
 import com.xtsshop.app.db.entities.payment.PaymentType;
-import com.xtsshop.app.request.orders.PaymentCreateRequest;
+import com.xtsshop.app.domain.request.orders.PaymentCreateRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
