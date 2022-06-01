@@ -13,10 +13,10 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Set<Item> findAllByPriceHistoryIds(List<Long> ids);
     @Query(value = "select i from Item i left join PriceHistory p on i.id=p.item.id where p.id = :id")
     Item findByPriceHistoryId(Long id);
-    @Query(value = "select i from Item i where i.category.id in :categoryIds and i.price between :minPrice and :maxPrice")
+    @Query(value = "select i from Item i where i.category.id in :categoryIds and i.price between :minPrice and :maxPrice and i.brand.id in :brandIds")
     List<Item> findAllWithBrandIdAndPrice(List<Long> categoryIds, List<Long> brandIds, float maxPrice, float minPrice);
 
-    @Query(value = "select i from Item i where i.category.id in :categoryIds")
+    @Query(value = "select i from Item i where i.category.id in :categoryIds and i.brand.id in :brandId")
     List<Item> findAllWithBrandId(List<Long> categoryIds, List<Long> brandIds);
 
     @Query(value = "select i from Item i where i.category.id in :categoryIds and i.price between :minPrice and :maxPrice")

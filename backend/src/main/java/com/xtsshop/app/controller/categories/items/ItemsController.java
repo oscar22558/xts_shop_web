@@ -4,9 +4,8 @@ import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.assembler.ItemModelAssembler;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.domain.request.categories.GetCategoryItemsRequest;
-import com.xtsshop.app.domain.service.categories.GetCategoryItemsService;
+import com.xtsshop.app.domain.service.categories.items.GetCategoryItemsService;
 import com.xtsshop.app.form.ItemForm;
-import com.xtsshop.app.domain.service.categories.CategoriesService;
 import com.xtsshop.app.domain.service.items.ItemsService;
 import com.xtsshop.app.viewmodel.ItemModel;
 import org.springframework.hateoas.CollectionModel;
@@ -36,7 +35,7 @@ public class ItemsController {
 
     @GetMapping()
     @RequestMapping("/api/categories/items")
-    public CollectionModel<EntityModel<ItemModel>> all(
+    public CollectionModel<EntityModel<ItemModel>> list(
             @RequestParam Long[] categoryIds,
             @RequestParam Float minPrice,
             @RequestParam Float maxPrice,
@@ -54,7 +53,7 @@ public class ItemsController {
     }
     @GetMapping()
     @RequestMapping("/api/categories/{categoryId}/items")
-    public CollectionModel<EntityModel<ItemModel>> all(
+    public CollectionModel<EntityModel<ItemModel>> listAll(
             @PathVariable Long categoryId
     ) throws RecordNotFoundException {
         GetCategoryItemsRequest request = new GetCategoryItemsRequest();
