@@ -6,10 +6,10 @@ import com.xtsshop.app.db.repositories.AddressRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddressesCRUDService {
+public class AddressesService {
     private AddressRepository addressRepository;
 
-    public AddressesCRUDService(AddressRepository addressRepository) {
+    public AddressesService(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
     }
 

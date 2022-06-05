@@ -1,6 +1,5 @@
 package com.xtsshop.app.db.entities;
 
-import com.xtsshop.app.viewmodel.PriceHistoryModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

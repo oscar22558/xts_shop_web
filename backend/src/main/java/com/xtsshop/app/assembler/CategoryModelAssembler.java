@@ -31,7 +31,7 @@ public class CategoryModelAssembler extends AbstractModelAssembler<CategoryModel
                 linkTo(methodOn(CategoriesController.class).update(entity.getId(), null)).withRel("update"),
                 linkTo(methodOn(CategoriesController.class).delete(entity.getId())).withRel("delete"),
                 linkTo(methodOn(CategoriesController.class).all()).withRel("all"),
-                linkTo(methodOn(ItemsController.class).all(entity.getId())).withRel("items"),
+                linkTo(methodOn(ItemsController.class).listAll(entity.getId())).withRel("items"),
                 linkTo(methodOn(ItemsController.class).create(entity.getId(), null)).withRel("createItems")
             );
         } catch (RecordNotFoundException e) {

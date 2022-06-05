@@ -1,8 +1,8 @@
-package com.xtsshop.app.repository.Categories;
+package com.xtsshop.app.repository.categories;
 
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.repository.Categories.Helpers.RecursiveCategorySearcher;
+import com.xtsshop.app.repository.categories.helpers.RecursiveCategorySearcher;
 import com.xtsshop.app.repository.requests.Categories.BrandSearchOptions;
 import com.xtsshop.app.repository.requests.Categories.PriceSearchOptions;
 import org.springframework.stereotype.Component;
@@ -48,15 +48,15 @@ public class CategoryItemRepo {
         float maxPrice = priceSearchOptions.flatMap((option)->Optional.of(option.getMaxPrice())).orElse(10000f);
         float minPrice = priceSearchOptions.flatMap((option)->Optional.of(option.getMinPrice())).orElse(0f);
         if(isBrandFilterSet()){
-            return itemRepository.findAllWithBrandIdAndPrice(categoryIds, brandIds, maxPrice, minPrice);
+            return itemRepository.findAllForCategoriesWithBrandIdAndPrice(categoryIds, brandIds, maxPrice, minPrice);
         }
-        return itemRepository.findAllWithPrice(categoryIds, maxPrice, minPrice);
+        return itemRepository.findAllForCategoriesWithPrice(categoryIds, maxPrice, minPrice);
     }
     public List<Item> findItemsUnderCategoriesWithoutPriceFilter(){
         if(isBrandFilterSet()){
-            return itemRepository.findAllWithBrandId(categoryIds, brandIds);
+            return itemRepository.findAllForCategoriesWithBrandId(categoryIds, brandIds);
         }
-        return itemRepository.findAllById(categoryIds);
+        return itemRepository.findAllForCategories(categoryIds);
     }
 
     private boolean isBrandFilterSet(){

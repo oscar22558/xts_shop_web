@@ -16,6 +16,5 @@ public class Brand extends AppEntity{
     private String name;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JoinColumn
     private List<Item> items;
 }

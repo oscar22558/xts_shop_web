@@ -14,8 +14,9 @@ public class ItemModel implements AbstractViewModel {
     private Date createdAt;
     private Date updatedAt;
     private String name;
-    private PriceHistoryModel price;
+    private PriceHistoryViewModel price;
     private String imgUrl;
     private String manufacturer;
     private Integer stock;
+    private BrandViewModel brand;
 }

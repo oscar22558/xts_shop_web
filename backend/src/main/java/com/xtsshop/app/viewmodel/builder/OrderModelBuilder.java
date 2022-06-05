@@ -1,6 +1,8 @@
 package com.xtsshop.app.viewmodel.builder;
 
+import com.xtsshop.app.db.entities.Brand;
 import com.xtsshop.app.db.entities.Order;
+import com.xtsshop.app.db.entities.OrderedItem;
 import com.xtsshop.app.domain.service.storage.StorageService;
 import com.xtsshop.app.viewmodel.*;
 
@@ -26,22 +28,32 @@ public class OrderModelBuilder {
         model.setAddress(AddressViewModel.from(entity.getShippingAddress()));
         model.setUser(UserViewModel.from(entity.getUser()));
         model.setOrderStatus(entity.getStatus().name());
-        Collection<OrderedItemModel> orderedItemModels = entity.getOrderedItems().stream().map(orderedItem->{
-            ItemModelBuilder itemModelBuilder = new ItemModelBuilder()
-                    .setItemEntity(orderedItem.getItem())
-                    .setStorageService(storageService);
-            Optional.ofNullable(orderedItem.getOrderPrice())
-                    .ifPresent((history)->{
-                        itemModelBuilder.setPriceHistoryModel(
-                            new PriceHistoryModel(history.getId(), history.getCreatedAt(), history.getValue())
-                        );
-                    });
-            return new OrderedItemModel(
-                    itemModelBuilder.build(),
-                    orderedItem.getQuantity()
-            );
-        }).collect(Collectors.toList());
+        Collection<OrderedItemModel> orderedItemModels = getOrderItemViewModels(entity);
         model.setItems(orderedItemModels);
         return model;
+    }
+
+    private Collection<OrderedItemModel> getOrderItemViewModels(Order entity){
+        return entity.getOrderedItems().stream().map(orderedItem->new OrderedItemModel(
+            buildItemModel(orderedItem),
+            orderedItem.getQuantity()
+        )).collect(Collectors.toList());
+    }
+    private ItemModel buildItemModel(OrderedItem orderedItem){
+        ItemModelBuilder builder = new ItemModelBuilder()
+                .setItemEntity(orderedItem.getItem())
+                .setStorageService(storageService);
+        replaceOrderPrice(builder, orderedItem);
+        builder.setBrand(orderedItem.getItem().getBrand());
+        return builder.build();
+    }
+    private ItemModelBuilder replaceOrderPrice(ItemModelBuilder builder, OrderedItem orderedItem){
+        Optional.ofNullable(orderedItem.getOrderPrice())
+                .ifPresent((history)->{
+                    builder.replacePriceHistoryModel(
+                            new PriceHistoryViewModel(history.getId(), history.getCreatedAt(), history.getValue())
+                    );
+                });
+        return builder;
     }
 }

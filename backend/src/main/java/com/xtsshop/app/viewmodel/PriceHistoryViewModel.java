@@ -5,25 +5,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.GenerationType;
 import java.sql.Date;
 
 @Getter
 @NoArgsConstructor
 @Setter
-public class PriceHistoryModel {
+public class PriceHistoryViewModel {
     private Long id;
     private Date createAt;
     private Float value;
 
-    public PriceHistoryModel(Long id, Date createAt, Float value) {
+    public PriceHistoryViewModel(Long id, Date createAt, Float value) {
         this.id = id;
         this.createAt = createAt;
         this.value = value;
     }
 
-    public static PriceHistoryModel from(PriceHistory entity){
-        return new PriceHistoryModel(
+    public static PriceHistoryViewModel from(PriceHistory entity){
+        return new PriceHistoryViewModel(
                 entity.getId(),
                 entity.getCreatedAt(),
                 entity.getValue()

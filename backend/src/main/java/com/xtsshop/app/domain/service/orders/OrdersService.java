@@ -9,7 +9,7 @@ import com.xtsshop.app.db.repositories.*;
 import com.xtsshop.app.domain.request.orders.OrderCreateRequest;
 import com.xtsshop.app.domain.request.users.addresses.AddressCreateRequest;
 import com.xtsshop.app.domain.request.orders.PaymentCreateRequest;
-import com.xtsshop.app.domain.service.addresses.AddressesCRUDService;
+import com.xtsshop.app.domain.service.addresses.AddressesService;
 import com.xtsshop.app.domain.service.items.ItemsService;
 import com.xtsshop.app.domain.service.users.AllowOnlySameUserService;
 import com.xtsshop.app.domain.service.users.TargetUserService;
@@ -26,14 +26,14 @@ public class OrdersService {
     private OrderRepository repository;
     private PaymentRepository paymentRepository;
     private UserRepository userRepository;
-    private AddressesCRUDService addressesCRUDService;
+    private AddressesService addressesService;
     private TargetUserService targetUserService;
     private AllowOnlySameUserService allowOnlySameUserService;
     private OrderAuthorizationService orderAuthorizationService;
     private ItemsService itemsService;
     public OrdersService(
             OrderRepository repository,
-            AddressesCRUDService addressesCRUDService,
+            AddressesService addressesService,
             TargetUserService targetUserService,
             OrderAuthorizationService orderAuthorizationService,
             ItemsService itemsService,
@@ -42,7 +42,7 @@ public class OrdersService {
             AllowOnlySameUserService allowOnlySameUserService
     ) {
         this.repository = repository;
-        this.addressesCRUDService = addressesCRUDService;
+        this.addressesService = addressesService;
         this.targetUserService = targetUserService;
         this.orderAuthorizationService = orderAuthorizationService;
         this.itemsService = itemsService;
@@ -179,7 +179,7 @@ public class OrdersService {
             user.getAddresses().add(address);
             return address;
         }else{
-            return addressesCRUDService.get(request.getAddressId());
+            return addressesService.get(request.getAddressId());
         }
     }
     public float getItemPriceTotal(Order order){

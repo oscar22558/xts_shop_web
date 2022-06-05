@@ -10,15 +10,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-class LoadDatabase {
+public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(CategoryRepository repository, ItemRepository itemRepository, ImageRepository imageRepository, UserRepository userRepository, RoleRepository roleRepository, PrivilegeRepository privilegeRepository) {
-        new DevelopmentDataSeed(
-            repository, itemRepository, imageRepository, userRepository, roleRepository, privilegeRepository
-        ).insertData();
+    public CommandLineRunner initDatabase(DevelopmentDataSeed seed) {
+        seed.insertData();
         return args -> {};
     }
 }

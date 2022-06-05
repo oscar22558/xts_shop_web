@@ -15,10 +15,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
 @EnableJpaRepositories("com.xtsshop.app.db.repositories")
-public class AppApplication {
+public class XtsShopApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AppApplication.class, args);
+		SpringApplication.run(XtsShopApplication.class, args);
 	}
 
 	@Bean

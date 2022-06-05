@@ -59,6 +59,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setPrice(float price) {
+        this.price = price;
+        return this;
+    }
+
     public Item build(){
         Date now = new Date(Calendar.getInstance().getTimeInMillis());
         Item item = new Item();
@@ -69,9 +74,13 @@ public class ItemBuilder {
         item.setManufacturer(manufacturer);
         item.setStock(stock);
         item.setImage(image);
+
+        if(priceHistories == null) priceHistories = new ArrayList<>();
         priceHistories.forEach(history->history.setItem(item));
         item.setPriceHistories(priceHistories);
+
         item.setCategory(category);
+        item.setBrand(brand);
         return item;
     }
 }
