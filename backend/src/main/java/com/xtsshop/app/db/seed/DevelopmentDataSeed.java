@@ -3,12 +3,10 @@ package com.xtsshop.app.db.seed;
 import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.*;
 import com.xtsshop.app.db.repositories.*;
-import org.hibernate.Hibernate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,7 +90,7 @@ public class DevelopmentDataSeed {
         );
         setPriceForItem(item2, 23.2f);
         Item item3 = itemRepository.save(new ItemBuilder()
-                .setName("USB data cable")
+                .setName("2M USB 3.0 data cable")
                 .setManufacturer("manufacturer 1")
                 .setCategory(category5)
                 .setStock(102)
@@ -101,7 +99,7 @@ public class DevelopmentDataSeed {
                 .build()
         );
         setPriceForItem(item3, 44.2f);
-        Item item4 = itemRepository.save(new ItemBuilder().setName("stand")
+        Item item4 = itemRepository.save(new ItemBuilder().setName("ABC stand")
                 .setManufacturer("manufacturer 2")
                 .setCategory(category5)
                 .setStock(103)

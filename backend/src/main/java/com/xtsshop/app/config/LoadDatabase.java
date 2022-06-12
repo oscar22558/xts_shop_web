@@ -14,9 +14,9 @@ public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-    @Bean
-    public CommandLineRunner initDatabase(DevelopmentDataSeed seed) {
-        seed.insertData();
-        return args -> {};
-    }
+//    @Bean
+//    public CommandLineRunner initDatabase(DevelopmentDataSeed seed) {
+//        seed.insertData();
+//        return args -> {};
+//    }
 }
