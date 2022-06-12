@@ -1,4 +1,4 @@
-package com.xtsshop.app.datasource.requests.categories;
+package com.xtsshop.app.datasource.requests.items;
 
 import lombok.Getter;
 

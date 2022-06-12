@@ -1,7 +1,6 @@
 package com.xtsshop.app.controller.categories;
 
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 

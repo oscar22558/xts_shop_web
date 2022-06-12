@@ -41,7 +41,9 @@ public class ItemsController {
             @RequestParam(value = "categoryIds[]") Long[] categoryIds,
             @RequestParam(value = "brandIds[]", required = false) Long[] brandIds,
             @RequestParam(required = false) Float maxPrice,
-            @RequestParam(required = false) Float minPrice
+            @RequestParam(required = false) Float minPrice,
+            @RequestParam String sortingField,
+            @RequestParam String sortingDirection
     ) throws RecordNotFoundException {
         GetCategoryItemsRequest request = new GetCategoryItemsRequest();
         List<Long> categoryIdList = Arrays.stream(categoryIds).collect(Collectors.toList());
@@ -51,21 +53,24 @@ public class ItemsController {
         request.setMaxPrice(Optional.ofNullable(maxPrice));
         request.setMinPrice(Optional.ofNullable(minPrice));
         request.setBrandIds(brandIdList);
+        request.setSortingField(sortingField);
+        request.setSortingDirection(sortingDirection);
         List<Item> items = getCategoryItemsService.getItems(request);
-        Logger logger = LoggerFactory.getLogger(ItemsController.class);
-        logger.info("============= items ===================");
-        logger.info(items.toString());
         return modelAssembler.toCollectionModel(items);
     }
     @GetMapping("/api/categories/{categoryId}/items")
     public CollectionModel<EntityModel<ItemModel>> listAll(
-            @PathVariable Long categoryId
+            @PathVariable Long categoryId,
+            @RequestParam String sortingField,
+            @RequestParam String sortingDirection
     ) throws RecordNotFoundException {
         GetCategoryItemsRequest request = new GetCategoryItemsRequest();
         request.setCategoryId(Optional.of(categoryId));
         request.setMaxPrice(Optional.empty());
         request.setMinPrice(Optional.empty());
         request.setBrandIds(new ArrayList<>());
+        request.setSortingField(sortingField);
+        request.setSortingDirection(sortingDirection);
         List<Item> items = getCategoryItemsService.getItems(request);
 
         return modelAssembler.toCollectionModel(items);

@@ -2,9 +2,9 @@ package com.xtsshop.app.domain.service.categories.items;
 
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.domain.request.categories.GetCategoryItemsRequest;
-import com.xtsshop.app.datasource.repositories.categories.CategoryItemRepo;
-import com.xtsshop.app.datasource.requests.categories.BrandSearchOptions;
-import com.xtsshop.app.datasource.requests.categories.PriceSearchOptions;
+import com.xtsshop.app.datasource.repositories.items.CategoryItemRepo;
+import com.xtsshop.app.datasource.requests.items.BrandSearchOptions;
+import com.xtsshop.app.datasource.requests.items.PriceSearchOptions;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;

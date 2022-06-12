@@ -67,4 +67,48 @@ public class ListAllTest {
                 .andExpect(jsonPath("$._embedded.itemModelList.[1].price.value", is(23.2)))
                 .andExpect(jsonPath("$._embedded.itemModelList.[1].manufacturer", is("manufacturer 2")));
     }
+
+    @Test
+    public void testCaseItemsAscSortedByPrice() throws Exception {
+
+        util.insertData();
+        ResultActions response = util.getMockMvc().perform(buildRequestWithPriceAscSorting()).andDo(print());
+        assertItemsAscSortedByPrice(response);
+    }
+
+    private MockHttpServletRequestBuilder buildRequestWithPriceAscSorting(){
+        long categoryId = util.getCategoryIdByName("food");
+        return get(util.getIndexRoute(categoryId))
+                .param("sorting", "price")
+                .param("sortingDirection", "asc");
+    }
+
+    private void assertItemsAscSortedByPrice(ResultActions response) throws Exception{
+        response
+                .andExpect(jsonPath("$._embedded.itemModelList.[0].name", is("apple")))
+                .andExpect(jsonPath("$._embedded.itemModelList.[1].name", is("orange")))
+                .andExpect(jsonPath("$._embedded.itemModelList.[2].name", is("2M USB 3.0 data cable")));
+
+    }
+
+    @Test
+    public void testCaseItemsDescSortedByPrice() throws Exception {
+        util.insertData();
+        ResultActions response = util.getMockMvc().perform(buildRequestWithPriceDescSorting()).andDo(print());
+        assertItemsDescSortedByPrice(response);
+    }
+
+    private MockHttpServletRequestBuilder buildRequestWithPriceDescSorting(){
+        long categoryId = util.getCategoryIdByName("food");
+        return get(util.getIndexRoute(categoryId))
+                .param("sorting", "price")
+                .param("sortingDirection", "asc");
+    }
+
+    private void assertItemsDescSortedByPrice(ResultActions response) throws Exception{
+        response
+                .andExpect(jsonPath("$._embedded.itemModelList.[2].name", is("apple")))
+                .andExpect(jsonPath("$._embedded.itemModelList.[1].name", is("orange")))
+                .andExpect(jsonPath("$._embedded.itemModelList.[0].name", is("2M USB 3.0 data cable")));
+    }
 }

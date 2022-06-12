@@ -1,10 +1,10 @@
-package com.xtsshop.app.datasource.repositories.categories;
+package com.xtsshop.app.datasource.repositories.items;
 
-import com.xtsshop.app.datasource.repositories.categories.helpers.RecursiveCategorySearcher;
+import com.xtsshop.app.datasource.repositories.items.helpers.RecursiveCategorySearcher;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.datasource.requests.categories.BrandSearchOptions;
-import com.xtsshop.app.datasource.requests.categories.PriceSearchOptions;
+import com.xtsshop.app.datasource.requests.items.BrandSearchOptions;
+import com.xtsshop.app.datasource.requests.items.PriceSearchOptions;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

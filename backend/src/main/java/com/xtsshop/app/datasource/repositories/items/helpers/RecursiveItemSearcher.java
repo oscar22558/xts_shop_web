@@ -1,4 +1,4 @@
-package com.xtsshop.app.datasource.repositories.categories.helpers;
+package com.xtsshop.app.datasource.repositories.items.helpers;
 
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.entities.Item;
