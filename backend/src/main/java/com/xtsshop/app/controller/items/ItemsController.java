@@ -3,14 +3,15 @@ package com.xtsshop.app.controller.items;
 import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.assembler.ItemModelAssembler;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.form.ItemForm;
-import com.xtsshop.app.domain.request.ItemRequest;
-import com.xtsshop.app.domain.request.builder.ItemRequestBuilder;
+import com.xtsshop.app.domain.request.items.images.UpdateItemImageRequest;
+import com.xtsshop.app.domain.service.items.*;
+import com.xtsshop.app.domain.request.items.CreateItemRequest;
+import com.xtsshop.app.domain.request.items.CreateItemRequestBuilder;
+import com.xtsshop.app.form.items.UpdateItemForm;
 import com.xtsshop.app.response.CreateResponseBuilder;
 import com.xtsshop.app.response.DeleteResponseBuilder;
 import com.xtsshop.app.response.UpdateResponseBuilder;
-import com.xtsshop.app.domain.service.images.ImagesService;
-import com.xtsshop.app.domain.service.items.ItemsService;
+import com.xtsshop.app.domain.service.items.images.ImagesService;
 import com.xtsshop.app.viewmodel.ItemModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -25,17 +26,21 @@ import javax.validation.constraints.NotBlank;
 @RequestMapping("/api/items")
 public class ItemsController{
 
-    private ItemsService service;
+    private QueryItemsService service;
     private ItemModelAssembler modelAssembler;
     private ImagesService imagesService;
-    public ItemsController(
-        ItemsService service,
-        ItemModelAssembler modelAssembler,
-        ImagesService imagesService
-    ){
+    private CreateItemService createItemService;
+    private UpdateItemService updateItemService;
+    private DeleteItemService deleteItemService;
+    private UpdateItemImageService updateItemImageService;
+
+    public ItemsController(QueryItemsService service, ItemModelAssembler modelAssembler, ImagesService imagesService, CreateItemService createItemService, UpdateItemService updateItemService, DeleteItemService deleteItemService) {
         this.service = service;
         this.modelAssembler = modelAssembler;
         this.imagesService = imagesService;
+        this.createItemService = createItemService;
+        this.updateItemService = updateItemService;
+        this.deleteItemService = deleteItemService;
     }
 
     @GetMapping("/{id}")
@@ -55,29 +60,32 @@ public class ItemsController{
             @NotBlank @RequestParam Long categoryId,
             @NotBlank @RequestParam String manufacturer,
             @NotBlank @RequestPart MultipartFile image,
-            @Nullable @RequestParam Integer stack
-    ) throws RecordNotFoundException {
-        ItemRequest request = new ItemRequestBuilder()
+            @Nullable @RequestParam Integer stack,
+            @NotBlank @RequestParam Long brandId
+    ) {
+        CreateItemRequest request = new CreateItemRequestBuilder()
                 .setName(name)
                 .setPrice(price)
                 .setManufacturer(manufacturer)
                 .setCategoryId(categoryId)
                 .setImage(image)
                 .setStack(stack != null ? stack : 0)
+                .setBrandId(brandId)
                 .build();
-        Item item = service.create(request);
-        CreateResponseBuilder<ItemModel, Item> builder = new CreateResponseBuilder<>();
-        return builder
+        Item item = createItemService.create(request);
+        return new CreateResponseBuilder<ItemModel, Item>()
                 .setEntity(item)
                 .setModelAssembler(modelAssembler)
                 .build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EntityModel<ItemModel>> update(@PathVariable Long id, @RequestBody ItemForm form) throws RecordNotFoundException{
-        UpdateResponseBuilder<ItemModel, Item> builder = new UpdateResponseBuilder<>();
-        Item entity = service.update(id, form.toRequest());
-        return builder.setEntity(entity).setModelAssembler(modelAssembler).build();
+    public ResponseEntity<EntityModel<ItemModel>> update(@PathVariable Long id, @RequestBody UpdateItemForm form) {
+        Item entity = updateItemService.update(form.toRequest(id));
+        return new UpdateResponseBuilder<ItemModel, Item>()
+                .setEntity(entity)
+                .setModelAssembler(modelAssembler)
+                .build();
     }
 
     @PostMapping("/{id}/image")
@@ -85,14 +93,8 @@ public class ItemsController{
             @PathVariable Long id,
             @RequestPart MultipartFile image
     ) throws RecordNotFoundException {
-        Item item = service.get(id);
-        if(item == null) throw new RecordNotFoundException("Could not find item of id " + id);
-        ItemRequest request = new ItemRequestBuilder()
-                .setImage(image)
-                .build();
-        service.update(id, request);
-        CreateResponseBuilder<ItemModel, Item> builder = new CreateResponseBuilder<>();
-        return builder
+        Item item = updateItemImageService.update(new UpdateItemImageRequest(id, image));
+        return new CreateResponseBuilder<ItemModel, Item>()
                 .setEntity(item)
                 .setModelAssembler(modelAssembler)
                 .build();
@@ -100,7 +102,7 @@ public class ItemsController{
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) throws RecordNotFoundException {
-        service.delete(id);
+        deleteItemService.delete(id);
         return new DeleteResponseBuilder().build();
     }
 }

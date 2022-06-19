@@ -5,11 +5,10 @@ import com.xtsshop.app.assembler.ItemModelAssembler;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.domain.request.categories.GetCategoryItemsRequest;
 import com.xtsshop.app.domain.service.categories.items.GetCategoryItemsService;
-import com.xtsshop.app.form.ItemForm;
-import com.xtsshop.app.domain.service.items.ItemsService;
+import com.xtsshop.app.domain.service.items.CreateItemService;
+import com.xtsshop.app.form.items.ItemForm;
+import com.xtsshop.app.domain.service.items.QueryItemsService;
 import com.xtsshop.app.viewmodel.ItemModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -27,13 +26,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RestController("categories.items.ItemsController")
 public class ItemsController {
 
-    private final ItemModelAssembler modelAssembler;
-    private final ItemsService itemsService;
+    private ItemModelAssembler modelAssembler;
     private GetCategoryItemsService getCategoryItemsService;
-    public ItemsController(ItemModelAssembler modelAssembler, ItemsService itemsService, GetCategoryItemsService getCategoryItemsService){
+    private CreateItemService createItemService;
+
+    public ItemsController(ItemModelAssembler modelAssembler, GetCategoryItemsService getCategoryItemsService, CreateItemService createItemService) {
         this.modelAssembler = modelAssembler;
-        this.itemsService = itemsService;
         this.getCategoryItemsService = getCategoryItemsService;
+        this.createItemService = createItemService;
     }
 
     @GetMapping("/api/categories/items")
@@ -79,7 +79,7 @@ public class ItemsController {
     @PostMapping("/api/categories/{categoryId}/items")
     public ResponseEntity<?> create(@PathVariable long categoryId, @RequestBody ItemForm form) throws RecordNotFoundException {
         form.setCategoryId(categoryId);
-        Item item = itemsService.create(form.toRequest());
+        Item item = createItemService.create(form.toRequest());
         EntityModel<ItemModel> model = modelAssembler.toModel(item);
         return ResponseEntity
                 .created(model.getRequiredLink(IanaLinkRelations.SELF).toUri())

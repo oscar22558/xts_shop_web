@@ -24,7 +24,6 @@ import java.util.stream.Stream;
 @Qualifier("FileStorageService")
 public class FileStorageService implements StorageService{
 
-    Logger logger = LoggerFactory.getLogger(FileStorageService.class);
     protected Path root;
     protected Path envRoot;
     protected Util util;
@@ -116,17 +115,6 @@ public class FileStorageService implements StorageService{
                     "Cannot delete file outside current directory.");
         }
         FileSystemUtils.deleteRecursively(absolutePath.toFile());
-    }
-
-    @Override
-    public String url(String filename) {
-        Path file = Paths.get(filename);
-        return url(file);
-    }
-
-    @Override
-    public String url(Path file) {
-        return properties.getUrlRoot() + "/" + envRoot.relativize(file);
     }
 
     @Override

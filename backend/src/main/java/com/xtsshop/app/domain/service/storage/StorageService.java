@@ -20,8 +20,4 @@ public interface StorageService {
     void deleteAll();
 
     void delete(String filename);
-
-    String url(String filename);
-
-    String url(Path file);
 }

@@ -1,54 +1,55 @@
 package com.xtsshop.app.controller.items;
 
-import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.db.repositories.ImageRepository;
-import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.TestCase;
-import com.xtsshop.app.domain.service.storage.StorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
-
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class DeleteTest extends TestCase {
 
 	private String route = "/api/items/{id}";
+
 	@Autowired
-	private Util util;
-	@TestConfiguration
-	public static class TestConfig{
-		@Bean
-		public Util util(
-				ItemRepository repository,
-				ImageRepository imageRepository,
-				@Qualifier("ImageStorageService") StorageService storageService
-		){
-			return new Util(repository, imageRepository, storageService);
-		}
+	private ItemTestHelper itemTestHelper;
+
+	@Test
+	void testDeleteItemResponseOk() throws Exception {
+		itemTestHelper.insertData();
+		ResultActions response = sendMockRequest();
+		assertResponseIsOk(response);
 	}
 
 	@Test
-	void testCaseNormal() throws Exception {
-		int count = util.getRepository().findAll().size();
-		Item entity = util.getRepository().findAll().get(0);
-		String id =  String.valueOf(entity.getId());
-		mvc
-			.perform(requestBuilder(HttpMethod.DELETE, route, id))
-			.andDo(print())
-			.andExpect(status().isOk());
-		assertEquals(-1, util.getRepository().findAll().size() - count);
-
+	public void testItemIsDeleted() throws Exception{
+		itemTestHelper.insertData();
+		sendMockRequest();
+		assertOneItemDelete();
 	}
 
+	public ResultActions sendMockRequest() throws Exception{
+		return mvc.perform(buildRequest()).andDo(print());
+	}
+
+	public MockHttpServletRequestBuilder buildRequest() throws Exception{
+		return requestBuilder(HttpMethod.DELETE, route, itemTestHelper.getFirstItemId());
+	}
+
+	public void assertResponseIsOk(ResultActions response) throws Exception{
+		response.andExpect(status().isOk());
+
+	}
+	public void assertOneItemDelete() {
+		assertEquals(3, itemTestHelper.getRepository().findAll().size());
+	}
 }

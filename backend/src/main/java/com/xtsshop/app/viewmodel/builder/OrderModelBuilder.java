@@ -1,8 +1,8 @@
 package com.xtsshop.app.viewmodel.builder;
 
-import com.xtsshop.app.db.entities.Brand;
 import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.db.entities.OrderedItem;
+import com.xtsshop.app.domain.service.storage.FilePathToUrlConverter;
 import com.xtsshop.app.domain.service.storage.StorageService;
 import com.xtsshop.app.viewmodel.*;
 
@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 
 public class OrderModelBuilder {
     private Order entity;
-    private StorageService storageService;
+    private FilePathToUrlConverter filePathToUrlConverter;
 
     public OrderModelBuilder setEntity(Order entity){
         this.entity = entity;
         return this;
     }
-    public OrderModelBuilder setStorageService(StorageService storageService) {
-        this.storageService = storageService;
+    public OrderModelBuilder setFilePathToUrlConverter(FilePathToUrlConverter converter) {
+        this.filePathToUrlConverter = converter;
         return this;
     }
 
@@ -42,7 +42,7 @@ public class OrderModelBuilder {
     private ItemModel buildItemModel(OrderedItem orderedItem){
         ItemModelBuilder builder = new ItemModelBuilder()
                 .setItemEntity(orderedItem.getItem())
-                .setStorageService(storageService);
+                .setFilePathToUrlConverter(filePathToUrlConverter);
         replaceOrderPrice(builder, orderedItem);
         builder.setBrand(orderedItem.getItem().getBrand());
         return builder.build();

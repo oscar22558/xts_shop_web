@@ -33,39 +33,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class UpdateTest extends TestCase {
-	Logger logger = LoggerFactory.getLogger(UpdateTest.class);
 	@Autowired
-	private Util util;
+	private ItemTestHelper itemTestHelper;
 
-	@TestConfiguration
-	public static class TestConfig{
-		@Bean
-		public Util util(
-				ItemRepository repository,
-				ImageRepository imageRepository,
-				@Qualifier("ImageStorageService")StorageService storageService
-				){
-			return new Util(repository, imageRepository, storageService);
-		}
-	}
 	@Test
-	@Transactional
 	void testCaseNormal() throws Exception {
-		long id = util.getRepository().findAll().get(1).getId();
+		long id = itemTestHelper.getRepository().findAll().get(1).getId();
 		ItemForm form = new ItemForm();
 		form.setName("Gold Scissors");
 		form.setPrice(13.3f);
 		form.setManufacturer("New Manufacturer 1");
 		form.setStack(200);
 		mvc
-			.perform(addToken(MultipartPutRequest.builder(util.getRouteWithId(), String.valueOf(id))
+			.perform(addToken(MultipartPutRequest.builder(itemTestHelper.getRouteWithId(), String.valueOf(id))
 					.content(mapper.writeValueAsString(form))
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON))
 			)
 			.andDo(print())
 			.andExpect(status().isOk());
-		Item item = util.getRepository().findById(id).orElse(null);
+		Item item = itemTestHelper.getRepository().findById(id).orElse(null);
 		assertNotNull(item);
 		assertEquals("Gold Scissors", item.getName());
 		assertEquals(13.3f, item.getPrice());
@@ -76,9 +63,9 @@ class UpdateTest extends TestCase {
 
 	@Test
 	void testCaseUpdateImage() throws Exception{
-		long id = util.getRepository().findAll().get(1).getId();
-		long imgId = util.getRepository().findAll().get(1).getImage().getId();
-		String imgPath = util.getRepository().findAll().get(1).getImage().getPath();
+		long id = itemTestHelper.getRepository().findAll().get(1).getId();
+		long imgId = itemTestHelper.getRepository().findAll().get(1).getImage().getId();
+		String imgPath = itemTestHelper.getRepository().findAll().get(1).getImage().getPath();
 		MockMultipartFile file
 				= new MockMultipartFile(
 				"image",
@@ -87,12 +74,12 @@ class UpdateTest extends TestCase {
 				"Hello, World!".getBytes()
 		);
 		mvc
-				.perform(addToken(multipart(util.getUpdateImageRoute(), id).file(file)))
+				.perform(addToken(multipart(itemTestHelper.getUpdateImageRoute(), id).file(file)))
 				.andExpect(status().isCreated());
-		Image image = util.getRepository().findById(id).orElseThrow(()->new RecordNotFoundException("Image not found")).getImage();
+		Image image = itemTestHelper.getRepository().findById(id).orElseThrow(()->new RecordNotFoundException("Image not found")).getImage();
 		assertTrue(Paths.get(image.getPath()).toFile().exists());
 		assertFalse(Paths.get(imgPath).toFile().exists());
-		assertNull(util.getImageRepository().findById(imgId).orElse(null));
+		assertNull(itemTestHelper.getImageRepository().findById(imgId).orElse(null));
 		assertNotNull(image);
 	}
 

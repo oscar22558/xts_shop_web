@@ -10,7 +10,7 @@ import com.xtsshop.app.domain.request.orders.OrderCreateRequest;
 import com.xtsshop.app.domain.request.users.addresses.AddressCreateRequest;
 import com.xtsshop.app.domain.request.orders.PaymentCreateRequest;
 import com.xtsshop.app.domain.service.addresses.AddressesService;
-import com.xtsshop.app.domain.service.items.ItemsService;
+import com.xtsshop.app.domain.service.items.QueryItemsService;
 import com.xtsshop.app.domain.service.users.AllowOnlySameUserService;
 import com.xtsshop.app.domain.service.users.TargetUserService;
 import com.xtsshop.app.util.DateTimeUtil;
@@ -30,13 +30,13 @@ public class OrdersService {
     private TargetUserService targetUserService;
     private AllowOnlySameUserService allowOnlySameUserService;
     private OrderAuthorizationService orderAuthorizationService;
-    private ItemsService itemsService;
+    private QueryItemsService queryItemsService;
     public OrdersService(
             OrderRepository repository,
             AddressesService addressesService,
             TargetUserService targetUserService,
             OrderAuthorizationService orderAuthorizationService,
-            ItemsService itemsService,
+            QueryItemsService queryItemsService,
             PaymentRepository paymentRepository,
             UserRepository userRepository,
             AllowOnlySameUserService allowOnlySameUserService
@@ -45,7 +45,7 @@ public class OrdersService {
         this.addressesService = addressesService;
         this.targetUserService = targetUserService;
         this.orderAuthorizationService = orderAuthorizationService;
-        this.itemsService = itemsService;
+        this.queryItemsService = queryItemsService;
         this.paymentRepository = paymentRepository;
         this.userRepository = userRepository;
         this.allowOnlySameUserService = allowOnlySameUserService;
@@ -64,7 +64,7 @@ public class OrdersService {
         List<OrderedItem> orderedItems = request.getOrderedItems().stream()
                 .map(item->{
                     try {
-                        Item itemEntity = itemsService.get(item.getItemId());
+                        Item itemEntity = queryItemsService.get(item.getItemId());
                         Date now = new DateTimeUtil().now();
                         OrderedItem orderedItem = new OrderedItem();
                         orderedItem.setCreatedAt(now);

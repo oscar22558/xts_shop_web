@@ -1,12 +1,11 @@
 package com.xtsshop.app.viewmodel;
 
 import com.xtsshop.app.db.entities.Image;
-import com.xtsshop.app.domain.service.storage.StorageService;
+import com.xtsshop.app.domain.service.storage.FilePathToUrlConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Getter
@@ -15,12 +14,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImageModel implements AbstractViewModel {
 
-    private String imgUrl;
+    private String imgPath;
     @Autowired
-    @Qualifier("ImageStorageService")
-    private StorageService storageService;
-    public ImageModel(String imgUrl) {
-        this.imgUrl = storageService.url(imgUrl);
+    private FilePathToUrlConverter filePathToUrlConverter;
+
+    public ImageModel(String imgPath) {
+        this.imgPath = filePathToUrlConverter.getUrl(imgPath);
     }
 
     public static ImageModel from(Image entity){

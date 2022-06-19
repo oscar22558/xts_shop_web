@@ -5,6 +5,7 @@ import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.advice.exception.UnAuthorizationException;
 import com.xtsshop.app.assembler.OrderModelAssembler;
 import com.xtsshop.app.db.entities.Order;
+import com.xtsshop.app.domain.service.storage.FilePathToUrlConverter;
 import com.xtsshop.app.form.orders.PaymentCreateForm;
 import com.xtsshop.app.response.UpdateResponseBuilder;
 import com.xtsshop.app.domain.service.orders.OrdersService;
@@ -25,10 +26,10 @@ public class OrderController {
 
     private OrdersService ordersService;
     private OrderModelAssembler modelAssembler;
-    public OrderController(OrdersService ordersService, OrderModelAssembler modelAssembler, @Qualifier("ImageStorageService") StorageService storageService) {
+    public OrderController(OrdersService ordersService, OrderModelAssembler modelAssembler, FilePathToUrlConverter filePathToUrlConverter) {
         this.ordersService = ordersService;
         this.modelAssembler = modelAssembler;
-        modelAssembler.setStorageService(storageService);
+        modelAssembler.setFilePathToUrlConverter(filePathToUrlConverter);
     }
 
     @GetMapping

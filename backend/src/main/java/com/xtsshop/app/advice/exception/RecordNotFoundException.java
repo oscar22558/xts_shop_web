@@ -2,7 +2,7 @@ package com.xtsshop.app.advice.exception;
 
 import javax.annotation.Nullable;
 
-public class RecordNotFoundException extends Exception{
+public class RecordNotFoundException extends RuntimeException{
 
     public RecordNotFoundException(String message) {
         super(message);

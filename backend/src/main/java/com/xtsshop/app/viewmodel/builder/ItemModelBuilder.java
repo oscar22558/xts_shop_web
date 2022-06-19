@@ -2,6 +2,7 @@ package com.xtsshop.app.viewmodel.builder;
 
 import com.xtsshop.app.db.entities.Brand;
 import com.xtsshop.app.db.entities.Item;
+import com.xtsshop.app.domain.service.storage.FilePathToUrlConverter;
 import com.xtsshop.app.domain.service.storage.StorageService;
 import com.xtsshop.app.viewmodel.BrandViewModel;
 import com.xtsshop.app.viewmodel.ItemModel;
@@ -12,7 +13,7 @@ import java.util.Optional;
 public class ItemModelBuilder {
 
     private Item itemEntity;
-    private StorageService storageService;
+    private FilePathToUrlConverter filePathToUrlConverter;
     private Optional<PriceHistoryViewModel> priceHistoryModel;
     private BrandViewModel brandViewModel;
     public ItemModelBuilder(){
@@ -23,8 +24,8 @@ public class ItemModelBuilder {
         return this;
     }
 
-    public ItemModelBuilder setStorageService(StorageService storageService) {
-        this.storageService = storageService;
+    public ItemModelBuilder setFilePathToUrlConverter(FilePathToUrlConverter converter) {
+        filePathToUrlConverter = converter;
         return this;
     }
 
@@ -43,8 +44,8 @@ public class ItemModelBuilder {
 
     public ItemModel build(){
         if(itemEntity == null ) throw new NullPointerException("itemEntity cannot be null");
-        if(storageService == null) throw new NullPointerException("storageService cannot be null");
-        String imgUrl = storageService.url(itemEntity.getImage().getPath());
+        if(filePathToUrlConverter == null) throw new NullPointerException("storageService cannot be null");
+        String imgUrl = filePathToUrlConverter.getUrl(itemEntity.getImage().getPath());
         // price = null if no record
         PriceHistoryViewModel price = priceHistoryModel.orElse(
                 itemEntity.getLatestPriceHistory()

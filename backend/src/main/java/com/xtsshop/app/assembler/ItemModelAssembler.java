@@ -3,10 +3,9 @@ package com.xtsshop.app.assembler;
 import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.controller.items.ItemsController;
 import com.xtsshop.app.db.entities.Item;
+import com.xtsshop.app.domain.service.storage.FilePathToUrlConverter;
 import com.xtsshop.app.domain.service.storage.StorageService;
-import com.xtsshop.app.viewmodel.BrandViewModel;
 import com.xtsshop.app.viewmodel.ItemModel;
-import com.xtsshop.app.viewmodel.builder.BrandViewModelBuilder;
 import com.xtsshop.app.viewmodel.builder.ItemModelBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,11 +18,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class ItemModelAssembler extends
         AbstractModelAssembler<ItemModel, Item> {
-    private StorageService storageService;
+    private FilePathToUrlConverter filePathToUrlConvertor;
 
     @Autowired
-    public void setStorageService(@Qualifier("ImageStorageService") StorageService storageService) {
-        this.storageService = storageService;
+    public void setFilePathToUrlConvertor(FilePathToUrlConverter filePathToUrlConvertor) {
+        this.filePathToUrlConvertor = filePathToUrlConvertor;
     }
 
     @Override
@@ -69,7 +68,7 @@ public class ItemModelAssembler extends
     private ItemModel getItemViewModel(Item entity){
         return new ItemModelBuilder()
                 .setItemEntity(entity)
-                .setStorageService(storageService)
+                .setFilePathToUrlConverter(filePathToUrlConvertor)
                 .setBrand(entity.getBrand())
                 .build();
     }
