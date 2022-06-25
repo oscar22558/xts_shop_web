@@ -1,4 +1,5 @@
-import { Box, Button } from "@mui/material"
+import { Box } from "@mui/material"
+import Button from "../../../views/LowerCaseButton"
 import Text from "@mui/material/ListItemText"
 interface Props{
     label: string

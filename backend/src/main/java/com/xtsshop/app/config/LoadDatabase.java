@@ -12,11 +12,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LoadDatabase {
 
-    private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
+    private boolean localDevelopment = true;
 
-//    @Bean
-//    public CommandLineRunner initDatabase(DevelopmentDataSeed seed) {
-//        seed.insertData();
-//        return args -> {};
-//    }
+    @Bean
+    public CommandLineRunner initDatabase(DevelopmentDataSeed seed) {
+        if(localDevelopment){
+            seed.insertData();
+        }
+        return args -> {};
+    }
 }
