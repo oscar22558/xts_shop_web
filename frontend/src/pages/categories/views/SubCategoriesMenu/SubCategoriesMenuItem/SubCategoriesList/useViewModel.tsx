@@ -9,7 +9,7 @@ const useViewModel = (index: number)=>{
     const fetchItems = useFetchItems()
     const onClick = (selfUrl: string, itemsUrl: string)=>()=>{
         fetchCategory(selfUrl)
-        fetchItems(itemsUrl)
+        fetchItems()(itemsUrl)
     }
     return {
         categories: data?.subCategories?.[index].subCategories,

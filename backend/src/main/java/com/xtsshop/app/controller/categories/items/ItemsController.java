@@ -12,6 +12,7 @@ import com.xtsshop.app.viewmodel.ItemModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.NonComposite;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController("categories.items.ItemsController")
+@RequestMapping("/api/categories/{categoryId}/items")
 public class ItemsController {
 
     private ItemModelAssembler modelAssembler;
@@ -36,17 +38,18 @@ public class ItemsController {
         this.createItemService = createItemService;
     }
 
-    @GetMapping("/api/categories/items")
+    @GetMapping
     public CollectionModel<EntityModel<ItemModel>> listWithPriceAndBrandFilter(
-            @RequestParam(value = "categoryIds[]") Long[] categoryIds,
-            @RequestParam(value = "brandIds[]", required = false) Long[] brandIds,
-            @RequestParam(required = false) Float maxPrice,
-            @RequestParam(required = false) Float minPrice,
-            @RequestParam String sortingField,
-            @RequestParam String sortingDirection
+//            @RequestParam(value = "categoryIds[]") Long[] categoryIds,
+        @PathVariable Long categoryId,
+        @RequestParam(value = "brandIds[]", required = false) Long[] brandIds,
+        @RequestParam(required = false) Float maxPrice,
+        @RequestParam(required = false) Float minPrice,
+        @RequestParam String sortingField,
+        @RequestParam String sortingDirection
     ) throws RecordNotFoundException {
         GetCategoryItemsRequest request = new GetCategoryItemsRequest();
-        List<Long> categoryIdList = Arrays.stream(categoryIds).collect(Collectors.toList());
+        List<Long> categoryIdList = List.of(categoryId);//Arrays.stream(categoryIds).collect(Collectors.toList());
         List<Long> brandIdList = brandIds == null ? List.of() : Arrays.stream(brandIds).collect(Collectors.toList());
         request.setCategoryId(Optional.empty());
         request.setCategoryIds(categoryIdList);
@@ -58,25 +61,26 @@ public class ItemsController {
         List<Item> items = getCategoryItemsService.getItems(request);
         return modelAssembler.toCollectionModel(items);
     }
-    @GetMapping("/api/categories/{categoryId}/items")
-    public CollectionModel<EntityModel<ItemModel>> listAll(
-            @PathVariable Long categoryId,
-            @RequestParam String sortingField,
-            @RequestParam String sortingDirection
-    ) throws RecordNotFoundException {
-        GetCategoryItemsRequest request = new GetCategoryItemsRequest();
-        request.setCategoryId(Optional.of(categoryId));
-        request.setMaxPrice(Optional.empty());
-        request.setMinPrice(Optional.empty());
-        request.setBrandIds(new ArrayList<>());
-        request.setSortingField(sortingField);
-        request.setSortingDirection(sortingDirection);
-        List<Item> items = getCategoryItemsService.getItems(request);
 
-        return modelAssembler.toCollectionModel(items);
-    }
+//    @GetMapping("/api/categories/{categoryId}/items")
+//    public CollectionModel<EntityModel<ItemModel>> listAll(
+//            @PathVariable Long categoryId,
+//            @RequestParam String sortingField,
+//            @RequestParam String sortingDirection
+//    ) throws RecordNotFoundException {
+//        GetCategoryItemsRequest request = new GetCategoryItemsRequest();
+//        request.setCategoryId(Optional.of(categoryId));
+//        request.setMaxPrice(Optional.empty());
+//        request.setMinPrice(Optional.empty());
+//        request.setBrandIds(new ArrayList<>());
+//        request.setSortingField(sortingField);
+//        request.setSortingDirection(sortingDirection);
+//        List<Item> items = getCategoryItemsService.getItems(request);
+//
+//        return modelAssembler.toCollectionModel(items);
+//    }
 
-    @PostMapping("/api/categories/{categoryId}/items")
+    @PostMapping//("/api/categories/{categoryId}/items")
     public ResponseEntity<?> create(@PathVariable long categoryId, @RequestBody ItemForm form) throws RecordNotFoundException {
         form.setCategoryId(categoryId);
         Item item = createItemService.create(form.toRequest());

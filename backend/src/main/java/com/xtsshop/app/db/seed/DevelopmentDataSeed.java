@@ -58,6 +58,7 @@ public class DevelopmentDataSeed {
         repository.save(new CategoryBuilder().setName("drawing tools").setParent(newCategory2).build());
         repository.save(new CategoryBuilder().setName("USB cable").setParent(newCategory3).build());
         repository.save(new CategoryBuilder().setName("Mobile phone charger").setParent(newCategory3).build());
+        repository.save(new CategoryBuilder().setName("Mobile phone stand").setParent(newCategory3).build());
     }
     public void createBrands(){
         brandRepository.save(new BrandBuilder().setName("Brand 1").build());
@@ -67,7 +68,8 @@ public class DevelopmentDataSeed {
 
     public void createItems(){
         Category category3 = repository.findAll().get(2);
-        Category category5 = repository.findAll().get(4);
+        Category usbCableCategory = repository.findAll().get(6);
+        Category phoneStandCategory = repository.findAll().get(8);
         List<Brand> brands = brandRepository.findAll();
         Item item1 = itemRepository.save(new ItemBuilder()
                 .setName("apple")
@@ -92,7 +94,7 @@ public class DevelopmentDataSeed {
         Item item3 = itemRepository.save(new ItemBuilder()
                 .setName("2M USB 3.0 data cable")
                 .setManufacturer("manufacturer 1")
-                .setCategory(category5)
+                .setCategory(usbCableCategory)
                 .setStock(102)
                 .setBrand(brands.get(2))
                 .setPrice(44.2f)
@@ -101,7 +103,7 @@ public class DevelopmentDataSeed {
         setPriceForItem(item3, 44.2f);
         Item item4 = itemRepository.save(new ItemBuilder().setName("ABC stand")
                 .setManufacturer("manufacturer 2")
-                .setCategory(category5)
+                .setCategory(phoneStandCategory)
                 .setStock(103)
                 .setBrand(brands.get(2))
                 .setPrice(55.2f)

@@ -8,7 +8,11 @@ import com.xtsshop.app.viewmodel.CategoryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -24,6 +28,8 @@ public class CategoryModelAssembler extends AbstractModelAssembler<CategoryModel
     @Override
     public EntityModel<CategoryModel> toModel(Category entity) {
         try {
+            Map<String, Long> values = new HashMap<>();
+            values.put("categoryId", entity.getId());
             return EntityModel.of(
                 CategoryModel.from(entity, this, itemModelAssembler),
                 linkTo(methodOn(CategoriesController.class).one(entity.getId())).withSelfRel(),
@@ -31,7 +37,7 @@ public class CategoryModelAssembler extends AbstractModelAssembler<CategoryModel
                 linkTo(methodOn(CategoriesController.class).update(entity.getId(), null)).withRel("update"),
                 linkTo(methodOn(CategoriesController.class).delete(entity.getId())).withRel("delete"),
                 linkTo(methodOn(CategoriesController.class).all()).withRel("all"),
-                linkTo(methodOn(ItemsController.class).listAll(entity.getId(), "", "")).withRel("items"),
+                Link.of("/categories/{categoryId}/items").withRel("items").expand(values),
                 linkTo(methodOn(ItemsController.class).create(entity.getId(), null)).withRel("createItems")
             );
         } catch (RecordNotFoundException e) {

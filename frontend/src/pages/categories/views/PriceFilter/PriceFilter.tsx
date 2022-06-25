@@ -4,11 +4,12 @@ import Grid from "@mui/material/Grid";
 import Slider from "@mui/material/Slider"
 import { ChangeEvent, FocusEvent, useState } from "react"
 import StyledTextField from "./views/SytledTextField";
-
+import useViewModel from "./useViewModel"
 const PriceFilter = ()=>{
     const [value, setValue] = useState([0, 10000])
     const [minSearchPrice, setMinSearchPrice] = useState(0)
     const [maxSearchPrice, setMaxSearchPrice] = useState(0)
+    const viewModel = useViewModel()
     const handleChange = (event: Event, newValue: number | number[])=>{
         setValue(newValue as number[])
         if(typeof newValue != "number"){
@@ -51,7 +52,7 @@ const PriceFilter = ()=>{
             </Grid>
         </Grid>
         <Box sx={{display: "flex", justifyContent: "flex-end"}}>
-            <Button>Search</Button>
+        <Button onClick={viewModel.setPriceFilter({maxPrice: maxSearchPrice, minPrice: minSearchPrice})}>Search</Button>
         </Box>
     </Card>)
 }
