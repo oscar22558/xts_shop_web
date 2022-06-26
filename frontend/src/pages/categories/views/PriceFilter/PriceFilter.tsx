@@ -52,7 +52,7 @@ const PriceFilter = ()=>{
             </Grid>
         </Grid>
         <Box sx={{display: "flex", justifyContent: "flex-end"}}>
-        <Button onClick={viewModel.setPriceFilter({maxPrice: maxSearchPrice, minPrice: minSearchPrice})}>Search</Button>
+        <Button onClick={viewModel.handleSearchBtnClick({maxPrice: maxSearchPrice, minPrice: minSearchPrice})}>Search</Button>
         </Box>
     </Card>)
 }

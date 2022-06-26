@@ -11,6 +11,11 @@ export const actions = {
             fail   : sliceActions.getAllOfCategoryFail,
             async  : createAction<string>("items/getAll/of/category/async")
         }
+    },
+    setFetchItemOptions: {
+        brandFilter: sliceActions.setFetchItemBrandFilter,
+        priceFilter: sliceActions.setFetchItemPriceFilter,
+        sorting: sliceActions.setSortingOptions
     }
 }
 export default actions

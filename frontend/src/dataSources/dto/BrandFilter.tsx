@@ -1,4 +1,4 @@
 interface BrandFilter{
-    brandIds: number[]
+    brandIds: number[] | null
 }
 export default BrandFilter

@@ -3,14 +3,14 @@ import StyledTab from "./StyledTab";
 import React, {useState} from "react";
 import {useAppSelector} from "../../redux/hooks";
 import selector from "../../redux/categories/selector"
-import useFetchCategory from "../../dataSources/useFetchCategory";
+import useViewModel from "./useViewMode"
 import { useNavigate } from "react-router-dom";
 
 const CategoriesTabs = ()=>{
     const { data } = useAppSelector(selector).all
     const [value, setValue] = useState<number|boolean>(false)
     const navigate = useNavigate()
-    const fetchCategory = useFetchCategory()
+    const viewModel = useViewModel()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
@@ -28,7 +28,7 @@ const CategoriesTabs = ()=>{
                     label={category.name} 
                     {...a11yProps(index)}
                     onClick={()=>{
-                        fetchCategory(category._links.self.href)
+                        viewModel.handleItemClick(category._links.self.href, category._links.items.href)
                         navigate(`/categories/${category.name}`)
                     }}
                 />

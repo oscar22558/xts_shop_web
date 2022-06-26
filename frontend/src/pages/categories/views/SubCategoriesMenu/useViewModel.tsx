@@ -5,11 +5,13 @@ import useFetchItems from "../../../../dataSources/useFetchItems";
 
 const useViewModel = ()=>{
     const { data } = useAppSelector(selector).one
+
     const fetchCategory = useFetchCategory()
     const fetchItems = useFetchItems()
+
     const onClick = (selfUrl: string, itemsUrl: string)=>()=>{
         fetchCategory(selfUrl)
-        fetchItems()(itemsUrl)
+        fetchItems(itemsUrl)
     }
     return {
         data,
