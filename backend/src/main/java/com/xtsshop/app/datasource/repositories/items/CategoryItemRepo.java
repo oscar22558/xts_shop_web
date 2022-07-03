@@ -1,6 +1,7 @@
 package com.xtsshop.app.datasource.repositories.items;
 
 import com.xtsshop.app.datasource.repositories.items.helpers.RecursiveCategorySearcher;
+import com.xtsshop.app.datasource.requests.SortingDirection;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.datasource.requests.items.BrandSearchOptions;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class CategoryItemRepo {
@@ -18,6 +20,7 @@ public class CategoryItemRepo {
     private List<Long> categoryIds;
     private Optional<PriceSearchOptions> priceSearchOptions;
     private List<Long> brandIds;
+    private SortingDirection sortingDirection;
 
     public CategoryItemRepo(ItemRepository itemRepository, RecursiveCategorySearcher categorySearcher) {
         this.itemRepository = itemRepository;
@@ -37,13 +40,24 @@ public class CategoryItemRepo {
         brandIds = brandSearchOption == null ? List.of() : brandSearchOption.getBrandIds();
     }
 
-    public List<Item> findItemsUnderCategories(){
-        if(priceSearchOptions.isPresent()) {
-            return findItemsUnderCategoriesWithPriceFilter();
-        }else{
-            return findItemsUnderCategoriesWithoutPriceFilter();
-        }
+    public void setSortingDirection(SortingDirection sortingDirection) {
+        this.sortingDirection = sortingDirection;
     }
+
+    public List<Item> findItemsUnderCategories(){
+        List<Item> items = priceSearchOptions.isPresent()
+            ? findItemsUnderCategoriesWithPriceFilter()
+            : findItemsUnderCategoriesWithoutPriceFilter();
+        return sortItems(items);
+    }
+
+    public List<Item> sortItems(List<Item> items){
+        return items.stream().sorted((o1, o2) -> (int) ((o1.getPrice() - o2.getPrice()) * (
+                    sortingDirection == SortingDirection.ASC ? 1 : -1
+                )))
+                .collect(Collectors.toList());
+    }
+
     public List<Item> findItemsUnderCategoriesWithPriceFilter(){
         float maxPrice = priceSearchOptions.flatMap((option)->Optional.of(option.getMaxPrice())).orElse(10000f);
         float minPrice = priceSearchOptions.flatMap((option)->Optional.of(option.getMinPrice())).orElse(0f);

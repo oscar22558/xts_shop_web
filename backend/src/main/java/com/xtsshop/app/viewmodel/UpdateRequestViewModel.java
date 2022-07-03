@@ -1,28 +1,27 @@
-package com.xtsshop.app.response;
+package com.xtsshop.app.viewmodel;
 
 import com.xtsshop.app.assembler.AbstractModelAssembler;
 import com.xtsshop.app.db.entities.AppEntity;
-import com.xtsshop.app.viewmodel.AbstractViewModel;
+import com.xtsshop.app.assembler.models.AbstractRepresentationModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 
-public class UpdateResponseBuilder<VM extends AbstractViewModel, E extends AppEntity>{
+public class UpdateRequestViewModel<VM extends AbstractRepresentationModel, E extends AppEntity>{
 
     private AbstractModelAssembler<VM, E> modelAssembler;
     private E entity;
 
-    public UpdateResponseBuilder<VM, E> setEntity(E entity){
+    public UpdateRequestViewModel<VM, E> setEntity(E entity){
         this.entity = entity;
         return this;
     }
 
-    public UpdateResponseBuilder<VM, E> setModelAssembler(AbstractModelAssembler<VM, E> modelAssembler){
+    public UpdateRequestViewModel<VM, E> setModelAssembler(AbstractModelAssembler<VM, E> modelAssembler){
         this.modelAssembler = modelAssembler;
         return this;
     }
 
-    public ResponseEntity<EntityModel<VM>> build(){
+    public ResponseEntity<EntityModel<VM>> getResponse(){
         EntityModel<VM> model = modelAssembler.toModel(entity);
         return ResponseEntity.ok(model);
     }

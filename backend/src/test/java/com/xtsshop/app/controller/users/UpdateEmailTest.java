@@ -26,23 +26,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UpdateEmailTest extends TestCase {
 
     @Autowired
-    private Util util;
-    @TestConfiguration
-    public static class TestConfig{
-        @Bean
-        Util util(UserRepository userRepository){
-            return new Util(userRepository);
-        }
-    }
+    private UserTestHelper userTestHelper;
 
     @Test
     public void testWrongPassword() throws Exception{
+        userTestHelper.insertData();
         UpdateEmailForm form = new UpdateEmailForm("3333", "ken5354@gmail.com");
-        mvc.perform(requestBuilder(HttpMethod.PATCH, util.getUpdateEmailRoute())
+        mvc.perform(requestBuilder(HttpMethod.PATCH, userTestHelper.getUpdateEmailRoute())
                 .content(mapper.writeValueAsString(form))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isForbidden());
-        AppUser user = util.getUserRepository().findUserByUsername(getAdminUserUsername());
+        AppUser user = userTestHelper.getUserRepository().findUserByUsername(getAdminUserUsername());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         assertNotNull(user);
         assertTrue(encoder.matches("123", user.getPassword()));
@@ -51,12 +45,13 @@ public class UpdateEmailTest extends TestCase {
     }
     @Test
     public void test() throws Exception{
+        userTestHelper.insertData();
         UpdateEmailForm form = new UpdateEmailForm("123", "ken5354@gmail.com");
-        mvc.perform(requestBuilder(HttpMethod.PATCH, util.getUpdateEmailRoute())
+        mvc.perform(requestBuilder(HttpMethod.PATCH, userTestHelper.getUpdateEmailRoute())
                 .content(mapper.writeValueAsString(form))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());
-        AppUser user = util.getUserRepository().findUserByUsername(getAdminUserUsername());
+        AppUser user = userTestHelper.getUserRepository().findUserByUsername(getAdminUserUsername());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         assertNotNull(user);
         assertTrue(encoder.matches("123", user.getPassword()));

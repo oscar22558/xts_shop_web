@@ -81,9 +81,9 @@ public class ListWithPriceAndBrandFilterTest extends TestCase {
     }
 
     private void assertResponseContainOrange(ResultActions response) throws  Exception{
-       response.andExpect(jsonPath("$._embedded.itemModelList.[0].name", is("orange")))
-               .andExpect(jsonPath("$._embedded.itemModelList.[0].price.value", is(23.2)))
-               .andExpect(jsonPath("$._embedded.itemModelList.[0].manufacturer", is("manufacturer 2")));
+       response.andExpect(jsonPath("$._embedded.itemRepresentationModelList.[0].name", is("orange")))
+               .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[0].price.value", is(23.2)))
+               .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[0].manufacturer", is("manufacturer 2")));
     }
     private void assertResponseOk(ResultActions response) throws Exception {
         response.andExpect(status().isOk())
@@ -107,21 +107,21 @@ public class ListWithPriceAndBrandFilterTest extends TestCase {
         assertResponseContainStand(response);
     }
     private void assertResponseContainStand(ResultActions response) throws Exception{
-        response.andExpect(jsonPath("$._embedded.itemModelList.[3].name", is("ABC stand")))
-                .andExpect(jsonPath("$._embedded.itemModelList.[3].price.value", is(55.2)))
-                .andExpect(jsonPath("$._embedded.itemModelList.[3].manufacturer", is("manufacturer 2")));
+        response.andExpect(jsonPath("$._embedded.itemRepresentationModelList.[3].name", is("ABC stand")))
+                .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[3].price.value", is(55.2)))
+                .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[3].manufacturer", is("manufacturer 2")));
     }
 
     private void assertResponseContainItemFromFood(ResultActions response) throws Exception {
         assertResponseContainApple(response);
     }
     private void assertResponseContainApple(ResultActions response) throws Exception {
-        response.andExpect(jsonPath("$._embedded.itemModelList.[0].name", is("apple")))
-                .andExpect(jsonPath("$._embedded.itemModelList.[0].price.value", is(12.2)))
-                .andExpect(jsonPath("$._embedded.itemModelList.[0].manufacturer", is("manufacturer 1")));
+        response.andExpect(jsonPath("$._embedded.itemRepresentationModelList.[0].name", is("apple")))
+                .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[0].price.value", is(12.2)))
+                .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[0].manufacturer", is("manufacturer 1")));
     }
 
     private void assertResponseHasSize(ResultActions response, int size) throws Exception {
-        response.andExpect(jsonPath("$._embedded.itemModelList", hasSize(size)));
+        response.andExpect(jsonPath("$._embedded.itemRepresentationModelList", hasSize(size)));
     }
 }

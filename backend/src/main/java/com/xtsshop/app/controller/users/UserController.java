@@ -8,7 +8,7 @@ import com.xtsshop.app.domain.request.UserRequest;
 import com.xtsshop.app.domain.service.auth.AuthenticationService;
 import com.xtsshop.app.domain.service.auth.UserIdentityService;
 import com.xtsshop.app.domain.service.users.UsersCRUDService;
-import com.xtsshop.app.viewmodel.UserViewModel;
+import com.xtsshop.app.assembler.models.UserRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -43,7 +43,7 @@ public class UserController{
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<UserViewModel>> all() {
+    public CollectionModel<EntityModel<UserRepresentationModel>> all() {
         return assembler.toCollectionModel(usersCRUDService.findAll());
     }
 
@@ -54,7 +54,7 @@ public class UserController{
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody UserCreateForm form) {
-        EntityModel<UserViewModel> user = assembler.toModel(usersCRUDService.create(form.toRequest()));
+        EntityModel<UserRepresentationModel> user = assembler.toModel(usersCRUDService.create(form.toRequest()));
         return ResponseEntity
                 .created(user.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(user);
@@ -64,7 +64,7 @@ public class UserController{
     public ResponseEntity<?> updateUsername(@Valid @RequestBody UserUpdateUsernameForm form) throws UnAuthenticationException{
         UserDetails userDetails = authenticationService.confirmPassword(form.getPassword());
         AppUser user = usersCRUDService.updateUsername(userDetails.getUsername(), form.getUsername());
-        EntityModel<UserViewModel> model = assembler.toModel(user);
+        EntityModel<UserRepresentationModel> model = assembler.toModel(user);
         return ResponseEntity.ok(model);
     }
 
@@ -75,7 +75,7 @@ public class UserController{
         request.setUsername(userDetails.getUsername());
         request.setPassword(form.getPassword());
         AppUser updatedUser = usersCRUDService.update(request);
-        EntityModel<UserViewModel> model = assembler.toModel(updatedUser);
+        EntityModel<UserRepresentationModel> model = assembler.toModel(updatedUser);
         return ResponseEntity.ok(model);
     }
 
@@ -86,7 +86,7 @@ public class UserController{
         request.setUsername(userDetails.getUsername());
         request.setEmail(form.getEmail());
         AppUser updatedUser = usersCRUDService.update(request);
-        EntityModel<UserViewModel> model = assembler.toModel(updatedUser);
+        EntityModel<UserRepresentationModel> model = assembler.toModel(updatedUser);
         return ResponseEntity.ok(model);
     }
 
@@ -97,7 +97,7 @@ public class UserController{
         request.setUsername(user.getUsername());
         request.setPhone(form.getPhone());
         AppUser updatedUser = usersCRUDService.update(request);
-        EntityModel<UserViewModel> model = assembler.toModel(updatedUser);
+        EntityModel<UserRepresentationModel> model = assembler.toModel(updatedUser);
         return ResponseEntity.ok(model);
     }
     @DeleteMapping("/{username}")

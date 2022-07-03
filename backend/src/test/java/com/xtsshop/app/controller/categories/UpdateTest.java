@@ -3,6 +3,7 @@ package com.xtsshop.app.controller.categories;
 import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.db.repositories.CategoryRepository;
 import com.xtsshop.app.TestCase;
+import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import com.xtsshop.app.domain.request.categories.CategoryRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class UpdateTest extends TestCase {
 	private String route = "/api/categories";
 	@Autowired
 	private CategoryRepository repository;
+
+	@Autowired
+	private DevelopmentDataSeed seed;
+
 	@Test
-	void testCaseNormal() throws Exception {
+	public void testCaseNormal() throws Exception {
+		insertData();
+
 		long id =  repository.findAll().get(1).getId();
 		mvc
 			.perform(requestBuilder(HttpMethod.PUT, route + "/{id}", String.valueOf(id))
@@ -40,8 +47,8 @@ class UpdateTest extends TestCase {
 	}
 
 	@Test
-	@Transactional
-	void testCaseChangeParentCategory() throws Exception {
+	public void testCaseChangeParentCategory() throws Exception {
+		insertData();
 		long id =  repository.findAll().get(2).getId();
 		long originalParentId = repository.findAll().get(2).getParent().getId();
 		mvc
@@ -58,4 +65,7 @@ class UpdateTest extends TestCase {
 		assertNull(repository.findById(originalParentId).orElseThrow(()-> new RecordNotFoundException("")).getSubCategories().stream().filter(category->category.getId() == id).findAny().orElse(null));
 	}
 
+	public void insertData(){
+		seed.insertData();
+	}
 }

@@ -64,18 +64,18 @@ class IndexTest extends TestCase {
 	}
 
 	private void assertResponseContainItems(ResultActions response) throws Exception{
-		response.andExpect(jsonPath("$._embedded.itemModelList", hasSize(4)));
+		response.andExpect(jsonPath("$._embedded.itemRepresentationModelList", hasSize(4)));
 	}
 
 	private void assertResponseContainApple(ResultActions response) throws Exception{
-		response.andExpect(jsonPath("$._embedded.itemModelList[0].name", is("apple")));
-		response.andExpect(jsonPath("$._embedded.itemModelList[0].price.value", is(12.2)));
-		response.andExpect(jsonPath("$._embedded.itemModelList[0].stock", is(100)));
+		response.andExpect(jsonPath("$._embedded.itemRepresentationModelList[0].name", is("apple")));
+		response.andExpect(jsonPath("$._embedded.itemRepresentationModelList[0].price.value", is(12.2)));
+		response.andExpect(jsonPath("$._embedded.itemRepresentationModelList[0].stock", is(100)));
 	}
 
 
 	private void assertApplePriceIsLatest(ResultActions response) throws Exception{
-		response.andExpect(jsonPath("$._embedded.itemModelList[0].name", is("apple")));
-		response.andExpect(jsonPath("$._embedded.itemModelList[0].price.value", is(22.2)));
+		response.andExpect(jsonPath("$._embedded.itemRepresentationModelList[0].name", is("apple")));
+		response.andExpect(jsonPath("$._embedded.itemRepresentationModelList[0].price.value", is(22.2)));
 	}
 }

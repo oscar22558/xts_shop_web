@@ -6,7 +6,7 @@ import com.xtsshop.app.form.user.SpringUser;
 import com.xtsshop.app.domain.request.AuthRequest;
 import com.xtsshop.app.domain.service.auth.JWTService;
 import com.xtsshop.app.domain.service.auth.UserIdentityService;
-import com.xtsshop.app.viewmodel.UserViewModel;
+import com.xtsshop.app.assembler.models.UserRepresentationModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +50,7 @@ public class AuthController {
     }
 
     @GetMapping("/user")
-    public EntityModel<UserViewModel> user(){
+    public EntityModel<UserRepresentationModel> user(){
         SpringUser springUser = userIdentityService.getSpringUser();
         AppUser user = new AppUser();
         user.setUsername(springUser.getUsername());

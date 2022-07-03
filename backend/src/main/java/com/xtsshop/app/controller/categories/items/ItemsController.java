@@ -7,16 +7,13 @@ import com.xtsshop.app.domain.request.categories.GetCategoryItemsRequest;
 import com.xtsshop.app.domain.service.categories.items.GetCategoryItemsService;
 import com.xtsshop.app.domain.service.items.CreateItemService;
 import com.xtsshop.app.form.items.ItemForm;
-import com.xtsshop.app.domain.service.items.QueryItemsService;
-import com.xtsshop.app.viewmodel.ItemModel;
+import com.xtsshop.app.assembler.models.ItemRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.hateoas.NonComposite;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -39,52 +36,34 @@ public class ItemsController {
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<ItemModel>> listWithPriceAndBrandFilter(
+    public CollectionModel<EntityModel<ItemRepresentationModel>> listWithPriceAndBrandFilter(
 //            @RequestParam(value = "categoryIds[]") Long[] categoryIds,
         @PathVariable Long categoryId,
         @RequestParam(value = "brandIds[]", required = false) Long[] brandIds,
         @RequestParam(required = false) Float maxPrice,
         @RequestParam(required = false) Float minPrice,
-        @RequestParam String sortingField,
-        @RequestParam String sortingDirection
+        @RequestParam(required = false) String sortingField,
+        @RequestParam(required = false) String sortingDirection
     ) throws RecordNotFoundException {
         GetCategoryItemsRequest request = new GetCategoryItemsRequest();
-        List<Long> categoryIdList = List.of(categoryId);//Arrays.stream(categoryIds).collect(Collectors.toList());
+        List<Long> categoryIdList = List.of(categoryId);
         List<Long> brandIdList = brandIds == null ? List.of() : Arrays.stream(brandIds).collect(Collectors.toList());
         request.setCategoryId(Optional.empty());
         request.setCategoryIds(categoryIdList);
         request.setMaxPrice(Optional.ofNullable(maxPrice));
         request.setMinPrice(Optional.ofNullable(minPrice));
         request.setBrandIds(brandIdList);
-        request.setSortingField(sortingField);
-        request.setSortingDirection(sortingDirection);
+        request.setSortingField(Optional.ofNullable(sortingField));
+        request.setSortingDirection(Optional.ofNullable(sortingDirection));
         List<Item> items = getCategoryItemsService.getItems(request);
         return modelAssembler.toCollectionModel(items);
     }
 
-//    @GetMapping("/api/categories/{categoryId}/items")
-//    public CollectionModel<EntityModel<ItemModel>> listAll(
-//            @PathVariable Long categoryId,
-//            @RequestParam String sortingField,
-//            @RequestParam String sortingDirection
-//    ) throws RecordNotFoundException {
-//        GetCategoryItemsRequest request = new GetCategoryItemsRequest();
-//        request.setCategoryId(Optional.of(categoryId));
-//        request.setMaxPrice(Optional.empty());
-//        request.setMinPrice(Optional.empty());
-//        request.setBrandIds(new ArrayList<>());
-//        request.setSortingField(sortingField);
-//        request.setSortingDirection(sortingDirection);
-//        List<Item> items = getCategoryItemsService.getItems(request);
-//
-//        return modelAssembler.toCollectionModel(items);
-//    }
-
-    @PostMapping//("/api/categories/{categoryId}/items")
+    @PostMapping
     public ResponseEntity<?> create(@PathVariable long categoryId, @RequestBody ItemForm form) throws RecordNotFoundException {
         form.setCategoryId(categoryId);
         Item item = createItemService.create(form.toRequest());
-        EntityModel<ItemModel> model = modelAssembler.toModel(item);
+        EntityModel<ItemRepresentationModel> model = modelAssembler.toModel(item);
         return ResponseEntity
                 .created(model.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(model);

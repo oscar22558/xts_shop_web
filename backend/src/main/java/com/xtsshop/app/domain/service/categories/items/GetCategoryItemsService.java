@@ -23,6 +23,7 @@ public class GetCategoryItemsService {
         categoryItemRepo.setTopLevelCategoryIds(getTopLevelCategoryIdsFromRequest(request));
         categoryItemRepo.setPriceSearchOptions(getPriceOptionsFromRequest(request));
         categoryItemRepo.setBrandSearchOptions(new BrandSearchOptions(request.getBrandIds()));
+        categoryItemRepo.setSortingDirection(request.getSortingDirection());
         return categoryItemRepo.findItemsUnderCategories();
     }
     private List<Long> getTopLevelCategoryIdsFromRequest(GetCategoryItemsRequest request){

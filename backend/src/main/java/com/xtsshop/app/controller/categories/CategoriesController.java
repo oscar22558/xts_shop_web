@@ -5,11 +5,11 @@ import com.xtsshop.app.assembler.CategoryModelAssembler;
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.form.CategoryForm;
 import com.xtsshop.app.domain.request.categories.CategoryRequest;
-import com.xtsshop.app.response.CreateResponseBuilder;
-import com.xtsshop.app.response.DeleteResponseBuilder;
-import com.xtsshop.app.response.UpdateResponseBuilder;
+import com.xtsshop.app.viewmodel.CreateRequestViewModel;
+import com.xtsshop.app.viewmodel.DeleteRequestViewModel;
+import com.xtsshop.app.viewmodel.UpdateRequestViewModel;
 import com.xtsshop.app.domain.service.categories.CategoriesService;
-import com.xtsshop.app.viewmodel.CategoryModel;
+import com.xtsshop.app.assembler.models.CategoryRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +29,12 @@ public class CategoriesController {
     }
 
     @GetMapping()
-    public CollectionModel<EntityModel<CategoryModel>> all() {
+    public CollectionModel<EntityModel<CategoryRepresentationModel>> all() {
         return modelAssembler.toCollectionModel(service.allRoot());
     }
 
     @GetMapping("/{id}")
-    public EntityModel<CategoryModel> one(@PathVariable Long id) throws RecordNotFoundException {
+    public EntityModel<CategoryRepresentationModel> one(@PathVariable Long id) throws RecordNotFoundException {
         return modelAssembler.toModel(service.get(id));
     }
 
@@ -42,19 +42,19 @@ public class CategoriesController {
     public ResponseEntity<?> create(@RequestBody CategoryForm form) throws RecordNotFoundException{
         CategoryRequest request = form.toRequest();
         Category entity = service.create(request);
-        return new CreateResponseBuilder<CategoryModel, Category>().setEntity(entity).setModelAssembler(modelAssembler).build();
+        return new CreateRequestViewModel<CategoryRepresentationModel, Category>().setEntity(entity).setModelAssembler(modelAssembler).getResponse();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CategoryForm form) throws RecordNotFoundException {
         Category entity = service.get(id);
         service.update(id, form.toRequest());
-        return new UpdateResponseBuilder<CategoryModel, Category>().setEntity(entity).setModelAssembler(modelAssembler).build();
+        return new UpdateRequestViewModel<CategoryRepresentationModel, Category>().setEntity(entity).setModelAssembler(modelAssembler).getResponse();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) throws RecordNotFoundException {
         service.delete(id);
-        return new DeleteResponseBuilder().build();
+        return new DeleteRequestViewModel().getResponse();
     }
 }

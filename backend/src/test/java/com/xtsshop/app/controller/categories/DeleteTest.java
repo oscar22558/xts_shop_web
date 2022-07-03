@@ -1,7 +1,5 @@
 package com.xtsshop.app.controller.categories;
 
-import com.xtsshop.app.db.entities.Category;
-import com.xtsshop.app.db.repositories.CategoryRepository;
 import com.xtsshop.app.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -55,6 +49,6 @@ class DeleteTest extends TestCase {
 	}
 
 	private void assertCategoryAndSubCategoriesDeleted() throws Exception{
-		assertEquals(5, helper.countCategories());
+		assertEquals(6, helper.countCategories());
 	}
 }

@@ -2,7 +2,9 @@ package com.xtsshop.app.controller.orders;
 
 import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.db.entities.OrderStatus;
+import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
@@ -19,13 +21,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 public class GetTest extends OrdersTest {
+    @Autowired
+    DevelopmentDataSeed dataSeed;
     @Test
     public void test() throws Exception {
-        util.insertData();
-        Order order = util.getOrderOfUser();
+        dataSeed.insertData();
+        orderTestHelper.insertData();
+        Order order = orderTestHelper.getOrderOfUser();
         //use normal user
         setUserCredential("marry123", "123");
-        mvc.perform(requestBuilder(HttpMethod.GET, util.getGetRequestRoute(), order.getId()))
+        mvc.perform(requestBuilder(HttpMethod.GET, orderTestHelper.getOneOrderRoute(), order.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.user.username", is("marry123")))
@@ -40,12 +45,13 @@ public class GetTest extends OrdersTest {
 
     @Test
     public void testOrderWithPayment() throws Exception {
-        util.insertDataForTestOrderWithPayment();
+        dataSeed.insertData();
+        orderTestHelper.insertDataForTestOrderWithPayment();
 
-        Order order = util.getOrderOfUser();
+        Order order = orderTestHelper.getOrderOfUser();
         //use normal user
         setUserCredential("marry123", "123");
-        mvc.perform(requestBuilder(HttpMethod.GET, util.getGetRequestRoute(), order.getId()))
+        mvc.perform(requestBuilder(HttpMethod.GET, orderTestHelper.getOneOrderRoute(), order.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.orderStatus", is(OrderStatus.PAID.name())))
@@ -60,22 +66,24 @@ public class GetTest extends OrdersTest {
     }
     @Test
     public void testAccessOrderOfOtherUser() throws Exception {
-        util.insertData();
-        Order order = util.getOrderOfUser();
+        dataSeed.insertData();
+        orderTestHelper.insertData();
+        Order order = orderTestHelper.getOrderOfUser();
         //use normal user
         setUserCredential("mario123", "123");
-        mvc.perform(requestBuilder(HttpMethod.GET, util.getGetRequestRoute(), order.getId()))
+        mvc.perform(requestBuilder(HttpMethod.GET, orderTestHelper.getOneOrderRoute(), order.getId()))
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
     @Test
     public void testAccessOrderAsAdmin() throws Exception {
-        util.insertData();
-        Order order = util.getOrderOfUser();
+        dataSeed.insertData();
+        orderTestHelper.insertData();
+        Order order = orderTestHelper.getOrderOfUser();
         //use normal user
         setUserCredential("ken123", "123");
-        mvc.perform(requestBuilder(HttpMethod.GET, util.getGetRequestRoute(), order.getId()))
+        mvc.perform(requestBuilder(HttpMethod.GET, orderTestHelper.getOneOrderRoute(), order.getId()))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

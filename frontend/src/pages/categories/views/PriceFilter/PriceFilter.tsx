@@ -8,7 +8,7 @@ import useViewModel from "./useViewModel"
 const PriceFilter = ()=>{
     const [value, setValue] = useState([0, 10000])
     const [minSearchPrice, setMinSearchPrice] = useState(0)
-    const [maxSearchPrice, setMaxSearchPrice] = useState(0)
+    const [maxSearchPrice, setMaxSearchPrice] = useState(10000)
     const viewModel = useViewModel()
     const handleChange = (event: Event, newValue: number | number[])=>{
         setValue(newValue as number[])

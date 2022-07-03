@@ -3,10 +3,10 @@ package com.xtsshop.app.controller.users;
 import com.xtsshop.app.assembler.ItemModelAssembler;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.form.CartForm;
-import com.xtsshop.app.response.CreateResponseBuilder;
-import com.xtsshop.app.response.DeleteResponseBuilder;
+import com.xtsshop.app.viewmodel.CreateRequestViewModel;
+import com.xtsshop.app.viewmodel.DeleteRequestViewModel;
 import com.xtsshop.app.domain.service.users.carts.CartsService;
-import com.xtsshop.app.viewmodel.ItemModel;
+import com.xtsshop.app.assembler.models.ItemRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -29,7 +29,7 @@ public class CartsController {
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<ItemModel>> listItems() {
+    public CollectionModel<EntityModel<ItemRepresentationModel>> listItems() {
         Link link = linkTo(methodOn(CartsController.class).listItems()).withSelfRel();
         return itemModelAssembler.toCollectionModel(cartsService.listItems()).add(link);
     }
@@ -37,14 +37,14 @@ public class CartsController {
     public ResponseEntity<?> addItems(@Valid @RequestBody CartForm form){
         Link link = linkTo(methodOn(CartsController.class).listItems()).withSelfRel();
         List<Item> models = cartsService.addItems(form.toRequest());
-        return new CreateResponseBuilder<ItemModel, Item>()
+        return new CreateRequestViewModel<ItemRepresentationModel, Item>()
                 .setModelAssembler(itemModelAssembler)
                 .setEntities(models, link)
-                .build();
+                .getResponse();
     }
     @DeleteMapping
     public ResponseEntity<?> removeItems(@Valid @RequestBody CartForm form){
         cartsService.removeItems(form.toRequest());
-        return new DeleteResponseBuilder().build();
+        return new DeleteRequestViewModel().getResponse();
     }
 }

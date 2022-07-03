@@ -22,27 +22,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class IndexTest extends TestCase {
 
     @Autowired
-    private Util util;
-    @TestConfiguration
-    public static class TestConfig{
-        @Bean
-        Util util(UserRepository userRepository){
-            return new Util(userRepository);
-        }
-    }
+    private UserTestHelper userTestHelper;
 
     @Test
     public void test() throws Exception {
-        mvc.perform(requestBuilder(HttpMethod.GET, util.getRoute()))
+        userTestHelper.insertData();
+        mvc.perform(requestBuilder(HttpMethod.GET, userTestHelper.getRoute()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.userViewModelList.[0].id").exists())
-                .andExpect(jsonPath("$._embedded.userViewModelList.[0].username").value("ken123"))
-                .andExpect(jsonPath("$._embedded.userViewModelList.[0].email").value("ken123@xts-shop.com"))
-                .andExpect(jsonPath("$._embedded.userViewModelList.[0].phone").value("23245566"))
-                .andExpect(jsonPath("$._embedded.userViewModelList.[1].id").exists())
-                .andExpect(jsonPath("$._embedded.userViewModelList.[1].username").value("marry123"))
-                .andExpect(jsonPath("$._embedded.userViewModelList.[1].email").value("marry123@xts-shop.com"))
-                .andExpect(jsonPath("$._embedded.userViewModelList.[1].phone").value("28735601"));
+                .andExpect(jsonPath("$._embedded.userRepresentationModelList.[0].id").exists())
+                .andExpect(jsonPath("$._embedded.userRepresentationModelList.[0].username").value("ken123"))
+                .andExpect(jsonPath("$._embedded.userRepresentationModelList.[0].email").value("ken123@xts-shop.com"))
+                .andExpect(jsonPath("$._embedded.userRepresentationModelList.[0].phone").value("23245566"))
+                .andExpect(jsonPath("$._embedded.userRepresentationModelList.[1].id").exists())
+                .andExpect(jsonPath("$._embedded.userRepresentationModelList.[1].username").value("marry123"))
+                .andExpect(jsonPath("$._embedded.userRepresentationModelList.[1].email").value("marry123@xts-shop.com"))
+                .andExpect(jsonPath("$._embedded.userRepresentationModelList.[1].phone").value("28735601"));
 
     }
 

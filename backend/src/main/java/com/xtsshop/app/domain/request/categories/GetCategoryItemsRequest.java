@@ -26,7 +26,7 @@ public class GetCategoryItemsRequest {
         return sortingField;
     }
 
-    public void setSortingField(String sortingField) {
+    public void setSortingField(Optional<String> sortingField) {
         this.sortingField = ItemSortingField.PRICE;
     }
 
@@ -34,8 +34,9 @@ public class GetCategoryItemsRequest {
         return sortingDirection;
     }
 
-    public void setSortingDirection(String sortingDirection) {
-        if(sortingDirection.toLowerCase(Locale.ROOT) == "asc"){
+    public void setSortingDirection(Optional<String> sortingDirection) {
+        Optional<String> lowerCaseDirection = sortingDirection.flatMap((direction)->Optional.of(direction.toLowerCase(Locale.ROOT)));
+        if(lowerCaseDirection.orElse("asc").equals("asc")){
             this.sortingDirection = SortingDirection.ASC;
         }else{
             this.sortingDirection = SortingDirection.DESC;

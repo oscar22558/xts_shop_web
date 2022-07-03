@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    @Query(value = "select * from roles r where r.name = ?1", nativeQuery = true)
+    @Query(value = "select * from roles r where r.name = ?1 limit 1", nativeQuery = true)
     Role findByName(String name);
 }

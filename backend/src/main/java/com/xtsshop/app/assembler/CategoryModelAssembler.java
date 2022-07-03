@@ -4,7 +4,7 @@ import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.controller.categories.CategoriesController;
 import com.xtsshop.app.controller.categories.items.ItemsController;
 import com.xtsshop.app.db.entities.Category;
-import com.xtsshop.app.viewmodel.CategoryModel;
+import com.xtsshop.app.assembler.models.CategoryRepresentationModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -17,7 +17,7 @@ import java.util.Map;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
-public class CategoryModelAssembler extends AbstractModelAssembler<CategoryModel, Category> {
+public class CategoryModelAssembler extends AbstractModelAssembler<CategoryRepresentationModel, Category> {
 
     private ItemModelAssembler itemModelAssembler;
 
@@ -26,12 +26,12 @@ public class CategoryModelAssembler extends AbstractModelAssembler<CategoryModel
         this.itemModelAssembler = itemModelAssembler;
     }
     @Override
-    public EntityModel<CategoryModel> toModel(Category entity) {
+    public EntityModel<CategoryRepresentationModel> toModel(Category entity) {
         try {
             Map<String, Long> values = new HashMap<>();
             values.put("categoryId", entity.getId());
             return EntityModel.of(
-                CategoryModel.from(entity, this, itemModelAssembler),
+                CategoryRepresentationModel.from(entity, this, itemModelAssembler),
                 linkTo(methodOn(CategoriesController.class).one(entity.getId())).withSelfRel(),
                 linkTo(methodOn(CategoriesController.class).create(null)).withRel("create"),
                 linkTo(methodOn(CategoriesController.class).update(entity.getId(), null)).withRel("update"),
@@ -47,7 +47,7 @@ public class CategoryModelAssembler extends AbstractModelAssembler<CategoryModel
     }
 
     @Override
-    public CollectionModel<EntityModel<CategoryModel>> toCollectionModel(Iterable<? extends Category> entities) {
+    public CollectionModel<EntityModel<CategoryRepresentationModel>> toCollectionModel(Iterable<? extends Category> entities) {
         return super.toCollectionModel(entities)
                 .add(linkTo(methodOn(CategoriesController.class).all()).withRel("create"))
                 .add(linkTo(methodOn(CategoriesController.class).all()).withSelfRel());

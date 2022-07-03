@@ -19,20 +19,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class OneTest extends TestCase {
-
     @Autowired
-    private Util util;
-    @TestConfiguration
-    public static class TestConfig{
-        @Bean
-        Util util(UserRepository userRepository){
-            return new Util(userRepository);
-        }
-    }
+    private UserTestHelper userTestHelper;
 
     @Test
     public void test() throws Exception {
-        mvc.perform(requestBuilder(HttpMethod.GET, util.getOneRoute(), "ken123"))
+        userTestHelper.insertData();
+        mvc.perform(requestBuilder(HttpMethod.GET, userTestHelper.getOneRoute(), "ken123"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.username").value("ken123"))

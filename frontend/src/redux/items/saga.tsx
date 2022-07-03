@@ -25,8 +25,12 @@ function* getAllOf(action: PayloadAction<string>): Generator<any, any, any>{
 function addRequestParams(url: string, option: FetchItemOptions){
     let urlWithFilter = url
 
-    urlWithFilter += "?sortingField=price"
-    urlWithFilter += "&sortingDirection=asc"
+    urlWithFilter += option.sorting?.method == "price" 
+        ? "?sortingField=price"
+        : "?sortingField=latest"
+    urlWithFilter += option.sorting?.order == "asc" 
+        ? "&sortingDirection=asc"
+        : "&sortingDirection=desc"
     urlWithFilter = option.filter.maxPrice != null ? (
         urlWithFilter+"&maxPrice="+option?.filter.maxPrice
     ): urlWithFilter

@@ -60,19 +60,19 @@ class IndexTest {
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_HALJSON));
 	}
 	private void assertResponseHasSize(ResultActions response, int size) throws Exception {
-		response.andExpect(jsonPath("$._embedded.categoryModelList", hasSize(2)));
+		response.andExpect(jsonPath("$._embedded.categoryRepresentationModelList", hasSize(2)));
 	}
 	private void assertResponseContainFoodCategory(ResultActions response) throws Exception {
-		response.andExpect(jsonPath("$._embedded.categoryModelList.[0].name", is("food")));
+		response.andExpect(jsonPath("$._embedded.categoryRepresentationModelList.[0].name", is("food")));
 	}
 	private void assertResponseContainToolCategory(ResultActions response) throws Exception {
-		response.andExpect(jsonPath("$._embedded.categoryModelList.[1].name", is("tools")));
+		response.andExpect(jsonPath("$._embedded.categoryRepresentationModelList.[1].name", is("tools")));
 	}
 	private void assertFoodCategoryContainCorrectSubCategories(ResultActions response) throws Exception {
 		response
-				.andExpect(jsonPath("$._embedded.categoryModelList.[0].subCategories[0].id", is(3)))
-				.andExpect(jsonPath("$._embedded.categoryModelList.[0].subCategories[0].name", is("fruit")))
-				.andExpect(jsonPath("$._embedded.categoryModelList.[0].subCategories[1].id", is(4)))
-				.andExpect(jsonPath("$._embedded.categoryModelList.[0].subCategories[1].name", is("meat")));
+				.andExpect(jsonPath("$._embedded.categoryRepresentationModelList.[0].subCategories[0].id", is(3)))
+				.andExpect(jsonPath("$._embedded.categoryRepresentationModelList.[0].subCategories[0].name", is("fruit")))
+				.andExpect(jsonPath("$._embedded.categoryRepresentationModelList.[0].subCategories[1].id", is(4)))
+				.andExpect(jsonPath("$._embedded.categoryRepresentationModelList.[0].subCategories[1].name", is("meat")));
 	}
 }

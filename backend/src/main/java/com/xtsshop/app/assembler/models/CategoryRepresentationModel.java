@@ -1,4 +1,4 @@
-package com.xtsshop.app.viewmodel;
+package com.xtsshop.app.assembler.models;
 
 import com.xtsshop.app.assembler.CategoryModelAssembler;
 import com.xtsshop.app.assembler.ItemModelAssembler;
@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CategoryModel implements AbstractViewModel {
-    static Logger logger = LoggerFactory.getLogger(CategoryModel.class);
+public class CategoryRepresentationModel implements AbstractRepresentationModel {
+    static Logger logger = LoggerFactory.getLogger(CategoryRepresentationModel.class);
     private long id;
 
     private Date created_at;
@@ -26,11 +26,11 @@ public class CategoryModel implements AbstractViewModel {
 
     private String name;
 
-    private List<EntityModel<CategoryModel>> subCategories;
+    private List<EntityModel<CategoryRepresentationModel>> subCategories;
 
-    private List<EntityModel<ItemModel>> items;
+    private List<EntityModel<ItemRepresentationModel>> items;
 
-    public CategoryModel(long id, Date created_at, Date updated_at, String name, List<EntityModel<CategoryModel>> subCategories, List<EntityModel<ItemModel>> items) {
+    public CategoryRepresentationModel(long id, Date created_at, Date updated_at, String name, List<EntityModel<CategoryRepresentationModel>> subCategories, List<EntityModel<ItemRepresentationModel>> items) {
         this.id = id;
         this.created_at = created_at;
         this.updated_at = updated_at;
@@ -39,7 +39,7 @@ public class CategoryModel implements AbstractViewModel {
         this.items = items;
     }
 
-    public static CategoryModel from(
+    public static CategoryRepresentationModel from(
         Category categoryEntity,
         CategoryModelAssembler assembler,
         ItemModelAssembler itemAssembler
@@ -48,9 +48,9 @@ public class CategoryModel implements AbstractViewModel {
 //        ItemModelAssembler itemAssembler = new ItemModelAssembler();
         logger.info("=====================categortModel from=======================");
        logger.info("subCategory.size: "+ (categoryEntity.getSubCategories() != null ? categoryEntity.getSubCategories().stream().count() : -1));
-        List<EntityModel<CategoryModel>> subModels = categoryEntity.getSubCategories().stream().map(assembler::toModel).collect(Collectors.toList());
-        List<EntityModel<ItemModel>> itemModels = categoryEntity.getItems().stream().map(itemAssembler::toModel).collect(Collectors.toList());
-        return new CategoryModel(
+        List<EntityModel<CategoryRepresentationModel>> subModels = categoryEntity.getSubCategories().stream().map(assembler::toModel).collect(Collectors.toList());
+        List<EntityModel<ItemRepresentationModel>> itemModels = categoryEntity.getItems().stream().map(itemAssembler::toModel).collect(Collectors.toList());
+        return new CategoryRepresentationModel(
                 categoryEntity.getId(),
                 categoryEntity.getCreatedAt(),
                 categoryEntity.getUpdatedAt(),

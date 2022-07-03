@@ -25,23 +25,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UpdatePhoneTest extends TestCase {
 
     @Autowired
-    private Util util;
-    @TestConfiguration
-    public static class TestConfig{
-        @Bean
-        Util util(UserRepository userRepository){
-            return new Util(userRepository);
-        }
-    }
+    private UserTestHelper userTestHelper;
 
     @Test
     public void testWrongPassword() throws Exception{
+        userTestHelper.insertData();
         UpdatePhoneForm form = new UpdatePhoneForm("3333", "56012341");
-        mvc.perform(requestBuilder(HttpMethod.PATCH, util.getUpdatePhoneRoute())
+        mvc.perform(requestBuilder(HttpMethod.PATCH, userTestHelper.getUpdatePhoneRoute())
                 .content(mapper.writeValueAsString(form))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isForbidden());
-        AppUser user = util.getUserRepository().findUserByUsername(getAdminUserUsername());
+        AppUser user = userTestHelper.getUserRepository().findUserByUsername(getAdminUserUsername());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         assertNotNull(user);
         assertTrue(encoder.matches("123", user.getPassword()));
@@ -50,12 +44,13 @@ public class UpdatePhoneTest extends TestCase {
     }
     @Test
     public void test() throws Exception{
+        userTestHelper.insertData();
         UpdatePhoneForm form = new UpdatePhoneForm("123", "56012341");
-        mvc.perform(requestBuilder(HttpMethod.PATCH, util.getUpdatePhoneRoute())
+        mvc.perform(requestBuilder(HttpMethod.PATCH, userTestHelper.getUpdatePhoneRoute())
                 .content(mapper.writeValueAsString(form))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());
-        AppUser user = util.getUserRepository().findUserByUsername(getAdminUserUsername());
+        AppUser user = userTestHelper.getUserRepository().findUserByUsername(getAdminUserUsername());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         assertNotNull(user);
         assertTrue(encoder.matches("123", user.getPassword()));

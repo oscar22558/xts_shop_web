@@ -41,8 +41,8 @@ public class ListItemsTest extends TestCase {
         setUserCredential(getUserUsername(), getPassword());
         mvc.perform(requestBuilder(HttpMethod.GET, util.getRoute()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.itemModelList", hasSize(2)))
-                .andExpect(jsonPath("$._embedded.itemModelList.[0].name").value("orange"))
-                .andExpect(jsonPath("$._embedded.itemModelList.[1].name").value("USB data cable"));
+                .andExpect(jsonPath("$._embedded.itemRepresentationModelList", hasSize(2)))
+                .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[0].name").value("orange"))
+                .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[1].name").value("USB data cable"));
     }
 }

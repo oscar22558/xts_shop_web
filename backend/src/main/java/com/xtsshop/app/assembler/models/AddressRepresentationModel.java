@@ -1,20 +1,19 @@
-package com.xtsshop.app.viewmodel;
+package com.xtsshop.app.assembler.models;
 
 import com.xtsshop.app.db.entities.Address;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @Getter
 @NoArgsConstructor
-public class AddressViewModel implements AbstractViewModel{
+public class AddressRepresentationModel implements AbstractRepresentationModel {
     private String country;
     private String city;
     private String row1;
     private String row2;
     private String row3;
-    public static AddressViewModel from(Address entity){
-        AddressViewModel model = new AddressViewModel();
+    public static AddressRepresentationModel from(Address entity){
+        AddressRepresentationModel model = new AddressRepresentationModel();
         model.country = entity.getCountry();
         model.city = entity.getCity();
         model.row1 = entity.getRow1();

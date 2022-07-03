@@ -1,23 +1,23 @@
-package com.xtsshop.app.viewmodel;
+package com.xtsshop.app.assembler.models;
 
 import com.xtsshop.app.db.entities.AppUser;
 import lombok.Getter;
 
 @Getter
-public class UserViewModel implements AbstractViewModel{
+public class UserRepresentationModel implements AbstractRepresentationModel {
     private Long id;
     private String username;
     private String email;
     private String phone;
 
-    public UserViewModel(Long id, String username, String email, String phone) {
+    public UserRepresentationModel(Long id, String username, String email, String phone) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.phone = phone;
     }
-    public static UserViewModel from(AppUser entity){
-        return new UserViewModel(
+    public static UserRepresentationModel from(AppUser entity){
+        return new UserRepresentationModel(
                 entity.getId(),
                 entity.getUsername(),
                 entity.getEmail(),

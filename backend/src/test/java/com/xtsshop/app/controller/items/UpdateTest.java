@@ -38,6 +38,7 @@ class UpdateTest extends TestCase {
 
 	@Test
 	void testCaseNormal() throws Exception {
+		itemTestHelper.insertData();
 		long id = itemTestHelper.getRepository().findAll().get(1).getId();
 		ItemForm form = new ItemForm();
 		form.setName("Gold Scissors");
@@ -63,6 +64,7 @@ class UpdateTest extends TestCase {
 
 	@Test
 	void testCaseUpdateImage() throws Exception{
+		itemTestHelper.insertData();
 		long id = itemTestHelper.getRepository().findAll().get(1).getId();
 		long imgId = itemTestHelper.getRepository().findAll().get(1).getImage().getId();
 		String imgPath = itemTestHelper.getRepository().findAll().get(1).getImage().getPath();

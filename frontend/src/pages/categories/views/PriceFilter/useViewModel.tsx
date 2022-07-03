@@ -1,3 +1,4 @@
+import React, { useEffect } from "react"
 import useFetchItems from "../../../../dataSources/useFetchItems"
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks"
 import selector from "../../../../redux/categories/selector"
@@ -24,7 +25,9 @@ const useViewModel = ()=>{
         getItemsUndeCategoryUrl &&
         fetchItems(getItemsUndeCategoryUrl)
     }
-
+    useEffect(()=>{
+        dispatch(itemsActions.setFetchItemOptions.priceFilter({maxPrice: 10000, minPrice: 0}))
+    }, [])
     return {
         handleSearchBtnClick
     }

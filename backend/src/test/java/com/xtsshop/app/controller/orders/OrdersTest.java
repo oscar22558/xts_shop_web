@@ -12,18 +12,5 @@ import org.springframework.context.annotation.Bean;
 @AutoConfigureMockMvc
 public class OrdersTest extends TestCase {
     @Autowired
-    public Util util;
-
-    @TestConfiguration
-    public static class TestConfig{
-        @Bean
-        public Util util(OrderRepository orderRepository, UserRepository userRepository, RoleRepository roleRepository, ItemRepository itemRepository, OrderWithPaymentData orderWithPaymentData, AddressRepository addressRepository) {
-            return new Util(orderRepository, userRepository, roleRepository, itemRepository, orderWithPaymentData, addressRepository);
-        }
-        @Bean
-        public OrderWithPaymentData orderWithPaymentData(ItemRepository itemRepository, UserRepository userRepository, OrderRepository orderRepository, PaymentRepository paymentRepository){
-            return new OrderWithPaymentData(itemRepository, userRepository, orderRepository, paymentRepository);
-        }
-    }
-
+    public OrderTestHelper orderTestHelper;
 }

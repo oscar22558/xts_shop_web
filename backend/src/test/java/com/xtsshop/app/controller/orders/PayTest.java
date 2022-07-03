@@ -1,5 +1,6 @@
 package com.xtsshop.app.controller.orders;
 
+import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,22 +19,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PayTest extends OrdersTest {
     @Autowired
-    private PayTestUtil payTestUtil;
+    private PayTestHelper payTestHelper;
+
+    @Autowired
+    private DevelopmentDataSeed dataSeed;
+
     @TestConfiguration
     public class TestConfig{
         @Bean
-        PayTestUtil payTestUtil(){
-            return new PayTestUtil();
+        PayTestHelper payTestUtil(){
+            return new PayTestHelper();
         }
     }
 
     @Test
     public void test() throws Exception{
-        util.insertDataWithNewUserOrder();
-        long orderId = util.getLatestOrder().orElseThrow(()->new Exception("No order")).getId();
+        dataSeed.insertData();
+        orderTestHelper.insertDataWithNewUserOrder();
+        long orderId = orderTestHelper.getLatestOrder().orElseThrow(()->new Exception("No order")).getId();
         setUserCredential("mario123", "123");
-        mvc.perform(requestBuilder(HttpMethod.PATCH, payTestUtil.getRoute(util.getGetRequestRoute()), orderId)
-                .content(mapper.writeValueAsString(payTestUtil.buildPaymentCreateForm()))
+        mvc.perform(requestBuilder(HttpMethod.PATCH, payTestHelper.getRoute(orderTestHelper.getOneOrderRoute()), orderId)
+                .content(mapper.writeValueAsString(payTestHelper.buildPaymentCreateForm()))
                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -42,10 +48,11 @@ public class PayTest extends OrdersTest {
 
     @Test
     public void testPayAsAdmin() throws Exception{
-        util.insertDataWithNewUserOrder();
-        long orderId = util.getLatestOrder().orElseThrow(()->new Exception("No order")).getId();
-        mvc.perform(requestBuilder(HttpMethod.PATCH, payTestUtil.getRoute(util.getGetRequestRoute()), orderId)
-                        .content(mapper.writeValueAsString(payTestUtil.buildPaymentCreateForm()))
+        dataSeed.insertData();
+        orderTestHelper.insertDataWithNewUserOrder();
+        long orderId = orderTestHelper.getLatestOrder().orElseThrow(()->new Exception("No order")).getId();
+        mvc.perform(requestBuilder(HttpMethod.PATCH, payTestHelper.getRoute(orderTestHelper.getOneOrderRoute()), orderId)
+                        .content(mapper.writeValueAsString(payTestHelper.buildPaymentCreateForm()))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -54,11 +61,12 @@ public class PayTest extends OrdersTest {
 
     @Test
     public void testPayAsOtherUser() throws Exception{
-        util.insertDataWithNewUserOrder();
-        long orderId = util.getLatestOrder().orElseThrow(()->new Exception("No order")).getId();
+        dataSeed.insertData();
+        orderTestHelper.insertDataWithNewUserOrder();
+        long orderId = orderTestHelper.getLatestOrder().orElseThrow(()->new Exception("No order")).getId();
         setUserCredential(getUserUsername(), "123");
-        mvc.perform(requestBuilder(HttpMethod.PATCH, payTestUtil.getRoute(util.getGetRequestRoute()), orderId)
-                        .content(mapper.writeValueAsString(payTestUtil.buildPaymentCreateForm()))
+        mvc.perform(requestBuilder(HttpMethod.PATCH, payTestHelper.getRoute(orderTestHelper.getOneOrderRoute()), orderId)
+                        .content(mapper.writeValueAsString(payTestHelper.buildPaymentCreateForm()))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())

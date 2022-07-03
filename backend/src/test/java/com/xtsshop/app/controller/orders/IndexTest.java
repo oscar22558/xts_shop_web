@@ -1,6 +1,8 @@
 package com.xtsshop.app.controller.orders;
 
+import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
@@ -17,10 +19,14 @@ import static org.hamcrest.Matchers.*;
 @AutoConfigureMockMvc
 @Transactional
 public class IndexTest extends OrdersTest {
+    @Autowired
+    private DevelopmentDataSeed dataSeed;
+
     @Test
     void test() throws Exception {
-        util.insertDataWithNewUserOrder();
-        mvc.perform(requestBuilder(HttpMethod.GET, util.getRoute()))
+        dataSeed.insertData();
+        orderTestHelper.insertDataWithNewUserOrder();
+        mvc.perform(requestBuilder(HttpMethod.GET, orderTestHelper.getRoute()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._embedded.orderModelList", hasSize(2)))
@@ -30,9 +36,10 @@ public class IndexTest extends OrdersTest {
     }
     @Test
     void testAccessAsNormalUser() throws Exception {
-        util.insertDataWithNewUserOrder();
+        dataSeed.insertData();
+        orderTestHelper.insertDataWithNewUserOrder();
         setUserCredential("marry123", "123");
-        mvc.perform(requestBuilder(HttpMethod.GET, util.getRoute()))
+        mvc.perform(requestBuilder(HttpMethod.GET, orderTestHelper.getRoute()))
                 .andDo(print())
                 .andExpect(status().isForbidden());
 

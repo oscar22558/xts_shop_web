@@ -9,11 +9,11 @@ import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.form.orders.OrderCreateForm;
 import com.xtsshop.app.domain.request.orders.OrderCreateRequest;
 import com.xtsshop.app.domain.request.orders.PaymentCreateRequest;
-import com.xtsshop.app.response.CreateResponseBuilder;
+import com.xtsshop.app.viewmodel.CreateRequestViewModel;
 import com.xtsshop.app.domain.service.auth.UserIdentityService;
 import com.xtsshop.app.domain.service.orders.OrdersService;
 import com.xtsshop.app.domain.service.users.TargetUserService;
-import com.xtsshop.app.viewmodel.OrderModel;
+import com.xtsshop.app.assembler.models.OrderRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +39,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<OrderModel>> list(@NotBlank @PathVariable String username) throws UnAuthorizationException {
+    public CollectionModel<EntityModel<OrderRepresentationModel>> list(@NotBlank @PathVariable String username) throws UnAuthorizationException {
         AppUser user = targetUserService.getUser(username);
         return modelAssembler.toCollectionModel(user.getOrders());
     }
@@ -58,10 +58,10 @@ public class OrderController {
                 throw new RuntimeException(e);
             }
         });
-        return new CreateResponseBuilder<OrderModel, Order>()
+        return new CreateRequestViewModel<OrderRepresentationModel, Order>()
                 .setEntity(entity)
                 .setModelAssembler(modelAssembler)
-                .build();
+                .getResponse();
     }
 
 }

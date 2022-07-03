@@ -7,11 +7,9 @@ import com.xtsshop.app.assembler.OrderModelAssembler;
 import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.domain.service.storage.FilePathToUrlConverter;
 import com.xtsshop.app.form.orders.PaymentCreateForm;
-import com.xtsshop.app.response.UpdateResponseBuilder;
+import com.xtsshop.app.viewmodel.UpdateRequestViewModel;
 import com.xtsshop.app.domain.service.orders.OrdersService;
-import com.xtsshop.app.domain.service.storage.StorageService;
-import com.xtsshop.app.viewmodel.OrderModel;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.xtsshop.app.assembler.models.OrderRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -33,12 +31,12 @@ public class OrderController {
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<OrderModel>> list(){
+    public CollectionModel<EntityModel<OrderRepresentationModel>> list(){
         return modelAssembler.toCollectionModel(ordersService.all());
     }
 
     @GetMapping("/{orderId}")
-    public EntityModel<OrderModel> get(@PathVariable @NotBlank Long orderId) throws RecordNotFoundException, UnAuthorizationException{
+    public EntityModel<OrderRepresentationModel> get(@PathVariable @NotBlank Long orderId) throws RecordNotFoundException, UnAuthorizationException{
         return modelAssembler.toModel(ordersService.get(orderId));
     }
     @PatchMapping("/{orderId}/cancel")
@@ -71,9 +69,9 @@ public class OrderController {
         return getUpdateStatusResponse(entity);
     }
     private ResponseEntity<?> getUpdateStatusResponse(Order entity){
-        return new UpdateResponseBuilder<OrderModel, Order>()
+        return new UpdateRequestViewModel<OrderRepresentationModel, Order>()
                 .setEntity(entity)
                 .setModelAssembler(modelAssembler)
-                .build();
+                .getResponse();
     }
 }

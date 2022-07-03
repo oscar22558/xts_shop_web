@@ -1,12 +1,13 @@
-package com.xtsshop.app.viewmodel.builder;
+package com.xtsshop.app.assembler.models.builder;
 
+import com.xtsshop.app.assembler.models.BrandRepresentationModel;
 import com.xtsshop.app.db.entities.Brand;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.domain.service.storage.FilePathToUrlConverter;
-import com.xtsshop.app.domain.service.storage.StorageService;
-import com.xtsshop.app.viewmodel.BrandViewModel;
-import com.xtsshop.app.viewmodel.ItemModel;
-import com.xtsshop.app.viewmodel.PriceHistoryViewModel;
+import com.xtsshop.app.assembler.models.ItemRepresentationModel;
+import com.xtsshop.app.assembler.models.PriceHistoryPresentationModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
@@ -14,8 +15,8 @@ public class ItemModelBuilder {
 
     private Item itemEntity;
     private FilePathToUrlConverter filePathToUrlConverter;
-    private Optional<PriceHistoryViewModel> priceHistoryModel;
-    private BrandViewModel brandViewModel;
+    private Optional<PriceHistoryPresentationModel> priceHistoryModel;
+    private BrandRepresentationModel brandRepresentationModel;
     public ItemModelBuilder(){
        priceHistoryModel = Optional.empty();
     }
@@ -29,30 +30,32 @@ public class ItemModelBuilder {
         return this;
     }
 
-    public ItemModelBuilder replacePriceHistoryModel(PriceHistoryViewModel priceHistoryViewModel) {
-        this.priceHistoryModel = Optional.of(priceHistoryViewModel);
+    public ItemModelBuilder replacePriceHistoryModel(PriceHistoryPresentationModel priceHistoryPresentationModel) {
+        this.priceHistoryModel = Optional.of(priceHistoryPresentationModel);
         return this;
     }
 
     public ItemModelBuilder setBrand(Brand brand) {
-        brandViewModel = new BrandViewModelBuilder()
-                .setId(brand.getId())
-                .setName(brand.getName())
-                .build();
+        brandRepresentationModel = new BrandRepresentationModel(brand);
         return this;
     }
 
-    public ItemModel build(){
+    public ItemRepresentationModel build(){
         if(itemEntity == null ) throw new NullPointerException("itemEntity cannot be null");
         if(filePathToUrlConverter == null) throw new NullPointerException("storageService cannot be null");
+        Logger logger = LoggerFactory.getLogger(ItemModelBuilder.class);
+        if(itemEntity.getImage() == null){
+            logger.info("=== item without image=====");
+            logger.info(itemEntity.getName());
+        }
         String imgUrl = filePathToUrlConverter.getUrl(itemEntity.getImage().getPath());
         // price = null if no record
-        PriceHistoryViewModel price = priceHistoryModel.orElse(
+        PriceHistoryPresentationModel price = priceHistoryModel.orElse(
                 itemEntity.getLatestPriceHistory()
-                .flatMap(priceHistory -> Optional.of(PriceHistoryViewModel.from(priceHistory)))
+                .flatMap(priceHistory -> Optional.of(PriceHistoryPresentationModel.from(priceHistory)))
                 .orElse(null)
         );
-        ItemModel model = new ItemModel();
+        ItemRepresentationModel model = new ItemRepresentationModel();
         model.setId(itemEntity.getId());
         model.setCreatedAt(itemEntity.getCreatedAt());
         model.setUpdatedAt(itemEntity.getUpdatedAt());
@@ -61,7 +64,7 @@ public class ItemModelBuilder {
         model.setImgUrl(imgUrl);
         model.setManufacturer(itemEntity.getManufacturer());
         model.setStock(itemEntity.getStock());
-        model.setBrand(brandViewModel);
+        model.setBrand(brandRepresentationModel);
         return model;
     }
 

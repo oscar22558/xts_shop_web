@@ -1,4 +1,4 @@
-package com.xtsshop.app.viewmodel;
+package com.xtsshop.app.assembler.models;
 
 import com.xtsshop.app.db.entities.PriceHistory;
 import lombok.Getter;
@@ -10,19 +10,19 @@ import java.sql.Date;
 @Getter
 @NoArgsConstructor
 @Setter
-public class PriceHistoryViewModel {
+public class PriceHistoryPresentationModel {
     private Long id;
     private Date createAt;
     private Float value;
 
-    public PriceHistoryViewModel(Long id, Date createAt, Float value) {
+    public PriceHistoryPresentationModel(Long id, Date createAt, Float value) {
         this.id = id;
         this.createAt = createAt;
         this.value = value;
     }
 
-    public static PriceHistoryViewModel from(PriceHistory entity){
-        return new PriceHistoryViewModel(
+    public static PriceHistoryPresentationModel from(PriceHistory entity){
+        return new PriceHistoryPresentationModel(
                 entity.getId(),
                 entity.getCreatedAt(),
                 entity.getValue()

@@ -5,7 +5,7 @@ import com.xtsshop.app.form.orders.PaymentCreateForm;
 import org.springframework.stereotype.Component;
 
 @Component("app.http.orders.PayTestUtil")
-public class PayTestUtil {
+public class PayTestHelper {
     public String getRoute(String baseUrl){
         return baseUrl+"/pay";
     }

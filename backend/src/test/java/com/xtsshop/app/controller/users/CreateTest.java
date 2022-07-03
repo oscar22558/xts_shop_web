@@ -25,23 +25,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CreateTest extends TestCase {
 
     @Autowired
-    private Util util;
-    @TestConfiguration
-    public static class TestConfig{
-        @Bean
-        Util util(UserRepository userRepository){
-            return new Util(userRepository);
-        }
-    }
+    private UserTestHelper userTestHelper;
 
     @Test
     public void test() throws Exception{
         CreateUserForm form = new CreateUserForm("chris321", "123456789", "ken321@gmail.com", "23224567");
-        mvc.perform(post(util.getRoute())
+        mvc.perform(post(userTestHelper.getRoute())
                 .content(mapper.writeValueAsString(form))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated());
-        AppUser user = util.getUserRepository().findUserByUsername("chris321");
+        AppUser user = userTestHelper.getUserRepository().findUserByUsername("chris321");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         assertNotNull(user);
         assertTrue(encoder.matches("123456789", user.getPassword()));
@@ -51,7 +44,7 @@ public class CreateTest extends TestCase {
     @Test
     public void testInvalidUsername() throws Exception{
         CreateUserForm form = new CreateUserForm("chris32++1;;;", "123456789", "ken321@gmail.com", "23224567");
-        MvcResult result = mvc.perform(post(util.getRoute())
+        MvcResult result = mvc.perform(post(userTestHelper.getRoute())
                 .content(mapper.writeValueAsString(form))
                 .contentType(MediaType.APPLICATION_JSON)
             )
@@ -65,7 +58,7 @@ public class CreateTest extends TestCase {
     @Test
     public void testInvalidPassword() throws Exception{
         CreateUserForm form = new CreateUserForm("chris3222", "12345", "ken321@gmail.com", "23224567");
-        MvcResult result = mvc.perform(post(util.getRoute())
+        MvcResult result = mvc.perform(post(userTestHelper.getRoute())
                         .content(mapper.writeValueAsString(form))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -79,7 +72,7 @@ public class CreateTest extends TestCase {
     @Test
     public void testInvalidEmail() throws Exception {
         CreateUserForm form = new CreateUserForm("chris3222", "12345777777", "ken321gmail.com", "23224567");
-        MvcResult result = mvc.perform(post(util.getRoute())
+        MvcResult result = mvc.perform(post(userTestHelper.getRoute())
                         .content(mapper.writeValueAsString(form))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -92,7 +85,7 @@ public class CreateTest extends TestCase {
     @Test
     public void testInvalidPhone() throws Exception {
         CreateUserForm form = new CreateUserForm("chris3222", "12345777777", "ken321@gmail.com", "232245=-=");
-        MvcResult result = mvc.perform(post(util.getRoute())
+        MvcResult result = mvc.perform(post(userTestHelper.getRoute())
                         .content(mapper.writeValueAsString(form))
                         .contentType(MediaType.APPLICATION_JSON)
                 )

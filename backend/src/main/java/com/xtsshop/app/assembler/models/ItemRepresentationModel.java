@@ -1,4 +1,4 @@
-package com.xtsshop.app.viewmodel;
+package com.xtsshop.app.assembler.models;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,14 +9,14 @@ import java.sql.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ItemModel implements AbstractViewModel {
+public class ItemRepresentationModel implements AbstractRepresentationModel {
     private long id;
     private Date createdAt;
     private Date updatedAt;
     private String name;
-    private PriceHistoryViewModel price;
+    private PriceHistoryPresentationModel price;
     private String imgUrl;
     private String manufacturer;
     private Integer stock;
-    private BrandViewModel brand;
+    private BrandRepresentationModel brand;
 }

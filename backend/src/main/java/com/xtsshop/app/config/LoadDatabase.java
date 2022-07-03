@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LoadDatabase {
 
-    private boolean localDevelopment = true;
+    private boolean localDevelopment = false;
 
     @Bean
     public CommandLineRunner initDatabase(DevelopmentDataSeed seed) {

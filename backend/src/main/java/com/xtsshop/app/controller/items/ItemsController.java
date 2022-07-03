@@ -8,11 +8,11 @@ import com.xtsshop.app.domain.service.items.*;
 import com.xtsshop.app.domain.request.items.CreateItemRequest;
 import com.xtsshop.app.domain.request.items.CreateItemRequestBuilder;
 import com.xtsshop.app.form.items.UpdateItemForm;
-import com.xtsshop.app.response.CreateResponseBuilder;
-import com.xtsshop.app.response.DeleteResponseBuilder;
-import com.xtsshop.app.response.UpdateResponseBuilder;
+import com.xtsshop.app.viewmodel.CreateRequestViewModel;
+import com.xtsshop.app.viewmodel.DeleteRequestViewModel;
+import com.xtsshop.app.viewmodel.UpdateRequestViewModel;
 import com.xtsshop.app.domain.service.items.images.ImagesService;
-import com.xtsshop.app.viewmodel.ItemModel;
+import com.xtsshop.app.assembler.models.ItemRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -44,12 +44,12 @@ public class ItemsController{
     }
 
     @GetMapping("/{id}")
-    public EntityModel<ItemModel> one(@PathVariable Long id) throws RecordNotFoundException {
+    public EntityModel<ItemRepresentationModel> one(@PathVariable Long id) throws RecordNotFoundException {
         return modelAssembler.toModel(service.get(id));
     }
 
     @GetMapping()
-    public CollectionModel<EntityModel<ItemModel>> all() {
+    public CollectionModel<EntityModel<ItemRepresentationModel>> all() {
         return modelAssembler.toCollectionModel(service.all());
     }
 
@@ -73,19 +73,19 @@ public class ItemsController{
                 .setBrandId(brandId)
                 .build();
         Item item = createItemService.create(request);
-        return new CreateResponseBuilder<ItemModel, Item>()
+        return new CreateRequestViewModel<ItemRepresentationModel, Item>()
                 .setEntity(item)
                 .setModelAssembler(modelAssembler)
-                .build();
+                .getResponse();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EntityModel<ItemModel>> update(@PathVariable Long id, @RequestBody UpdateItemForm form) {
+    public ResponseEntity<EntityModel<ItemRepresentationModel>> update(@PathVariable Long id, @RequestBody UpdateItemForm form) {
         Item entity = updateItemService.update(form.toRequest(id));
-        return new UpdateResponseBuilder<ItemModel, Item>()
+        return new UpdateRequestViewModel<ItemRepresentationModel, Item>()
                 .setEntity(entity)
                 .setModelAssembler(modelAssembler)
-                .build();
+                .getResponse();
     }
 
     @PostMapping("/{id}/image")
@@ -94,15 +94,15 @@ public class ItemsController{
             @RequestPart MultipartFile image
     ) throws RecordNotFoundException {
         Item item = updateItemImageService.update(new UpdateItemImageRequest(id, image));
-        return new CreateResponseBuilder<ItemModel, Item>()
+        return new CreateRequestViewModel<ItemRepresentationModel, Item>()
                 .setEntity(item)
                 .setModelAssembler(modelAssembler)
-                .build();
+                .getResponse();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) throws RecordNotFoundException {
         deleteItemService.delete(id);
-        return new DeleteResponseBuilder().build();
+        return new DeleteRequestViewModel().getResponse();
     }
 }

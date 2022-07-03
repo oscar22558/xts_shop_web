@@ -1,5 +1,4 @@
 import {Action, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { stat } from "fs";
 import BrandFilter from "../../dataSources/dto/BrandFilter";
 import FetchItemOptions from "../../dataSources/dto/FetchItemOptions";
 import ItemSorting from "../../dataSources/dto/ItemSorting";

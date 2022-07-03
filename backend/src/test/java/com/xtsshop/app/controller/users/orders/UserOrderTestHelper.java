@@ -8,6 +8,7 @@ import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.db.repositories.OrderRepository;
 import com.xtsshop.app.db.repositories.RoleRepository;
 import com.xtsshop.app.db.repositories.UserRepository;
+import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import com.xtsshop.app.form.orders.OrderCreateForm;
 import com.xtsshop.app.form.orders.OrderedItemCreateForm;
 import com.xtsshop.app.form.orders.PaymentCreateForm;
@@ -21,19 +22,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@Component("tests.http.users.orders.Util")
-public class Util {
+@Component
+public class UserOrderTestHelper {
 
     private String route = "/api/users/{username}/orders";
     private ItemRepository itemRepository;
     private UserRepository userRepository;
     private OrderRepository orderRepository;
     private RoleRepository roleRepository;
-    public Util(ItemRepository itemRepository, UserRepository userRepository, OrderRepository orderRepository, RoleRepository roleRepository) {
+    private DevelopmentDataSeed seed;
+
+    public UserOrderTestHelper(ItemRepository itemRepository, UserRepository userRepository, OrderRepository orderRepository, RoleRepository roleRepository, DevelopmentDataSeed seed) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.roleRepository = roleRepository;
+        this.seed = seed;
     }
 
     public String getRoute() {
@@ -158,4 +162,7 @@ public class Util {
         return userRepository.findUserByUsername(username);
     }
 
+    public void insertData(){
+        seed.insertData();
+    }
 }

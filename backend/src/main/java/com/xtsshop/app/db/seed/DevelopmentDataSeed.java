@@ -171,6 +171,8 @@ public class DevelopmentDataSeed {
                 .build()
         );
         user.setAddresses(addresses);
+        user.setOrders(List.of());
+        user.setCart(Set.of());
         userRepository.save(user);
     }
     public void createRoles(Date now){

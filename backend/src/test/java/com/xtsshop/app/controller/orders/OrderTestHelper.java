@@ -4,7 +4,10 @@ import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.OrderBuilder;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
 import com.xtsshop.app.db.repositories.*;
+import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import com.xtsshop.app.util.DateTimeUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -15,19 +18,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@Component("tests.http.orders.Util")
 @Transactional
-public class Util {
+@Component
+public class OrderTestHelper {
 
     private String route = "/api/orders";
-    private String getRequestRoute = "/api/orders/{orderId}";
+    private String oneOrderRoute = "/api/orders/{orderId}";
     private OrderRepository orderRepository;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private ItemRepository itemRepository;
     private OrderWithPaymentData orderWithPaymentData;
     private AddressRepository addressRepository;
-    public Util(OrderRepository orderRepository, UserRepository userRepository, RoleRepository roleRepository, ItemRepository itemRepository, OrderWithPaymentData orderWithPaymentData, AddressRepository addressRepository) {
+
+    public OrderTestHelper(OrderRepository orderRepository, UserRepository userRepository, RoleRepository roleRepository, ItemRepository itemRepository, OrderWithPaymentData orderWithPaymentData, AddressRepository addressRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -39,7 +43,7 @@ public class Util {
     public String getRoute() {
         return route;
     }
-    public String getGetRequestRoute(){ return getRequestRoute; }
+    public String getOneOrderRoute(){ return oneOrderRoute; }
     public void insertData(){
         AppUser user = userRepository.findUserByUsername("marry123");
         user = insertAddressForUser(user);
@@ -77,9 +81,8 @@ public class Util {
                 .setStatus(OrderStatus.WAITING_PAYMENT)
                 .setOrderedItems(orderedItems)
                 .build();
-        user.getOrders().add(order);
         orderRepository.save(order);
-        return userRepository.save(user);
+        return userRepository.findUserByUsername(user.getUsername());
     }
     public AppUser insertNewUser(){
         Date now = new DateTimeUtil().now();

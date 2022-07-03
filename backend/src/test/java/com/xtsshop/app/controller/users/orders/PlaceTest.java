@@ -31,33 +31,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PlaceTest extends TestCase {
 
     @Autowired
-    private Util util;
-
-    @TestConfiguration
-    public static class TestConfig{
-        @Bean
-        Util util(
-                ItemRepository itemRepository,
-                UserRepository userRepository,
-                OrderRepository orderRepository,
-                RoleRepository roleRepository
-        ){
-            return new Util(itemRepository, userRepository, orderRepository, roleRepository);
-        }
-    }
+    private UserOrderTestHelper userOrderTestHelper;
 
     @Test
     @Transactional
     public void testWithPayment() throws Exception {
+        userOrderTestHelper.insertData();
         setUserCredential(getUserUsername(), getPassword());
-        util.updatePriceOfItem();
-        mvc.perform(requestBuilder(HttpMethod.POST, util.getRoute(), "marry123")
-                        .content(mapper.writeValueAsBytes(util.buildCreatFormWithPayment()))
+        userOrderTestHelper.updatePriceOfItem();
+        mvc.perform(requestBuilder(HttpMethod.POST, userOrderTestHelper.getRoute(), "marry123")
+                        .content(mapper.writeValueAsBytes(userOrderTestHelper.buildCreatFormWithPayment()))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isCreated())
                 .andDo(print());
-        Order order = util.getLatestOrder().orElseThrow();
+        Order order = userOrderTestHelper.getLatestOrder().orElseThrow();
         assertEquals((long) order.getOrderedItems().size(), 2);
         assertEquals(order.getOrderedItems().get(0).getItem().getName(), "apple");
         assertEquals(order.getOrderedItems().get(0).getOrderPrice().getValue(), 12.2f);
@@ -73,15 +61,16 @@ public class PlaceTest extends TestCase {
     @Test
     @Transactional
     public void testWithoutPayment() throws Exception {
+        userOrderTestHelper.insertData();
         setUserCredential("marry123", "123");
-        mvc.perform(requestBuilder(HttpMethod.POST, util.getRoute(), "marry123")
-                        .content(mapper.writeValueAsBytes(util.buildCreatFormWithoutPayment()))
+        mvc.perform(requestBuilder(HttpMethod.POST, userOrderTestHelper.getRoute(), "marry123")
+                        .content(mapper.writeValueAsBytes(userOrderTestHelper.buildCreatFormWithoutPayment()))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isCreated())
                 .andDo(print());
 
-        Order order = util.getLatestOrder().orElseThrow();
+        Order order = userOrderTestHelper.getLatestOrder().orElseThrow();
         assertEquals((long) order.getOrderedItems().size(), 2);
         assertNull(order.getPayment());
         assertEquals(order.getStatus(), OrderStatus.WAITING_PAYMENT);
@@ -94,8 +83,8 @@ public class PlaceTest extends TestCase {
     @Test
     @Transactional
     public void testWithPaymentAsAdmin() throws Exception {
-        mvc.perform(requestBuilder(HttpMethod.POST, util.getRoute(), "marry123")
-                        .content(mapper.writeValueAsBytes(util.buildCreatFormWithPayment()))
+        mvc.perform(requestBuilder(HttpMethod.POST, userOrderTestHelper.getRoute(), "marry123")
+                        .content(mapper.writeValueAsBytes(userOrderTestHelper.buildCreatFormWithPayment()))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isForbidden())
@@ -104,10 +93,10 @@ public class PlaceTest extends TestCase {
     @Test
     @Transactional
     public void testWithPaymentAsOtherUser() throws Exception {
-        util.insertNewUser();
+        userOrderTestHelper.insertNewUser();
         setUserCredential("mario123", "123");
-        mvc.perform(requestBuilder(HttpMethod.POST, util.getRoute(), "marry123")
-                        .content(mapper.writeValueAsBytes(util.buildCreatFormWithPayment()))
+        mvc.perform(requestBuilder(HttpMethod.POST, userOrderTestHelper.getRoute(), "marry123")
+                        .content(mapper.writeValueAsBytes(userOrderTestHelper.buildCreatFormWithPayment()))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isForbidden())

@@ -26,30 +26,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class IndexTest extends TestCase {
     @Autowired
-    private Util util;
-
-    @TestConfiguration
-    public static class TestConfig{
-        @Bean
-        Util util(
-                ItemRepository itemRepository,
-                UserRepository userRepository,
-                OrderRepository orderRepository,
-                RoleRepository roleRepository
-        ){
-            return new Util(itemRepository, userRepository, orderRepository, roleRepository);
-        }
-    }
+    private UserOrderTestHelper userOrderTestHelper;
 
     @Test
     @Transactional
     public void test() throws Exception {
-        util.insertOrderForUser();
-        util.insertOrderForUser();
-        util.insertOrderForNewUser(util.insertNewUser().getUsername());
+        userOrderTestHelper.insertData();
+        userOrderTestHelper.insertOrderForUser();
+        userOrderTestHelper.insertOrderForUser();
+        userOrderTestHelper.insertOrderForNewUser(userOrderTestHelper.insertNewUser().getUsername());
         setUserCredential("marry123", "123");
         mvc.perform(
-            requestBuilder(HttpMethod.GET, util.getRoute(), "marry123")
+            requestBuilder(HttpMethod.GET, userOrderTestHelper.getRoute(), "marry123")
                .contentType(MediaType.APPLICATION_JSON)
         )
                .andExpect(status().isOk())
@@ -70,12 +58,13 @@ public class IndexTest extends TestCase {
     @Test
     @Transactional
     public void testAccessAsAdmin() throws Exception {
-        util.insertOrderForUser();
-        util.insertOrderForUser();
-        util.insertOrderForNewUser(util.insertNewUser().getUsername());
+        userOrderTestHelper.insertData();
+        userOrderTestHelper.insertOrderForUser();
+        userOrderTestHelper.insertOrderForUser();
+        userOrderTestHelper.insertOrderForNewUser(userOrderTestHelper.insertNewUser().getUsername());
 
         mvc.perform(
-                        requestBuilder(HttpMethod.GET, util.getRoute(), "marry123")
+                        requestBuilder(HttpMethod.GET, userOrderTestHelper.getRoute(), "marry123")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -96,12 +85,12 @@ public class IndexTest extends TestCase {
     @Test
     @Transactional
     public void testAccessAsOtherUser() throws Exception {
-        util.insertOrderForUser();
-        util.insertOrderForUser();
-        util.insertOrderForNewUser(util.insertNewUser().getUsername());
+        userOrderTestHelper.insertOrderForUser();
+        userOrderTestHelper.insertOrderForUser();
+        userOrderTestHelper.insertOrderForNewUser(userOrderTestHelper.insertNewUser().getUsername());
         setUserCredential("mario123", "123");
         mvc.perform(
-                        requestBuilder(HttpMethod.GET, util.getRoute(), "marry123")
+                        requestBuilder(HttpMethod.GET, userOrderTestHelper.getRoute(), "marry123")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isForbidden());
