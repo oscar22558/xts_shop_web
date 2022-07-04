@@ -34,13 +34,14 @@ public class ItemsController{
     private DeleteItemService deleteItemService;
     private UpdateItemImageService updateItemImageService;
 
-    public ItemsController(QueryItemsService service, ItemModelAssembler modelAssembler, ImagesService imagesService, CreateItemService createItemService, UpdateItemService updateItemService, DeleteItemService deleteItemService) {
+    public ItemsController(QueryItemsService service, ItemModelAssembler modelAssembler, ImagesService imagesService, CreateItemService createItemService, UpdateItemService updateItemService, DeleteItemService deleteItemService, UpdateItemImageService updateItemImageService) {
         this.service = service;
         this.modelAssembler = modelAssembler;
         this.imagesService = imagesService;
         this.createItemService = createItemService;
         this.updateItemService = updateItemService;
         this.deleteItemService = deleteItemService;
+        this.updateItemImageService = updateItemImageService;
     }
 
     @GetMapping("/{id}")

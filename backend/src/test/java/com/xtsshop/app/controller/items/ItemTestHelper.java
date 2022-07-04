@@ -10,10 +10,7 @@ import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.db.repositories.PriceHistoryRepository;
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import com.xtsshop.app.domain.service.storage.FilePathToUrlConverter;
-import com.xtsshop.app.domain.service.storage.StorageService;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
@@ -109,12 +106,63 @@ public class ItemTestHelper {
         );
     }
 
-    public String getFirstBrandId(){
-        return String.valueOf(brandRepository.findAll().get(0).getId());
+    public String getBrandId(int index){
+        return String.valueOf(brandRepository.findAll().get(index).getId());
     }
 
-    public String getFirstItemId(){
-        Item entity = getRepository().findAll().get(0);
-        return String.valueOf(entity.getId());
+    public String getItemIdStr(int index){
+        Long itemId = getItemId(index);
+        return String.valueOf(itemId);
+    }
+
+    public long getItemId(int index){
+        return getRepository()
+                .findAll()
+                .get(index)
+                .getId();
+    }
+
+    public String getItemName(int index){
+        return getRepository()
+                .findAll()
+                .get(index)
+                .getName();
+    }
+
+    public float getItemPrice(int index){
+        return getRepository()
+                .findAll()
+                .get(index)
+                .getPrice();
+    }
+
+    public int countItemPriceHistories(int index){
+        return getRepository()
+                .findAll()
+                .get(index)
+                .getPriceHistories()
+                .size();
+    }
+
+    public String getItemManufacturer(int index){
+        return getRepository()
+                .findAll()
+                .get(index)
+                .getManufacturer();
+    }
+
+    public int getItemStock(int index){
+        return getRepository()
+                .findAll()
+                .get(index)
+                .getStock();
+    }
+
+    public String getItemImagePath(int index){
+        return getRepository()
+                .findAll()
+                .get(index)
+                .getImage()
+                .getPath();
     }
 }

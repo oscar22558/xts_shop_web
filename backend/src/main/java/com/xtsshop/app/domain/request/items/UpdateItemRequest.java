@@ -18,27 +18,27 @@ public class UpdateItemRequest {
         this.id = id;
     }
     public void setCategoryId(Long categoryId) {
-        this.categoryId = Optional.of(categoryId);
+        this.categoryId = Optional.ofNullable(categoryId);
     }
 
     public void setName(String name) {
-        this.name = Optional.of(name);
+        this.name = Optional.ofNullable(name);
     }
 
     public void setPrice(Float price) {
-        this.price = Optional.of(price);
+        this.price = Optional.ofNullable(price);
     }
 
     public void setManufacturer(String manufacturer) {
-        this.manufacturer = Optional.of(manufacturer);
+        this.manufacturer = Optional.ofNullable(manufacturer);
     }
 
     public void setStock(Integer stock) {
-        this.stock = Optional.of(stock);
+        this.stock = Optional.ofNullable(stock);
     }
 
     public void setBrandId(Long brandId) {
-        this.brandId = Optional.of(brandId);
+        this.brandId = Optional.ofNullable(brandId);
     }
 
 

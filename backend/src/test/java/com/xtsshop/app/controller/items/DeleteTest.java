@@ -42,7 +42,7 @@ class DeleteTest extends TestCase {
 	}
 
 	public MockHttpServletRequestBuilder buildRequest() throws Exception{
-		return requestBuilder(HttpMethod.DELETE, route, itemTestHelper.getFirstItemId());
+		return requestBuilder(HttpMethod.DELETE, route, itemTestHelper.getItemIdStr(0));
 	}
 
 	public void assertResponseIsOk(ResultActions response) throws Exception{

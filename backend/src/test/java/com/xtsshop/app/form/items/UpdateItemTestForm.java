@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 @Setter
 @Getter
 @NoArgsConstructor
-public class ItemForm {
+public class UpdateItemTestForm {
 
     @Nullable
     private String name;
@@ -19,5 +19,5 @@ public class ItemForm {
     @Nullable
     private Long categoryId;
     @Nullable
-    private Integer stack;
+    private Integer stock;
 }

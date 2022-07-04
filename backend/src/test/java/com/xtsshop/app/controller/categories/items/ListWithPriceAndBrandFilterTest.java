@@ -32,8 +32,7 @@ public class ListWithPriceAndBrandFilterTest extends TestCase {
         assertResponseIsEmpty(response);
     }
     private MockHttpServletRequestBuilder buildRequestWithBrandAndPriceFilter(){
-        return get(util.getRoute())
-                .queryParam("categoryIds[]", util.getFoodCategoryId()+"")
+        return get(util.getRoute(util.getFoodCategoryId()))
                 .queryParam("brandIds[]", util.getBrandId()+"")
                 .queryParam("maxPrice", 5f+"")
                 .queryParam("minPrice", 12f+"");
@@ -56,8 +55,7 @@ public class ListWithPriceAndBrandFilterTest extends TestCase {
     }
 
     private MockHttpServletRequestBuilder buildRequestWithBrandFilter(){
-       return get(util.getRoute())
-               .queryParam("categoryIds[]", util.getFoodCategoryId()+"")
+       return get(util.getRoute(util.getFoodCategoryId()))
                .queryParam("brandIds[]", util.getBrandId()+"");
     }
 
@@ -74,8 +72,7 @@ public class ListWithPriceAndBrandFilterTest extends TestCase {
     }
 
     private MockHttpServletRequestBuilder buildRequestWithPriceFilter() throws Exception{
-       return get(util.getRoute())
-               .queryParam("categoryIds[]", util.getFoodCategoryId()+"")
+       return get(util.getRoute(util.getFoodCategoryId()))
                .queryParam("maxPrice", 23.2f+"")
                .queryParam("minPrice", 23.1f+"");
     }
@@ -90,31 +87,6 @@ public class ListWithPriceAndBrandFilterTest extends TestCase {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_HALJSON));
     }
 
-    @Test
-    public void testCaseWithLargerCategorySet() throws Exception{
-        util.insertData();
-        ResultActions response = util.getMockMvc().perform(buildRequestWithLargerCategorySet());
-        assertResponseContainItemFromFood(response);
-        assertResponseHasSize(response, 4);
-        assertResponseContainItemFromMobileDevicePeripheral(response);
-    }
-    private MockHttpServletRequestBuilder buildRequestWithLargerCategorySet(){
-        return get(util.getRoute())
-                .queryParam("categoryIds[]", util.getMobileDevicePeripheralId()+"")
-                .queryParam("categoryIds[]", util.getFoodCategoryId()+"");
-    }
-    private void assertResponseContainItemFromMobileDevicePeripheral(ResultActions response) throws Exception {
-        assertResponseContainStand(response);
-    }
-    private void assertResponseContainStand(ResultActions response) throws Exception{
-        response.andExpect(jsonPath("$._embedded.itemRepresentationModelList.[3].name", is("ABC stand")))
-                .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[3].price.value", is(55.2)))
-                .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[3].manufacturer", is("manufacturer 2")));
-    }
-
-    private void assertResponseContainItemFromFood(ResultActions response) throws Exception {
-        assertResponseContainApple(response);
-    }
     private void assertResponseContainApple(ResultActions response) throws Exception {
         response.andExpect(jsonPath("$._embedded.itemRepresentationModelList.[0].name", is("apple")))
                 .andExpect(jsonPath("$._embedded.itemRepresentationModelList.[0].price.value", is(12.2)))

@@ -7,6 +7,7 @@ import com.xtsshop.app.db.entities.PriceHistory;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
 import com.xtsshop.app.db.repositories.CategoryRepository;
 import com.xtsshop.app.db.repositories.ItemRepository;
+import com.xtsshop.app.db.repositories.PriceHistoryRepository;
 import com.xtsshop.app.domain.request.items.UpdateItemRequest;
 import com.xtsshop.app.domain.service.items.images.ImagesService;
 import com.xtsshop.app.util.DateTimeUtil;
@@ -20,9 +21,17 @@ public class UpdateItemService {
     private ItemRepository repository;
     private CategoryRepository categoryRepository;
     private ImagesService imagesService;
+    private PriceHistoryRepository priceHistoryRepository;
 
     private UpdateItemRequest request;
     private Item item;
+
+    public UpdateItemService(ItemRepository repository, CategoryRepository categoryRepository, ImagesService imagesService, PriceHistoryRepository priceHistoryRepository) {
+        this.repository = repository;
+        this.categoryRepository = categoryRepository;
+        this.imagesService = imagesService;
+        this.priceHistoryRepository = priceHistoryRepository;
+    }
 
     public Item update(UpdateItemRequest request) {
         this.request = request;
@@ -55,6 +64,7 @@ public class UpdateItemService {
                         .setItem(item)
                         .setValue(value)
                         .build();
+                priceHistoryRepository.save(priceHistory);
                 item.getPriceHistories().add(priceHistory);
             }
         });
@@ -71,7 +81,7 @@ public class UpdateItemService {
                 .ifPresent((categoryId)->{
                     Category category = categoryRepository
                             .findById(categoryId)
-                            .orElseThrow(()->new RecordNotFoundException("Category with id "+categoryId+" not found"));
+                            .orElseThrow(()->new RecordNotFoundException("Category "+categoryId+" not found"));
 
                     item.setCategory(category);
                 });

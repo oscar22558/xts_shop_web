@@ -1,13 +1,10 @@
 package com.xtsshop.app.controller.items;
 
 import com.xtsshop.app.TestCase;
-import com.xtsshop.app.db.repositories.BrandRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -90,7 +87,7 @@ class CreateTest extends TestCase {
 				.param("price", "12.2f")
 				.param("manufacturer", "Manufacturer 1")
 				.param("stack", "100")
-				.param("brandId", itemTestHelper.getFirstBrandId())
+				.param("brandId", itemTestHelper.getBrandId(0))
 		);
 	}
 
@@ -149,7 +146,7 @@ class CreateTest extends TestCase {
 				.param("categoryId", "5")
 				.param("price", "12.2f")
 				.param("manufacturer", "Manufacturer 1")
-				.param("brandId", itemTestHelper.getFirstBrandId())
+				.param("brandId", itemTestHelper.getBrandId(0))
 		);
 	}
 

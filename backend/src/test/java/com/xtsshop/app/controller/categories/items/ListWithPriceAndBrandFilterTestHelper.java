@@ -33,8 +33,8 @@ public class ListWithPriceAndBrandFilterTestHelper {
         return brandRepository.findAll().get(0).getId();
     }
 
-    public String getRoute(){
-        return route + "/items";
+    public String getRoute(Long categoryId){
+        return route + "/" + categoryId+ "/items";
     }
     public void insertData(){
         dataSet.insertData();
