@@ -1,21 +1,23 @@
-import {jsx} from "@emotion/react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Home from "./pages/home"
-import CategoryList from "./pages/categories/ItemsInCategory.page"
-import AppTopBar from "./views/TopBar/AppTopBar"
-import CategoriesTabs from "./views/CategoriesTab/CategoriesTabs"
-import { Container } from "@mui/material"
+import AppRootPage from "./pages/AppRootPage"
+import CartPage from "./pages/CartPage"
+import ItemsPage from "./pages/ItemsPage"
+import HomePage from "./pages/ItemsPage/HomePage"
+import ItemsInCateogryPage from "./pages/ItemsPage/ItemsInCategoryPage"
+
 const AppRoutes = ()=>{
-    return (<>
-        <AppTopBar />
-        <Container maxWidth="xl">
-            <img src="" style={{height: "200px", width: "100%"}}></img>
-            <CategoriesTabs /> 
+    return (
+        <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home />}/>
-                <Route path="/categories/*" element={<CategoryList />}/>
+                <Route path="" element={<AppRootPage />}>
+                    <Route path="" element={<ItemsPage />}>
+                        <Route index element={<HomePage />} />
+                        <Route path="categories/*" element={<ItemsInCateogryPage />}/>
+                    </Route>
+                    <Route path="cart" element={<CartPage />}/>
+                </Route>
             </Routes>
-        </Container>
-    </>)
+        </BrowserRouter>
+    )
 }
 export default AppRoutes

@@ -56,7 +56,9 @@ public class ListWithPriceAndBrandFilterTest extends TestCase {
 
     private MockHttpServletRequestBuilder buildRequestWithBrandFilter(){
        return get(util.getRoute(util.getFoodCategoryId()))
-               .queryParam("brandIds[]", util.getBrandId()+"");
+               .queryParam("brandIds[]", util.getBrandId()+"")
+               .queryParam("minPrice", ""+0)
+               .queryParam("maxPrice", ""+10000);
     }
 
 

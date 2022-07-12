@@ -1,4 +1,4 @@
-import {sagaMiddleware} from "./rootSaga";
+import {sagaMiddleware} from "./RootSaga";
 
 const middlewares = [
     sagaMiddleware

@@ -1,13 +1,13 @@
-import useFetchCategory from "../../dataSources/useFetchCategory"
-import useFetchItems from "../../dataSources/useFetchItems"
+import useFetchCategory from "../../data-sources/useFetchCategory"
+import useFetchItems from "../../data-sources/useFetchItems"
 
 const useViewModel = ()=>{
     const fetchItems = useFetchItems()
     const fetchCategory = useFetchCategory()
     return {
         handleItemClick: (subCategoriesUrl: string, itemsUrl: string)=>{
-            fetchItems(itemsUrl)
             fetchCategory(subCategoriesUrl)
+            fetchItems(itemsUrl)
         }
     }
 }

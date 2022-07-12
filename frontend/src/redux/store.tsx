@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import middlewares  from "./middleware";
-import {runSagas, rootSaga} from "./rootSaga";
-import rootReducer from "./rootReducer";
+import {runSagas, rootSaga} from "./RootSaga";
+import RootReducer from "./RootReducer";
 
 const configureAppStore = ()=>{
     const store = configureStore({
-        reducer: rootReducer,
+        reducer: RootReducer,
         middleware: (getDefaultMiddleware)=>[...middlewares, ...getDefaultMiddleware()]
     })
     runSagas(rootSaga)

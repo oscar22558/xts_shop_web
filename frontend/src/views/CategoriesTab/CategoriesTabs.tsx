@@ -1,13 +1,13 @@
 import StyledTabs from "./StyledTabs";
 import StyledTab from "./StyledTab";
 import React, {useState} from "react";
-import {useAppSelector} from "../../redux/hooks";
-import selector from "../../redux/categories/selector"
+import {useAppSelector} from "../../redux/Hooks";
+import CategoriesSelector from "../../redux/categories/CategoriesSelector"
 import useViewModel from "./useViewMode"
 import { useNavigate } from "react-router-dom";
 
 const CategoriesTabs = ()=>{
-    const { data } = useAppSelector(selector).all
+    const { data } = useAppSelector(CategoriesSelector).all
     const [value, setValue] = useState<number|boolean>(false)
     const navigate = useNavigate()
     const viewModel = useViewModel()

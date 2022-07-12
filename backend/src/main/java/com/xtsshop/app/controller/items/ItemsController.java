@@ -3,6 +3,7 @@ package com.xtsshop.app.controller.items;
 import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.assembler.ItemModelAssembler;
 import com.xtsshop.app.db.entities.Item;
+import com.xtsshop.app.domain.request.items.ListItemsRequest;
 import com.xtsshop.app.domain.request.items.images.UpdateItemImageRequest;
 import com.xtsshop.app.domain.service.items.*;
 import com.xtsshop.app.domain.request.items.CreateItemRequest;
@@ -50,8 +51,11 @@ public class ItemsController{
     }
 
     @GetMapping()
-    public CollectionModel<EntityModel<ItemRepresentationModel>> all() {
-        return modelAssembler.toCollectionModel(service.all());
+    public CollectionModel<EntityModel<ItemRepresentationModel>> all(
+            @RequestParam(name = "ids", required = false) Long[] itemIds
+    ) {
+        ListItemsRequest request = new ListItemsRequest(itemIds);
+        return modelAssembler.toCollectionModel(service.listItems(request));
     }
 
     @PostMapping()

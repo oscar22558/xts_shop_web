@@ -37,12 +37,11 @@ public class ItemsController {
 
     @GetMapping
     public CollectionModel<EntityModel<ItemRepresentationModel>> listWithPriceAndBrandFilter(
-//            @RequestParam(value = "categoryIds[]") Long[] categoryIds,
         @PathVariable Long categoryId,
         @RequestParam(value = "brandIds[]", required = false) Long[] brandIds,
         @RequestParam(required = false) Float maxPrice,
         @RequestParam(required = false) Float minPrice,
-        @RequestParam(required = false) String sortingField,
+        @RequestParam(required = false) String sortingMethod,
         @RequestParam(required = false) String sortingDirection
     ) throws RecordNotFoundException {
         GetCategoryItemsRequest request = new GetCategoryItemsRequest();
@@ -53,7 +52,7 @@ public class ItemsController {
         request.setMaxPrice(Optional.ofNullable(maxPrice));
         request.setMinPrice(Optional.ofNullable(minPrice));
         request.setBrandIds(brandIdList);
-        request.setSortingField(Optional.ofNullable(sortingField));
+        request.setSortingMethod(Optional.ofNullable(sortingMethod));
         request.setSortingDirection(Optional.ofNullable(sortingDirection));
         List<Item> items = getCategoryItemsService.getItems(request);
         return modelAssembler.toCollectionModel(items);

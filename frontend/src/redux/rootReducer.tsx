@@ -1,10 +1,15 @@
 import {combineReducers} from "redux";
-import categories from "./categories/reducer"
-import routes from "./apiRoutes/reducer"
-import items from "./items/reducer"
-const rootReducer = combineReducers({
+import categories from "./categories/CategoriesReducer"
+import routes from "./api-routes/ApiRoutesReducer"
+import items from "./items/ItemsReducer"
+import brands from "./brands/BrandsReducer"
+import cartItems from "./cart-items/CartItemsReducer"
+
+const RootReducer = combineReducers({
     routes,
     categories,
-    items
+    items,
+    brands,
+    cartItems
 })
-export default rootReducer
+export default RootReducer

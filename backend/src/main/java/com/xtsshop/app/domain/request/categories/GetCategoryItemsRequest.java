@@ -1,6 +1,6 @@
 package com.xtsshop.app.domain.request.categories;
 
-import com.xtsshop.app.datasource.requests.items.ItemSortingField;
+import com.xtsshop.app.datasource.requests.items.ItemSortingMethod;
 import com.xtsshop.app.datasource.requests.SortingDirection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,15 +19,15 @@ public class GetCategoryItemsRequest {
     private Optional<Float> minPrice;
     private Optional<Float> maxPrice;
     private List<Long> brandIds;
-    private ItemSortingField sortingField;
+    private ItemSortingMethod sortingMethod;
     private SortingDirection sortingDirection;
 
-    public ItemSortingField getSortingField() {
-        return sortingField;
+    public ItemSortingMethod getSortingMethod() {
+        return sortingMethod;
     }
 
-    public void setSortingField(Optional<String> sortingField) {
-        this.sortingField = ItemSortingField.PRICE;
+    public void setSortingMethod(Optional<String> sortingField) {
+        this.sortingMethod = ItemSortingMethod.PRICE;
     }
 
     public SortingDirection getSortingDirection() {
