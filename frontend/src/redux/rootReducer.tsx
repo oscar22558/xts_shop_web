@@ -4,12 +4,14 @@ import routes from "./api-routes/ApiRoutesReducer"
 import items from "./items/ItemsReducer"
 import brands from "./brands/BrandsReducer"
 import cartItems from "./cart-items/CartItemsReducer"
+import authentication from "./authentication/AuthenticationReducer"
 
 const RootReducer = combineReducers({
     routes,
     categories,
     items,
     brands,
-    cartItems
+    cartItems,
+    authentication
 })
 export default RootReducer

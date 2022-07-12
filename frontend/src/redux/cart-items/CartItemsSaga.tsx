@@ -7,21 +7,9 @@ import CartItemsAction from './CartItemsAction'
 import GetItemsByIdApi from "./CartItemsApi";
 import CartItemsApiResponse from "./models/CartItemsApiResponse";
 
-export function* getItemsByIdSaga(){
-    yield takeEvery(CartItemsAction.getItemsById.async, tryToGetItemsById)
-}
-
-function* tryToGetItemsById(action: PayloadAction<number[]>){
-    const {start, end, fail} = CartItemsAction.getItemsById
-    yield put(start())
-    try{
-        yield call(getItemsById, action.payload)
-    }catch(ex: any){
-        console.error(ex)
-        yield put(fail(ex?.message))
-    }finally{
-        yield put(end())
-    }
+function* getListItemByIdApiRoute(){
+    const allRoutes: RootState["routes"] = yield select(ApiRouteSelector)
+    return allRoutes.get.data?.items ?? ""
 }
 
 function* getItemsById(itemIds: number[]){
@@ -37,7 +25,19 @@ function* getItemsById(itemIds: number[]){
     yield put(CartItemsAction.getItemsById.success(itemList))
 }
 
-function* getListItemByIdApiRoute(){
-    const allRoutes: RootState["routes"] = yield select(ApiRouteSelector)
-    return allRoutes.get.data?.items ?? ""
+function* tryToGetItemsById(action: PayloadAction<number[]>){
+    const {start, end, fail} = CartItemsAction.getItemsById
+    yield put(start())
+    try{
+        yield call(getItemsById, action.payload)
+    }catch(ex: any){
+        console.error(ex)
+        yield put(fail(ex?.message))
+    }finally{
+        yield put(end())
+    }
+}
+
+export function* getItemsByIdSaga(){
+    yield takeEvery(CartItemsAction.getItemsById.async, tryToGetItemsById)
 }
