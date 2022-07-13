@@ -1,9 +1,11 @@
 import ApiConfig from "../ApiConfig";
 import axios from "../axios";
+import AuthenticationRequest from "./models/AuthenticationRequest";
 
-const AuthenticationApi = (url: string)=>axios({
+const AuthenticationApi = (requestConfig: {url: string, data: AuthenticationRequest})=>axios({
     ...ApiConfig,
-    url,
-    method: "POST"
+    ...requestConfig,
+    method: "post"
 })
+
 export default AuthenticationApi

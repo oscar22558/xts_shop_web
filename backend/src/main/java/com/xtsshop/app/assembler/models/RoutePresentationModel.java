@@ -20,4 +20,6 @@ public class RoutePresentationModel {
             linkTo(methodOn(BrandController.class).listAllBrands()).withRel("brands").getHref();
     private String items =
             linkTo(ItemsController.class).withRel("items").getHref();
+    private String authentication = "auth";
+
 }

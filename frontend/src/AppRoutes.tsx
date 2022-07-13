@@ -4,6 +4,7 @@ import CartPage from "./pages/CartPage"
 import ItemsPage from "./pages/ItemsPage"
 import HomePage from "./pages/ItemsPage/HomePage"
 import ItemsInCateogryPage from "./pages/ItemsPage/ItemsInCategoryPage"
+import SignInPage from "./pages/SignInPage"
 
 const AppRoutes = ()=>{
     return (
@@ -15,6 +16,7 @@ const AppRoutes = ()=>{
                         <Route path="categories/*" element={<ItemsInCateogryPage />}/>
                     </Route>
                     <Route path="cart" element={<CartPage />}/>
+                    <Route path="sign-in" element={<SignInPage />}/>
                 </Route>
             </Routes>
         </BrowserRouter>

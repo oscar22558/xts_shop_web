@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import useFetchItems from "../../../../../data-sources/useFetchItems"
+import useFetchItems from "../../../../../data-sources/items/useFetchItems"
 import brandsSelector from "../../../../../redux/brands/BrandsSelector"
 import { useAppDispatch, useAppSelector } from "../../../../../redux/Hooks"
 import itemActions from "../../../../../redux/items/ItemsAction"

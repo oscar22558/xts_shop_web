@@ -1,5 +1,5 @@
-import {useAppDispatch} from "../redux/Hooks";
-import CateorgiesActions from "../redux/categories/CategoriesAction";
+import {useAppDispatch} from "../../redux/Hooks";
+import CateorgiesActions from "../../redux/categories/CategoriesAction";
 
 const useFetchCategory = () => {
     const appDispatch = useAppDispatch()

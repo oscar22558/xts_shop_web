@@ -1,18 +1,21 @@
 import './App.css';
 import {Provider} from "react-redux";
 import {store} from "./redux/Store";
-import FetchApiRoutes from "./data-sources/FetchApiRoutes";
-import FetchCategories from "./data-sources/FetchCategories";
+import FetchApiRoutes from "./data-sources/api-routes/FetchApiRoutes";
+import FetchCategories from "./data-sources/categories/FetchCategories";
 import AppRoutes from "./AppRoutes"
-import FetchBrands from "./data-sources/FetchBrands"
+import FetchBrands from "./data-sources/brands/FetchBrands"
+import AuthenticationProvider from './data-sources/authentication/AuthenticationProvider';
 
 function App() {
 	return (
 		<Provider store={store}>
-			<FetchApiRoutes />
-			<FetchCategories />
-			<FetchBrands />
-			<AppRoutes />
+			<AuthenticationProvider>
+				<FetchApiRoutes />
+				<FetchCategories />
+				<FetchBrands />
+				<AppRoutes />
+			</AuthenticationProvider>
 		</Provider>
 	);
 }

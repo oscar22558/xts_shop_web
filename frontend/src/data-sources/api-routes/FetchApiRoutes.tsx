@@ -1,6 +1,6 @@
-import {useAppDispatch} from "../redux/Hooks";
+import {useAppDispatch} from "../../redux/Hooks";
 import {useEffect} from "react";
-import ApiRoutesActions from "../redux/api-routes/ApiRoutesAction";
+import ApiRoutesActions from "../../redux/api-routes/ApiRoutesAction";
 const FetchApiRoutes = () => {
     const appDispatch = useAppDispatch()
     useEffect(()=>{

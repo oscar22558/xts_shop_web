@@ -1,5 +1,5 @@
-import useFetchCategory from "../../data-sources/useFetchCategory"
-import useFetchItems from "../../data-sources/useFetchItems"
+import useFetchCategory from "../../data-sources/category/useFetchCategory"
+import useFetchItems from "../../data-sources/items/useFetchItems"
 
 const useViewModel = ()=>{
     const fetchItems = useFetchItems()

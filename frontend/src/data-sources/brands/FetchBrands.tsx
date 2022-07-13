@@ -1,7 +1,7 @@
 import {useEffect} from "react";
-import {useAppSelector} from "../redux/Hooks";
-import routesSelector from "../redux/api-routes/ApiRoutesSelector"
-import useFetchBrands from "../data-sources/useFetchBrands";
+import {useAppSelector} from "../../redux/Hooks";
+import routesSelector from "../../redux/api-routes/ApiRoutesSelector"
+import useFetchBrands from "./useFetchBrands";
 
 const FetchBrands = () => {
     const { data } = useAppSelector(routesSelector).get

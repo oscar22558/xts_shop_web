@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import useFetchItems from "../../../../../data-sources/useFetchItems"
+import useFetchItems from "../../../../../data-sources/items/useFetchItems"
 import { useAppDispatch, useAppSelector } from "../../../../../redux/Hooks"
 import CategoriesSelector from "../../../../../redux/categories/CategoriesSelector"
 import PriceFilter from "../../../../../data-sources/models/PriceFilter"

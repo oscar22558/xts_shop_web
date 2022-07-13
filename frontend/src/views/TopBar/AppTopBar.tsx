@@ -9,8 +9,11 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {Link} from "@mui/material";
 import ShoppingCartIcon from './views/ShoppingCartIcon';
+import SignInIcon from './views/SignInIcon';
+import useAuthentication from '../../data-sources/authentication/useAuthentication';
+import SignOutIcon from './views/SignOutIcon';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -18,6 +21,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const authentication = useAuthentication()
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -32,6 +36,8 @@ const ResponsiveAppBar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const navigate = useNavigate()
 
     return (
         <AppBar position="static">
@@ -88,13 +94,16 @@ const ResponsiveAppBar = () => {
                             component="div"
                             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
                         >
-                            <Link href="/" color="#fff" underline="none">
+                            <span onClick={()=>navigate("/", {replace: true})}>
                                 LOGO
-                            </Link>
+                            </span>
                         </Typography>
                     </Box>
 
                     <Box sx={{ flexGrow: 0, display: "flex", flexDirection: "row", alignItems: "center" }}>
+                        <Box sx={{marginRight: "20px"}}>
+                            {authentication.isUserAuthenticated ?  <SignOutIcon /> : <SignInIcon />}
+                        </Box>
                         <Box sx={{marginRight: "20px"}}>
                             <ShoppingCartIcon />
                         </Box>

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../../../redux/Hooks"
 import SortingOption from "./SortingOption"
 import StyledInputBase from "./StyledInputBase"
 import ItemsAction from "../../../../../redux/items/ItemsAction"
-import useFetchItems from "../../../../../data-sources/useFetchItems"
+import useFetchItems from "../../../../../data-sources/items/useFetchItems"
 import categorySelector from "../../../../../redux/categories/CategoriesSelector"
 const ItemsSortingOption = ()=>{
     const [value, setValue] = useState<string>(SortingOption.Latest+"")

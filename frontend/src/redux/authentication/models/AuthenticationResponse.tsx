@@ -1,5 +1,5 @@
 type Authentication = {
-    authToken: string|null
+    token: string|null
     username: string|null
 }
 export default Authentication

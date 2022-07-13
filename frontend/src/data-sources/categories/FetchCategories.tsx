@@ -1,7 +1,7 @@
-import useFetchCategories from "../data-sources/useFetchCategories";
+import useFetchCategories from "./useFetchCategories";
 import {useEffect} from "react";
-import {useAppSelector} from "../redux/Hooks";
-import routesSelector from "../redux/api-routes/ApiRoutesSelector"
+import {useAppSelector} from "../../redux/Hooks";
+import routesSelector from "../../redux/api-routes/ApiRoutesSelector"
 
 const FetchCategories = () => {
     const { data } = useAppSelector(routesSelector).get
