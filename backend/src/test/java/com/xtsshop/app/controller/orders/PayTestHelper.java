@@ -1,7 +1,7 @@
 package com.xtsshop.app.controller.orders;
 
 import com.xtsshop.app.db.entities.payment.PaymentType;
-import com.xtsshop.app.form.orders.PaymentCreateForm;
+import com.xtsshop.app.controller.users.cart.models.PaymentCreateForm;
 import org.springframework.stereotype.Component;
 
 @Component("app.http.orders.PayTestUtil")

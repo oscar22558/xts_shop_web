@@ -1,7 +1,7 @@
 package com.xtsshop.app.db.entities.builder;
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.util.DateTimeUtil;
+import com.xtsshop.app.helpers.DateTimeHelper;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class CategoryBuilder {
         return this;
     }
     public Category build(){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         Category category = new Category();
         category.setParent(parent);
         category.setName(name);

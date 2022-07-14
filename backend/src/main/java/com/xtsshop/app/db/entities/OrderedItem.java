@@ -1,6 +1,5 @@
 package com.xtsshop.app.db.entities;
 
-import com.xtsshop.app.util.DateTimeUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,13 +1,12 @@
 package com.xtsshop.app.controller.categories.items;
 
-import com.xtsshop.app.advice.exception.RecordNotFoundException;
-import com.xtsshop.app.assembler.ItemModelAssembler;
+import com.xtsshop.app.advices.exception.RecordNotFoundException;
+import com.xtsshop.app.controller.items.models.ItemModelAssembler;
+import com.xtsshop.app.controller.categories.models.GetCategoryItemsRequest;
+import com.xtsshop.app.controller.items.CreateItemService;
+import com.xtsshop.app.controller.items.models.ItemForm;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.domain.request.categories.GetCategoryItemsRequest;
-import com.xtsshop.app.domain.service.categories.items.GetCategoryItemsService;
-import com.xtsshop.app.domain.service.items.CreateItemService;
-import com.xtsshop.app.form.items.ItemForm;
-import com.xtsshop.app.assembler.models.ItemRepresentationModel;
+import com.xtsshop.app.controller.items.models.ItemRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;

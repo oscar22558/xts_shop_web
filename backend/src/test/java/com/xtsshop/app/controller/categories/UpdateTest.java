@@ -1,8 +1,6 @@
 package com.xtsshop.app.controller.categories;
 
-import com.xtsshop.app.advice.exception.RecordNotFoundException;
 import com.xtsshop.app.TestCase;
-import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import com.xtsshop.app.form.categories.UpdateCategoryForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

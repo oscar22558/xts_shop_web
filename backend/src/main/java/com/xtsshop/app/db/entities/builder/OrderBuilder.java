@@ -2,11 +2,10 @@ package com.xtsshop.app.db.entities.builder;
 
 import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.payment.Payment;
-import com.xtsshop.app.util.DateTimeUtil;
+import com.xtsshop.app.helpers.DateTimeHelper;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
 
 public class OrderBuilder {
 
@@ -41,7 +40,7 @@ public class OrderBuilder {
     }
 
     public Order build(){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         Order order = new Order();
         order.setCreatedAt(now);
         order.setUpdatedAt(now);

@@ -3,7 +3,7 @@ package com.xtsshop.app.db.entities.builder;
 import com.xtsshop.app.db.entities.AppEntity;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.entities.PriceHistory;
-import com.xtsshop.app.util.DateTimeUtil;
+import com.xtsshop.app.helpers.DateTimeHelper;
 import lombok.NoArgsConstructor;
 import java.sql.Date;
 
@@ -22,7 +22,7 @@ public class PriceHistoryBuilder extends AppEntity {
         return this;
     }
     public PriceHistory build(){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         PriceHistory priceHistory = new PriceHistory();
         priceHistory.setItem(item);
         priceHistory.setValue(value);

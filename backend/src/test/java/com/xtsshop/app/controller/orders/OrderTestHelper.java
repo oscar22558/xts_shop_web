@@ -4,10 +4,7 @@ import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.OrderBuilder;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
 import com.xtsshop.app.db.repositories.*;
-import com.xtsshop.app.db.seed.DevelopmentDataSeed;
-import com.xtsshop.app.util.DateTimeUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.xtsshop.app.helpers.DateTimeHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -63,13 +60,13 @@ public class OrderTestHelper {
     }
 
     public AppUser insertAddressForUser(AppUser user){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         Address address = addressRepository.save(new Address(now, now, "China", "Hong Kong", "HKU MB166", null, null, user));
         user.getAddresses().add(address);
         return userRepository.save(user);
     }
     public AppUser insertOrderForUser(AppUser user){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         List<Item> itemList = itemRepository.findAll();
         List<OrderedItem> orderedItems = new ArrayList<>();
         orderedItems.add(new OrderedItem(now, now, itemList.get(0), 2));
@@ -85,7 +82,7 @@ public class OrderTestHelper {
         return userRepository.findUserByUsername(user.getUsername());
     }
     public AppUser insertNewUser(){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         Role role = roleRepository.findByName(RoleType.ROLE_USER.name());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         AppUser user = new AppUser(now, now, "mario123", passwordEncoder.encode("123"), "marioy123@xts-shop.com", "28735601");
@@ -97,7 +94,7 @@ public class OrderTestHelper {
         return userRepository.findUserByUsername("mario123");
     }
     public List<Address> insertAddressForNewUser(AppUser user){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         Address address = addressRepository.save(new Address(now, now, "China", "Hong Kong", "HKU MB155", null, null, user));
         List<Address> addresses = new ArrayList<>();
         addresses.add(address);
@@ -105,7 +102,7 @@ public class OrderTestHelper {
     }
 
     public Order insertOrderForNewUser(AppUser user){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         List<Item> itemList = itemRepository.findAll();
         List<OrderedItem> orderedItems = new ArrayList<>();
         orderedItems.add(new OrderedItem(now, now, itemList.get(1), 3));

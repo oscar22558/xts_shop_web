@@ -2,7 +2,7 @@ package com.xtsshop.app.db.entities.builder;
 
 import com.xtsshop.app.db.entities.Address;
 import com.xtsshop.app.db.entities.AppUser;
-import com.xtsshop.app.util.DateTimeUtil;
+import com.xtsshop.app.helpers.DateTimeHelper;
 
 import java.sql.Date;
 
@@ -44,7 +44,7 @@ public class AddressBuilder {
         return this;
     }
     public Address build(){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         Address address = new Address();
         address.setCreatedAt(now);
         address.setUpdatedAt(now);

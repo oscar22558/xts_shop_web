@@ -1,15 +1,14 @@
 package com.xtsshop.app.controller.categories;
 
-import com.xtsshop.app.advice.exception.RecordNotFoundException;
-import com.xtsshop.app.assembler.CategoryModelAssembler;
+import com.xtsshop.app.advices.exception.RecordNotFoundException;
+import com.xtsshop.app.controller.categories.models.CategoryModelAssembler;
+import com.xtsshop.app.controller.categories.models.CategoryForm;
+import com.xtsshop.app.controller.categories.models.CategoryRepresentationModel;
+import com.xtsshop.app.controller.categories.models.CategoryRequest;
 import com.xtsshop.app.db.entities.Category;
-import com.xtsshop.app.form.CategoryForm;
-import com.xtsshop.app.domain.request.categories.CategoryRequest;
-import com.xtsshop.app.viewmodel.CreateRequestViewModel;
-import com.xtsshop.app.viewmodel.DeleteRequestViewModel;
-import com.xtsshop.app.viewmodel.UpdateRequestViewModel;
-import com.xtsshop.app.domain.service.categories.CategoriesService;
-import com.xtsshop.app.assembler.models.CategoryRepresentationModel;
+import com.xtsshop.app.viewmodels.CreateRequestViewModel;
+import com.xtsshop.app.viewmodels.DeleteRequestViewModel;
+import com.xtsshop.app.viewmodels.UpdateRequestViewModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;

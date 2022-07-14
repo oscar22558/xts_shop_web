@@ -3,7 +3,7 @@ package com.xtsshop.app.controller.categories;
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.repositories.CategoryRepository;
 import com.xtsshop.app.TestCase;
-import com.xtsshop.app.domain.request.categories.CategoryRequest;
+import com.xtsshop.app.controller.categories.models.CategoryRequest;
 import com.xtsshop.app.form.categories.CategoryForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

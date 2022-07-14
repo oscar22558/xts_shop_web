@@ -1,14 +1,13 @@
 package com.xtsshop.app.controller.users;
 
-import com.xtsshop.app.advice.exception.UnAuthenticationException;
-import com.xtsshop.app.assembler.UserModelAssembler;
+import com.xtsshop.app.advices.exception.UnAuthenticationException;
+import com.xtsshop.app.controller.authentication.AuthenticationService;
+import com.xtsshop.app.controller.authentication.UserIdentityService;
+import com.xtsshop.app.controller.users.exceptions.UserModelAssembler;
+import com.xtsshop.app.controller.users.models.*;
+import com.xtsshop.app.db.controller.users.models.*;
 import com.xtsshop.app.db.entities.AppUser;
-import com.xtsshop.app.form.user.*;
-import com.xtsshop.app.domain.request.UserRequest;
-import com.xtsshop.app.domain.service.auth.AuthenticationService;
-import com.xtsshop.app.domain.service.auth.UserIdentityService;
-import com.xtsshop.app.domain.service.users.UsersCRUDService;
-import com.xtsshop.app.assembler.models.UserRepresentationModel;
+import com.xtsshop.app.controller.users.models.UserRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;

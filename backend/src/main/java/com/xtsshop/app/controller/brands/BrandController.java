@@ -1,12 +1,11 @@
 package com.xtsshop.app.controller.brands;
 
-import com.xtsshop.app.assembler.BrandModelAssembler;
-import com.xtsshop.app.assembler.models.BrandRepresentationModel;
+import com.xtsshop.app.controller.brands.models.BrandModelAssembler;
+import com.xtsshop.app.controller.brands.models.BrandRepresentationModel;
+import com.xtsshop.app.controller.brands.models.BrandCreateRequest;
 import com.xtsshop.app.db.entities.Brand;
-import com.xtsshop.app.domain.request.brands.BrandCreateRequest;
-import com.xtsshop.app.domain.service.brands.BrandService;
-import com.xtsshop.app.viewmodel.CreateRequestViewModel;
-import com.xtsshop.app.viewmodel.DeleteRequestViewModel;
+import com.xtsshop.app.viewmodels.CreateRequestViewModel;
+import com.xtsshop.app.viewmodels.DeleteRequestViewModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;

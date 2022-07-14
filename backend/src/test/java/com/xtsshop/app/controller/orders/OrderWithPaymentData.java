@@ -8,7 +8,7 @@ import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.db.repositories.OrderRepository;
 import com.xtsshop.app.db.repositories.PaymentRepository;
 import com.xtsshop.app.db.repositories.UserRepository;
-import com.xtsshop.app.util.DateTimeUtil;
+import com.xtsshop.app.helpers.DateTimeHelper;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -43,7 +43,7 @@ public class OrderWithPaymentData {
     }
     public List<OrderedItem> createOrderItems(){
         List<Item> itemList = itemRepository.findAll();
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         OrderedItem orderedItem = new OrderedItem(now, now, itemList.get(0), 4);
         orderedItem.setOrderPrice(itemList.get(0).getPriceHistories().get(0));
         List<OrderedItem> orderedItems = new ArrayList<>();
@@ -53,7 +53,7 @@ public class OrderWithPaymentData {
         return orderedItems;
     }
     public void createPaymentForUser(Order order){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         Payment payment = new Payment();
         payment.setPaidTotal(426.4f);
         payment.setUpdatedAt(now);

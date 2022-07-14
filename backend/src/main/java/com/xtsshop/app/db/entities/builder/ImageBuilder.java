@@ -3,12 +3,8 @@ package com.xtsshop.app.db.entities.builder;
 import com.xtsshop.app.db.entities.AppEntity;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.util.DateTimeUtil;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.xtsshop.app.helpers.DateTimeHelper;
 
-import javax.persistence.*;
 import java.sql.Date;
 
 public class ImageBuilder extends AppEntity {
@@ -37,7 +33,7 @@ public class ImageBuilder extends AppEntity {
         return this;
     }
     public Image build(){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         Image img = new Image();
         img.setCreatedAt(now);
         img.setUpdatedAt(now);

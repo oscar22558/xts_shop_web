@@ -1,8 +1,5 @@
 package com.xtsshop.app.controller.items;
 
-import com.xtsshop.app.advice.exception.RecordNotFoundException;
-import com.xtsshop.app.db.entities.Image;
-import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.helpers.MultipartPutRequest;
 import com.xtsshop.app.TestCase;
 import com.xtsshop.app.form.items.UpdateItemTestForm;

@@ -1,7 +1,7 @@
 package com.xtsshop.app.datasource.repositories;
 
 
-import com.xtsshop.app.advice.exception.RecordNotFoundException;
+import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;

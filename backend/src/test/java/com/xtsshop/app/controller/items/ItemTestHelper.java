@@ -9,7 +9,7 @@ import com.xtsshop.app.db.repositories.ImageRepository;
 import com.xtsshop.app.db.repositories.ItemRepository;
 import com.xtsshop.app.db.repositories.PriceHistoryRepository;
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
-import com.xtsshop.app.domain.service.storage.FilePathToUrlConverter;
+import com.xtsshop.app.controller.storage.FilePathToUrlConverter;
 import lombok.Getter;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;

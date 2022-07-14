@@ -9,10 +9,10 @@ import com.xtsshop.app.db.repositories.OrderRepository;
 import com.xtsshop.app.db.repositories.RoleRepository;
 import com.xtsshop.app.db.repositories.UserRepository;
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
-import com.xtsshop.app.form.orders.OrderCreateForm;
-import com.xtsshop.app.form.orders.OrderedItemCreateForm;
-import com.xtsshop.app.form.orders.PaymentCreateForm;
-import com.xtsshop.app.util.DateTimeUtil;
+import com.xtsshop.app.controller.users.cart.models.OrderCreateForm;
+import com.xtsshop.app.controller.users.cart.models.OrderedItemCreateForm;
+import com.xtsshop.app.controller.users.cart.models.PaymentCreateForm;
+import com.xtsshop.app.helpers.DateTimeHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -103,7 +103,7 @@ public class UserOrderTestHelper {
 
     public void insertOrderForUser(){
         AppUser user = userRepository.findUserByUsername("marry123");
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         List<Item> itemList = itemRepository.findAll();
         List<OrderedItem> orderedItems = new ArrayList<>();
         orderedItems.add(new OrderedItem(now, now, itemList.get(0), 2));
@@ -120,7 +120,7 @@ public class UserOrderTestHelper {
     }
 
     public AppUser insertNewUser(){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         Role role = roleRepository.findByName(RoleType.ROLE_USER.name());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         AppUser user = new AppUser(now, now, "mario123", passwordEncoder.encode("123"), "marioy123@xts-shop.com", "28735601");
@@ -133,7 +133,7 @@ public class UserOrderTestHelper {
     }
     public Order insertOrderForNewUser(String username){
         AppUser user = userRepository.findUserByUsername(username);
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         List<Item> itemList = itemRepository.findAll();
         List<OrderedItem> orderedItems = new ArrayList<>();
         orderedItems.add(new OrderedItem(now, now, itemList.get(1), 3));
