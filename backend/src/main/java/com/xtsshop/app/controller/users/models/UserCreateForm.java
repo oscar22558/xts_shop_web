@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserCreateForm implements Form<UserRequest, AppUser> {
+public class UserCreateForm{
     @NotBlank
     @Size(min = 2)
     @Pattern(regexp = "^([0-9a-zA-Z])([0-9a-zA-Z]*)([0-9a-zA-Z])$")
@@ -27,7 +27,6 @@ public class UserCreateForm implements Form<UserRequest, AppUser> {
     @Pattern(regexp = "^[0-9a-zA-Z+]+$")
     private String phone;
 
-    @Override
     public UserRequest toRequest() {
         return new UserRequest(
                 username,

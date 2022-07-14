@@ -26,7 +26,6 @@ public class OrderController {
     public OrderController(OrdersService ordersService, OrderModelAssembler modelAssembler, FilePathToUrlConverter filePathToUrlConverter) {
         this.ordersService = ordersService;
         this.modelAssembler = modelAssembler;
-        modelAssembler.setFilePathToUrlConverter(filePathToUrlConverter);
     }
 
     @GetMapping

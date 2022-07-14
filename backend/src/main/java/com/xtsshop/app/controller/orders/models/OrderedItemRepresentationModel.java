@@ -1,23 +1,25 @@
 package com.xtsshop.app.controller.orders.models;
 
 import com.xtsshop.app.AbstractRepresentationModel;
-import com.xtsshop.app.controller.items.models.ItemRepresentationModel;
-import com.xtsshop.app.controller.items.models.ItemModelAssembler;
+import com.xtsshop.app.db.entities.OrderedItem;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.hateoas.EntityModel;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class OrderedItemRepresentationModel implements AbstractRepresentationModel {
-    private EntityModel<ItemRepresentationModel> item;
-    private Integer quantity;
+    private long itemId;
+    private long orderedItemId;
+    private int quantity;
+    private String name;
+    private float paidPrice;
 
-    public OrderedItemRepresentationModel(ItemRepresentationModel item, Integer quantity) {
-        ItemModelAssembler itemModelAssembler = new ItemModelAssembler();
-        this.item = itemModelAssembler.toEntityModel(item);
-        this.quantity = quantity;
+    public OrderedItemRepresentationModel(OrderedItem orderedItemEntity){
+        this.itemId = orderedItemEntity.getItem().getId();
+        this.orderedItemId = orderedItemEntity.getId();
+        this.quantity = orderedItemEntity.getQuantity();
+        this.name = orderedItemEntity.getItem().getName();
+        this.paidPrice = orderedItemEntity.getOrderPrice().getValue();
     }
+
 }

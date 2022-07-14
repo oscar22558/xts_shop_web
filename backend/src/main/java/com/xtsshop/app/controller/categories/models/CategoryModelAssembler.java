@@ -4,9 +4,7 @@ import com.xtsshop.app.AbstractModelAssembler;
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.controller.categories.CategoriesController;
 import com.xtsshop.app.controller.categories.items.ItemsController;
-import com.xtsshop.app.controller.items.models.ItemModelAssembler;
 import com.xtsshop.app.db.entities.Category;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -15,24 +13,18 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class CategoryModelAssembler extends AbstractModelAssembler<CategoryRepresentationModel, Category> {
-
-    private ItemModelAssembler itemModelAssembler;
-
-    @Autowired
-    public void setStorageService(ItemModelAssembler itemModelAssembler) {
-        this.itemModelAssembler = itemModelAssembler;
-    }
     @Override
     public EntityModel<CategoryRepresentationModel> toModel(Category entity) {
         try {
             Map<String, Long> values = new HashMap<>();
             values.put("categoryId", entity.getId());
             return EntityModel.of(
-                CategoryRepresentationModel.from(entity, this, itemModelAssembler),
+                new CategoryRepresentationModel(entity, this),
                 linkTo(methodOn(CategoriesController.class).one(entity.getId())).withSelfRel(),
                 linkTo(methodOn(CategoriesController.class).create(null)).withRel("create"),
                 linkTo(methodOn(CategoriesController.class).update(entity.getId(), null)).withRel("update"),

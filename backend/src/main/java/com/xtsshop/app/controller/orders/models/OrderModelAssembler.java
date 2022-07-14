@@ -14,18 +14,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class OrderModelAssembler extends AbstractModelAssembler<OrderRepresentationModel, Order> {
-    private FilePathToUrlConverter filePathToUrlConverter;
 
     @SneakyThrows
     @Override
     public EntityModel<OrderRepresentationModel> toModel(Order entity) {
         return EntityModel.of(
-                new OrderModelBuilder().setFilePathToUrlConverter(filePathToUrlConverter).setEntity(entity).build(),
+                new OrderRepresentationModel(entity),
                 WebMvcLinkBuilder.linkTo(methodOn(OrderController.class).get(entity.getId())).withSelfRel()
         );
-    }
-    public OrderModelAssembler setFilePathToUrlConverter(FilePathToUrlConverter filePathToUrlConverter){
-        this.filePathToUrlConverter = filePathToUrlConverter;
-        return this;
     }
 }

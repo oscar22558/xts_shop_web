@@ -13,6 +13,5 @@ export type Category = {
         items: Link,
         createItems: Link,
     },
-    items: Item[]
 } & Model
 export default Category

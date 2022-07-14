@@ -5,14 +5,12 @@ import com.xtsshop.app.controller.authentication.AuthenticationService;
 import com.xtsshop.app.controller.authentication.UserIdentityService;
 import com.xtsshop.app.controller.users.exceptions.UserModelAssembler;
 import com.xtsshop.app.controller.users.models.*;
-import com.xtsshop.app.db.controller.users.models.*;
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.controller.users.models.UserRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,20 +23,15 @@ public class UserController{
     private UsersCRUDService usersCRUDService;
     private UserModelAssembler assembler;
     private AuthenticationService authenticationService;
-    private AuthenticationManager authenticationManager;
-    private UserIdentityService userIdentityService;
+
     public UserController(
             UsersCRUDService usersCRUDService,
             UserModelAssembler assembler,
-            AuthenticationService authenticationService,
-            AuthenticationManager authenticationManager,
-            UserIdentityService userIdentityService
+            AuthenticationService authenticationService
     ) {
         this.usersCRUDService = usersCRUDService;
         this.assembler = assembler;
         this.authenticationService = authenticationService;
-        this.authenticationManager = authenticationManager;
-        this.userIdentityService = userIdentityService;
     }
 
     @GetMapping

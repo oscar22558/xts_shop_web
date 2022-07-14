@@ -1,46 +1,43 @@
 package com.xtsshop.app.controller.users.cart;
 
-import com.xtsshop.app.controller.items.models.ItemModelAssembler;
 import com.xtsshop.app.controller.users.cart.models.CartForm;
-import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.viewmodels.CreateRequestViewModel;
+import com.xtsshop.app.controller.users.cart.models.CartItemRepresentationModel;
 import com.xtsshop.app.viewmodels.DeleteRequestViewModel;
-import com.xtsshop.app.controller.items.models.ItemRepresentationModel;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
-import java.util.List;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import javax.validation.Valid;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users/cart")
 public class CartsController {
     private CartsService cartsService;
-    private ItemModelAssembler itemModelAssembler;
-    public CartsController(CartsService cartsService, ItemModelAssembler itemModelAssembler) {
+
+    public CartsController(CartsService cartsService) {
         this.cartsService = cartsService;
-        this.itemModelAssembler = itemModelAssembler;
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<ItemRepresentationModel>> listItems() {
-        Link link = linkTo(methodOn(CartsController.class).listItems()).withSelfRel();
-        return itemModelAssembler.toCollectionModel(cartsService.listItems()).add(link);
+    public Collection<CartItemRepresentationModel> listItems() {
+        return cartsService.listItems()
+                .stream()
+                .map(CartItemRepresentationModel::new)
+                .collect(Collectors.toList());
     }
+
     @PostMapping
     public ResponseEntity<?> addItems(@Valid @RequestBody CartForm form){
-        Link link = linkTo(methodOn(CartsController.class).listItems()).withSelfRel();
-        List<Item> models = cartsService.addItems(form.toRequest());
-        return new CreateRequestViewModel<ItemRepresentationModel, Item>()
-                .setModelAssembler(itemModelAssembler)
-                .setEntities(models, link)
-                .getResponse();
+        List<CartItemRepresentationModel> models = cartsService.addItems(form.toRequest())
+                .stream()
+                .map(CartItemRepresentationModel::new)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(models, HttpStatus.CREATED);
     }
+
     @DeleteMapping
     public ResponseEntity<?> removeItems(@Valid @RequestBody CartForm form){
         cartsService.removeItems(form.toRequest());

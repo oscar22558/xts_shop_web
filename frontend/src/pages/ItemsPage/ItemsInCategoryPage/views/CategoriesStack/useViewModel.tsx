@@ -19,7 +19,6 @@ const useViewModel = ()=>{
             create: {href: ""}
         },
         subCategories: categories,
-        items: []
     }, selectedCategory?.id ?? 0)
 
 }
