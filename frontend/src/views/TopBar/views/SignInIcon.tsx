@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom"
+import AppRouteList from "../../../routes/AppRouteList"
 
 const SignInIcon = ()=>{
     const navigate = useNavigate()
     const handleClick = ()=>{
-        navigate("sign-in")
+        navigate(AppRouteList.signIn)
     }
 
     return <div onClick={handleClick}>

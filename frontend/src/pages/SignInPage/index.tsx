@@ -5,6 +5,7 @@ import useAuthenticateUser from "../../data-sources/authentication/useAuthentica
 import useAuthentication from "../../data-sources/authentication/useAuthentication"
 import AuthenticationAction from "../../redux/authentication/AuthenticationAction"
 import { useAppDispatch } from "../../redux/Hooks"
+import AppRouteList from "../../routes/AppRouteList"
 
 const SignInPage = ()=>{
     const [usernameInput, setUsernameInput] = useState("")
@@ -27,7 +28,7 @@ const SignInPage = ()=>{
 
     useEffect(()=>{
         const navigateToHomePage = ()=>{
-            navigate("/")
+            navigate(AppRouteList.home)
         }
         if(authentication.isUserAuthenticated){
             navigateToHomePage()

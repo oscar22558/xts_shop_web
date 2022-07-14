@@ -14,6 +14,7 @@ import SignInIcon from './views/SignInIcon';
 import useAuthentication from '../../data-sources/authentication/useAuthentication';
 import SignOutIcon from './views/SignOutIcon';
 import { useNavigate } from 'react-router-dom';
+import AppRouteList from '../../routes/AppRouteList';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -94,7 +95,7 @@ const ResponsiveAppBar = () => {
                             component="div"
                             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
                         >
-                            <span onClick={()=>navigate("/", {replace: true})}>
+                            <span onClick={()=>navigate(AppRouteList.home)}>
                                 LOGO
                             </span>
                         </Typography>
