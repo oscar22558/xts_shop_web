@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AllowOnlySameUserService extends TargetUserService {
-    public AllowOnlySameUserService(UserIdentityService userIdentityService, UsersCRUDService usersCRUDService) {
+    public AllowOnlySameUserService(UserIdentityService userIdentityService, UsersService usersCRUDService) {
         super(userIdentityService, usersCRUDService);
     }
 

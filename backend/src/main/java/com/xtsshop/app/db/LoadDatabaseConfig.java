@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LoadDatabaseConfig {
 
-    private boolean localDevelopment = true;
+    private boolean runTestCase = false;
 
     @Bean
     public CommandLineRunner initDatabase(DevelopmentDataSeed seed) {
-        if(localDevelopment){
+        if(!runTestCase){
             seed.insertData();
         }
         return args -> {};

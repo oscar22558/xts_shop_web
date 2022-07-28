@@ -58,9 +58,6 @@ public class OrderWithPaymentData {
         payment.setPaidTotal(426.4f);
         payment.setUpdatedAt(now);
         payment.setCreatedAt(now);
-        payment.setBankCode("012");
-        payment.setCardNum("1239501383217");
-        payment.setHolderName("Marry Wong");
         payment.setPaymentType(PaymentType.CREDIT_CARD);
         order.setPayment(payment);
         payment.setOrder(order);

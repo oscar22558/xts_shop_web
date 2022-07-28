@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom"
-import CategoriesTabs from "../../views/CategoriesTab/CategoriesTabs"
-import TopBanner from "../../views/TopBanner/TopBanner"
+import CategoriesTabs from "../../components/CategoriesTab/CategoriesTabs"
+import TopBanner from "../../components/TopBanner/TopBanner"
 
 const ItemsPage = ()=>{
     return <>

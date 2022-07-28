@@ -6,6 +6,7 @@ import brands from "./brands/BrandsReducer"
 import cartItems from "./cart-items/CartItemsReducer"
 import authentication from "./authentication/AuthenticationReducer"
 import order from "./order/OrderReducer"
+import user from "./user/UserReducer"
 
 const RootReducer = combineReducers({
     routes,
@@ -14,6 +15,7 @@ const RootReducer = combineReducers({
     brands,
     cartItems,
     authentication,
-    order
+    order,
+    user
 })
 export default RootReducer

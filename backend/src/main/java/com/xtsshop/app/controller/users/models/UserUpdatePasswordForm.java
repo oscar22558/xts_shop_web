@@ -12,9 +12,9 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class UserUpdatePasswordForm {
     @NotBlank
-    private String oldPassword;
+    private String password;
     @NotBlank
     @Size(min = 8)
-    private String password;
+    private String newPassword;
 
 }

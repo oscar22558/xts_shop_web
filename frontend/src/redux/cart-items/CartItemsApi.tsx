@@ -1,5 +1,4 @@
-import axios from "../axios"
-import ApiConfig from "../ApiConfig"
+import axiosInstance from "../ApiRequest"
 import qs from "qs"
 
 type GetCartItemsRequest = {
@@ -9,8 +8,7 @@ type GetCartItemsRequest = {
     }
 }
 
-const GetItemsByIdApi = (request: GetCartItemsRequest)=>axios({
-    ...ApiConfig,
+const GetItemsByIdApi = (request: GetCartItemsRequest)=>axiosInstance({
     ...request,
     paramsSerializer: (params: any) => qs.stringify(params, {arrayFormat: "brackets"})
 })

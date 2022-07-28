@@ -2,7 +2,7 @@ package com.xtsshop.app.advices.exception;
 
 import javax.annotation.Nullable;
 
-public class UnAuthorizationException extends Exception{
+public class UnAuthorizationException extends RuntimeException{
 
     public UnAuthorizationException(){
         super("Access Forbidden");

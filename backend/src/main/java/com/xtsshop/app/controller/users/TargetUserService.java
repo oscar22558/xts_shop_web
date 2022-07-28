@@ -13,9 +13,9 @@ import java.util.Set;
 @Service
 public class TargetUserService {
     protected UserIdentityService userIdentityService;
-    protected UsersCRUDService usersCRUDService;
+    protected UsersService usersCRUDService;
 
-    public TargetUserService(UserIdentityService userIdentityService, UsersCRUDService usersCRUDService) {
+    public TargetUserService(UserIdentityService userIdentityService, UsersService usersCRUDService) {
         this.userIdentityService = userIdentityService;
         this.usersCRUDService = usersCRUDService;
     }

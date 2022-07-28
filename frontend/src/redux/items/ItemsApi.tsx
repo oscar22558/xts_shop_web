@@ -1,11 +1,9 @@
-import axios from "../axios";
-import apiConfig from "../ApiConfig";
+import axiosInstance from "../ApiRequest";
 import qs from "qs"
 
 export const ItemsApi = {
     getAll: {
-        of: (getConfig: any)=>axios({
-            ...apiConfig,
+        of: (getConfig: any)=>axiosInstance({
             ...getConfig,
             paramsSerializer: (params: any) => qs.stringify(params, {arrayFormat: "brackets"})
         })

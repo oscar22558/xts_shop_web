@@ -12,14 +12,14 @@ public class OrderedItemRepresentationModel implements AbstractRepresentationMod
     private long orderedItemId;
     private int quantity;
     private String name;
-    private float paidPrice;
+    private float price;
 
     public OrderedItemRepresentationModel(OrderedItem orderedItemEntity){
         this.itemId = orderedItemEntity.getItem().getId();
         this.orderedItemId = orderedItemEntity.getId();
         this.quantity = orderedItemEntity.getQuantity();
         this.name = orderedItemEntity.getItem().getName();
-        this.paidPrice = orderedItemEntity.getOrderPrice().getValue();
+        this.price = orderedItemEntity.getOrderPriceValue();
     }
 
 }

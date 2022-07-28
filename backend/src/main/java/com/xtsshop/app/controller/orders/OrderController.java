@@ -37,6 +37,7 @@ public class OrderController {
     public EntityModel<OrderRepresentationModel> get(@PathVariable @NotBlank Long orderId) throws RecordNotFoundException, UnAuthorizationException{
         return modelAssembler.toModel(ordersService.get(orderId));
     }
+
     @PatchMapping("/{orderId}/cancel")
     public ResponseEntity<?> cancel(@PathVariable @NotBlank Long orderId) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException {
         Order entity = ordersService.cancel(orderId);
@@ -45,8 +46,7 @@ public class OrderController {
 
     @PatchMapping("/{orderId}/pay")
     public ResponseEntity<?> pay(@PathVariable @NotBlank Long orderId, @Valid @RequestBody PaymentCreateForm form) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException {
-        float total = ordersService.getItemPriceTotal(ordersService.get(orderId));
-        Order entity = ordersService.pay(orderId, form.toRequest(total));
+        Order entity = ordersService.pay(orderId, form.toRequest());
         return getUpdateStatusResponse(entity);
     }
 

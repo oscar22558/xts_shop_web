@@ -8,7 +8,6 @@ import ItemsSortingOptionFilter from "./views/ItemsSortingOptionFilter/ItemsSort
 import ItemListPagination from "./views/ItemListPagination/ItemListPagination";
 import PriceFilter from "./views/PriceFilter/PriceFilter";
 import BrandFilter from "./views/BrandFilter/BrandFilter";
-import CategoriesTabs from "../../../views/CategoriesTab/CategoriesTabs";
 
 const ItemsInCategoryPage = ()=>{
     const data = useViewModel()

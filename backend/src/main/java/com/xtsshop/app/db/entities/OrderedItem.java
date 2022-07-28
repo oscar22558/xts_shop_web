@@ -1,5 +1,6 @@
 package com.xtsshop.app.db.entities;
 
+import com.xtsshop.app.controller.orders.exceptions.ItemPriceNotDefinedException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,5 +31,12 @@ public class OrderedItem extends AppEntity {
         super(createAt, updated);
         this.quantity = quantity;
         this.item = item;
+    }
+
+    public float getOrderPriceValue(){
+        if(orderPrice == null){
+            return item.getLatestPrice();
+        }
+        return orderPrice.getValue();
     }
 }

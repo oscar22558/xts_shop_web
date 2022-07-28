@@ -1,9 +1,7 @@
-import axios from "../axios";
-import apiConfig from "../ApiConfig";
+import axiosInstance from "../ApiRequest";
 
 export const ApiRoutesApi = {
-    get: ()=>axios({
-        ...apiConfig,
+    get: ()=>axiosInstance({
         url: "",
     })
 }

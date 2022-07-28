@@ -153,8 +153,9 @@ public class DevelopmentDataSeed {
     }
     public void createAdminUser(Date now, BCryptPasswordEncoder passwordEncoder){
         Role role = roleRepository.findByName(RoleType.ROLE_ADMIN.name());
+        Role adminRole = roleRepository.findByName(RoleType.ROLE_USER.name());
         AppUser user  = new AppUser(now, now, "ken123", passwordEncoder.encode("123"), "ken123@xts-shop.com", "23245566");
-        user.setRoles(Set.of(role));
+        user.setRoles(Set.of(role, adminRole));
         userRepository.save(user);
     }
     public void createNormalUser(Date now, BCryptPasswordEncoder passwordEncoder){

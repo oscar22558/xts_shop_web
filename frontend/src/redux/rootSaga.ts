@@ -8,6 +8,9 @@ import {getAllOfSaga as getAllItemsSaga} from "./items/ItemsSaga";
 import {getAllBrandsSaga as getAllBrandsSaga} from "./brands/BrandsSaga"
 import {getItemsByIdSaga as getCartItemsByIdSaga} from "./cart-items/CartItemsSaga"
 import {postAuthenticationSaga} from "./authentication/AuthenticationSaga"
+import getUserSaga from "./user/sagas/getUserSaga"
+import updateUserSaga from "./user/sagas/updateUserSaga"
+import updatePasswordSaga from "./user/sagas/updatePasswordSaga";
 
 export const sagaMiddleware = createSagaMiddleware()
 export const rootSaga = [
@@ -17,7 +20,10 @@ export const rootSaga = [
     getAllItemsSaga,
     getAllBrandsSaga,
     getCartItemsByIdSaga,
-    postAuthenticationSaga
+    postAuthenticationSaga,
+    getUserSaga,
+    updateUserSaga,
+    updatePasswordSaga
 ]
 export const runSagas = (sagas: Saga[])=>{
     sagas.forEach((saga)=>sagaMiddleware.run(saga))

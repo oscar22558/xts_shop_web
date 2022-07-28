@@ -17,17 +17,9 @@ public class Payment extends AppEntity {
     @Column(nullable = false, name = "paid_total")
     @Min(0)
     private Float paidTotal;
+
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
-
-    @Column(nullable = false, name = "card_num", length = 100)
-    private String cardNum;
-
-    @Column(nullable = false, name = "holderName", length = 100)
-    private String holderName;
-
-    @Column(nullable = false, name = "bankCode", length = 100)
-    private String bankCode;
 
     @OneToOne
     @JoinColumn(name = "order_id")

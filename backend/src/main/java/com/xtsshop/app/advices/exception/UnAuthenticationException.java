@@ -2,7 +2,7 @@ package com.xtsshop.app.advices.exception;
 
 import javax.annotation.Nullable;
 
-public class UnAuthenticationException extends Exception{
+public class UnAuthenticationException extends RuntimeException{
 
     public UnAuthenticationException(String message) {
         super(message);

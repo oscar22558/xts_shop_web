@@ -2,7 +2,7 @@ package com.xtsshop.app.controller.orders.exceptions;
 
 import javax.annotation.Nullable;
 
-public class OrderStatusUpdateException extends Exception{
+public class OrderStatusUpdateException extends RuntimeException{
 
     public OrderStatusUpdateException(String message) {
         super(message);

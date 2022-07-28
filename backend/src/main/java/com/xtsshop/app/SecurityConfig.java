@@ -31,8 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
+
+                .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/api/categories/**").hasAuthority(RoleType.ROLE_ADMIN.name())
                 .antMatchers(HttpMethod.PATCH, "/api/categories/**").hasAuthority(RoleType.ROLE_ADMIN.name())
@@ -45,20 +47,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/items/**").hasAuthority(RoleType.ROLE_ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/auth/parse").hasAuthority(RoleType.ROLE_ADMIN.name())
 
+                .antMatchers(HttpMethod.PATCH, "/api/users/password").hasAnyAuthority(RoleType.ROLE_USER.name())
+                .antMatchers(HttpMethod.GET, "/api/users/**").hasAnyAuthority(RoleType.ROLE_USER.name())
                 .antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority(RoleType.ROLE_ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/users").permitAll()
+
                 .antMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/items/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/brands/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/auth/user").hasAnyAuthority(RoleType.ROLE_USER.name())
                 .antMatchers(HttpMethod.POST, "/api/auth").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/api/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/orders").hasAnyAuthority(RoleType.ROLE_ADMIN.name())
                 .antMatchers(HttpMethod.GET, "/api").permitAll()
                 .antMatchers(HttpMethod.GET, "/storage/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .csrf().disable();
+                ;
     }
 
     @Override

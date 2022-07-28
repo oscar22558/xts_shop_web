@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import HttpResponse from "../models/HttpResponse";
-import { RootState } from "../Store";
 import CachedOrder from "./models/CachedOrder";
 
 type State = {

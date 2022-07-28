@@ -22,10 +22,6 @@ public class OrderRepresentationModel implements AbstractRepresentationModel {
     }
 
     public Collection<OrderedItemRepresentationModel> getItems(){
-        return getOrderItemViewModels();
-    }
-
-    private Collection<OrderedItemRepresentationModel> getOrderItemViewModels(){
         return entity.getOrderedItems()
                 .stream()
                 .map(OrderedItemRepresentationModel::new)

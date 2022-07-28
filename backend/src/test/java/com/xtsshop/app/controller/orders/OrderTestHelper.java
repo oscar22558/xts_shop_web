@@ -27,20 +27,23 @@ public class OrderTestHelper {
     private ItemRepository itemRepository;
     private OrderWithPaymentData orderWithPaymentData;
     private AddressRepository addressRepository;
+    private PriceHistoryRepository priceHistoryRepository;
 
-    public OrderTestHelper(OrderRepository orderRepository, UserRepository userRepository, RoleRepository roleRepository, ItemRepository itemRepository, OrderWithPaymentData orderWithPaymentData, AddressRepository addressRepository) {
+    public OrderTestHelper(OrderRepository orderRepository, UserRepository userRepository, RoleRepository roleRepository, ItemRepository itemRepository, OrderWithPaymentData orderWithPaymentData, AddressRepository addressRepository, PriceHistoryRepository priceHistoryRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.itemRepository = itemRepository;
         this.orderWithPaymentData = orderWithPaymentData;
         this.addressRepository = addressRepository;
+        this.priceHistoryRepository = priceHistoryRepository;
     }
 
     public String getRoute() {
         return route;
     }
     public String getOneOrderRoute(){ return oneOrderRoute; }
+
     public void insertData(){
         AppUser user = userRepository.findUserByUsername("marry123");
         user = insertAddressForUser(user);
@@ -63,7 +66,7 @@ public class OrderTestHelper {
         Date now = new DateTimeHelper().now();
         Address address = addressRepository.save(new Address(now, now, "China", "Hong Kong", "HKU MB166", null, null, user));
         user.getAddresses().add(address);
-        return userRepository.save(user);
+        return user;
     }
     public AppUser insertOrderForUser(AppUser user){
         Date now = new DateTimeHelper().now();
@@ -139,9 +142,9 @@ public class OrderTestHelper {
                 .setItem(item)
                 .setValue(25.5f)
                 .build();
+        priceHistory = priceHistoryRepository.save(priceHistory);
         item.setPrice(25.5f);
         item.getPriceHistories().add(priceHistory);
-        itemRepository.save(item);
     }
     public AppUser getUser(){
         return userRepository.findUserByUsername("marry123");

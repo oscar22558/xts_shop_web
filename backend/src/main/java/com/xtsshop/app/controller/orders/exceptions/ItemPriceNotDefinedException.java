@@ -2,7 +2,7 @@ package com.xtsshop.app.controller.orders.exceptions;
 
 import javax.annotation.Nullable;
 
-public class ItemPriceNotDefinedException extends Exception{
+public class ItemPriceNotDefinedException extends RuntimeException{
 
     public ItemPriceNotDefinedException(String message) {
         super(message);

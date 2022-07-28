@@ -1,6 +1,5 @@
 package com.xtsshop.app.controller.users.models;
 
-import com.xtsshop.app.db.entities.AppUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,13 +25,4 @@ public class UserCreateForm{
     @Nullable
     @Pattern(regexp = "^[0-9a-zA-Z+]+$")
     private String phone;
-
-    public UserRequest toRequest() {
-        return new UserRequest(
-                username,
-                password,
-                email,
-                phone
-        );
-    }
 }

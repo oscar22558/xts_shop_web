@@ -17,24 +17,14 @@ public class PaymentCreateForm {
     @NotNull
     @Min(0)
     private Float paidTotal;
+
     @NotNull
     private PaymentType paymentType;
-    @NotBlank
-    private String cardNum;
-    @NotBlank
-    private String holderName;
-    @NotBlank
-    private String bankCode;
 
-    public PaymentCreateRequest toRequest(float itemPriceTotal){
+    public PaymentCreateRequest toRequest(){
         PaymentCreateRequest request = new PaymentCreateRequest();
         request.setPaymentType(paymentType);
-        request.setCardNum(cardNum);
-        request.setHolderName(holderName);
-        request.setBankCode(bankCode);
         request.setPaidTotal(paidTotal);
-        request.setOrderItemPriceTotal(itemPriceTotal);
         return request;
     }
-
 }

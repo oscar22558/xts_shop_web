@@ -1,7 +1,7 @@
 package com.xtsshop.app.controller.users.exceptions;
 
 import com.xtsshop.app.AbstractModelAssembler;
-import com.xtsshop.app.controller.users.UserController;
+import com.xtsshop.app.controller.users.UsersController;
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.controller.users.models.UserRepresentationModel;
 import org.springframework.hateoas.CollectionModel;
@@ -18,8 +18,8 @@ public class UserModelAssembler extends AbstractModelAssembler<UserRepresentatio
     public EntityModel<UserRepresentationModel> toModel(AppUser entity) {
         return EntityModel.of(
                 new UserRepresentationModel(entity),
-                WebMvcLinkBuilder.linkTo(methodOn(UserController.class).one(entity.getUsername())).withSelfRel(),
-                linkTo(methodOn(UserController.class).all()).withRel("all")
+                WebMvcLinkBuilder.linkTo(methodOn(UsersController.class).one(entity.getUsername())).withSelfRel(),
+                linkTo(methodOn(UsersController.class).all()).withRel("all")
             );
     }
 

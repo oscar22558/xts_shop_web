@@ -62,7 +62,8 @@ public class Item extends AppEntity{
     }
 
     public float getLatestPrice(){
-        return getLatestPriceHistory().flatMap(priceHistory -> Optional.of(priceHistory.getValue())).orElse(0f);
+        return getLatestPriceHistory()
+                .flatMap(priceHistory -> Optional.of(priceHistory.getValue())).orElse(0f);
     }
 
     public Optional<PriceHistory> getLatestPriceHistory(){

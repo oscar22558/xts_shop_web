@@ -53,9 +53,6 @@ public class UserOrderTestHelper {
         form.setAddressId(user.getAddresses().get(0).getId());
         PaymentCreateForm payment = new PaymentCreateForm();
         payment.setPaymentType(PaymentType.CREDIT_CARD);
-        payment.setBankCode("012");
-        payment.setCardNum("1235132901842385824");
-        payment.setHolderName("Chan Tai Man");
         payment.setPaidTotal(402.5f);
 
         OrderedItemCreateForm orderedItem = new OrderedItemCreateForm();

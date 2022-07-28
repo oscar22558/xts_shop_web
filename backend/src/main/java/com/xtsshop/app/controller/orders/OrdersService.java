@@ -35,6 +35,7 @@ public class OrdersService {
     private AllowOnlySameUserService allowOnlySameUserService;
     private OrderAuthorizationService orderAuthorizationService;
     private QueryItemsService queryItemsService;
+
     public OrdersService(
             OrderRepository repository,
             AddressesService addressesService,
@@ -58,6 +59,7 @@ public class OrdersService {
     public List<Order> all(){
         return repository.findAll();
     }
+
     public Order get(Long id) throws RecordNotFoundException, UnAuthorizationException {
         Order order =  repository.findById(id).orElseThrow(()->new RecordNotFoundException("Order with id "+id+" not found."));
         orderAuthorizationService.isAuthorized(order);
@@ -95,7 +97,8 @@ public class OrdersService {
         userRepository.save(user);
         return repository.save(order);
     }
-    public Order cancel(Long id) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException{
+
+    public Order cancel(Long id){
         Order order = get(id);
         if(order.getStatus() == OrderStatus.SHIPPED || order.getStatus() == OrderStatus.SHIPPING)
             throw new OrderStatusUpdateException("Order cannot be canceled.");
@@ -106,16 +109,21 @@ public class OrdersService {
         });
         return repository.save(order);
     }
-    public Order pay(Long id, PaymentCreateRequest paymentCreateRequest) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException{
-        Order order = get(id);
+
+    public Order pay(Long orderId, PaymentCreateRequest paymentCreateRequest){
+        Order order = get(orderId);
         if(!allowOnlySameUserService.canUserAccess(order.getUser().getUsername())){
             throw new UnAuthorizationException();
         }
         if(order.getStatus() != OrderStatus.WAITING_PAYMENT){
             throw new OrderStatusUpdateException("Order is paid.");
         }
-        if(paymentCreateRequest.getPaidTotal() != paymentCreateRequest.getOrderItemPriceTotal())
+
+        float orderedItemsPriceTotal = getItemsPriceTotal(order);
+        if(paymentCreateRequest.getPaidTotal() != orderedItemsPriceTotal){
             throw new OrderStatusUpdateException("Paid total and item price total is not the same");
+        }
+
         Payment payment = paymentCreateRequest.toEntity();
         payment.setOrder(order);
         payment.setPaidTotal(paymentCreateRequest.getPaidTotal());
@@ -133,7 +141,8 @@ public class OrdersService {
         paymentRepository.save(payment);
         return repository.save(order);
     }
-    public Order startProcessing(Long id) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException{
+
+    public Order startProcessing(Long id){
         Order order = get(id);
         if(order.getStatus() == OrderStatus.WAITING_PAYMENT){
             throw new OrderStatusUpdateException("Order is not paid.");
@@ -145,7 +154,8 @@ public class OrdersService {
         order.setStatus(OrderStatus.PROCESSING);
         return repository.save(order);
     }
-    public Order ship(Long id) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException{
+
+    public Order ship(Long id){
         Order order = get(id);
         if(order.getStatus() == OrderStatus.WAITING_PAYMENT){
             throw new OrderStatusUpdateException("Order is not paid.");
@@ -157,7 +167,7 @@ public class OrdersService {
         order.setStatus(OrderStatus.SHIPPING);
         return repository.save(order);
     }
-    public Order finishShipping(Long id) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException{
+    public Order finishShipping(Long id){
         Order order = get(id);
         if(order.getStatus() == OrderStatus.WAITING_PAYMENT){
             throw new OrderStatusUpdateException("Order is not paid.");
@@ -169,6 +179,7 @@ public class OrdersService {
         order.setStatus(OrderStatus.SHIPPED);
         return repository.save(order);
     }
+
     private Address getAddress(OrderCreateRequest request, AppUser user) throws RecordNotFoundException{
         AddressCreateRequest addressCreateRequest = request.getAddressCreateRequest();
         if (addressCreateRequest != null) {
@@ -186,19 +197,22 @@ public class OrdersService {
             return addressesService.get(request.getAddressId());
         }
     }
-    public float getItemPriceTotal(Order order){
+
+    public float getItemsPriceTotal(Order order){
         return order.getOrderedItems().stream()
                 .map(orderItem->{
                     try {
-                        PriceHistory price = Optional.ofNullable(orderItem.getOrderPrice())
-                            .orElse(orderItem.getItem().getLatestPriceHistory().orElseThrow(()-> ItemPriceNotDefinedException.build()));
-                        return price.getValue() * orderItem.getQuantity();
+//                        PriceHistory price = Optional.ofNullable(orderItem.getOrderPrice())
+//                            .orElse(orderItem.getItem().getLatestPriceHistory().orElseThrow(()-> ItemPriceNotDefinedException.build()));
+                        float priceFloat = orderItem.getOrderPriceValue();
+                        return priceFloat * orderItem.getQuantity();
                     }catch (ItemPriceNotDefinedException ex){
                         throw new RuntimeException(ex);
                     }
                 })
                 .reduce(0f, Float::sum);
     }
+
     public void updateItemStock(Item item, int orderedQuantity) throws InsufficientItemStockException, ItemOutOfStockException {
         int itemStock = item.getStock();
         if(itemStock - orderedQuantity < 0){
@@ -208,6 +222,6 @@ public class OrdersService {
             throw ItemOutOfStockException.build();
         }
         item.setStock(itemStock - orderedQuantity);
-
     }
+
 }

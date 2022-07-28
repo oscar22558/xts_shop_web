@@ -1,13 +1,10 @@
-import axios from "../axios";
-import apiConfig from "../ApiConfig";
+import axiosInstance from "../ApiRequest";
 
 export const CategoriesApi = {
-    getAll: (url: string)=>axios({
-        ...apiConfig,
+    getAll: (url: string)=>axiosInstance({
         url
     }),
-    get: (url: string)=>axios({
-        ...apiConfig,
+    get: (url: string)=>axiosInstance({
         url,
     })
 }

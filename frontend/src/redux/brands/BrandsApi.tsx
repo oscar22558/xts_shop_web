@@ -1,8 +1,6 @@
-import axios from "../axios";
-import apiConfig from "../ApiConfig"
+import axiosInstance from "../ApiRequest";
 
-export const getAllBrandsApi = (url: string)=>axios({
-    ...apiConfig,
+export const getAllBrandsApi = (url: string)=>axiosInstance({
     url,
 })
 

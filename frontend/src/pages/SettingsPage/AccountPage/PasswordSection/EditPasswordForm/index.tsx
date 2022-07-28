@@ -1,0 +1,77 @@
+import { Box, Button, FormHelperText, TextField } from "@mui/material"
+import { useEffect, useState } from "react"
+import { useAppSelector } from "../../../../../redux/Hooks"
+import useClearUpdatePasswordState from "../../../../../redux/user/hooks/useClearUpdatePasswordState"
+import useUpdatePassword from "../../../../../redux/user/hooks/useUpdatePassword"
+import UserSelector from "../../../../../redux/user/UserSelector"
+import PasswordInputField from "./PasswordInputField"
+
+type Props = {
+    onUserFinishedUpdate?: ()=>void
+}
+
+const EditPasswordForm = ({
+    onUserFinishedUpdate
+}: Props)=>{
+    const [waitingUserClickUpdate, setWaitingUserClickUpdate] = useState(true)
+    const [password, setPassword] = useState<string|null>(null)
+    const [newPassword, setNewPassword] = useState<string|null>(null)
+    const [passwordError, setPasswordError] = useState<string|undefined>(undefined)
+    const [newPasswordError, setNewPasswordError] = useState<string|undefined>(undefined)
+    
+    const {error: updateRequestError, loading: updateRequestLoading} = useAppSelector(UserSelector).updatePasswordResponse
+    
+    const updatePassword = useUpdatePassword()
+    const clearUpdatePasswordState = useClearUpdatePasswordState()
+
+    const handleUpdateBtnClick = ()=>{
+        if(password == null){
+            setPasswordError("Cannot be blank.")
+            return 
+        }
+        if(newPassword == null){
+            setNewPasswordError("Cannot be blank.")
+            return
+        }
+        setNewPasswordError(undefined)
+        setWaitingUserClickUpdate(false)
+        updatePassword({password, newPassword, passwordConfirmation: newPassword})
+    }
+
+    useEffect(()=>{
+        if(waitingUserClickUpdate || updateRequestLoading){
+            return
+        }
+        if(updateRequestError){
+            setWaitingUserClickUpdate(true)    
+            return
+        }
+        onUserFinishedUpdate && onUserFinishedUpdate()
+        return ()=>{
+            clearUpdatePasswordState()
+        }
+    }, [waitingUserClickUpdate, updateRequestError, updateRequestLoading, clearUpdatePasswordState])
+    
+    return <Box flexDirection="column" display="flex">
+        <PasswordInputField 
+            value={password} 
+            onChange={setPassword}
+            error={passwordError != null}
+            errorText={passwordError}
+        />
+        <Box sx={{marginTop: "10px"}}>
+            <PasswordInputField 
+                label="New Password" 
+                value={newPassword} 
+                onChange={setNewPassword}
+                error={newPasswordError != null}
+                errorText={newPasswordError}
+            />
+        </Box>
+        {updateRequestError ? <FormHelperText>{updateRequestError}</FormHelperText> : undefined}
+        <Box sx={{marginTop: "10px"}} flexDirection="column" display="flex">
+            <Button variant="contained" onClick={handleUpdateBtnClick}>Update</Button>
+        </Box>
+    </Box>
+}
+export default EditPasswordForm

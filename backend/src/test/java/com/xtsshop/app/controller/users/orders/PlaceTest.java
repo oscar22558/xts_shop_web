@@ -48,10 +48,10 @@ public class PlaceTest extends TestCase {
         Order order = userOrderTestHelper.getLatestOrder().orElseThrow();
         assertEquals((long) order.getOrderedItems().size(), 2);
         assertEquals(order.getOrderedItems().get(0).getItem().getName(), "apple");
-        assertEquals(order.getOrderedItems().get(0).getOrderPrice().getValue(), 12.2f);
+        assertEquals(order.getOrderedItems().get(0).getOrderPriceValue(), 12.2f);
         assertEquals(order.getOrderedItems().get(0).getItem().getStock(), 90);
         assertEquals(order.getOrderedItems().get(1).getItem().getName(), "orange");
-        assertEquals(order.getOrderedItems().get(1).getOrderPrice().getValue(), 25.5f);
+        assertEquals(order.getOrderedItems().get(1).getOrderPriceValue(), 25.5f);
         assertEquals(order.getOrderedItems().get(1).getItem().getStock(), 90);
         assertEquals(order.getStatus(), OrderStatus.PAID);
         assertEquals(order.getPayment().getPaidTotal(), 402.5f);
