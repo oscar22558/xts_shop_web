@@ -9,6 +9,7 @@ import OrderShippingAddressPage from "../pages/OrderShippingAddressPage"
 import OrdersPage from "../pages/OrdersPage/OrdersPage"
 import SettingsPage from "../pages/SettingsPage"
 import AccountPage from "../pages/SettingsPage/AccountPage"
+import AddressPage from "../pages/SettingsPage/AddressPage"
 import SignInPage from "../pages/SignInPage"
 import AppRouteList from "./AppRouteList"
 
@@ -27,7 +28,7 @@ const AppRoutes = ()=>{
                     <Route path={AppRouteList.orders} element={<OrdersPage />}/>
                     <Route path={AppRouteList.settings.index} element={<SettingsPage />}>
                         <Route path={AppRouteList.settings.account} element={<AccountPage />} />
-                        <Route path={AppRouteList.settings.addresses} element={<AccountPage />} />
+                        <Route path={AppRouteList.settings.addresses} element={<AddressPage />} />
                     </Route>
                 </Route>
             </Routes>

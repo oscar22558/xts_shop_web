@@ -1,4 +1,4 @@
-import { Box, Button, FormHelperText, TextField } from "@mui/material"
+import { Box, Button, FormHelperText } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useAppSelector } from "../../../../../redux/Hooks"
 import useClearUpdatePasswordState from "../../../../../redux/user/hooks/useClearUpdatePasswordState"
@@ -50,7 +50,7 @@ const EditPasswordForm = ({
         return ()=>{
             clearUpdatePasswordState()
         }
-    }, [waitingUserClickUpdate, updateRequestError, updateRequestLoading, clearUpdatePasswordState])
+    }, [waitingUserClickUpdate, updateRequestError, updateRequestLoading, clearUpdatePasswordState, onUserFinishedUpdate])
     
     return <Box flexDirection="column" display="flex">
         <PasswordInputField 
