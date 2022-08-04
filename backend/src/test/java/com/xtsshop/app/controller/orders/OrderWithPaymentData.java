@@ -4,10 +4,10 @@ import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.OrderBuilder;
 import com.xtsshop.app.db.entities.payment.Payment;
 import com.xtsshop.app.db.entities.payment.PaymentType;
-import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.db.repositories.OrderRepository;
-import com.xtsshop.app.db.repositories.PaymentRepository;
-import com.xtsshop.app.db.repositories.UserRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
+import com.xtsshop.app.db.repositories.OrderJpaRepository;
+import com.xtsshop.app.db.repositories.PaymentJpaRepository;
+import com.xtsshop.app.db.repositories.UserJpaRepository;
 import com.xtsshop.app.helpers.DateTimeHelper;
 import org.springframework.stereotype.Component;
 
@@ -17,16 +17,16 @@ import java.util.List;
 
 @Component("tests.http.orders.OrderWithPaymentData")
 public class OrderWithPaymentData {
-    private ItemRepository itemRepository;
-    private UserRepository userRepository;
-    private OrderRepository orderRepository;
-    private PaymentRepository paymentRepository;
+    private ItemJpaRepository itemJpaRepository;
+    private UserJpaRepository userJpaRepository;
+    private OrderJpaRepository orderJpaRepository;
+    private PaymentJpaRepository paymentJpaRepository;
 
-    public OrderWithPaymentData(ItemRepository itemRepository, UserRepository userRepository, OrderRepository orderRepository, PaymentRepository paymentRepository) {
-        this.itemRepository = itemRepository;
-        this.userRepository = userRepository;
-        this.orderRepository = orderRepository;
-        this.paymentRepository = paymentRepository;
+    public OrderWithPaymentData(ItemJpaRepository itemJpaRepository, UserJpaRepository userJpaRepository, OrderJpaRepository orderJpaRepository, PaymentJpaRepository paymentJpaRepository) {
+        this.itemJpaRepository = itemJpaRepository;
+        this.userJpaRepository = userJpaRepository;
+        this.orderJpaRepository = orderJpaRepository;
+        this.paymentJpaRepository = paymentJpaRepository;
     }
 
     public AppUser insertOrderWithPaymentForUser(AppUser user){
@@ -38,11 +38,11 @@ public class OrderWithPaymentData {
                 .build();
         createPaymentForUser(order);
         user.getOrders().add(order);
-        orderRepository.save(order);
-        return userRepository.save(user);
+        orderJpaRepository.save(order);
+        return userJpaRepository.save(user);
     }
     public List<OrderedItem> createOrderItems(){
-        List<Item> itemList = itemRepository.findAll();
+        List<Item> itemList = itemJpaRepository.findAll();
         Date now = new DateTimeHelper().now();
         OrderedItem orderedItem = new OrderedItem(now, now, itemList.get(0), 4);
         orderedItem.setOrderPrice(itemList.get(0).getPriceHistories().get(0));
@@ -61,6 +61,6 @@ public class OrderWithPaymentData {
         payment.setPaymentType(PaymentType.CREDIT_CARD);
         order.setPayment(payment);
         payment.setOrder(order);
-        paymentRepository.save(payment);
+        paymentJpaRepository.save(payment);
     }
 }

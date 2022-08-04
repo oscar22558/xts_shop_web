@@ -3,17 +3,17 @@ package com.xtsshop.app.controller.items.images;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.entities.builder.ImageBuilder;
-import com.xtsshop.app.db.repositories.ImageRepository;
+import com.xtsshop.app.db.repositories.ImageJpaRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SaveImage {
 
-    private ImageRepository repository;
+    private ImageJpaRepository repository;
     private Item item;
 
     public SaveImage(
-            ImageRepository repository
+            ImageJpaRepository repository
     ) {
         this.repository = repository;
     }

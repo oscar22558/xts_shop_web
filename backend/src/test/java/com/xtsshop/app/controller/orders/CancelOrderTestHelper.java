@@ -2,7 +2,7 @@ package com.xtsshop.app.controller.orders;
 
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Order;
-import com.xtsshop.app.db.repositories.ItemRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import org.springframework.stereotype.Component;
 
@@ -14,13 +14,13 @@ public class CancelOrderTestHelper {
 
     private OrderTestHelper orderTestHelper;
     private DevelopmentDataSeed dataSeed;
-    private ItemRepository itemRepository;
+    private ItemJpaRepository itemJpaRepository;
     private String route = "/api/orders/{orderId}/cancel";
 
-    public CancelOrderTestHelper(OrderTestHelper orderTestHelper, DevelopmentDataSeed dataSeed, ItemRepository itemRepository) {
+    public CancelOrderTestHelper(OrderTestHelper orderTestHelper, DevelopmentDataSeed dataSeed, ItemJpaRepository itemJpaRepository) {
         this.orderTestHelper = orderTestHelper;
         this.dataSeed = dataSeed;
-        this.itemRepository = itemRepository;
+        this.itemJpaRepository = itemJpaRepository;
     }
 
     public void insertData(){
@@ -48,11 +48,11 @@ public class CancelOrderTestHelper {
     }
 
     public int getAppleStock(){
-        return itemRepository.findAllByName("apple").get(0).getStock();
+        return itemJpaRepository.findAllByName("apple").get(0).getStock();
     }
 
     public int getOrangeStock(){
-        return itemRepository.findAllByName("orange").get(0).getStock();
+        return itemJpaRepository.findAllByName("orange").get(0).getStock();
     }
 
 }

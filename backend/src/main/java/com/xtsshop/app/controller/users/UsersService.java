@@ -8,8 +8,8 @@ import com.xtsshop.app.controller.users.models.UserUpdatePasswordForm;
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.db.entities.Role;
 import com.xtsshop.app.db.entities.RoleType;
-import com.xtsshop.app.db.repositories.RoleRepository;
-import com.xtsshop.app.db.repositories.UserRepository;
+import com.xtsshop.app.db.repositories.RoleJpaRepository;
+import com.xtsshop.app.db.repositories.UserJpaRepository;
 import com.xtsshop.app.helpers.DateTimeHelper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,15 +22,15 @@ import java.util.List;
 @Service
 public class UsersService {
 
-    private UserRepository repository;
-    private RoleRepository roleRepository;
+    private UserJpaRepository repository;
+    private RoleJpaRepository roleJpaRepository;
     private AuthenticationService authenticationService;
     private UserIdentityService userIdentityService;
     private BCryptPasswordEncoder encoder;
 
-    public UsersService(UserRepository repository, RoleRepository roleRepository, AuthenticationService authenticationService, UserIdentityService userIdentityService) {
+    public UsersService(UserJpaRepository repository, RoleJpaRepository roleJpaRepository, AuthenticationService authenticationService, UserIdentityService userIdentityService) {
         this.repository = repository;
-        this.roleRepository = roleRepository;
+        this.roleJpaRepository = roleJpaRepository;
         this.authenticationService = authenticationService;
         this.userIdentityService = userIdentityService;
         this.encoder = new BCryptPasswordEncoder();
@@ -49,7 +49,7 @@ public class UsersService {
     public AppUser create(UserCreateForm userCreateForm){
         Date now = getCurrentTimestamp();
         List<Role> roles = new ArrayList<>();
-        roles.add(roleRepository.findByName(RoleType.ROLE_USER.name()));
+        roles.add(roleJpaRepository.findByName(RoleType.ROLE_USER.name()));
         AppUser newUser = new AppUser(
                 now,
                 now,

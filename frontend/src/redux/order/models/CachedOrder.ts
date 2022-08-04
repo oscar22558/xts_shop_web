@@ -1,10 +1,5 @@
-type CachedOrder = {
-    itemIds: number[],
-    address: {
-        row1: string,
-        row2: string,
-        district: string,
-        area: string
-    }
+type CachedOrderCreateForm = {
+    userAddressId: number
+    clientSecret: string
 }
-export default CachedOrder
+export default CachedOrderCreateForm

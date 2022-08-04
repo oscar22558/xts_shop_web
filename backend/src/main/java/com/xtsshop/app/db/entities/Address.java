@@ -20,14 +20,18 @@ public class Address extends AppEntity{
     @Column(nullable = false, length = 100)
     private String city;
 
+    @Column(length = 100)
+    private String district;
+
+    @Column(length = 100)
+    private String area;
+
     @Column(nullable = false, length = 100)
     private String row1;
 
     @Column(length = 100)
     private String row2;
 
-    @Column(length = 100)
-    private String row3;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -36,15 +40,13 @@ public class Address extends AppEntity{
     @OneToMany(mappedBy = "shippingAddress")
     private List<Order> orders;
 
-
-    public Address(Date createdAt, Date updatedAt, String country, String city, String row1, String row2, String row3, AppUser user) {
+    public Address(Date createdAt, Date updatedAt, String country, String city, String district, String area, String row1, String row2) {
         super(createdAt, updatedAt);
         this.country = country;
         this.city = city;
+        this.district = district;
+        this.area = area;
         this.row1 = row1;
         this.row2 = row2;
-        this.row3 = row3;
-        this.user = user;
     }
-
 }

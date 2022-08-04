@@ -5,9 +5,9 @@ import com.xtsshop.app.controller.items.images.models.CreateItemImageInput;
 import com.xtsshop.app.controller.items.models.CreateItemRequest;
 import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.ItemBuilder;
-import com.xtsshop.app.db.repositories.BrandRepository;
-import com.xtsshop.app.db.repositories.CategoryRepository;
-import com.xtsshop.app.db.repositories.ItemRepository;
+import com.xtsshop.app.db.repositories.BrandJpaRepository;
+import com.xtsshop.app.db.repositories.CategoryJpaRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import com.xtsshop.app.controller.items.images.CreateItemImage;
 import com.xtsshop.app.controller.items.price.CreatePriceHistories;
 import org.springframework.stereotype.Service;
@@ -17,20 +17,20 @@ import java.util.List;
 @Service
 public class CreateItemService {
 
-    private ItemRepository repository;
+    private ItemJpaRepository repository;
     private CreateItemImage createItemImage;
-    private CategoryRepository categoryRepository;
-    private BrandRepository brandRepository;
+    private CategoryJpaRepository categoryJpaRepository;
+    private BrandJpaRepository brandJpaRepository;
     private CreatePriceHistories createPriceHistories;
     private Category category;
     private Brand brand;
     private Item item;
 
-    public CreateItemService(ItemRepository repository, CreateItemImage createItemImage, CategoryRepository categoryRepository, BrandRepository brandRepository, CreatePriceHistories createPriceHistories) {
+    public CreateItemService(ItemJpaRepository repository, CreateItemImage createItemImage, CategoryJpaRepository categoryJpaRepository, BrandJpaRepository brandJpaRepository, CreatePriceHistories createPriceHistories) {
         this.repository = repository;
         this.createItemImage = createItemImage;
-        this.categoryRepository = categoryRepository;
-        this.brandRepository = brandRepository;
+        this.categoryJpaRepository = categoryJpaRepository;
+        this.brandJpaRepository = brandJpaRepository;
         this.createPriceHistories = createPriceHistories;
     }
 
@@ -44,13 +44,13 @@ public class CreateItemService {
     }
 
     public void setCategory(Long id){
-        category = categoryRepository
+        category = categoryJpaRepository
                 .findById(id)
                 .orElseThrow(()->new RecordNotFoundException("Category with id "+id+" not found"));
     }
 
     public void setBrand(Long brandId){
-        brand = brandRepository
+        brand = brandJpaRepository
                 .findById(brandId)
                 .orElseThrow(()->new RecordNotFoundException("Brand with id "+brandId+" not found"));
     }

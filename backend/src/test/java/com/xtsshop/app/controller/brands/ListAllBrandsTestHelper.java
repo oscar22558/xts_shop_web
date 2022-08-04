@@ -1,6 +1,5 @@
 package com.xtsshop.app.controller.brands;
 
-import com.xtsshop.app.db.repositories.BrandRepository;
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import org.springframework.stereotype.Component;
 

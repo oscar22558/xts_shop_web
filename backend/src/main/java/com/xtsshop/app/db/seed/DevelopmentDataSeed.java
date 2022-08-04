@@ -17,24 +17,24 @@ import java.util.Set;
 @Transactional
 public class DevelopmentDataSeed {
 
-    private CategoryRepository repository;
-    private ItemRepository itemRepository;
-    private ImageRepository imageRepository;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PrivilegeRepository privilegeRepository;
-    private BrandRepository brandRepository;
-    private PriceHistoryRepository priceHistoryRepository;
+    private CategoryJpaRepository repository;
+    private ItemJpaRepository itemJpaRepository;
+    private ImageJpaRepository imageJpaRepository;
+    private UserJpaRepository userJpaRepository;
+    private RoleJpaRepository roleJpaRepository;
+    private PrivilegeJpaRepository privilegeJpaRepository;
+    private BrandJpaRepository brandJpaRepository;
+    private PriceHistoryJpaRepository priceHistoryJpaRepository;
 
-    public DevelopmentDataSeed(CategoryRepository repository, ItemRepository itemRepository, ImageRepository imageRepository, UserRepository userRepository, RoleRepository roleRepository, PrivilegeRepository privilegeRepository, BrandRepository brandRepository, PriceHistoryRepository priceHistoryRepository) {
+    public DevelopmentDataSeed(CategoryJpaRepository repository, ItemJpaRepository itemJpaRepository, ImageJpaRepository imageJpaRepository, UserJpaRepository userJpaRepository, RoleJpaRepository roleJpaRepository, PrivilegeJpaRepository privilegeJpaRepository, BrandJpaRepository brandJpaRepository, PriceHistoryJpaRepository priceHistoryJpaRepository) {
         this.repository = repository;
-        this.itemRepository = itemRepository;
-        this.imageRepository = imageRepository;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.privilegeRepository = privilegeRepository;
-        this.brandRepository = brandRepository;
-        this.priceHistoryRepository = priceHistoryRepository;
+        this.itemJpaRepository = itemJpaRepository;
+        this.imageJpaRepository = imageJpaRepository;
+        this.userJpaRepository = userJpaRepository;
+        this.roleJpaRepository = roleJpaRepository;
+        this.privilegeJpaRepository = privilegeJpaRepository;
+        this.brandJpaRepository = brandJpaRepository;
+        this.priceHistoryJpaRepository = priceHistoryJpaRepository;
     }
 
     public void insertData(){
@@ -61,17 +61,17 @@ public class DevelopmentDataSeed {
         repository.save(new CategoryBuilder().setName("Mobile phone stand").setParent(newCategory3).build());
     }
     public void createBrands(){
-        brandRepository.save(new BrandBuilder().setName("Brand 1").build());
-        brandRepository.save(new BrandBuilder().setName("Brand 2").build());
-        brandRepository.save(new BrandBuilder().setName("Brand 3").build());
+        brandJpaRepository.save(new BrandBuilder().setName("Brand 1").build());
+        brandJpaRepository.save(new BrandBuilder().setName("Brand 2").build());
+        brandJpaRepository.save(new BrandBuilder().setName("Brand 3").build());
     }
 
     public void createItems(){
         Category category3 = repository.findAll().get(2);
         Category usbCableCategory = repository.findAll().get(6);
         Category phoneStandCategory = repository.findAll().get(8);
-        List<Brand> brands = brandRepository.findAll();
-        Item item1 = itemRepository.save(new ItemBuilder()
+        List<Brand> brands = brandJpaRepository.findAll();
+        Item item1 = itemJpaRepository.save(new ItemBuilder()
                 .setName("apple")
                 .setManufacturer("manufacturer 1")
                 .setCategory(category3)
@@ -81,7 +81,7 @@ public class DevelopmentDataSeed {
                 .build()
         );
         setPriceForItem(item1, 12.2f);
-        Item item2 = itemRepository.save(new ItemBuilder()
+        Item item2 = itemJpaRepository.save(new ItemBuilder()
                 .setName("orange")
                 .setManufacturer("manufacturer 2")
                 .setCategory(category3)
@@ -91,7 +91,7 @@ public class DevelopmentDataSeed {
                 .build()
         );
         setPriceForItem(item2, 23.2f);
-        Item item3 = itemRepository.save(new ItemBuilder()
+        Item item3 = itemJpaRepository.save(new ItemBuilder()
                 .setName("2M USB 3.0 data cable")
                 .setManufacturer("manufacturer 1")
                 .setCategory(usbCableCategory)
@@ -101,7 +101,7 @@ public class DevelopmentDataSeed {
                 .build()
         );
         setPriceForItem(item3, 44.2f);
-        Item item4 = itemRepository.save(new ItemBuilder().setName("ABC stand")
+        Item item4 = itemJpaRepository.save(new ItemBuilder().setName("ABC stand")
                 .setManufacturer("manufacturer 2")
                 .setCategory(phoneStandCategory)
                 .setStock(103)
@@ -113,13 +113,13 @@ public class DevelopmentDataSeed {
     }
     public Item setPriceForItem(Item item, float price){
         PriceHistory priceHistory = new PriceHistoryBuilder().setValue(price).setItem(item).build();
-        priceHistoryRepository.save(priceHistory);
+        priceHistoryJpaRepository.save(priceHistory);
         item.getPriceHistories().add(priceHistory);
-        return itemRepository.save(item);
+        return itemJpaRepository.save(item);
     }
     public void createImagesForItems(){
-        List<Item> items = itemRepository.findAll();
-        imageRepository.save(
+        List<Item> items = itemJpaRepository.findAll();
+        imageJpaRepository.save(
             new ImageBuilder()
                 .setPath("storage/develop/images/apple.png")
                 .setFileName("apple")
@@ -127,14 +127,14 @@ public class DevelopmentDataSeed {
                 .setItem(items.get(0))
                 .build()
         );
-        imageRepository.save(
+        imageJpaRepository.save(
                 new ImageBuilder()
                         .setPath("storage/develop/images/orange.png")
                         .setFileName("orange")
                         .setExtension("png")
                         .setItem(items.get(1)).build()
         );
-        imageRepository.save(
+        imageJpaRepository.save(
                 new ImageBuilder()
                 .setPath("storage/develop/images/usb_data_cable.png")
                 .setFileName("usb_data_cable")
@@ -142,7 +142,7 @@ public class DevelopmentDataSeed {
                 .setItem(items.get(2))
                 .build()
         );
-        imageRepository.save(
+        imageJpaRepository.save(
                 new ImageBuilder()
                         .setPath("storage/develop/images/stand.png")
                         .setFileName("stand")
@@ -152,38 +152,43 @@ public class DevelopmentDataSeed {
         );
     }
     public void createAdminUser(Date now, BCryptPasswordEncoder passwordEncoder){
-        Role role = roleRepository.findByName(RoleType.ROLE_ADMIN.name());
-        Role adminRole = roleRepository.findByName(RoleType.ROLE_USER.name());
+        Role role = roleJpaRepository.findByName(RoleType.ROLE_ADMIN.name());
+        Role adminRole = roleJpaRepository.findByName(RoleType.ROLE_USER.name());
         AppUser user  = new AppUser(now, now, "ken123", passwordEncoder.encode("123"), "ken123@xts-shop.com", "23245566");
         user.setRoles(Set.of(role, adminRole));
-        userRepository.save(user);
+        userJpaRepository.save(user);
     }
     public void createNormalUser(Date now, BCryptPasswordEncoder passwordEncoder){
-        Role role = roleRepository.findByName(RoleType.ROLE_USER.name());
+        Role role = roleJpaRepository.findByName(RoleType.ROLE_USER.name());
         AppUser user = new AppUser(now, now, "marry123", passwordEncoder.encode("123"), "marry123@xts-shop.com", "28735601");
         user.setRoles(Set.of(role));
-
-        List<Address> addresses = new ArrayList<>();
-        addresses.add(new AddressBuilder()
-                .setCountry("China")
-                .setCity("Hong Kong")
-                .setUser(user)
-                .setRow1("HKU MB166")
-                .build()
+        Address address = new Address(
+                now,
+                now,
+                "China",
+                "Hong Kong",
+                "Sai Ying Pun",
+                "Hong Kong",
+                "HKU MB166",
+                ""
         );
+        address.setUser(user);
+        List<Address> addresses = new ArrayList<>();
+        addresses.add(address);
+
         user.setAddresses(addresses);
         user.setOrders(List.of());
         user.setCart(Set.of());
-        userRepository.save(user);
+        userJpaRepository.save(user);
     }
     public void createRoles(Date now){
-        Privilege readPrivilege = privilegeRepository.save(new Privilege(now, now, PrivilegeType.READ_PRIVILEGE));
-        Privilege writePrivilege = privilegeRepository.save(new Privilege(now, now, PrivilegeType.WRITE_PRIVILEGE));
+        Privilege readPrivilege = privilegeJpaRepository.save(new Privilege(now, now, PrivilegeType.READ_PRIVILEGE));
+        Privilege writePrivilege = privilegeJpaRepository.save(new Privilege(now, now, PrivilegeType.WRITE_PRIVILEGE));
         Role adminRole = new Role(now, now, RoleType.ROLE_ADMIN);
         adminRole.setPrivileges(Set.of(readPrivilege, writePrivilege));
-        roleRepository.save(adminRole);
+        roleJpaRepository.save(adminRole);
         Role userRole = new Role(now, now, RoleType.ROLE_USER);
         userRole.setPrivileges(Set.of(readPrivilege, writePrivilege));
-        roleRepository.save(userRole);
+        roleJpaRepository.save(userRole);
     }
 }

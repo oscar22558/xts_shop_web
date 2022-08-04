@@ -1,6 +1,6 @@
 package com.xtsshop.app.controller.users;
 
-import com.xtsshop.app.db.repositories.UserRepository;
+import com.xtsshop.app.db.repositories.UserJpaRepository;
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
@@ -13,11 +13,11 @@ public class UserTestHelper {
     private String updatePhoneRoute = "/api/users/phone";
     private String updatePasswordRoute = "/api/users/password";
     private String oneRoute = "/api/users/{username}";
-    private UserRepository userRepository;
+    private UserJpaRepository userJpaRepository;
     private DevelopmentDataSeed seed;
 
-    public UserTestHelper(UserRepository userRepository, DevelopmentDataSeed seed) {
-        this.userRepository = userRepository;
+    public UserTestHelper(UserJpaRepository userJpaRepository, DevelopmentDataSeed seed) {
+        this.userJpaRepository = userJpaRepository;
         this.seed = seed;
     }
 

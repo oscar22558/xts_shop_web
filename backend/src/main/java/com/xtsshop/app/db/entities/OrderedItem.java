@@ -1,6 +1,6 @@
 package com.xtsshop.app.db.entities;
 
-import com.xtsshop.app.controller.orders.exceptions.ItemPriceNotDefinedException;
+import com.xtsshop.app.controller.users.payment.exception.UpdateOrderQuantityException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,5 +38,19 @@ public class OrderedItem extends AppEntity {
             return item.getLatestPrice();
         }
         return orderPrice.getValue();
+    }
+
+    public void updateQuantity(int newQuantity){
+        if(item == null){
+            throw new UpdateOrderQuantityException("Item cannot be null.");
+        }
+        int diffInQuantity = newQuantity - quantity;
+        boolean isNotUpdatable = diffInQuantity > item.getStock();
+        if(isNotUpdatable){
+            throw new UpdateOrderQuantityException("Item has insufficient stock.");
+        }
+        int newStock = item.getStock() - diffInQuantity;
+        quantity = newQuantity;
+        item.setStock(newStock);
     }
 }

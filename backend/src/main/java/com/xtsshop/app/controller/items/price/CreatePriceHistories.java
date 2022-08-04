@@ -3,7 +3,7 @@ package com.xtsshop.app.controller.items.price;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.entities.PriceHistory;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
-import com.xtsshop.app.db.repositories.PriceHistoryRepository;
+import com.xtsshop.app.db.repositories.PriceHistoryJpaRepository;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,11 @@ import java.util.List;
 public class CreatePriceHistories {
     private Item item;
     private List<PriceHistory> histories;
-    private PriceHistoryRepository priceHistoryRepository;
+    private PriceHistoryJpaRepository priceHistoryJpaRepository;
 
-    public CreatePriceHistories(PriceHistoryRepository priceHistoryRepository) {
+    public CreatePriceHistories(PriceHistoryJpaRepository priceHistoryJpaRepository) {
         histories = new ArrayList<>();
-        this.priceHistoryRepository = priceHistoryRepository;
+        this.priceHistoryJpaRepository = priceHistoryJpaRepository;
     }
 
     public void setItem(Item item) {
@@ -38,7 +38,7 @@ public class CreatePriceHistories {
     }
 
     public List<PriceHistory> save(){
-        return priceHistoryRepository.saveAll(histories);
+        return priceHistoryJpaRepository.saveAll(histories);
     }
 
 }

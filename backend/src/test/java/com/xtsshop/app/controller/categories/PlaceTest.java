@@ -1,7 +1,7 @@
 package com.xtsshop.app.controller.categories;
 
 import com.xtsshop.app.db.entities.Category;
-import com.xtsshop.app.db.repositories.CategoryRepository;
+import com.xtsshop.app.db.repositories.CategoryJpaRepository;
 import com.xtsshop.app.TestCase;
 import com.xtsshop.app.controller.categories.models.CategoryRequest;
 import com.xtsshop.app.form.categories.CategoryForm;
@@ -23,7 +23,7 @@ class PlaceTest extends TestCase {
 
 	private String route = "/api/categories";
 	@Autowired
-	private CategoryRepository repository;
+	private CategoryJpaRepository repository;
 	@Test
 	void testCaseNormal() throws Exception {
 		int count = repository.findAll().size();

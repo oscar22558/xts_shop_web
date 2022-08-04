@@ -2,7 +2,7 @@ package com.xtsshop.app.controller.orders.exceptions;
 
 import javax.annotation.Nullable;
 
-public class ItemOutOfStockException extends Exception {
+public class ItemOutOfStockException extends RuntimeException {
 
     public ItemOutOfStockException(String message) {
         super(message);

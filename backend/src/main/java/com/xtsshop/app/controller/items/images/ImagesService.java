@@ -2,7 +2,7 @@ package com.xtsshop.app.controller.items.images;
 
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Image;
-import com.xtsshop.app.db.repositories.ImageRepository;
+import com.xtsshop.app.db.repositories.ImageJpaRepository;
 import com.xtsshop.app.controller.storage.StorageService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -12,9 +12,9 @@ import java.util.List;
 @Service
 public class ImagesService {
     private StorageService storageService;
-    private ImageRepository repository;
+    private ImageJpaRepository repository;
 
-    public ImagesService(@Qualifier("ImageStorageService") StorageService storageService, ImageRepository repository) {
+    public ImagesService(@Qualifier("ImageStorageService") StorageService storageService, ImageJpaRepository repository) {
         this.storageService = storageService;
         this.repository = repository;
     }

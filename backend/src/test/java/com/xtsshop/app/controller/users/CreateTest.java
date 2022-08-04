@@ -2,17 +2,15 @@ package com.xtsshop.app.controller.users;
 
 import com.xtsshop.app.form.users.CreateUserForm;
 import com.xtsshop.app.db.entities.AppUser;
-import com.xtsshop.app.db.repositories.UserRepository;
 import com.xtsshop.app.TestCase;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class CreateTest extends TestCase {
 
     @Autowired
@@ -34,7 +33,7 @@ public class CreateTest extends TestCase {
                 .content(mapper.writeValueAsString(form))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated());
-        AppUser user = userTestHelper.getUserRepository().findUserByUsername("chris321");
+        AppUser user = userTestHelper.getUserJpaRepository().findUserByUsername("chris321");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         assertNotNull(user);
         assertTrue(encoder.matches("123456789", user.getPassword()));

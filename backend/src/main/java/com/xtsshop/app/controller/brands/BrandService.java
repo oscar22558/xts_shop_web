@@ -4,36 +4,36 @@ import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.controller.brands.models.BrandCreateRequest;
 import com.xtsshop.app.controller.brands.models.BrandEntityConvertor;
 import com.xtsshop.app.db.entities.Brand;
-import com.xtsshop.app.db.repositories.BrandRepository;
+import com.xtsshop.app.db.repositories.BrandJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class BrandService {
-    private BrandRepository brandRepository;
+    private BrandJpaRepository brandJpaRepository;
     private BrandEntityConvertor brandEntityConvertor;
 
-    public BrandService(BrandRepository brandRepository, BrandEntityConvertor brandEntityConvertor) {
-        this.brandRepository = brandRepository;
+    public BrandService(BrandJpaRepository brandJpaRepository, BrandEntityConvertor brandEntityConvertor) {
+        this.brandJpaRepository = brandJpaRepository;
         this.brandEntityConvertor = brandEntityConvertor;
     }
 
     public List<Brand> listAllBrands(){
-       return brandRepository.findAll();
+       return brandJpaRepository.findAll();
     }
 
     public Brand create(BrandCreateRequest request){
         Brand brand = brandEntityConvertor.setRequest(request).getEntity();
-        return brandRepository.save(brand);
+        return brandJpaRepository.save(brand);
     }
 
     public void delete(Long id){
-        brandRepository.deleteById(id);
+        brandJpaRepository.deleteById(id);
     }
 
     public Brand get(Long id){
-        return brandRepository
+        return brandJpaRepository
                 .findById(id)
                 .orElseThrow(()->new RecordNotFoundException("Brand "+id+" not find"));
     }

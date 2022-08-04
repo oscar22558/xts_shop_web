@@ -2,7 +2,7 @@ package com.xtsshop.app.controller.categories.items;
 
 import com.xtsshop.app.controller.categories.items.models.SortingDirection;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.db.repositories.ItemRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import com.xtsshop.app.controller.categories.items.models.BrandSearchOptions;
 import com.xtsshop.app.controller.categories.items.models.PriceSearchOptions;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class CategoryItemRepo {
-    private ItemRepository itemRepository;
+    private ItemJpaRepository itemJpaRepository;
     private RecursiveCategorySearcher categorySearcher;
 
     private List<Long> categoryIds;
@@ -21,8 +21,8 @@ public class CategoryItemRepo {
     private List<Long> brandIds;
     private SortingDirection sortingDirection;
 
-    public CategoryItemRepo(ItemRepository itemRepository, RecursiveCategorySearcher categorySearcher) {
-        this.itemRepository = itemRepository;
+    public CategoryItemRepo(ItemJpaRepository itemJpaRepository, RecursiveCategorySearcher categorySearcher) {
+        this.itemJpaRepository = itemJpaRepository;
         this.categorySearcher = categorySearcher;
     }
 
@@ -61,15 +61,15 @@ public class CategoryItemRepo {
         float maxPrice = priceSearchOptions.flatMap((option)->Optional.of(option.getMaxPrice())).orElse(10000f);
         float minPrice = priceSearchOptions.flatMap((option)->Optional.of(option.getMinPrice())).orElse(0f);
         if(isBrandFilterSet()){
-            return itemRepository.findAllForCategoriesWithBrandIdAndPrice(categoryIds, brandIds, maxPrice, minPrice);
+            return itemJpaRepository.findAllForCategoriesWithBrandIdAndPrice(categoryIds, brandIds, maxPrice, minPrice);
         }
-        return itemRepository.findAllForCategoriesWithPrice(categoryIds, maxPrice, minPrice);
+        return itemJpaRepository.findAllForCategoriesWithPrice(categoryIds, maxPrice, minPrice);
     }
     public List<Item> findItemsUnderCategoriesWithoutPriceFilter(){
         if(isBrandFilterSet()){
-            return itemRepository.findAllForCategoriesWithBrandId(categoryIds, brandIds);
+            return itemJpaRepository.findAllForCategoriesWithBrandId(categoryIds, brandIds);
         }
-        return itemRepository.findAllForCategories(categoryIds);
+        return itemJpaRepository.findAllForCategories(categoryIds);
     }
 
     private boolean isBrandFilterSet(){

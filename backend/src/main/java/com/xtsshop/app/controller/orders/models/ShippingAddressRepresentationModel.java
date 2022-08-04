@@ -10,15 +10,17 @@ import lombok.NoArgsConstructor;
 public class ShippingAddressRepresentationModel implements AbstractRepresentationModel {
     private String country;
     private String city;
+    private String district;
+    private String area;
     private String row1;
     private String row2;
-    private String row3;
 
     public ShippingAddressRepresentationModel(Address entity){
         this.country = entity.getCountry();
         this.city = entity.getCity();
         this.row1 = entity.getRow1();
         this.row2 = entity.getRow2();
-        this.row3 = entity.getRow3();
+        this.district = entity.getDistrict();
+        this.area = entity.getArea();
     }
 }

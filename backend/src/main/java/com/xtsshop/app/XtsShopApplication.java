@@ -3,12 +3,14 @@ package com.xtsshop.app;
 import com.xtsshop.app.controller.storage.StorageProperties;
 import com.xtsshop.app.controller.storage.StorageService;
 import com.xtsshop.app.controller.storage.StorageUrlProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -26,13 +28,13 @@ public class XtsShopApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000")
-						.allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH");
+						.allowedOrigins("*")
+						.allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
 			}
 		};
 	}
 	@Bean
-	CommandLineRunner init(@Qualifier("FileStorageService") StorageService storageService, @Qualifier("ImageStorageService") StorageService imageStorageService) {
+	public CommandLineRunner init(@Qualifier("FileStorageService") StorageService storageService, @Qualifier("ImageStorageService") StorageService imageStorageService) {
 		return (args) -> {
 			storageService.deleteAll();
 			storageService.init();

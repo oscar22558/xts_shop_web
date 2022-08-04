@@ -2,7 +2,6 @@ package com.xtsshop.app.controller.brands;
 
 
 import com.xtsshop.app.TestCase;
-import com.xtsshop.app.db.repositories.RoleRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

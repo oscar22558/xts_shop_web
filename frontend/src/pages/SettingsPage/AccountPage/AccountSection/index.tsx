@@ -46,8 +46,8 @@ const AccountSection = ()=>{
         {
             isEditFormShown ? <EditAccountForm initialData={user} handleFinishEditing={hideEditForm}/> :(
                 <>
-                    {viewModel.map(itemData=>(
-                        <Box>
+                    {viewModel.map((itemData, index)=>(
+                        <Box key={index}>
                             <Box sx={rowContentCss}>
                                 <Box sx={labelCss}>{itemData.label}</Box>
                                 <Box sx={valueCss}>{itemData.value}</Box>

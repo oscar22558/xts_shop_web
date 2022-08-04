@@ -2,7 +2,7 @@ package com.xtsshop.app.controller.categories.items;
 
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.db.repositories.CategoryRepository;
+import com.xtsshop.app.db.repositories.CategoryJpaRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,17 +12,17 @@ import java.util.stream.Collectors;
 @Component
 public class RecursiveItemSearcher {
     private List<Long> topLevelCategoryIds;
-    private CategoryRepository categoryRepository;
+    private CategoryJpaRepository categoryJpaRepository;
 
-    public RecursiveItemSearcher(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    public RecursiveItemSearcher(CategoryJpaRepository categoryJpaRepository) {
+        this.categoryJpaRepository = categoryJpaRepository;
     }
     public void setTopLevelCategoryIds(List<Long> topLevelCategoryIds) {
         this.topLevelCategoryIds = topLevelCategoryIds;
     }
 
     public List<Item> search(){
-        return categoryRepository.findAllById(topLevelCategoryIds)
+        return categoryJpaRepository.findAllById(topLevelCategoryIds)
                 .stream()
                 .map(this::getItemsRecursively)
                 .reduce(new ArrayList<>(), (acc, current)->{

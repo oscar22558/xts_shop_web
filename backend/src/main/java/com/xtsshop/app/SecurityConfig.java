@@ -34,8 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
 
-                .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
-
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/categories/**").hasAuthority(RoleType.ROLE_ADMIN.name())
                 .antMatchers(HttpMethod.PATCH, "/api/categories/**").hasAuthority(RoleType.ROLE_ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/api/categories/**").hasAuthority(RoleType.ROLE_ADMIN.name())
@@ -51,6 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/users/**").hasAnyAuthority(RoleType.ROLE_USER.name())
                 .antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority(RoleType.ROLE_ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/users").permitAll()
+
+                .antMatchers("/api/payment-intent").hasAnyAuthority(RoleType.ROLE_USER.name())
+                .antMatchers(HttpMethod.POST, "/webhook").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/items/**").permitAll()

@@ -2,18 +2,18 @@ package com.xtsshop.app.controller.orders;
 
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Address;
-import com.xtsshop.app.db.repositories.AddressRepository;
+import com.xtsshop.app.db.repositories.AddressJpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AddressesService {
-    private AddressRepository addressRepository;
+    private AddressJpaRepository addressJpaRepository;
 
-    public AddressesService(AddressRepository addressRepository) {
-        this.addressRepository = addressRepository;
+    public AddressesService(AddressJpaRepository addressJpaRepository) {
+        this.addressJpaRepository = addressJpaRepository;
     }
 
     public Address get(Long id) throws RecordNotFoundException{
-        return addressRepository.findById(id).orElseThrow(()->new RecordNotFoundException("Address with id "+id+" not found."));
+        return addressJpaRepository.findById(id).orElseThrow(()->new RecordNotFoundException("Address with id "+id+" not found."));
     }
 }

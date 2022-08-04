@@ -6,8 +6,8 @@ import com.xtsshop.app.controller.orders.exceptions.InsufficientItemStockExcepti
 import com.xtsshop.app.controller.orders.exceptions.ItemOutOfStockException;
 import com.xtsshop.app.controller.orders.exceptions.ItemPriceNotDefinedException;
 import com.xtsshop.app.controller.orders.exceptions.OrderStatusUpdateException;
+import com.xtsshop.app.controller.users.addresses.models.AddressCreateRequestConvertor;
 import com.xtsshop.app.db.entities.*;
-import com.xtsshop.app.db.entities.builder.AddressBuilder;
 import com.xtsshop.app.db.entities.builder.OrderBuilder;
 import com.xtsshop.app.db.entities.payment.Payment;
 import com.xtsshop.app.db.repositories.*;
@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrdersService {
-    private OrderRepository repository;
-    private PaymentRepository paymentRepository;
-    private UserRepository userRepository;
+    private OrderJpaRepository repository;
+    private PaymentJpaRepository paymentJpaRepository;
+    private UserJpaRepository userJpaRepository;
     private AddressesService addressesService;
     private TargetUserService targetUserService;
     private AllowOnlySameUserService allowOnlySameUserService;
@@ -37,13 +37,13 @@ public class OrdersService {
     private QueryItemsService queryItemsService;
 
     public OrdersService(
-            OrderRepository repository,
+            OrderJpaRepository repository,
             AddressesService addressesService,
             TargetUserService targetUserService,
             OrderAuthorizationService orderAuthorizationService,
             QueryItemsService queryItemsService,
-            PaymentRepository paymentRepository,
-            UserRepository userRepository,
+            PaymentJpaRepository paymentJpaRepository,
+            UserJpaRepository userJpaRepository,
             AllowOnlySameUserService allowOnlySameUserService
     ) {
         this.repository = repository;
@@ -51,8 +51,8 @@ public class OrdersService {
         this.targetUserService = targetUserService;
         this.orderAuthorizationService = orderAuthorizationService;
         this.queryItemsService = queryItemsService;
-        this.paymentRepository = paymentRepository;
-        this.userRepository = userRepository;
+        this.paymentJpaRepository = paymentJpaRepository;
+        this.userJpaRepository = userJpaRepository;
         this.allowOnlySameUserService = allowOnlySameUserService;
     }
 
@@ -94,7 +94,7 @@ public class OrdersService {
                 .setOrderedItems(orderedItems)
                 .build();
         user.getOrders().add(order);
-        userRepository.save(user);
+        userJpaRepository.save(user);
         return repository.save(order);
     }
 
@@ -138,7 +138,7 @@ public class OrdersService {
                 throw new RuntimeException(e);
             }
         });
-        paymentRepository.save(payment);
+        paymentJpaRepository.save(payment);
         return repository.save(order);
     }
 
@@ -183,14 +183,8 @@ public class OrdersService {
     private Address getAddress(OrderCreateRequest request, AppUser user) throws RecordNotFoundException{
         AddressCreateRequest addressCreateRequest = request.getAddressCreateRequest();
         if (addressCreateRequest != null) {
-            Address address = new AddressBuilder()
-                    .setCity(addressCreateRequest.getCity())
-                    .setCountry(addressCreateRequest.getCountry())
-                    .setRow1(addressCreateRequest.getRow1())
-                    .setRow2(addressCreateRequest.getRow2())
-                    .setRow3(addressCreateRequest.getRow3())
-                    .setUser(user)
-                    .build();
+            Address address = new AddressCreateRequestConvertor(request.getAddressCreateRequest(), user)
+                    .toEntity();
             user.getAddresses().add(address);
             return address;
         }else{
@@ -202,8 +196,6 @@ public class OrdersService {
         return order.getOrderedItems().stream()
                 .map(orderItem->{
                     try {
-//                        PriceHistory price = Optional.ofNullable(orderItem.getOrderPrice())
-//                            .orElse(orderItem.getItem().getLatestPriceHistory().orElseThrow(()-> ItemPriceNotDefinedException.build()));
                         float priceFloat = orderItem.getOrderPriceValue();
                         return priceFloat * orderItem.getQuantity();
                     }catch (ItemPriceNotDefinedException ex){

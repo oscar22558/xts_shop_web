@@ -49,11 +49,7 @@ public class AuthController {
 
     @GetMapping("/user")
     public EntityModel<UserRepresentationModel> user(){
-        SpringUser springUser = userIdentityService.getSpringUser();
-        AppUser user = new AppUser();
-        user.setUsername(springUser.getUsername());
-        user.setEmail(springUser.getEmail());
-        user.setPhone(springUser.getPhone());
+        AppUser user = userIdentityService.getUser();
         return assembler.toModel(user);
     }
 }

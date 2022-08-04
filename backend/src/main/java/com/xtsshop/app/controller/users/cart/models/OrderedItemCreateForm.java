@@ -12,10 +12,10 @@ import javax.validation.constraints.NotNull;
 public class OrderedItemCreateForm {
     @NotNull
     @Min(0)
-    Long itemId;
+    private Long itemId;
     @NotNull
     @Min(0)
-    Integer quantity;
+    private Integer quantity;
     public OrderedItemCreateRequest toRequest(){
         OrderedItemCreateRequest orderItemRequest = new OrderedItemCreateRequest();
         orderItemRequest.setItemId(itemId);

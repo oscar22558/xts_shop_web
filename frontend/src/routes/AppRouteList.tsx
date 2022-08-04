@@ -9,6 +9,7 @@ const AppRouteList = {
         index: "/settings",
         account: "",
         addresses: "addresses"
-    }
+    },
+    payment: "/payment"
 }
 export default AppRouteList

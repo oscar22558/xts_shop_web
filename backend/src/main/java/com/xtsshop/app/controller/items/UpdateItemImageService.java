@@ -5,7 +5,7 @@ import com.xtsshop.app.controller.items.images.models.UpdateItemImageInput;
 import com.xtsshop.app.controller.items.images.models.UpdateItemImageRequest;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.db.repositories.ItemRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import com.xtsshop.app.controller.items.images.UpdateItemImage;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 public class UpdateItemImageService {
 
     private UpdateItemImage updateItemImage;
-    private ItemRepository itemRepository;
+    private ItemJpaRepository itemJpaRepository;
     private UpdateItemImageRequest request;
     private Item item;
 
-    public UpdateItemImageService(UpdateItemImage updateItemImage, ItemRepository itemRepository) {
+    public UpdateItemImageService(UpdateItemImage updateItemImage, ItemJpaRepository itemJpaRepository) {
         this.updateItemImage = updateItemImage;
-        this.itemRepository = itemRepository;
+        this.itemJpaRepository = itemJpaRepository;
     }
 
     public Item update(UpdateItemImageRequest request) {
@@ -31,7 +31,7 @@ public class UpdateItemImageService {
     }
 
     public void getItem(){
-        item = itemRepository
+        item = itemJpaRepository
                 .findById(request.getItemId())
                 .orElseThrow(()->new RecordNotFoundException("Item with id "+request.getItemId()+" not found"));
     }

@@ -2,20 +2,19 @@ package com.xtsshop.app.controller.authentication;
 
 
 import com.xtsshop.app.db.entities.AppUser;
-import com.xtsshop.app.db.repositories.UserRepository;
+import com.xtsshop.app.db.repositories.UserJpaRepository;
 import com.xtsshop.app.controller.users.models.SpringUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserIdentityService {
 
-    private UserRepository userRepository;
+    private UserJpaRepository userJpaRepository;
 
-    public UserIdentityService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserIdentityService(UserJpaRepository userJpaRepository) {
+        this.userJpaRepository = userJpaRepository;
     }
 
     public boolean isAnonymous() {
@@ -28,9 +27,9 @@ public class UserIdentityService {
                 ? null
                 : (SpringUser) principal;
     }
-    @Transactional
+
     public AppUser getUser(){
         String username = getSpringUser().getUsername();
-        return userRepository.findUserByUsername(username);
+        return userJpaRepository.findUserByUsername(username);
     }
 }

@@ -5,7 +5,7 @@ import com.xtsshop.app.controller.storage.StorageService;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.entities.builder.ImageBuilder;
-import com.xtsshop.app.db.repositories.ImageRepository;
+import com.xtsshop.app.db.repositories.ImageJpaRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class UpdateItemImage {
     private StorageService storageService;
     private SaveImage saveImage;
     private SaveImageToStorage saveImageToStorage;
-    private ImageRepository imageRepository;
+    private ImageJpaRepository imageJpaRepository;
     private UpdateItemImageInput input;
     private Item item;
 
@@ -23,12 +23,12 @@ public class UpdateItemImage {
             @Qualifier("ImageStorageService") StorageService storageService,
             SaveImage saveImage,
             SaveImageToStorage saveImageToStorage,
-            ImageRepository imageRepository
+            ImageJpaRepository imageJpaRepository
     ) {
         this.storageService = storageService;
         this.saveImage = saveImage;
         this.saveImageToStorage = saveImageToStorage;
-        this.imageRepository = imageRepository;
+        this.imageJpaRepository = imageJpaRepository;
     }
 
     public Image update(UpdateItemImageInput input) {
@@ -41,7 +41,7 @@ public class UpdateItemImage {
     public void deleteOriginalImage() {
         Image image = item.getImage();
         storageService.delete(image.getFileName());
-        imageRepository.delete(image);
+        imageJpaRepository.delete(image);
     }
 
     public Image createNewImage(){

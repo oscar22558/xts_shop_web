@@ -14,7 +14,8 @@ const initialState: State = {
             id: -1,
             username: "",
             email: "",
-            phone: ""
+            phone: "",
+            addresses: []
         },
         error: null,
         loading: false

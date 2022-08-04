@@ -1,13 +1,14 @@
 package com.xtsshop.app.controller.users.cart.models;
 
 import com.xtsshop.app.controller.orders.models.OrderCreateRequest;
-import com.xtsshop.app.controller.users.addresses.AddressCreateForm;
+import com.xtsshop.app.controller.users.addresses.models.AddressCreateForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class OrderCreateForm {
     @NotNull
+    @NotEmpty
     private List<@NotNull OrderedItemCreateForm> orderedItems;
     @Nullable
     @Min(0)

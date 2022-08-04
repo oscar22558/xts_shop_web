@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import HttpResponse from "../models/HttpResponse";
-import CachedOrder from "./models/CachedOrder";
+import CachedOrderCreateForm from "./models/CachedOrder";
 
 type State = {
     postOrder: HttpResponse<boolean| null>,
-    cachedOrder: CachedOrder
+    cachedOrderCreateForm: CachedOrderCreateForm
 }
 
 const initialState: State = {
@@ -13,14 +13,9 @@ const initialState: State = {
         error: null,
         loading: false
     },
-    cachedOrder: {
-       itemIds: [],
-       address: {
-            row1: "",
-            row2: "",
-            district: "",
-            area: ""
-       } 
+    cachedOrderCreateForm: {
+       userAddressId: -1,
+       clientSecret: ""
     }
 }
 
@@ -28,11 +23,11 @@ export const OrderSlice = createSlice({
     name: "order",
     initialState,
     reducers: {
-        cacheOrder: (state: State, action: PayloadAction<CachedOrder>)=>{
-            state.cachedOrder = action.payload
+        cacheOrder: (state: State, action: PayloadAction<CachedOrderCreateForm>)=>{
+            state.cachedOrderCreateForm = action.payload
         },
         clearCachedOrder: (state: State)=>{
-            state.cachedOrder = initialState.cachedOrder
+            state.cachedOrderCreateForm = initialState.cachedOrderCreateForm
         },
         postOrderStart: (state: State)=>{
             state.postOrder.loading = true

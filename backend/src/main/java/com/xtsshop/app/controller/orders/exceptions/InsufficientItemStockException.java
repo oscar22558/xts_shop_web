@@ -2,7 +2,7 @@ package com.xtsshop.app.controller.orders.exceptions;
 
 import javax.annotation.Nullable;
 
-public class InsufficientItemStockException extends Exception {
+public class InsufficientItemStockException extends RuntimeException {
 
     public InsufficientItemStockException(String message) {
         super(message);

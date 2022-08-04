@@ -5,9 +5,9 @@ import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.db.repositories.CategoryRepository;
-import com.xtsshop.app.db.repositories.ImageRepository;
-import com.xtsshop.app.db.repositories.ItemRepository;
+import com.xtsshop.app.db.repositories.CategoryJpaRepository;
+import com.xtsshop.app.db.repositories.ImageJpaRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -25,25 +25,25 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @AutoConfigureMockMvc
 public class RepositoryTest {
     @Autowired
-    ImageRepository imageRepository;
+    ImageJpaRepository imageJpaRepository;
     @Autowired
-    ItemRepository itemRepository;
+    ItemJpaRepository itemJpaRepository;
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryJpaRepository categoryJpaRepository;
 
     @BeforeEach
     void beforeEach(){
         Date now = now();
         Category category = getCategory();
-        Item item = itemRepository.save(new Item(now, now, "item 1", 12.2f, "manufactorer 1", category, 100));
+        Item item = itemJpaRepository.save(new Item(now, now, "item 1", 12.2f, "manufactorer 1", category, 100));
         Item itemWithOnlyId = new Item(item.getId());
         Image image = new Image(now, now, "/storage/image1.png", "image1.png", "png", itemWithOnlyId);
-        imageRepository.save(image);
+        imageJpaRepository.save(image);
     }
     @Test
     void testInsertInBeforeEach(){
-        long count = imageRepository.count();
-        Image image = imageRepository.findAll().get((int)count - 1);
+        long count = imageJpaRepository.count();
+        Image image = imageJpaRepository.findAll().get((int)count - 1);
         assertNotNull(image.getItem());
         assertNotNull(image.getItem().getName());
     }
@@ -52,11 +52,11 @@ public class RepositoryTest {
 
         Date now = now();
         Category category = getCategory();
-        Item item = itemRepository.save(new Item(now, now, "item 1", 12.2f, "manufactorer 1", category, 100));
+        Item item = itemJpaRepository.save(new Item(now, now, "item 1", 12.2f, "manufactorer 1", category, 100));
         Item itemWithOnlyId = new Item(item.getId());
         Image image = new Image(now, now, "/storage/image1.png", "image1.png", "png", itemWithOnlyId);
-        image = imageRepository.save(image);
-        image = imageRepository.findById(image.getId()).orElseThrow();
+        image = imageJpaRepository.save(image);
+        image = imageJpaRepository.findById(image.getId()).orElseThrow();
         assertNotNull(image.getItem());
         assertNotNull(image.getItem().getImage());
     }
@@ -66,15 +66,15 @@ public class RepositoryTest {
         Date now = now();
         Item item = getLastItem();
         long oldImageId = item.getImage().getId();
-        Image image = imageRepository.save(new Image(now, now, "/storage/image1.png", "image1.png", "png", item));
+        Image image = imageJpaRepository.save(new Image(now, now, "/storage/image1.png", "image1.png", "png", item));
         item.setImage(image);
-        item = itemRepository.save(item);
-        image = imageRepository.findById(image.getId()).orElseThrow();
+        item = itemJpaRepository.save(item);
+        image = imageJpaRepository.findById(image.getId()).orElseThrow();
         assertNotNull(item.getImage());
         assertNotNull(item.getImage().getItem());
         assertNotNull(image.getItem());
         assertNotNull(image.getItem().getImage());
-        assertNull(imageRepository.findById(oldImageId).orElse(null));
+        assertNull(imageJpaRepository.findById(oldImageId).orElse(null));
     }
     @Test
     void testSaveItemAndImageEntityDirectly() throws Exception{
@@ -84,8 +84,8 @@ public class RepositoryTest {
         Item item = new Item(now, now, "item 1", 12.2f, "manufactorer 1", category, 100);
         Image image = new Image(now, now, "/storage/image1.png", "image1.png", "png", item);
         item.setImage(image);
-        Long insertedItemId = itemRepository.save(item).getId();
-        Item insertedItem = itemRepository.findById(insertedItemId).orElseThrow(()->new RecordNotFoundException("Item with id "+insertedItemId+" not found."));
+        Long insertedItemId = itemJpaRepository.save(item).getId();
+        Item insertedItem = itemJpaRepository.findById(insertedItemId).orElseThrow(()->new RecordNotFoundException("Item with id "+insertedItemId+" not found."));
         assertNotNull(insertedItem.getImage().getId());
         logger.info(String.valueOf(insertedItem.getImage().getId()));
         logger.info(String.valueOf(insertedItem.getId()));
@@ -96,12 +96,12 @@ public class RepositoryTest {
         Date now = now();
         Category category = getCategory();
         Item item = new Item(now, now, "item 1", 12.2f, "manufactorer 1", category, 100);
-        item = itemRepository.save(item);
+        item = itemJpaRepository.save(item);
         long itemId = item.getId();
         Image image = new Image(now, now, "/storage/image1.png", "image1.png", "png", item);
         item.setImage(image);
-        imageRepository.save(image);
-        item = itemRepository.findById(itemId).orElseThrow(()-> new RecordNotFoundException("Item with id "+ itemId+ " not found."));
+        imageJpaRepository.save(image);
+        item = itemJpaRepository.findById(itemId).orElseThrow(()-> new RecordNotFoundException("Item with id "+ itemId+ " not found."));
         assertNotNull(item.getImage());
     }
     private Date now(){
@@ -109,11 +109,11 @@ public class RepositoryTest {
        return new Date(nowInMillis);
     }
     private Category getCategory(){
-        long count = categoryRepository.count();
-        return categoryRepository.findAll().get((int)count - 1);
+        long count = categoryJpaRepository.count();
+        return categoryJpaRepository.findAll().get((int)count - 1);
     }
     private Item getLastItem(){
-        long count = itemRepository.count();
-        return itemRepository.findAll().get((int)count - 1);
+        long count = itemJpaRepository.count();
+        return itemJpaRepository.findAll().get((int)count - 1);
     }
 }

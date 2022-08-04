@@ -3,7 +3,7 @@ package com.xtsshop.app.controller.categories;
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.controller.categories.models.CategoryRequest;
 import com.xtsshop.app.db.entities.Category;
-import com.xtsshop.app.db.repositories.CategoryRepository;
+import com.xtsshop.app.db.repositories.CategoryJpaRepository;
 import com.xtsshop.app.helpers.CheckedFunction;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @Service
 public class CategoriesService implements CheckedFunction<Long, Optional<Category>> {
-    private CategoryRepository repository;
+    private CategoryJpaRepository repository;
     private GetCategoriesService getCategoriesService;
-    public CategoriesService(CategoryRepository repository, GetCategoriesService getCategoriesService) {
+    public CategoriesService(CategoryJpaRepository repository, GetCategoriesService getCategoriesService) {
         this.repository = repository;
         this.getCategoriesService = getCategoriesService;
     }

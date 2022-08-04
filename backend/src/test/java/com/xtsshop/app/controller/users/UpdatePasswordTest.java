@@ -2,14 +2,11 @@ package com.xtsshop.app.controller.users;
 
 import com.xtsshop.app.form.users.UpdatePasswordForm;
 import com.xtsshop.app.db.entities.AppUser;
-import com.xtsshop.app.db.repositories.UserRepository;
 import com.xtsshop.app.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,7 +32,7 @@ public class UpdatePasswordTest extends TestCase {
                 .content(mapper.writeValueAsString(form))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isForbidden());
-        AppUser user = userTestHelper.getUserRepository().findUserByUsername(getAdminUserUsername());
+        AppUser user = userTestHelper.getUserJpaRepository().findUserByUsername(getAdminUserUsername());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         assertNotNull(user);
         assertTrue(encoder.matches("123", user.getPassword()));
@@ -50,7 +47,7 @@ public class UpdatePasswordTest extends TestCase {
                 .content(mapper.writeValueAsString(form))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());
-        AppUser user = userTestHelper.getUserRepository().findUserByUsername(getAdminUserUsername());
+        AppUser user = userTestHelper.getUserJpaRepository().findUserByUsername(getAdminUserUsername());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         assertNotNull(user);
         assertTrue(encoder.matches("abc321uii", user.getPassword()));

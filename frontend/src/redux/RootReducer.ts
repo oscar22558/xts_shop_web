@@ -7,6 +7,7 @@ import cartItems from "./cart-items/CartItemsReducer"
 import authentication from "./authentication/AuthenticationReducer"
 import order from "./order/OrderReducer"
 import user from "./user/UserReducer"
+import userAddresses from "./user-addresses/UserAddressesReducer";
 
 const RootReducer = combineReducers({
     routes,
@@ -16,6 +17,7 @@ const RootReducer = combineReducers({
     cartItems,
     authentication,
     order,
-    user
+    user,
+    userAddresses
 })
 export default RootReducer

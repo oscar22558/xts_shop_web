@@ -4,10 +4,10 @@ import com.xtsshop.app.db.entities.Image;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.entities.PriceHistory;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
-import com.xtsshop.app.db.repositories.BrandRepository;
-import com.xtsshop.app.db.repositories.ImageRepository;
-import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.db.repositories.PriceHistoryRepository;
+import com.xtsshop.app.db.repositories.BrandJpaRepository;
+import com.xtsshop.app.db.repositories.ImageJpaRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
+import com.xtsshop.app.db.repositories.PriceHistoryJpaRepository;
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import com.xtsshop.app.controller.storage.FilePathToUrlConverter;
 import lombok.Getter;
@@ -26,26 +26,26 @@ import java.util.stream.Collectors;
 public class ItemTestHelper {
 
     private String route = "/api/items";
-    private ItemRepository repository;
-    private ImageRepository imageRepository;
+    private ItemJpaRepository repository;
+    private ImageJpaRepository imageJpaRepository;
     private FilePathToUrlConverter filePathToUrlConverter;
-    private BrandRepository brandRepository;
-    private PriceHistoryRepository priceHistoryRepository;
+    private BrandJpaRepository brandJpaRepository;
+    private PriceHistoryJpaRepository priceHistoryJpaRepository;
     private DevelopmentDataSeed seed;
 
     public ItemTestHelper(
-        ItemRepository repository,
-        ImageRepository imageRepository,
+        ItemJpaRepository repository,
+        ImageJpaRepository imageJpaRepository,
         FilePathToUrlConverter filePathToUrlConverter,
-        BrandRepository brandRepository,
-        PriceHistoryRepository priceHistoryRepository,
+        BrandJpaRepository brandJpaRepository,
+        PriceHistoryJpaRepository priceHistoryJpaRepository,
         DevelopmentDataSeed seed
     ){
         this.repository = repository;
-        this.imageRepository = imageRepository;
+        this.imageJpaRepository = imageJpaRepository;
         this.filePathToUrlConverter = filePathToUrlConverter;
-        this.brandRepository = brandRepository;
-        this.priceHistoryRepository = priceHistoryRepository;
+        this.brandJpaRepository = brandJpaRepository;
+        this.priceHistoryJpaRepository = priceHistoryJpaRepository;
         this.seed = seed;
     }
 
@@ -57,7 +57,7 @@ public class ItemTestHelper {
     }
 
     public Image latestImage(){
-        return imageRepository.findAll().stream()
+        return imageJpaRepository.findAll().stream()
                 .sorted((t1, t2) -> (int)t2.getId() - (int)t1.getId())
                 .collect(Collectors.toList())
                 .get(0);
@@ -76,7 +76,7 @@ public class ItemTestHelper {
                 .setItem(item)
                 .setValue(price)
                 .build();
-        priceHistoryRepository.save(priceHistory);
+        priceHistoryJpaRepository.save(priceHistory);
         item.setPrice(price);
         item.getPriceHistories().add(priceHistory);
         repository.save(item);
@@ -107,7 +107,7 @@ public class ItemTestHelper {
     }
 
     public String getBrandId(int index){
-        return String.valueOf(brandRepository.findAll().get(index).getId());
+        return String.valueOf(brandJpaRepository.findAll().get(index).getId());
     }
 
     public String getItemIdStr(int index){

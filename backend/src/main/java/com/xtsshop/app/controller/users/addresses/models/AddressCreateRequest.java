@@ -11,9 +11,9 @@ import javax.validation.constraints.NotNull;
 public class AddressCreateRequest {
     private String country;
     private String city;
+    private String district;
+    private String area;
     private String row1;
     @Nullable
     private String row2;
-    @Nullable
-    private String row3;
 }

@@ -2,7 +2,7 @@ package com.xtsshop.app.controller.items;
 
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.db.repositories.ItemRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import com.xtsshop.app.controller.items.models.ListItemsRequest;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,10 @@ import java.util.List;
 @Service
 public class QueryItemsService {
 
-    private ItemRepository repository;
+    private ItemJpaRepository repository;
 
     public QueryItemsService(
-        ItemRepository repository
+        ItemJpaRepository repository
     ){
         this.repository = repository;
     }

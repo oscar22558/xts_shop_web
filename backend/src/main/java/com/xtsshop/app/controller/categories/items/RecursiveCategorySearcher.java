@@ -1,7 +1,7 @@
 package com.xtsshop.app.controller.categories.items;
 
 import com.xtsshop.app.db.entities.Category;
-import com.xtsshop.app.db.repositories.CategoryRepository;
+import com.xtsshop.app.db.repositories.CategoryJpaRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 @Component
 public class RecursiveCategorySearcher {
     private List<Long> topLevelCategoryIds;
-    private CategoryRepository categoryRepository;
+    private CategoryJpaRepository categoryJpaRepository;
 
-    public RecursiveCategorySearcher(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    public RecursiveCategorySearcher(CategoryJpaRepository categoryJpaRepository) {
+        this.categoryJpaRepository = categoryJpaRepository;
     }
 
     public void setTopLevelCategoryIds(List<Long> topLevelCategoryIds) {
@@ -22,7 +22,7 @@ public class RecursiveCategorySearcher {
     }
 
     public List<Long> search(){
-        List<Category> categories = categoryRepository.findAllById(topLevelCategoryIds);
+        List<Category> categories = categoryJpaRepository.findAllById(topLevelCategoryIds);
         return categories.stream()
                 .flatMap((category)-> findCategoryIdsRecursively(category).stream())
                 .collect(Collectors.toList());

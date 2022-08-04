@@ -1,28 +1,28 @@
-import { Box, Button, Grid, TextField } from "@mui/material"
-import StyledTextField from "./SytledTextField"
+import { Box, Typography, Grid, Button } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import CreateAddressSection from "../SettingsPage/AddressPage/CreateAddressSection"
+import AddressSelectionForm from "./AddressSelectionForm"
 
 const ShippingAddressFormPage = ()=>{
-    const handleConfirmBtnClick = ()=>{
-
+    const navigate = useNavigate()
+    const handleNextBtnClick = ()=>{
+        navigate("/payment")
     }
 
-    return <Box sx={{display: "flex", justifyContent: "center"}}>
-        <Grid container sx={{width: "70%"}}>
-            <Grid item sx={{fontSize: "20px", marginY: "20px"}}>
-                <div>Order shipping address</div>
+    return <Box sx={{paddingY: "20px"}}>
+        <Typography variant="h4">Order shipping address</Typography>
+        <Grid container spacing="20px">
+            <Grid item xs={9}>
+                <AddressSelectionForm /> 
+                <CreateAddressSection />
             </Grid>
-            <Grid container direction="column">
-                <StyledTextField title="Street address row1" label="Street address row1"/>
-                <StyledTextField title="Street address row2" label="Street address row2"/>
-                <Box display="flex">
-                    <StyledTextField sx={{flex:1, marginRight: "10px" }} label="District"/>
-                    <StyledTextField sx={{flex:1 }} label="Area"/>
+            <Grid item xs={3}>
+                <Box sx={{borderRadius: "15px", border: "1px solid", height: "300px"}}>
+                    <Button onClick={handleNextBtnClick}>Next</Button>
                 </Box>
-            </Grid>
-            <Grid container sx={{paddingY: "10px"}}>
-                <Button sx={{flex: 1}} variant="contained" onClick={handleConfirmBtnClick}>Confirm</Button>
             </Grid>
         </Grid>
     </Box>
+
 }
 export default ShippingAddressFormPage

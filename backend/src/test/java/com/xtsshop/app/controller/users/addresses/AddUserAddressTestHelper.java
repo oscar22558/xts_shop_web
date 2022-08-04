@@ -1,0 +1,27 @@
+package com.xtsshop.app.controller.users.addresses;
+
+import com.xtsshop.app.db.repositories.UserJpaRepository;
+import com.xtsshop.app.db.seed.DevelopmentDataSeed;
+import org.springframework.stereotype.Component;
+
+import javax.transaction.Transactional;
+
+@Transactional
+@Component
+public class AddUserAddressTestHelper {
+    private DevelopmentDataSeed data;
+    private UserJpaRepository userJpaRepository;
+
+    public AddUserAddressTestHelper(DevelopmentDataSeed data, UserJpaRepository userJpaRepository) {
+        this.data = data;
+        this.userJpaRepository = userJpaRepository;
+    }
+
+    public void insertData(){
+        data.insertData();
+    }
+
+    public int countUserAddress(String username){
+        return userJpaRepository.findUserByUsername(username).getAddresses().size();
+    }
+}

@@ -36,6 +36,9 @@ public class Order extends AppEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderedItem> orderedItems;
 
+    @Column(nullable = false, name = "payment_intent_id")
+    private String paymentIntentId;
+
     public void addOrderItems(OrderedItem orderedItem){
         orderedItem.setOrder(this);
         if(orderedItems != null)

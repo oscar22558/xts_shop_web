@@ -1,7 +1,7 @@
 package com.xtsshop.app.controller.users.carts;
 
-import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.db.repositories.UserRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
+import com.xtsshop.app.db.repositories.UserJpaRepository;
 import com.xtsshop.app.TestCase;
 import com.xtsshop.app.form.users.carts.CartForm;
 import org.junit.jupiter.api.Test;
@@ -30,8 +30,8 @@ public class AddItemsTest extends TestCase {
     @TestConfiguration
     public static class TestConfig{
         @Bean
-        public Util util(ItemRepository itemRepository, UserRepository userRepository){
-            return new Util(itemRepository, userRepository);
+        public Util util(ItemJpaRepository itemJpaRepository, UserJpaRepository userJpaRepository){
+            return new Util(itemJpaRepository, userJpaRepository);
         }
     }
     @Test

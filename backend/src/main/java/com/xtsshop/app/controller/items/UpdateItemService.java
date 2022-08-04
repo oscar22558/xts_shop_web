@@ -7,9 +7,9 @@ import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.entities.Item;
 import com.xtsshop.app.db.entities.PriceHistory;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
-import com.xtsshop.app.db.repositories.CategoryRepository;
-import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.db.repositories.PriceHistoryRepository;
+import com.xtsshop.app.db.repositories.CategoryJpaRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
+import com.xtsshop.app.db.repositories.PriceHistoryJpaRepository;
 import com.xtsshop.app.helpers.DateTimeHelper;
 import org.springframework.stereotype.Service;
 import java.sql.Date;
@@ -18,19 +18,19 @@ import java.util.Optional;
 @Service
 public class UpdateItemService {
 
-    private ItemRepository repository;
-    private CategoryRepository categoryRepository;
+    private ItemJpaRepository repository;
+    private CategoryJpaRepository categoryJpaRepository;
     private ImagesService imagesService;
-    private PriceHistoryRepository priceHistoryRepository;
+    private PriceHistoryJpaRepository priceHistoryJpaRepository;
 
     private UpdateItemRequest request;
     private Item item;
 
-    public UpdateItemService(ItemRepository repository, CategoryRepository categoryRepository, ImagesService imagesService, PriceHistoryRepository priceHistoryRepository) {
+    public UpdateItemService(ItemJpaRepository repository, CategoryJpaRepository categoryJpaRepository, ImagesService imagesService, PriceHistoryJpaRepository priceHistoryJpaRepository) {
         this.repository = repository;
-        this.categoryRepository = categoryRepository;
+        this.categoryJpaRepository = categoryJpaRepository;
         this.imagesService = imagesService;
-        this.priceHistoryRepository = priceHistoryRepository;
+        this.priceHistoryJpaRepository = priceHistoryJpaRepository;
     }
 
     public Item update(UpdateItemRequest request) {
@@ -64,7 +64,7 @@ public class UpdateItemService {
                         .setItem(item)
                         .setValue(value)
                         .build();
-                priceHistoryRepository.save(priceHistory);
+                priceHistoryJpaRepository.save(priceHistory);
                 item.getPriceHistories().add(priceHistory);
             }
         });
@@ -79,7 +79,7 @@ public class UpdateItemService {
     public void updateItemCategory(){
         request.getCategoryId()
                 .ifPresent((categoryId)->{
-                    Category category = categoryRepository
+                    Category category = categoryJpaRepository
                             .findById(categoryId)
                             .orElseThrow(()->new RecordNotFoundException("Category "+categoryId+" not found"));
 

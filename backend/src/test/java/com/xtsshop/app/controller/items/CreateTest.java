@@ -118,7 +118,7 @@ class CreateTest extends TestCase {
 	}
 
 	private void assertItemImageInserted(){
-		assertEquals(5, itemTestHelper.getImageRepository().findAll().size());
+		assertEquals(5, itemTestHelper.getImageJpaRepository().findAll().size());
 	}
 
 	private void assertItemImageIsInStorage(){

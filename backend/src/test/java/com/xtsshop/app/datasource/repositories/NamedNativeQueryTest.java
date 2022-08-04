@@ -2,7 +2,7 @@ package com.xtsshop.app.datasource.repositories;
 
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.db.entities.Role;
-import com.xtsshop.app.db.repositories.UserRepository;
+import com.xtsshop.app.db.repositories.UserJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,14 +17,14 @@ import java.util.Set;
 @AutoConfigureMockMvc
 public class NamedNativeQueryTest {
     @Autowired
-    UserRepository userRepository;
+    UserJpaRepository userJpaRepository;
 
     @Test
     @Transactional
     void test(){
         Logger logger = LoggerFactory.getLogger(NamedNativeQueryTest.class);
         logger.info("=====================test named native query=============================");
-        AppUser user = userRepository.findUserByUsername("ken123");
+        AppUser user = userJpaRepository.findUserByUsername("ken123");
         String username = user.getUsername();
         Set<Role> roles = user.getRoles();
         logger.info(username);

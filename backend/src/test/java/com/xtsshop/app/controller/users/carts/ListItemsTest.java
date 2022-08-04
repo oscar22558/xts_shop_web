@@ -1,7 +1,7 @@
 package com.xtsshop.app.controller.users.carts;
 
-import com.xtsshop.app.db.repositories.ItemRepository;
-import com.xtsshop.app.db.repositories.UserRepository;
+import com.xtsshop.app.db.repositories.ItemJpaRepository;
+import com.xtsshop.app.db.repositories.UserJpaRepository;
 import com.xtsshop.app.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +27,12 @@ public class ListItemsTest extends TestCase {
     @TestConfiguration
     public static class TestConfig{
         @Bean
-        public DataSet dataSet(UserRepository userRepository, ItemRepository itemRepository){
-            return new DataSet(userRepository, itemRepository);
+        public DataSet dataSet(UserJpaRepository userJpaRepository, ItemJpaRepository itemJpaRepository){
+            return new DataSet(userJpaRepository, itemJpaRepository);
         }
         @Bean
-        public Util util(ItemRepository itemRepository, UserRepository userRepository){
-            return new Util(itemRepository, userRepository);
+        public Util util(ItemJpaRepository itemJpaRepository, UserJpaRepository userJpaRepository){
+            return new Util(itemJpaRepository, userJpaRepository);
         }
     }
     @Test

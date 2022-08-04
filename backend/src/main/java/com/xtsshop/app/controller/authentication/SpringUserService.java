@@ -5,8 +5,7 @@ import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.db.entities.Privilege;
 import com.xtsshop.app.db.entities.Role;
 import com.xtsshop.app.controller.users.models.SpringUser;
-import com.xtsshop.app.controller.users.UsersService;
-import com.xtsshop.app.db.repositories.UserRepository;
+import com.xtsshop.app.db.repositories.UserJpaRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,21 +22,21 @@ import java.util.stream.Stream;
 @Transactional
 public class SpringUserService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    private UserJpaRepository userJpaRepository;
 
-    public SpringUserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public SpringUserService(UserJpaRepository userJpaRepository) {
+        this.userJpaRepository = userJpaRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser = userRepository.findUserByUsername(username);
+        AppUser appUser = userJpaRepository.findUserByUsername(username);
         if(appUser == null) throw new UsernameNotFoundException("No such user " + username);
         return new SpringUser(appUser, toGrantedAuthorities(toPrivileges(appUser)));
     }
 
     public SpringUser loadUserById(Long id) throws RecordNotFoundException {
-        AppUser appUser = userRepository.findById(id).orElseThrow(()->new RecordNotFoundException("User of id"+id+" not found."));
+        AppUser appUser = userJpaRepository.findById(id).orElseThrow(()->new RecordNotFoundException("User of id"+id+" not found."));
         return new SpringUser(appUser, toGrantedAuthorities(toPrivileges(appUser)));
     }
 
