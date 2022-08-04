@@ -1,6 +1,6 @@
 package com.xtsshop.app.db.entities;
 
-import com.xtsshop.app.controller.users.payment.exception.UpdateOrderQuantityException;
+import com.xtsshop.app.features.users.payment.exception.UpdateOrderQuantityException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

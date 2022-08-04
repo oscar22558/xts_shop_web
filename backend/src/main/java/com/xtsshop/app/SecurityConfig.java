@@ -1,8 +1,8 @@
 package com.xtsshop.app;
 
 import com.xtsshop.app.db.entities.RoleType;
-import com.xtsshop.app.controller.authentication.JWTAuthenticationFilter;
-import com.xtsshop.app.controller.authentication.SpringUserService;
+import com.xtsshop.app.features.authentication.JWTAuthenticationFilter;
+import com.xtsshop.app.features.authentication.SpringUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;

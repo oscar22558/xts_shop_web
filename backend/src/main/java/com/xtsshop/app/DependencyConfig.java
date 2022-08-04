@@ -1,6 +1,6 @@
 package com.xtsshop.app;
 
-import com.xtsshop.app.controller.users.payment.*;
+import com.xtsshop.app.features.users.payment.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

@@ -1,16 +1,14 @@
 package com.xtsshop.app;
 
-import com.xtsshop.app.controller.storage.StorageProperties;
-import com.xtsshop.app.controller.storage.StorageService;
-import com.xtsshop.app.controller.storage.StorageUrlProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.xtsshop.app.features.storage.StorageProperties;
+import com.xtsshop.app.features.storage.StorageService;
+import com.xtsshop.app.features.storage.StorageUrlProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
