@@ -1,4 +1,4 @@
-package com.xtsshop.app.features.users.orders;
+package com.xtsshop.app.features.orders;
 
 import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.db.entities.OrderStatus;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class PlaceTest extends TestCase {
+public class PlaceUserOrderTest extends TestCase {
 
     @Autowired
     private UserOrderTestHelper userOrderTestHelper;
@@ -48,7 +48,6 @@ public class PlaceTest extends TestCase {
         assertEquals(order.getOrderedItems().get(1).getOrderPriceValue(), 25.5f);
         assertEquals(order.getOrderedItems().get(1).getItem().getStock(), 90);
         assertEquals(order.getStatus(), OrderStatus.PAID);
-        assertEquals(order.getPayment().getPaidTotal(), 402.5f);
         assertEquals(order.getUser().getUsername(), "marry123");
     }
 
@@ -66,7 +65,6 @@ public class PlaceTest extends TestCase {
 
         Order order = userOrderTestHelper.getLatestOrder().orElseThrow();
         assertEquals((long) order.getOrderedItems().size(), 2);
-        assertNull(order.getPayment());
         assertEquals(order.getStatus(), OrderStatus.WAITING_PAYMENT);
         assertEquals(order.getOrderedItems().get(0).getItem().getName(), "apple");
         assertNull(order.getOrderedItems().get(0).getOrderPrice());

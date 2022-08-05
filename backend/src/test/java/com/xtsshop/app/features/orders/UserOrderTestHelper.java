@@ -1,14 +1,12 @@
-package com.xtsshop.app.features.users.orders;
+package com.xtsshop.app.features.orders;
 
 import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.OrderBuilder;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
-import com.xtsshop.app.db.entities.payment.PaymentType;
 import com.xtsshop.app.db.repositories.*;
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
-import com.xtsshop.app.features.users.cart.models.OrderCreateForm;
+import com.xtsshop.app.features.orders.models.UserOrderCreateForm;
 import com.xtsshop.app.features.users.cart.models.OrderedItemCreateForm;
-import com.xtsshop.app.features.users.cart.models.PaymentCreateForm;
 import com.xtsshop.app.helpers.DateTimeHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -43,17 +41,13 @@ public class UserOrderTestHelper {
         return route;
     }
 
-    public OrderCreateForm buildCreatFormWithPayment(){
+    public UserOrderCreateForm buildCreatFormWithPayment(){
         Item item1 = itemJpaRepository.findAll().get(0);
         Item item2 = itemJpaRepository.findAll().get(1);
 
         AppUser user = userJpaRepository.findUserByUsername("marry123");
-        OrderCreateForm form = new OrderCreateForm();
+        UserOrderCreateForm form = new UserOrderCreateForm();
         form.setAddressId(user.getAddresses().get(0).getId());
-        PaymentCreateForm payment = new PaymentCreateForm();
-        payment.setPaymentType(PaymentType.CREDIT_CARD);
-        payment.setPaidTotal(402.5f);
-
         OrderedItemCreateForm orderedItem = new OrderedItemCreateForm();
         orderedItem.setItemId(item1.getId());
         orderedItem.setQuantity(10);
@@ -65,17 +59,16 @@ public class UserOrderTestHelper {
         List<OrderedItemCreateForm> orderedItems = new ArrayList<>();
         orderedItems.add(orderedItem);
         orderedItems.add(orderedItem2);
-        form.setPayment(payment);
         form.setOrderedItems(orderedItems);
         return form;
     }
 
-    public OrderCreateForm buildCreatFormWithoutPayment(){
+    public UserOrderCreateForm buildCreatFormWithoutPayment(){
         Item item1 = itemJpaRepository.findAll().get(0);
         Item item2 = itemJpaRepository.findAll().get(1);
 
         AppUser user = userJpaRepository.findUserByUsername("marry123");
-        OrderCreateForm form = new OrderCreateForm();
+        UserOrderCreateForm form = new UserOrderCreateForm();
         form.setAddressId(user.getAddresses().get(0).getId());
 
         OrderedItemCreateForm orderedItem = new OrderedItemCreateForm();
@@ -130,6 +123,7 @@ public class UserOrderTestHelper {
         user.setOrders(new ArrayList<>());
         return userJpaRepository.save(user);
     }
+
     public Order insertOrderForNewUser(String username){
         AppUser user = userJpaRepository.findUserByUsername(username);
         Date now = new DateTimeHelper().now();

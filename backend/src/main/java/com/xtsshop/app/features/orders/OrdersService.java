@@ -9,11 +9,9 @@ import com.xtsshop.app.features.orders.exceptions.OrderStatusUpdateException;
 import com.xtsshop.app.features.users.addresses.models.AddressCreateRequestConvertor;
 import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.entities.builder.OrderBuilder;
-import com.xtsshop.app.db.entities.payment.Payment;
 import com.xtsshop.app.db.repositories.*;
 import com.xtsshop.app.features.orders.models.OrderCreateRequest;
 import com.xtsshop.app.features.users.addresses.models.AddressCreateRequest;
-import com.xtsshop.app.features.orders.models.PaymentCreateRequest;
 import com.xtsshop.app.features.items.QueryItemsService;
 import com.xtsshop.app.features.users.AllowOnlySameUserService;
 import com.xtsshop.app.features.users.TargetUserService;
@@ -28,7 +26,6 @@ import java.util.stream.Collectors;
 @Service
 public class OrdersService {
     private OrderJpaRepository repository;
-    private PaymentJpaRepository paymentJpaRepository;
     private UserJpaRepository userJpaRepository;
     private AddressesService addressesService;
     private TargetUserService targetUserService;
@@ -42,7 +39,6 @@ public class OrdersService {
             TargetUserService targetUserService,
             OrderAuthorizationService orderAuthorizationService,
             QueryItemsService queryItemsService,
-            PaymentJpaRepository paymentJpaRepository,
             UserJpaRepository userJpaRepository,
             AllowOnlySameUserService allowOnlySameUserService
     ) {
@@ -51,7 +47,6 @@ public class OrdersService {
         this.targetUserService = targetUserService;
         this.orderAuthorizationService = orderAuthorizationService;
         this.queryItemsService = queryItemsService;
-        this.paymentJpaRepository = paymentJpaRepository;
         this.userJpaRepository = userJpaRepository;
         this.allowOnlySameUserService = allowOnlySameUserService;
     }
@@ -110,7 +105,7 @@ public class OrdersService {
         return repository.save(order);
     }
 
-    public Order pay(Long orderId, PaymentCreateRequest paymentCreateRequest){
+    public Order pay(Long orderId){
         Order order = get(orderId);
         if(!allowOnlySameUserService.canUserAccess(order.getUser().getUsername())){
             throw new UnAuthorizationException();
@@ -119,16 +114,6 @@ public class OrdersService {
             throw new OrderStatusUpdateException("Order is paid.");
         }
 
-        float orderedItemsPriceTotal = getItemsPriceTotal(order);
-        if(paymentCreateRequest.getPaidTotal() != orderedItemsPriceTotal){
-            throw new OrderStatusUpdateException("Paid total and item price total is not the same");
-        }
-
-        Payment payment = paymentCreateRequest.toEntity();
-        payment.setOrder(order);
-        payment.setPaidTotal(paymentCreateRequest.getPaidTotal());
-
-        order.setPayment(payment);
         order.setStatus(OrderStatus.PAID);
         order.getOrderedItems().forEach(orderedItem->{
             Optional<PriceHistory> history = orderedItem.getItem().getLatestPriceHistory();
@@ -138,7 +123,6 @@ public class OrdersService {
                 throw new RuntimeException(e);
             }
         });
-        paymentJpaRepository.save(payment);
         return repository.save(order);
     }
 

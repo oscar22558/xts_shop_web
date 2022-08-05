@@ -11,6 +11,7 @@ import com.xtsshop.app.db.repositories.PriceHistoryJpaRepository;
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
 import com.xtsshop.app.features.storage.FilePathToUrlConverter;
 import lombok.Getter;
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@Component("tests.http.items.Util")
+@TestComponent
 @Transactional
 public class ItemTestHelper {
 

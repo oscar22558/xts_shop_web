@@ -1,7 +1,7 @@
-package com.xtsshop.app.features.users.cart.models;
+package com.xtsshop.app.features.orders.models;
 
-import com.xtsshop.app.features.orders.models.OrderCreateRequest;
 import com.xtsshop.app.features.users.addresses.models.AddressCreateForm;
+import com.xtsshop.app.features.users.cart.models.OrderedItemCreateForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 @NoArgsConstructor
-public class OrderCreateForm {
+public class UserOrderCreateForm {
     @NotNull
     @NotEmpty
     private List<@NotNull OrderedItemCreateForm> orderedItems;
@@ -25,8 +25,7 @@ public class OrderCreateForm {
     private Long addressId;
     @Nullable
     private AddressCreateForm address;
-    @Nullable
-    private PaymentCreateForm payment;
+
     public OrderCreateRequest toRequest(){
         OrderCreateRequest request = new OrderCreateRequest();
         request.setOrderedItems(orderedItems.stream()

@@ -1,10 +1,13 @@
 package com.xtsshop.app.features.categories;
 
+import com.xtsshop.app.DependencyTestConfig;
+import com.xtsshop.app.LoadDatabaseTestConfig;
 import com.xtsshop.app.helpers.MediaType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -13,13 +16,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@Import({
+		CategoryItemsIndexTestHelper.class
+})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-class IndexTest {
+class CategoryItemsIndexTest {
 
 	@Autowired
-	private IndexTestHelper helper;
+	private CategoryItemsIndexTestHelper helper;
 
 	@Test
 	public void testCaseResponseOk() throws Exception {

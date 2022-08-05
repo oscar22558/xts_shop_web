@@ -13,6 +13,10 @@ public class OrderRepresentationModel implements AbstractRepresentationModel {
         this.entity = entity;
     }
 
+    public long getId(){
+        return entity.getId();
+    }
+
     public ShippingAddressRepresentationModel getShippingAddress(){
         return new ShippingAddressRepresentationModel(entity.getShippingAddress());
     }

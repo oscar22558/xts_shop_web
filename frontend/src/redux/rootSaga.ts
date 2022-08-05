@@ -13,6 +13,7 @@ import updateUserSaga from "./user/sagas/updateUserSaga"
 import updatePasswordSaga from "./user/sagas/updatePasswordSaga";
 import addAddressSaga from "./user-addresses/add-address/AddAddressSaga";
 import deleteAddressSaga from "./user-addresses/delete-address/DeleteAddressSaga";
+import getOrdetrListSaga from "./order/OrderSaga";
 
 export const sagaMiddleware = createSagaMiddleware()
 export const rootSaga = [
@@ -27,7 +28,8 @@ export const rootSaga = [
     updateUserSaga,
     updatePasswordSaga,
     addAddressSaga,
-    deleteAddressSaga
+    deleteAddressSaga,
+    getOrdetrListSaga
 ]
 export const runSagas = (sagas: Saga[])=>{
     sagas.forEach((saga)=>sagaMiddleware.run(saga))

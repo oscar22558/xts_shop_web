@@ -3,7 +3,6 @@ package com.xtsshop.app.features.orders;
 import com.xtsshop.app.features.orders.exceptions.OrderStatusUpdateException;
 import com.xtsshop.app.features.orders.models.OrderModelAssembler;
 import com.xtsshop.app.features.storage.FilePathToUrlConverter;
-import com.xtsshop.app.features.users.cart.models.PaymentCreateForm;
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.advices.exception.UnAuthorizationException;
 import com.xtsshop.app.db.entities.Order;
@@ -41,12 +40,6 @@ public class OrderController {
     @PatchMapping("/{orderId}/cancel")
     public ResponseEntity<?> cancel(@PathVariable @NotBlank Long orderId) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException {
         Order entity = ordersService.cancel(orderId);
-        return getUpdateStatusResponse(entity);
-    }
-
-    @PatchMapping("/{orderId}/pay")
-    public ResponseEntity<?> pay(@PathVariable @NotBlank Long orderId, @Valid @RequestBody PaymentCreateForm form) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException {
-        Order entity = ordersService.pay(orderId, form.toRequest());
         return getUpdateStatusResponse(entity);
     }
 

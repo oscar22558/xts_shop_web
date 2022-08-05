@@ -8,10 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @Transactional
@@ -177,8 +174,8 @@ public class DevelopmentDataSeed {
         addresses.add(address);
 
         user.setAddresses(addresses);
-        user.setOrders(List.of());
-        user.setCart(Set.of());
+        user.setOrders(new ArrayList<>());
+        user.setCart(new HashSet<>());
         userJpaRepository.save(user);
     }
     public void createRoles(Date now){

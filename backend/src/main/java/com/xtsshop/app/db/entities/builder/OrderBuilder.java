@@ -1,7 +1,6 @@
 package com.xtsshop.app.db.entities.builder;
 
 import com.xtsshop.app.db.entities.*;
-import com.xtsshop.app.db.entities.payment.Payment;
 import com.xtsshop.app.helpers.DateTimeHelper;
 
 import java.sql.Date;
@@ -10,14 +9,9 @@ import java.util.List;
 public class OrderBuilder {
 
     private Address shippingAddress;
-    private Payment payment;
     private AppUser user;
     private OrderStatus status;
     private List<OrderedItem> orderedItems;
-    public OrderBuilder setPayment(Payment payment) {
-        this.payment = payment;
-        return this;
-    }
 
     public OrderBuilder setUser(AppUser user) {
         this.user = user;
@@ -45,7 +39,6 @@ public class OrderBuilder {
         order.setCreatedAt(now);
         order.setUpdatedAt(now);
         order.setShippingAddress(shippingAddress);
-        order.setPayment(payment);
         order.setUser(user);
         order.setStatus(status);
         orderedItems.forEach(item->{

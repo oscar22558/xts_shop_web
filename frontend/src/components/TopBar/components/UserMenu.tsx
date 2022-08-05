@@ -27,6 +27,11 @@ const UserMenu = ()=>{
         setAnchorElUser(null);
     };
 
+    const handleOrdersClick = () => {
+        handleCloseUserMenu()
+        navigate(AppRouteList.orders)
+    }
+
     const handleLogoutItemClick = ()=>{
         handleCloseUserMenu()
         destroyAuthentication()
@@ -38,7 +43,7 @@ const UserMenu = ()=>{
     }
 
     const settingModels: {label: string, onClick: ()=>void}[] = [
-        {label: "Orders", onClick: handleCloseUserMenu},
+        {label: "Orders", onClick: handleOrdersClick},
         {label: 'Settings', onClick: handleSettingClick}, 
         {label: 'Logout', onClick: handleLogoutItemClick}
     ];

@@ -1,5 +1,7 @@
 package com.xtsshop.app.features.items;
 
+import com.xtsshop.app.DependencyTestConfig;
+import com.xtsshop.app.LoadDatabaseTestConfig;
 import com.xtsshop.app.helpers.MultipartPutRequest;
 import com.xtsshop.app.TestCase;
 import com.xtsshop.app.form.items.UpdateItemTestForm;
@@ -7,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.ResultActions;
@@ -15,8 +19,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@Import({
+		ItemTestHelper.class
+})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class UpdateTest extends TestCase {
 	@Autowired

@@ -1,16 +1,17 @@
-package com.xtsshop.app.features.users.orders;
+package com.xtsshop.app.features.orders;
 
 import com.xtsshop.app.advices.exception.UnAuthorizationException;
-import com.xtsshop.app.features.orders.OrdersService;
+
 import com.xtsshop.app.features.orders.models.OrderCreateRequest;
 import com.xtsshop.app.features.orders.models.OrderModelAssembler;
 import com.xtsshop.app.features.orders.models.OrderRepresentationModel;
-import com.xtsshop.app.features.orders.models.PaymentCreateRequest;
+import com.xtsshop.app.features.orders.models.UserOrderCreateForm;
 import com.xtsshop.app.features.users.TargetUserService;
-import com.xtsshop.app.features.users.cart.models.OrderCreateForm;
+
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.viewmodels.CreateRequestViewModel;
+
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users/{username}/orders")
@@ -40,14 +40,11 @@ public class UserOrderController {
     }
 
     @PostMapping
-    public ResponseEntity<?> place(@NotBlank @PathVariable String username, @Valid @RequestBody OrderCreateForm form){
+    public ResponseEntity<?> place(@NotBlank @PathVariable String username, @Valid @RequestBody UserOrderCreateForm form){
         OrderCreateRequest orderCreateRequest = form.toRequest();
         orderCreateRequest.setUsername(username);
         Order entity = ordersService.create(orderCreateRequest);
-        Optional.ofNullable(form.getPayment()).ifPresent(paymentCreateForm -> {
-            PaymentCreateRequest request = paymentCreateForm.toRequest();
-            ordersService.pay(entity.getId(), request);
-        });
+        ordersService.pay(entity.getId());
 
         return new CreateRequestViewModel<OrderRepresentationModel, Order>()
                 .setEntity(entity)

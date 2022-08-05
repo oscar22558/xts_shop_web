@@ -1,15 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import HttpResponse from "../models/HttpResponse";
 import CachedOrderCreateForm from "./models/CachedOrder";
+import Order from "./models/Order";
 
 type State = {
-    postOrder: HttpResponse<boolean| null>,
+    getOrderListResponse: HttpResponse<Order[]>
     cachedOrderCreateForm: CachedOrderCreateForm
 }
 
 const initialState: State = {
-    postOrder: {
-        data: null,
+    getOrderListResponse: {
+        data: [],
         error: null,
         loading: false
     },
@@ -29,19 +30,19 @@ export const OrderSlice = createSlice({
         clearCachedOrder: (state: State)=>{
             state.cachedOrderCreateForm = initialState.cachedOrderCreateForm
         },
-        postOrderStart: (state: State)=>{
-            state.postOrder.loading = true
+        getOrderListStart: ({getOrderListResponse}: State)=>{
+            getOrderListResponse.loading = true
         },
-        postOrderEnd: (state: State)=>{
-            state.postOrder.loading = false
+        getOrderListEnd: ({getOrderListResponse}: State)=>{
+            getOrderListResponse.loading = false
         },
-        postOrderSucceed: (state: State)=>{
-            state.postOrder.data = true
-            state.postOrder.error = null
+        getOrderListSucceed: ({getOrderListResponse}: State, {payload}: PayloadAction<Order[]>)=>{
+            getOrderListResponse.data = payload
+            getOrderListResponse.error = null
         },
-        postOrderFail: (state: State, action: PayloadAction<string>)=>{
-            state.postOrder.data = false
-            state.postOrder.error = action.payload
+        getOrderListFail: ({getOrderListResponse}: State, {payload}: PayloadAction<string>)=>{
+            getOrderListResponse.data = []
+            getOrderListResponse.error = payload
         },
     }
 })

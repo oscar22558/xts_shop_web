@@ -1,17 +1,20 @@
 package com.xtsshop.app.features.categories;
 
 import com.xtsshop.app.db.seed.DevelopmentDataSeed;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.test.web.servlet.MockMvc;
 
-@Component
-public class IndexTestHelper {
+import javax.transaction.Transactional;
+
+@TestComponent
+@Transactional
+public class CategoryItemsIndexTestHelper {
 
     private MockMvc mockMvc;
     private String route = "/api/categories";
     private DevelopmentDataSeed seed;
 
-    public IndexTestHelper(MockMvc mockMvc, DevelopmentDataSeed seed) {
+    public CategoryItemsIndexTestHelper(MockMvc mockMvc, DevelopmentDataSeed seed) {
         this.mockMvc = mockMvc;
         this.seed = seed;
     }

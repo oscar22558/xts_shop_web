@@ -3,10 +3,11 @@ package com.xtsshop.app.features.categories.items;
 import com.xtsshop.app.dataset.DataSet;
 import com.xtsshop.app.db.repositories.BrandJpaRepository;
 import com.xtsshop.app.db.repositories.CategoryJpaRepository;
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 
-@Component
+@TestComponent
 public class ListWithPriceAndBrandFilterTestHelper {
 
     private CategoryJpaRepository categoryJpaRepository;
