@@ -12,7 +12,7 @@ const ItemsSortingOption = ()=>{
     const [value, setValue] = useState<string>(SortingOption.Latest+"")
     const dispatch = useAppDispatch()
     const fetchItems = useFetchItems()
-    const selectedCategoriesUrl = useAppSelector(categorySelector).one.data?._links.items.href
+    const selectedCategoriesUrl = useAppSelector(categorySelector).getCategoryResponse.data?._links.items.href
     const onChange = (event: SelectChangeEvent)=>{
         setValue(event.target.value+"")
         setRequestItemSorting(event.target.value)

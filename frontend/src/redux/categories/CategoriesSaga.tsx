@@ -1,19 +1,19 @@
 import {call, put, select, takeEvery} from "@redux-saga/core/effects";
-import CateorgiesActions from "./CategoriesAction";
+import CategoriesActions from "./CategoriesAction";
 import routesSelector from "../api-routes/ApiRoutesSelector"
 import CategoriesApi from "./CategoriesApi"
 import {PayloadAction} from "@reduxjs/toolkit";
 
 
 export function* getAllSaga(){
-    yield takeEvery(CateorgiesActions.getAll.async, getAll)
+    yield takeEvery(CategoriesActions.getAllCategories.async, getAll)
 }
 export function* getSaga(){
-    yield takeEvery(CateorgiesActions.get.async, get)
+    yield takeEvery(CategoriesActions.getCategory.async, get)
 }
 
 export function* getAll(): Generator<any, any, any>{
-    const { start, end, success, fail } = CateorgiesActions.getAll
+    const { start, end, success, fail } = CategoriesActions.getAllCategories
     yield put(start())
     try{
         const routes = yield select(routesSelector)
@@ -29,7 +29,7 @@ export function* getAll(): Generator<any, any, any>{
 }
 
 export function* get(action: PayloadAction<string>): Generator<any, any, any>{
-    const { start, end, success, fail } = CateorgiesActions.get
+    const { start, end, success, fail } = CategoriesActions.getCategory
     yield put(start())
     try{
         const url = action.payload

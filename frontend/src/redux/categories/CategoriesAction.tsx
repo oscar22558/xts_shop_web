@@ -2,20 +2,21 @@ import {CategoriesSlice} from "./CategoriesReducer";
 import {createAction} from "@reduxjs/toolkit";
 
 const sliceActions = CategoriesSlice.actions
-const CateorgiesActions = {
-    getAll: {
-        start   : sliceActions.getAllStart,
-        end     : sliceActions.getAllEnd,
-        success : sliceActions.getAllSuccess,
-        fail    : sliceActions.getAllFail,
+const CategoriesActions = {
+    getAllCategories: {
+        start   : sliceActions.getAllCategoriesStart,
+        end     : sliceActions.getAllCategoriesEnd,
+        success : sliceActions.getAllCategoriesSuccess,
+        fail    : sliceActions.getAllCategoriesFail,
         async   : createAction("categories/getAllAsync"),
     },
-    get: {
-        start   : sliceActions.getStart,
-        end     : sliceActions.getEnd,
-        success : sliceActions.getSuccess,
-        fail    : sliceActions.getFail,
+    getCategory: {
+        start   : sliceActions.getCategoryStart,
+        end     : sliceActions.getCategoryEnd,
+        success : sliceActions.getCategorySuccess,
+        fail    : sliceActions.getCategoryFail,
         async: createAction<string>("categories/getAsync")
-    }
+    },
+    setSelectedCategoryTabIndex: sliceActions.setSelectedCategoryTabIndex
 }
-export default CateorgiesActions
+export default CategoriesActions

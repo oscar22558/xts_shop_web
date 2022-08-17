@@ -23,7 +23,8 @@ const ItemCard = ({index}: {index: number})=>{
                 </IconButton>
             </Box>
             <CardContent sx={{paddingX: "16px", paddingY: "0px"}}>
-                {viewModel.name}
+                <div>{viewModel.brand}</div>
+                <div>{viewModel.name}</div>
             </CardContent>
         </Card>
     )

@@ -4,7 +4,7 @@ import useFetchCategory from "../../../../../data-sources/category/useFetchCateg
 import useFetchItems from "../../../../../data-sources/items/useFetchItems";
 
 const useViewModel = ()=>{
-    const { data } = useAppSelector(CategoriesSelector).one
+    const { data } = useAppSelector(CategoriesSelector).getCategoryResponse
 
     const fetchCategory = useFetchCategory()
     const fetchItems = useFetchItems()

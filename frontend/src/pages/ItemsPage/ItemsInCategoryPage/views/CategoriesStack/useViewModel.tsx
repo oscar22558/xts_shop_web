@@ -4,8 +4,8 @@ import {Category} from "../../../../../redux/categories/models/Category";
 import CategoryStackItemModel from "./models/CategoryStackItemModel";
 
 const useViewModel = ()=>{
-    const { data: selectedCategory } = useAppSelector(CategoriesSelector).one
-    const { data: categories } = useAppSelector(CategoriesSelector).all
+    const { data: selectedCategory } = useAppSelector(CategoriesSelector).getCategoryResponse
+    const { data: categories } = useAppSelector(CategoriesSelector).getAllCategoriesResponse
     return findPath({
         id: -1,
         name: "",

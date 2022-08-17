@@ -9,6 +9,7 @@ export type Item = {
     imgUrl: string
     manufacturer: string
     stock: number
+    brand: string
     _links: {
         create: Link
         update: Link

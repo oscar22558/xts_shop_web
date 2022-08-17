@@ -1,27 +1,36 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../redux/Hooks";
+
+import CategoriesSelector from "../../redux/categories/CategoriesSelector"
+import CategoriesActions from "../../redux/categories/CategoriesAction";
+
+import useViewModel from "./useViewMode"
 import StyledTabs from "./StyledTabs";
 import StyledTab from "./StyledTab";
-import React, {useState} from "react";
-import {useAppSelector} from "../../redux/Hooks";
-import CategoriesSelector from "../../redux/categories/CategoriesSelector"
-import useViewModel from "./useViewMode"
-import { useNavigate } from "react-router-dom";
 
 const CategoriesTabs = ()=>{
-    const { data } = useAppSelector(CategoriesSelector).all
-    const [value, setValue] = useState<number|boolean>(false)
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const categoriesState = useAppSelector(CategoriesSelector)
     const viewModel = useViewModel()
+
+    const { data } = categoriesState.getAllCategoriesResponse
+    const selectedCategoryTabIndex = categoriesState.selectedCategoryTabIndex !== -1 ? categoriesState.selectedCategoryTabIndex : false
+
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
-    function a11yProps(index: number) {
+        dispatch(CategoriesActions.setSelectedCategoryTabIndex(newValue))
+    }
+
+    const a11yProps = (index: number)=>{
         return {
             id: `simple-tab-${index}`,
             'aria-controls': `simple-tabpanel-${index}`,
-        };
+        }
     }
-   return (
-       <StyledTabs value={value} onChange={handleChange} aria-label="basic tabs example">
+
+    return (
+       <StyledTabs value={selectedCategoryTabIndex} onChange={handleChange} aria-label="basic tabs example">
            {data.map((category, index)=>(
                 <StyledTab 
                     key={index} 
@@ -34,7 +43,7 @@ const CategoriesTabs = ()=>{
                 />
            ))}
        </StyledTabs>
-   )
+    )
 }
 
 export default CategoriesTabs

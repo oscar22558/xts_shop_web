@@ -7,7 +7,7 @@ import itemsActions from "../../../../../redux/items/ItemsAction"
 
 const useViewModel = ()=>{
     const getItemsUndeCategoryUrl = useAppSelector(CategoriesSelector)
-        ?.one?.data
+        ?.getCategoryResponse?.data
         ?._links?.items.href
     const fetchItems = useFetchItems()
     const dispatch = useAppDispatch()

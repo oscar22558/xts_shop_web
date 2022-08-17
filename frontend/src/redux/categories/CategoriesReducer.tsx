@@ -1,58 +1,56 @@
 import {Action, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import HttpResponse from "../models/HttpResponse";
 import Category from "./models/Category";
 
 
 interface State {
-    all: {
-        data: Category[],
-        loading: boolean,
-        error: string | null
-    },
-    one: {
-        data: Category | null,
-        loading: boolean,
-        error: string | null
-    },
+    getAllCategoriesResponse: HttpResponse<Category[]>
+    getCategoryResponse: HttpResponse<Category|null>
+    selectedCategoryTabIndex: number
 }
 const initState: State = {
-    all: {
+    getAllCategoriesResponse: {
         data: [],
         loading: false,
         error: null
     },
-    one: {
+    getCategoryResponse: {
         data: null,
         loading: false,
         error: null
-    }
+    },
+    selectedCategoryTabIndex: -1
 }
 export const CategoriesSlice = createSlice({
     name: "categories",
     initialState: initState,
     reducers: {
-        getAllStart: (state: State, action: Action) => {
-            state.all.loading = true
+        getAllCategoriesStart: (state: State) => {
+            state.getAllCategoriesResponse.loading = true
         },
-        getAllEnd: (state: State, action: Action) => {
-            state.all.loading = false
+        getAllCategoriesEnd: (state: State) => {
+            state.getAllCategoriesResponse.loading = false
         },
-        getAllSuccess: (state: State, action: PayloadAction<Category[]>) => {
-            state.all.data = action.payload
+        getAllCategoriesSuccess: (state: State, {payload}: PayloadAction<Category[]>) => {
+            state.getAllCategoriesResponse.data = payload
         },
-        getAllFail: (state: State, action: PayloadAction<string>) => {
-            state.all.error = action.payload
+        getAllCategoriesFail: (state: State, {payload}: PayloadAction<string>) => {
+            state.getAllCategoriesResponse.error = payload
         },
-        getStart: (state: State, action: Action) => {
-            state.one.loading = true
+        getCategoryStart: (state: State) => {
+            state.getCategoryResponse.loading = true
         },
-        getEnd: (state: State, action: Action) => {
-            state.one.loading = false
+        getCategoryEnd: (state: State) => {
+            state.getCategoryResponse.loading = false
         },
-        getSuccess: (state: State, action: PayloadAction<Category>) => {
-            state.one.data = action.payload
+        getCategorySuccess: (state: State, action: PayloadAction<Category>) => {
+            state.getCategoryResponse.data = action.payload
         },
-        getFail: (state: State, action: PayloadAction<string>) => {
-            state.one.error = action.payload
+        getCategoryFail: (state: State, action: PayloadAction<string>) => {
+            state.getCategoryResponse.error = action.payload
+        },
+        setSelectedCategoryTabIndex: (state: State, {payload}: PayloadAction<number>)=>{
+            state.selectedCategoryTabIndex = payload
         }
     }
 })

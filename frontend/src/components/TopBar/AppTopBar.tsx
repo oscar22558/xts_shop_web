@@ -15,6 +15,7 @@ import SignInIcon from './components/SignInIcon';
 import useAuthentication from '../../data-sources/authentication/useAuthentication';
 import AppRouteList from '../../routes/AppRouteList';
 import UserMenu from './components/UserMenu';
+import HomePageLogoBtn from './components/HomePageLogoBtn';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
@@ -33,8 +34,8 @@ const ResponsiveAppBar = () => {
     };
 
     return (
-        <AppBar position="static" sx={{height: "60px"}}>
-            <Container maxWidth="xl" sx={{display: "flex", flexDirection: "row", alignItems: "center", paddingTop: "10px", paddingBottom: "10px"}}>
+        <AppBar position="static">
+            <Container maxWidth="xl" sx={{height: "60px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "stretch", paddingY: "10px"}}>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
                         <IconButton
                             size="large"
@@ -72,29 +73,17 @@ const ResponsiveAppBar = () => {
                         </Menu>
                     </Box>
 
-                    <Box sx={{ flexGrow: 1, display: "flex" }}>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="div"
-                            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-                        >
-                            LOGO
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="div"
-                            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-                        >
-                            <span onClick={()=>navigate(AppRouteList.home)}>
-                                LOGO
-                            </span>
-                        </Typography>
+                    <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center"}}>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems: "center"}}>
+                            <HomePageLogoBtn />
+                        </Box>
+                        <Box sx={{ mr: 2, display: { xs: 'none', md: 'flex' } , alignItems: "center" }}>
+                            <HomePageLogoBtn />
+                        </Box>
                     </Box>
 
-                    <Box sx={{ flexGrow: 0, display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <Box sx={{marginRight: "20px"}}>
+                    <Box sx={{ flexGrow: 0, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: 'center'}}>
+                        <Box sx={{marginRight: "20px", display: "flex", alignItems: "center", justifyContent: "center"}}>
                             {authentication.isUserAuthenticated ? undefined : <SignInIcon />}
                         </Box>
                         <Box sx={{marginRight: "20px"}}>

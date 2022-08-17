@@ -11,7 +11,7 @@ const useViewModel = ()=>{
     const dispatch = useAppDispatch()
     const updateBrandFilterItemAction = itemActions.setFetchItemOptions.brandFilter    
     const getItemsUnderCategoryUrl = useAppSelector(categorySelector)
-        ?.one?.data
+        ?.getCategoryResponse?.data
         ?._links?.items.href
     const fetchItems = useFetchItems()
 

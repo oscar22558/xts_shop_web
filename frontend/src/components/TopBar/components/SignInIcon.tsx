@@ -7,9 +7,9 @@ const SignInIcon = ()=>{
         navigate(AppRouteList.signIn)
     }
 
-    return <div onClick={handleClick}>
+    return <span onClick={handleClick}>
         Sign-In
-    </div>
+    </span>
 }
 
 export default SignInIcon
