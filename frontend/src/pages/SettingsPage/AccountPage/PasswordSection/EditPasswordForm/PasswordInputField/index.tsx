@@ -54,6 +54,6 @@ const PasswordInputField = ({
                 </InputAdornment>
             }
         />
-        {error ? <FormHelperText>{errorText}</FormHelperText> : undefined}
+        {error ? <FormHelperText error>{errorText}</FormHelperText> : undefined}
     </FormControl>}
 export default PasswordInputField

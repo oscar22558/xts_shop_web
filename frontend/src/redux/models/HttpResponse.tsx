@@ -1,6 +1,6 @@
-export interface HttpResponse <S>{
+export interface HttpResponse <S,E = string | null>{
     data: S,
-    error: string | null,
+    error: E,
     loading: boolean
 }
 

@@ -56,19 +56,19 @@ const EditPasswordForm = ({
         <PasswordInputField 
             value={password} 
             onChange={setPassword}
-            error={passwordError != null}
-            errorText={passwordError}
+            error={updateRequestError != null && updateRequestError?.column === "password"}
+            errorText={updateRequestError?.error}
         />
         <Box sx={{marginTop: "10px"}}>
             <PasswordInputField 
                 label="New Password" 
                 value={newPassword} 
                 onChange={setNewPassword}
-                error={newPasswordError != null}
-                errorText={newPasswordError}
+                error={updateRequestError != null && updateRequestError?.column === "newPassword"}
+                errorText={updateRequestError?.error}
             />
         </Box>
-        {updateRequestError ? <FormHelperText>{updateRequestError}</FormHelperText> : undefined}
+        {updateRequestError && updateRequestError.column === "" ? <FormHelperText error>{updateRequestError.error}</FormHelperText> : undefined}
         <Box sx={{marginTop: "10px"}} flexDirection="column" display="flex">
             <Button variant="contained" onClick={handleUpdateBtnClick}>Update</Button>
         </Box>

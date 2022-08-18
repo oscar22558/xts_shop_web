@@ -22,7 +22,6 @@ const AddressPage = ()=>{
                 <div>{address.district}</div>
                 <div>{address.area}</div>
                 <Box sx={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                    <Button>Edit</Button>
                     <Button onClick={handleDeleteBtnClick(address.id)}>Delete</Button>
                 </Box>
             </Paper>)

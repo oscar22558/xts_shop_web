@@ -55,7 +55,7 @@ const AccountSection = ()=>{
                             <Divider />
                         </Box>
                     ))}
-                    <Box sx={{height: "47px"}}></Box>
+                    <Box sx={{height: "100px"}}></Box>
                 </>
             )
         }

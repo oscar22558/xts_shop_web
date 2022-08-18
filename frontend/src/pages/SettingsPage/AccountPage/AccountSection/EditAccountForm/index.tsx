@@ -122,8 +122,8 @@ const EditAccountPage = ({
                     <Divider />
                 </Box>
             ))}
-            <Box sx={{display: "flex", alignItems: "center", justifyContent: "flex-end", height: "47px"}}>
-                <Button sx={{marginTop: "10px"}} onClick={handleUpdateBtnClick}>Update</Button>
+            <Box sx={{display: "flex", alignItems: "flex-start", justifyContent: "flex-end", height: "100px"}}>
+                <Button sx={{marginTop: "10px", width: "100%"}} onClick={handleUpdateBtnClick} variant="contained">Update</Button>
             </Box>
         </>
     )

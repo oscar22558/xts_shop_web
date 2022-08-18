@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import HttpResponse from "../models/HttpResponse"
+import UpdatePasswordError from "./models/UpdatePasswordError"
 import User from "./models/User"
 
 type State = {
     getUserResponse: HttpResponse<User>
     updateUserResponse: HttpResponse<null>,
-    updatePasswordResponse: HttpResponse<null>
+    updatePasswordResponse: HttpResponse<null, UpdatePasswordError | null>
 }
 
 const initialState: State = {
@@ -74,7 +75,7 @@ export const UsersSlice = createSlice({
         updatePasswordSucceed: (state: State)=>{
             state.updatePasswordResponse.error = null
         },
-        updatePasswordFail: (state: State, action: PayloadAction<string>)=>{
+        updatePasswordFail: (state: State, action: PayloadAction<UpdatePasswordError>)=>{
             state.updatePasswordResponse.error = action.payload
         },
         clearUpdatePasswordError: (state: State)=>{
