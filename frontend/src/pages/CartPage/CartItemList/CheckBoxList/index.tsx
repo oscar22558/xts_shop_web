@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Grid } from "@mui/material"
-import { useState } from "react"
-import useFetchCartItemsByIds from "../../../../data-sources/cart/useFetchCartItemsByIds"
+import { useEffect, useState } from "react"
+import useCart from "../../../../data-sources/cart/useCart"
 import RemoveItemCheckBox from "../../RemoveItemCheckBox"
 
 type Props = {
@@ -9,12 +9,17 @@ type Props = {
 }
 
 const CheckBoxList = ({data, rowContent}: Props)=>{
-    const initialCheckBoxStates = data.ids.map((id)=>({id, isChecked: false}))
+    const [checkBoxStates, setCheckBoxStates] = useState<{id: number, isChecked: boolean}[]>([])
+    const [isSelectAllChecked, setIsSelectAllChecked] = useState(false)
     const [isCheckBoxsShown, setIsCheckBoxsShown] = useState(false)
-    const [checkBoxStates, setCheckBoxStates] = useState<{id: number, isChecked: boolean}[]>(initialCheckBoxStates)
-    const isSelectAllBtnShown = isCheckBoxsShown
+    const { removeItems } = useCart()
 
-    useFetchCartItemsByIds() 
+    useEffect(()=>{
+        const initialCheckBoxStates = data.ids.map((id)=>({id, isChecked: false}))
+        setCheckBoxStates(initialCheckBoxStates)
+    }, [data.ids])
+
+    const isSelectAllBtnShown = isCheckBoxsShown
 
     const unselectAllCheckBox = ()=>{
         const newStates = checkBoxStates.map((state)=>{
@@ -33,33 +38,58 @@ const CheckBoxList = ({data, rowContent}: Props)=>{
     const checkIsCheckedByItemId = (itemId: number)=>{
         return checkBoxStates.find((state)=>state.id === itemId)?.isChecked ?? false
     }
-    const selectCheckBoxByItemId = (itemId: number)=>{
+
+    const setItemIdForCheckBoxOnChangeHandler = (itemId: number)=>(isChecked: boolean)=>{
         const newStates = checkBoxStates.map((state)=>{
             if(state.id === itemId){
-                return {id: state.id, isChecked: !state.isChecked}
+                return {...state, isChecked}
             }
             return state
         })
         setCheckBoxStates(newStates)
     }
-
-    const setItemIdForCheckBoxOnChangeHandler = (itemId: number)=>()=>selectCheckBoxByItemId(itemId)
-
-    const handleSelectAllBtnClick = selectAllCheckBox
+    const handleSelectAllBtnClick = (isChecked: boolean)=>{
+        setIsSelectAllChecked(isChecked)
+        if(isChecked){
+            selectAllCheckBox()
+            return
+        }
+        unselectAllCheckBox()
+    }
 
     const handleEditBtnClick = ()=>{
         if(isCheckBoxsShown){
             unselectAllCheckBox() 
+            setIsSelectAllChecked(false)
         }
         setIsCheckBoxsShown(!isCheckBoxsShown)
     }
 
+    const handleDeleteBtnClick = ()=>{
+        unselectAllCheckBox() 
+        setIsCheckBoxsShown(false)
+        const selectedIds = checkBoxStates.filter(state=>state.isChecked).map(state=>state.id)
+        removeItems(selectedIds)
+    }
+
     return (
         <Box sx={{paddingRight: "25px"}}>
-            <Box display="flex" alignItems="flex-end" justifyContent="flex-end">
-                {isSelectAllBtnShown && <Button onClick={handleSelectAllBtnClick}>Select All</Button>}
-                <Button onClick={handleEditBtnClick}>Edit</Button>
-            </Box>
+            <Grid container direction="row" columns={24} height="50px">
+                <Grid item xs={2} sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    {isSelectAllBtnShown && 
+                        <RemoveItemCheckBox 
+                            isChecked={isSelectAllChecked}
+                            setIsChecked={handleSelectAllBtnClick}
+                        />
+                    }
+                </Grid>
+                <Grid item xs={11} sx={{display: "flex", justifyContent: "flex-start"}}>
+                    {isCheckBoxsShown && <Button onClick={handleDeleteBtnClick}>Delete</Button>}
+                </Grid>
+                <Grid item xs={11} sx={{display: "flex", justifyContent: "flex-end"}}>
+                    <Button onClick={handleEditBtnClick}>{isCheckBoxsShown ? "Cancel": "Edit"}</Button>
+                </Grid>
+            </Grid>
             <Divider />
             {data.ids.map((id, index)=>
                 <Box key={index}>

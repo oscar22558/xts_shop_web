@@ -2,12 +2,12 @@ import { Box, Checkbox } from "@mui/material"
 
 type Props = {
     isChecked: boolean
-    setIsChecked?: ()=>void
+    setIsChecked?: (isChecked: boolean)=>void
 }
 
 const ItemCheckBox = ({isChecked, setIsChecked}: Props)=>{
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked && setIsChecked()
+        setIsChecked && setIsChecked(!isChecked)
     }
     return <Box display="flex" alignItems="center" justifyContent="center">
         <Checkbox checked={isChecked} onChange={handleChange} inputProps={{'aria-label': "controlled"}}/>

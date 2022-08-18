@@ -1,6 +1,7 @@
 import { useAppSelector } from "../../redux/Hooks";
 import CartItemsSelector from "../../redux/cart-items/CartItemsSelector"
 import useCartCookie from "./useCartCookie";
+import CartCookieType from "./models/CartCookieType";
 
 const useCart = ()=>{
     const {itemsInCart: itemsInCartApiResponse} = useAppSelector(CartItemsSelector)
@@ -13,11 +14,20 @@ const useCart = ()=>{
         setCartCookie(cartCookie)
     }
 
-    const removeItem = (itemId: number)=>{
+    const minusItemQunity = (itemId: number)=>{
         if(cartCookie[itemId] != null && cartCookie[itemId] > 1){
             cartCookie[itemId] -= 1
         }
         setCartCookie(cartCookie)
+    }
+
+    const removeItems = (itemIds: number[])=>{
+        const remainingIds = Object.keys(cartCookie).filter(itemIdInCart=>
+            itemIds.findIndex(itemId=>itemId.toString()===itemIdInCart) === -1
+        )
+        const newCartCookit: CartCookieType = {}
+        remainingIds.forEach(id=>newCartCookit[id] = cartCookie[id])
+        setCartCookie(newCartCookit)
     }
 
     const itemTotalCountInCart = ()=>{
@@ -29,8 +39,9 @@ const useCart = ()=>{
         itemCountsInCart: cartCookie,
         itemsInCart: itemsInCartApiResponse.data,
         addCartItem,
-        removeItem,
-        itemTotalCountInCart
+        minusItemQunity,
+        itemTotalCountInCart,
+        removeItems
     }
 }
 export default useCart

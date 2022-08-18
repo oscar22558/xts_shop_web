@@ -51,7 +51,7 @@ public class ItemsController{
 
     @GetMapping()
     public CollectionModel<EntityModel<ItemRepresentationModel>> all(
-            @RequestParam(name = "ids", required = false) Long[] itemIds
+            @RequestParam(name = "ids[]", required = false) Long[] itemIds
     ) {
         ListItemsRequest request = new ListItemsRequest(itemIds);
         return modelAssembler.toCollectionModel(service.listItems(request));

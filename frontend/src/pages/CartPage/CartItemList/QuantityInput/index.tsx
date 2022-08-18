@@ -8,21 +8,21 @@ type Props = {
 }
 
 const QuantityInput = ({itemId}: Props)=>{
-    const {itemCountsInCart, addCartItem, removeItem} = useCart()
+    const {itemCountsInCart, addCartItem, minusItemQunity} = useCart()
     const itemCount = itemCountsInCart[itemId]
     const handleRemoveBtnClick = ()=>{
         addCartItem(itemId)
     }
 
     const handleAddBtnClick = ()=>{
-        removeItem(itemId)
+        minusItemQunity(itemId)
     }
 
     return <Box sx={{height: "100%", alignItems: "center", justifyContent: "center", flex: 1, display: "flex", flexDirection: "row"}}>
         <IconButton onClick={handleAddBtnClick}>
             <RemoveIcon/>
         </IconButton>
-        <TextField variant="standard" sx={{width: "70px"}} value={itemCount}/>
+        <Box sx={{width: "70px"}}>{itemCount}</Box>
         <IconButton onClick={handleRemoveBtnClick}>
             <AddIcon />
         </IconButton>

@@ -4,7 +4,7 @@ import qs from "qs"
 type GetCartItemsRequest = {
     url: string,
     params: {
-        itemIds: number[]
+        ids: number[]
     }
 }
 

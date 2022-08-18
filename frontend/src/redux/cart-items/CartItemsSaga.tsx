@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 import ApiRouteSelector from "../api-routes/ApiRoutesSelector";
 import { RootState } from "../Store";
 import CartItemsAction from './CartItemsAction'
-import GetItemsByIdApi from "./CartItemsApi";
+import CartItemsByIdApi from "./CartItemsApi";
 import CartItemsApiResponse from "./models/CartItemsApiResponse";
 
 function* getListItemByIdApiRoute(){
@@ -12,12 +12,12 @@ function* getListItemByIdApiRoute(){
     return allRoutes.get.data?.items ?? ""
 }
 
-function* getItemsById(itemIds: number[]){
+function* getItemsById(ids: number[]){
     const apiRoute: string = yield call(getListItemByIdApiRoute)
-    const response: AxiosResponse = yield call(GetItemsByIdApi, {
+    const response: AxiosResponse = yield call(CartItemsByIdApi, {
         url: apiRoute,
         params: {
-            itemIds
+            ids
         }
     })
     const data: CartItemsApiResponse = response.data
