@@ -6,7 +6,7 @@ import OrderSummary from "./OrderSummary"
 
 const CartPage = ()=>{
     useFetchCartItemsByIds() 
-    return <Box sx={{marginTop: "25px"}}>
+    return <Box sx={{paddingY: "25px"}}>
         <h1>Shopping Cart</h1>
         <Grid container direction="row">
             <Grid item xs={9}>
