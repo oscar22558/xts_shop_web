@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/api/payment-intent").hasAnyAuthority(RoleType.ROLE_USER.name())
                 .antMatchers(HttpMethod.POST, "/webhook").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users/invoice").permitAll()
 
                 .antMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/items/**").permitAll()

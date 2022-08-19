@@ -8,6 +8,7 @@ import authentication from "./authentication/AuthenticationReducer"
 import order from "./order/OrderReducer"
 import user from "./user/UserReducer"
 import userAddresses from "./user-addresses/UserAddressesReducer";
+import { InvoiceReducer as invoice } from "./cart-items/invoice/InvoiceSlice"
 
 const RootReducer = combineReducers({
     routes,
@@ -18,6 +19,7 @@ const RootReducer = combineReducers({
     authentication,
     order,
     user,
-    userAddresses
+    userAddresses,
+    invoice
 })
 export default RootReducer

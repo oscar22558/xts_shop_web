@@ -1,12 +1,16 @@
 import { Box, Button, Divider, Grid } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import useAuthentication from "../../../data-sources/authentication/useAuthentication"
+import useFetchInvoice from "../../../data-sources/cart/useFetchInvoice"
+import InvoiceSelector from "../../../redux/cart-items/invoice/InvoiceSelector"
+import { useAppSelector } from "../../../redux/Hooks"
 import AppRouteList from "../../../routes/AppRouteList"
 
 const OrderSummary = ()=>{
-    const subtotal = 1
-    const shipping = 1
-    const total = 2
+    useFetchInvoice()
+    const { data: invoice } = useAppSelector(InvoiceSelector).getInvoiceResponse
+    const {subItemTotal, shippingFree, total} = invoice
+    
 
     const navigate = useNavigate()
     const authentication = useAuthentication()
@@ -38,8 +42,8 @@ const OrderSummary = ()=>{
             </Grid>
             <Grid item xs={3} >
                 <Box sx={{diplay: "flex", alignItems: "flex-end", flexDirection: "column", textAlign: "right"}}>
-                    <div>{subtotal}</div>
-                    <div>{shipping}</div>
+                    <div>{subItemTotal}</div>
+                    <div>{shippingFree}</div>
                     <div>{total}</div>
                 </Box>
             </Grid>
