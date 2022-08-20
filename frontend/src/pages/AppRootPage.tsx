@@ -1,13 +1,11 @@
 import { Outlet } from "react-router-dom"
 import AppTopBar from '../components/TopBar/AppTopBar';
-import { Container } from "@mui/material"
+import { Box } from "@mui/material"
 
 const AppRootPage = ()=>{
-    return <>
+    return <Box sx={{height: "100%", display: "flex", flexDirection: "column"}}>
         <AppTopBar />
-        <Container maxWidth="xl">
-            <Outlet />
-        </Container>
-    </>
+        <Outlet />
+    </Box>
 }
 export default AppRootPage
