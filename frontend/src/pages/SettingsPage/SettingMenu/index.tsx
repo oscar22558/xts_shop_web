@@ -38,6 +38,7 @@ const SettingMenu = ()=>{
            {
                 viewModel.map((itemData, index)=>(
                     <ListItemButton 
+                        key={index}
                         selected={selectedIndex === index}
                         onClick={setSelectedListItemIndex(index)(itemData.handleClick())}
                     >

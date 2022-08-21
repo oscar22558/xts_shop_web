@@ -1,8 +1,15 @@
 import { createAction } from "@reduxjs/toolkit"
 import { OrderSlice } from "./OrderReducer"
-import PlaceOrderRequest from "./models/CachedOrder"
 
 const actions = OrderSlice.actions
+export const GetOrderAction = {
+    start: actions.getOrderStart,
+    end: actions.getOrderEnd,
+    succeed: actions.getOrderSucceed,
+    fail: actions.getOrderFail,
+    async: createAction<number>("get-order/async")
+}
+
 export const OrdersAction = {
     start: actions.getOrderListStart,
     end: actions.getOrderListEnd,

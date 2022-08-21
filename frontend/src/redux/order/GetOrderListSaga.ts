@@ -1,5 +1,5 @@
 import { takeEvery, put, call, select} from "@redux-saga/core/effects"
-import { AxiosResponse } from "axios"
+import { AxiosError, AxiosResponse } from "axios"
 import { RootState } from "../Store"
 import UserSelector from "../user/UserSelector"
 import { OrdersAction } from "./OrderAction"
@@ -19,7 +19,7 @@ function* tryToGetOrderList(){
     try{
         yield call(getOrderList)
     }catch(error: any){
-        yield put(fail(error?.message))
+        yield put(fail("Error on fetching orders."))
     }finally{
         yield put(end())
     }

@@ -7,6 +7,7 @@ import ItemsPage from "../pages/ItemsPage"
 import HomePage from "../pages/ItemsPage/HomePage"
 import ItemsInCateogryPage from "../pages/ItemsPage/ItemsInCategoryPage"
 import MiniFooterPage from "../pages/MiniFooterPage"
+import OrderDetailPage from "../pages/OrderDetailPage"
 import OrderShippingAddressPage from "../pages/OrderShippingAddressPage"
 import OrdersPage from "../pages/OrdersPage/OrdersPage"
 import PaymentPage from "../pages/PaymentPage"
@@ -35,6 +36,7 @@ const AppRoutes = ()=>{
                     <Route path="" element={<MiniFooterPage />}>
                         <Route path={AppRouteList.orderShippingAddresses} element={<OrderShippingAddressPage />}/>
                         <Route path={AppRouteList.orders} element={<OrdersPage />}/>
+                        <Route path={AppRouteList.order} element={<OrderDetailPage />}/>
                         <Route path={AppRouteList.cart} element={<CartPage />}/>
                         <Route path={AppRouteList.payment} element={<PaymentPage />}/>
                     </Route>

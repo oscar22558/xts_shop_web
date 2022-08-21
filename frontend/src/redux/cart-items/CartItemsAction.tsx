@@ -8,6 +8,7 @@ const CartItemsAction = {
         end: sliceAction.getItemsByIdEnd,
         success: sliceAction.getItemsByIdSuccess,
         fail: sliceAction.getItemsByIdFail,
+        clear: sliceAction.clearGetItemsResponse,
         async: createAction<number[]>("cart-items/getItemsById/aysnc")
     }
 }

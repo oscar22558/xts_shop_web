@@ -31,6 +31,9 @@ const CartItemsSlice = createSlice({
         getItemsByIdFail: (state: State, action: PayloadAction<string>)=>{
             state.itemsInCart.error = action.payload
         },
+        clearGetItemsResponse: (state: State)=>{
+            state.itemsInCart = initialState.itemsInCart
+        }
     }
 })
 

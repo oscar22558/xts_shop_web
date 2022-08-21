@@ -11,6 +11,10 @@ const useFetchCartItemsByIds = ()=>{
 
     useEffect(()=>{
         const fetchItemsById = (itemIds: number[])=>{
+            if(itemIds.length <=0 ){
+                dispatch(CartItemsAction.getItemsById.clear())
+                return
+            }
             dispatch(CartItemsAction.getItemsById.async(itemIds))
         }
         if(apiRoute){

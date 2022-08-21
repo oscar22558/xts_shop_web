@@ -12,6 +12,7 @@ public class FilePathToUrlConverter {
 
     public FilePathToUrlConverter(StorageProperties properties){
         this.storageRootFolder = Paths.get(properties.getEnvRoot());
+        this.urlRoot = "storage";
     }
 
     public String getUrl(String filePath) {

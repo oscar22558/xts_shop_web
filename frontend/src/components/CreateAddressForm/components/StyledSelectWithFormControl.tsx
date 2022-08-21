@@ -1,4 +1,4 @@
-import { SelectChangeEvent, FormControl, InputLabel, MenuItem } from "@mui/material"
+import { SelectChangeEvent, FormControl, InputLabel, MenuItem, FormHelperText } from "@mui/material"
 import { useState } from "react"
 import StyledSelect from "./StyledSelect"
 
@@ -7,17 +7,21 @@ export type SelectWithFormControlEventType<V> = (value: V)=>void
 type Props<D extends object> = {
     id: string
     dataSet: D
+    error: boolean
+    errorText: string
     onChange?: SelectWithFormControlEventType<keyof D>
 }
 
 const SelectWithFormControl = <D extends object>({
     id,
     dataSet: menuItemDataSet,
+    error,
+    errorText: errorMsg,
     onChange
 }: Props<D>)=>{
     type MenuItemIndexType = keyof typeof menuItemDataSet
     const menuItemViewModels = Object.entries(menuItemDataSet)
-    const [selectedDistrictIndex, setSelectedDistrictIndex] = useState<MenuItemIndexType|null>(null)
+    const [selectedDistrictIndex, setSelectedDistrictIndex] = useState<MenuItemIndexType|"">("")
 
     const handleChange = (event: SelectChangeEvent<unknown>)=>{
         const value = event.target.value
@@ -32,6 +36,7 @@ const SelectWithFormControl = <D extends object>({
             id={`${id}-select`}
             value={selectedDistrictIndex}
             label={id}
+            error={error}
             onChange={handleChange}
         >
             {
@@ -40,6 +45,7 @@ const SelectWithFormControl = <D extends object>({
                 ))
             }
         </StyledSelect>
+        {error && <FormHelperText error>{errorMsg}</FormHelperText>}
     </FormControl>
 }
 export default SelectWithFormControl

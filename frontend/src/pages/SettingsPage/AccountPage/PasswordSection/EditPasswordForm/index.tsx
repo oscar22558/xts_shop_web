@@ -14,8 +14,8 @@ const EditPasswordForm = ({
     onUserFinishedUpdate
 }: Props)=>{
     const [waitingUserClickUpdate, setWaitingUserClickUpdate] = useState(true)
-    const [password, setPassword] = useState<string|null>(null)
-    const [newPassword, setNewPassword] = useState<string|null>(null)
+    const [password, setPassword] = useState<string>("")
+    const [newPassword, setNewPassword] = useState<string>("")
     const [passwordError, setPasswordError] = useState<string|undefined>(undefined)
     const [newPasswordError, setNewPasswordError] = useState<string|undefined>(undefined)
     

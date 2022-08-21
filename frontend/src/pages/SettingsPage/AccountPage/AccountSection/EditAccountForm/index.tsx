@@ -104,8 +104,8 @@ const EditAccountPage = ({
 
     return (
         <>
-            {viewModel.map(itemData=>(
-                <Box>
+            {viewModel.map((itemData, index)=>(
+                <Box key={index}>
                     <Box sx={rowContentCss}>
                         <Box sx={labelCss}>{itemData.label}</Box>
                         <TextField 

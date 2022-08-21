@@ -35,6 +35,7 @@ const UserMenu = ()=>{
     const handleLogoutItemClick = ()=>{
         handleCloseUserMenu()
         destroyAuthentication()
+        navigate("/")
     }
 
     const handleSettingClick = ()=>{

@@ -42,7 +42,6 @@ const CreateAddressForm = ({
     const clearAddAddressRequestState = useClearAddAddressRequestState()
 
     const showFormValidationError = ()=>{
-        console.log("show form validation error")
         const {row1, area, district} = addAddressForm
         const addressRow1Error = !row1 ? "Missing address row 1" : "" 
         const districtError = !district ? "District is not selected" : ""
@@ -101,7 +100,7 @@ const CreateAddressForm = ({
     }, [isWaitingUserSendRequest, addRequestError, addRequestLoading, clearAddAddressRequestState])
 
     return <Grid container direction="column">
-        <Grid item direction="column" sx={{display: "flex"}}>
+        <Grid item sx={{display: "flex"}}>
             <Grid container spacing="10px" direction="column">
                 <Grid item>
                     <StyledTextFieldWithFormControl
@@ -120,10 +119,22 @@ const CreateAddressForm = ({
                     />
                 </Grid>
                 <Grid item>
-                    <SelectWithFormControl id="District*" dataSet={District} onChange={handleDistrictInputChange}/>
+                    <SelectWithFormControl 
+                        id="District*" 
+                        dataSet={District} 
+                        error={formColumnError.district != ""}
+                        errorText={formColumnError.district}
+                        onChange={handleDistrictInputChange}
+                    />
                 </Grid>
                 <Grid item>
-                    <SelectWithFormControl id="Area*" dataSet={Area} onChange={handleAreaInputChange}/>
+                    <SelectWithFormControl 
+                        id="Area*" 
+                        dataSet={Area} 
+                        error={formColumnError.area != ""}
+                        errorText={formColumnError.area}
+                        onChange={handleAreaInputChange}
+                    />
                     {addRequestError ? <FormHelperText error>{addRequestError}</FormHelperText> : undefined}
                 </Grid>
             </Grid>

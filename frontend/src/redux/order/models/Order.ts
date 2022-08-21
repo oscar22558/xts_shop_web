@@ -6,5 +6,6 @@ type Order = {
     items: OrderItem[]
     shippingAddress: ShippingAddress
     orderStatus: string
+    orderPlaced: string
 }
 export default Order
