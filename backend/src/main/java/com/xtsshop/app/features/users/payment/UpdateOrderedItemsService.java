@@ -64,6 +64,5 @@ public class UpdateOrderedItemsService {
         orderedItem.setItem(itemEntity);
         orderedItem.setQuantity(orderedQuantity);
         orderedItem.setOrder(order);
-        updatedOrderedItemList.add(orderedItem);
     }
 }

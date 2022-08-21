@@ -59,6 +59,13 @@ public class UpdatePaymentIntentTest extends TestCase {
         assertStockIsUpdated();
     }
 
+    @Test
+    public void testWhenUpdatePaymentIntentRequestSentThenInvoiceIsUpdated() throws Exception {
+        helper.insertData();
+        sendRequest();
+        assertOrderInvoiceUpdated();
+    }
+
     private UpdatePaymentIntentForm buildPostForm(){
         long addressId = helper.getShippingAddressIdByUsername(getUserUsername());
         long itemToOrder = helper.getItemIdToOrder();
@@ -93,7 +100,14 @@ public class UpdatePaymentIntentTest extends TestCase {
     private void assertOrderIsUpdated(){
         assertEquals(11, helper.getLatestOrderItem(0).getQuantity());
     }
+
     private void assertStockIsUpdated(){
         assertEquals(97, helper.getItemStock(0));
+    }
+
+    private void assertOrderInvoiceUpdated(){
+        assertEquals(134.2f, helper.getLatestOrderInvoice().getItemsTotal());
+        assertEquals(20, helper.getLatestOrderInvoice().getShippingFee());
+        assertEquals(154.2f, helper.getLatestOrderInvoice().getTotal());
     }
 }

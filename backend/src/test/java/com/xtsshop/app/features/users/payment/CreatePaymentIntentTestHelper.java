@@ -2,6 +2,7 @@ package com.xtsshop.app.features.users.payment;
 
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Address;
+import com.xtsshop.app.db.entities.Invoice;
 import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.db.entities.OrderedItem;
 import com.xtsshop.app.db.repositories.ItemJpaRepository;
@@ -51,6 +52,10 @@ public class CreatePaymentIntentTestHelper {
     public Order getLatestOrder(){
         int orderCount = orderJpaRepository.findAll().size();
         return orderJpaRepository.findAll().get(orderCount-1);
+    }
+
+    public Invoice getLatestOrderInvoice(){
+        return getLatestOrder().getInvoice();
     }
 
     public OrderedItem getLatestOrderItem(int index){

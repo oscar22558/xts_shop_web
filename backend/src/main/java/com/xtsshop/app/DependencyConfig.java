@@ -9,14 +9,14 @@ import org.springframework.context.annotation.Profile;
 @Profile({"test", "production"})
 public class DependencyConfig {
     @Bean
-    public CreatePaymentIntentService createPaymentIntentService(CreateOrderService createOrderService, OrderAmountCalculator orderAmountCalculator){
+    public CreatePaymentIntentService createPaymentIntentService(CreateOrderService createOrderService, OrderTotalCalculator orderAmountCalculator){
         return new CreatePaymentIntentServiceImp(
                createOrderService, orderAmountCalculator
         );
     }
 
     @Bean
-    public UpdatePaymentIntentService updatePaymentIntentService(OrderAmountCalculator orderAmountCalculator, UpdateOrderServiceImp updateOrderService){
+    public UpdatePaymentIntentService updatePaymentIntentService(OrderTotalCalculator orderAmountCalculator, UpdateOrderServiceImp updateOrderService){
         return new UpdatePaymentIntentServiceImp(
                 orderAmountCalculator, updateOrderService
         );

@@ -1,5 +1,6 @@
 package com.xtsshop.app.features.users.payment;
 
+import com.xtsshop.app.db.entities.Invoice;
 import org.springframework.stereotype.Service;
 
 import com.stripe.Stripe;
@@ -14,30 +15,39 @@ import com.xtsshop.app.features.users.payment.models.StripeApiSecret;
 @Service
 public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService {
     private CreateOrderService createOrderService;
-    private OrderAmountCalculator orderAmountCalculator;
+    private OrderTotalCalculator orderTotalCalculator;
     private CreatePaymentIntentForm form;
+    private Invoice invoice;
 
-    public CreatePaymentIntentServiceImp(CreateOrderService createOrderService, OrderAmountCalculator orderAmountCalculator) {
+    public CreatePaymentIntentServiceImp(CreateOrderService createOrderService, OrderTotalCalculator orderTotalCalculator) {
         this.createOrderService = createOrderService;
-        this.orderAmountCalculator = orderAmountCalculator;
+        this.orderTotalCalculator = orderTotalCalculator;
     }
 
     public String createIntent(CreatePaymentIntentForm form){
         this.form = form;
+        buildInvoice();
         PaymentIntent paymentIntent = buildPaymentIntent();
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(
                 form.getItemQuantities(),
                 form.getUserAddressId(),
-                paymentIntent.getId()
+                paymentIntent.getId(),
+                invoice
         );
         createOrderService.create(createOrderRequest);
         return paymentIntent.getClientSecret();
     }
 
+    private void buildInvoice(){
+        orderTotalCalculator.setItemQuantities(form.getItemQuantities());
+        invoice = orderTotalCalculator.getInvoice();
+    }
+
     private PaymentIntent buildPaymentIntent(){
         Stripe.apiKey = StripeApiSecret.API_KEY;
+        long amount = (long)(invoice.getTotal() * 100);
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-                .setAmount(orderAmountCalculator.calculate(form.getItemQuantities()))
+                .setAmount(amount)
                 .setCurrency("HKD")
                 .setAutomaticPaymentMethods(
                         PaymentIntentCreateParams.AutomaticPaymentMethods
@@ -52,4 +62,5 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
             throw new RuntimeException(ex);
         }
     }
+
 }

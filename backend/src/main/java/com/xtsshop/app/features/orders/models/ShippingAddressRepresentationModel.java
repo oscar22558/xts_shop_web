@@ -2,6 +2,7 @@ package com.xtsshop.app.features.orders.models;
 
 import com.xtsshop.app.AbstractRepresentationModel;
 import com.xtsshop.app.db.entities.Address;
+import com.xtsshop.app.db.entities.ShippingAddress;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +16,7 @@ public class ShippingAddressRepresentationModel implements AbstractRepresentatio
     private String row1;
     private String row2;
 
-    public ShippingAddressRepresentationModel(Address entity){
+    public ShippingAddressRepresentationModel(ShippingAddress entity){
         this.country = entity.getCountry();
         this.city = entity.getCity();
         this.row1 = entity.getRow1();

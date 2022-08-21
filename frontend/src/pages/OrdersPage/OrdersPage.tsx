@@ -28,10 +28,10 @@ const OrdersPage = ()=>{
     {
         orderList.map(order=>({
             columns: [
-                {label: "Order Id",content: order.id.toString()},
+                {label: "Order Id", content: "# "+order.id.toString()},
                 {label: "Order Status", content: order.orderStatus.toLocaleLowerCase()},
                 {label: "Order Placed", content: order.orderPlaced},
-                {label: "Order Total", content: "23"}
+                {label: "Order Total", content: "HKD $"+(Math.round(order.invoice.total*100)/100).toString()}
             ],
             orderId: order.id,
             items: order.items.map(item=>({...item, quantity: item.quantity.toString(), imgUrl: `${host}/${item.imgUrl}`}))

@@ -3,6 +3,7 @@ package com.xtsshop.app.features.orders.models;
 import com.xtsshop.app.AbstractRepresentationModel;
 import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.features.storage.FilePathToUrlConverter;
+import com.xtsshop.app.features.users.payment.invoice.models.Invoice;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -42,6 +43,13 @@ public class OrderRepresentationModel implements AbstractRepresentationModel {
 
     public Date getOrderPlaced(){
         return entity.getCreatedAt();
+    }
+
+    public Invoice getInvoice(){
+        float itemsTotal = entity.getInvoice().getItemsTotal();
+        float shippingFee = entity.getInvoice().getShippingFee();
+        float total = entity.getInvoice().getTotal();
+        return new Invoice(itemsTotal, shippingFee, total);
     }
 
 }

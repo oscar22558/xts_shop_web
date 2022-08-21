@@ -1,6 +1,7 @@
 package com.xtsshop.app.features.users.payment.data;
 
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
+import com.xtsshop.app.features.orders.entitybuilders.ShippingAddressEntityBuilder;
 import com.xtsshop.app.features.users.payment.models.FakePaymentDetail;
 import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.repositories.ItemJpaRepository;
@@ -37,13 +38,17 @@ public class FakeOrderData {
         order.setUpdatedAt(now);
         order.setCreatedAt(now);
         order.setPaymentIntentId(getPaymentIntentId());
-        order.setShippingAddress(getAddress());
+
+        ShippingAddress shippingAddress = new ShippingAddressEntityBuilder(getAddress()).build();
+        shippingAddress.setOrder(order);
+        order.setShippingAddress(shippingAddress);
 
         List<OrderedItem> orderedItemList = buildOrderItems(order);
         order.setOrderedItems(orderedItemList);
 
         order.setStatus(OrderStatus.WAITING_PAYMENT);
         order.setUser(getUser());
+        setInvoice(order);
         orderJpaRepository.save(order);
     }
 
@@ -54,15 +59,19 @@ public class FakeOrderData {
         orderedItem.setUpdatedAt(now);
         orderedItem.setItem(getItemToOrder());
         orderedItem.setQuantity(8);
-        orderedItem.setOrderPrice(getItemPriceForOrder());
+
+        float itemPrice = getItemPriceForOrder();
+        orderedItem.setPrice(itemPrice);
+
         orderedItem.setOrder(order);
         orderedItemList.add(orderedItem);
         return orderedItemList;
     }
 
-    public PriceHistory getItemPriceForOrder(){
+    public float getItemPriceForOrder(){
         return getItemToOrder().getLatestPriceHistory()
-                .orElseThrow(()-> new RecordNotFoundException("Price not defined."));
+                .orElseThrow(()-> new RecordNotFoundException("Price not defined."))
+                .getValue();
     }
 
     public Item getItemToOrder(){
@@ -79,5 +88,18 @@ public class FakeOrderData {
 
     public String getPaymentIntentId(){
        return FakePaymentDetail.PAYMENT_INTENT_ID;
+    }
+
+    private void setInvoice(Order order){
+        Invoice invoice =  new Invoice();
+        invoice.setCreatedAt(now);
+        invoice.setUpdatedAt(now);
+        invoice.setOrder(order);
+        invoice.setItemsTotal(
+                getItemPriceForOrder() * 8
+        );
+        invoice.setShippingFee(20f);
+        invoice.setTotal(invoice.getItemsTotal() + invoice.getShippingFee());
+        order.setInvoice(invoice);
     }
 }

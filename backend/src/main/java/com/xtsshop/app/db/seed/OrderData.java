@@ -4,6 +4,7 @@ import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import com.xtsshop.app.db.repositories.OrderJpaRepository;
 import com.xtsshop.app.db.repositories.UserJpaRepository;
+import com.xtsshop.app.features.orders.entitybuilders.ShippingAddressEntityBuilder;
 import com.xtsshop.app.features.users.payment.models.FakePaymentDetail;
 import com.xtsshop.app.helpers.DateTimeHelper;
 import org.springframework.stereotype.Component;
@@ -46,7 +47,14 @@ public class OrderData {
         order.setUpdatedAt(now);
         order.setStatus(OrderStatus.PAID);
         order.setPaymentIntentId(FakePaymentDetail.PAYMENT_INTENT_ID);
-        order.setShippingAddress(address);
+
+        ShippingAddress shippingAddress = new ShippingAddressEntityBuilder(address).build();
+        shippingAddress.setOrder(order);
+        order.setShippingAddress(shippingAddress);
+
+        Invoice invoice = getInvoice();
+        invoice.setOrder(order);
+        order.setInvoice(invoice);
 
         orderItems.forEach(orderItem->orderItem.setOrder(order));
         order.setOrderedItems(orderItems);
@@ -60,7 +68,7 @@ public class OrderData {
         OrderedItem orderedItem = new OrderedItem();
         orderedItem.setItem(item.get(0));
         orderedItem.setQuantity(3);
-        orderedItem.setOrderPrice(item.get(0).getLatestPriceHistory().get());
+        orderedItem.setPrice(item.get(0).getLatestPrice());
         orderedItem.setCreatedAt(now);
         orderedItem.setUpdatedAt(now);
         orderedItems.add(orderedItem);
@@ -68,7 +76,7 @@ public class OrderData {
         orderedItem = new OrderedItem();
         orderedItem.setItem(item.get(1));
         orderedItem.setQuantity(3);
-        orderedItem.setOrderPrice(item.get(1).getLatestPriceHistory().get());
+        orderedItem.setPrice(item.get(1).getLatestPrice());
         orderedItem.setCreatedAt(now);
         orderedItem.setUpdatedAt(now);
         orderedItems.add(orderedItem);
@@ -78,5 +86,19 @@ public class OrderData {
 
     private List<Item> getItems(){
         return itemJpaRepository.findAll();
+    }
+
+    private Invoice getInvoice(){
+        Invoice invoice = new Invoice();
+        float itemsTotal = 12.2f*3 + 23.2f*3;
+        float shippingFee = 20f;
+        float total = itemsTotal + shippingFee;
+        invoice.setItemsTotal(itemsTotal);
+        invoice.setShippingFee(shippingFee);
+        invoice.setTotal(total);
+        invoice.setCreatedAt(now);
+        invoice.setUpdatedAt(now);
+        return invoice;
+
     }
 }

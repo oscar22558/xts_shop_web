@@ -9,17 +9,16 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 @Table(name = "orders")
 public class Order extends AppEntity {
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "shipping_address")
-    private Address shippingAddress;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private ShippingAddress shippingAddress;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
 
     @Enumerated(EnumType.STRING)
@@ -28,8 +27,11 @@ public class Order extends AppEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderedItem> orderedItems;
 
-    @Column(nullable = false, name = "payment_intent_id")
+    @Column(name = "payment_intent_id", nullable = false)
     private String paymentIntentId;
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Invoice invoice;
 
     public void addOrderItems(OrderedItem orderedItem){
         orderedItem.setOrder(this);

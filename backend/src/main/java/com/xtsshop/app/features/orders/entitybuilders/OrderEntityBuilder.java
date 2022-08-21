@@ -1,4 +1,4 @@
-package com.xtsshop.app.db.entities.builder;
+package com.xtsshop.app.features.orders.entitybuilders;
 
 import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.helpers.DateTimeHelper;
@@ -6,29 +6,29 @@ import com.xtsshop.app.helpers.DateTimeHelper;
 import java.sql.Date;
 import java.util.List;
 
-public class OrderBuilder {
+public class OrderEntityBuilder {
 
     private Address shippingAddress;
     private AppUser user;
     private OrderStatus status;
     private List<OrderedItem> orderedItems;
 
-    public OrderBuilder setUser(AppUser user) {
+    public OrderEntityBuilder setUser(AppUser user) {
         this.user = user;
         return this;
     }
 
-    public OrderBuilder setStatus(OrderStatus status) {
+    public OrderEntityBuilder setStatus(OrderStatus status) {
         this.status = status;
         return this;
     }
 
-    public OrderBuilder setShippingAddress(Address shippingAddress) {
+    public OrderEntityBuilder setShippingAddress(Address shippingAddress) {
         this.shippingAddress = shippingAddress;
         return this;
     }
 
-    public OrderBuilder setOrderedItems(List<OrderedItem> orderedItems) {
+    public OrderEntityBuilder setOrderedItems(List<OrderedItem> orderedItems) {
         this.orderedItems = orderedItems;
         return this;
     }
@@ -38,13 +38,19 @@ public class OrderBuilder {
         Order order = new Order();
         order.setCreatedAt(now);
         order.setUpdatedAt(now);
-        order.setShippingAddress(shippingAddress);
+
+        ShippingAddress shippingAddressEntity = new ShippingAddressEntityBuilder(this.shippingAddress).build();
+        shippingAddressEntity.setOrder(order);
+        order.setShippingAddress(shippingAddressEntity);
+
         order.setUser(user);
         order.setStatus(status);
+
         orderedItems.forEach(item->{
             item.setOrder(order);
         });
         order.setOrderedItems(orderedItems);
+
         return order;
     }
 

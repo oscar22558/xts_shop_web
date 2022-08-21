@@ -1,6 +1,6 @@
 package com.xtsshop.app.features.users.payment.invoice;
 
-import com.xtsshop.app.features.users.payment.OrderAmountCalculator;
+import com.xtsshop.app.features.users.payment.OrderTotalCalculator;
 import com.xtsshop.app.features.users.payment.invoice.models.Invoice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +11,9 @@ import javax.validation.Valid;
 
 @RestController
 public class InvoiceController {
-    private OrderAmountCalculator orderAmountCalculator;
+    private OrderTotalCalculator orderAmountCalculator;
 
-    public InvoiceController(OrderAmountCalculator orderAmountCalculator) {
+    public InvoiceController(OrderTotalCalculator orderAmountCalculator) {
         this.orderAmountCalculator = orderAmountCalculator;
     }
 
@@ -21,8 +21,7 @@ public class InvoiceController {
     public ResponseEntity<?> getInvoice(
         @RequestBody @Valid GetInvoiceRequest getInvoiceRequest
     ){
-        long subItemTotalInSmallestUnit = orderAmountCalculator.calculate(getInvoiceRequest.getItemQuantities());
-        float subItemTotal = (float)subItemTotalInSmallestUnit / 100;
+        float subItemTotal = orderAmountCalculator.getItemsTotal(getInvoiceRequest.getItemQuantities());
         float shippingFree = 20f;
         float total = subItemTotal + shippingFree;
         Invoice invoice = new Invoice(subItemTotal, shippingFree, total);

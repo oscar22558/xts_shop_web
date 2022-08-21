@@ -1,7 +1,7 @@
 package com.xtsshop.app.features.orders;
 
 import com.xtsshop.app.db.entities.*;
-import com.xtsshop.app.db.entities.builder.OrderBuilder;
+import com.xtsshop.app.features.orders.entitybuilders.OrderEntityBuilder;
 import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import com.xtsshop.app.db.repositories.OrderJpaRepository;
 import com.xtsshop.app.db.repositories.UserJpaRepository;
@@ -25,7 +25,7 @@ public class OrderWithPaymentData {
     }
 
     public AppUser insertOrderWithPaymentForUser(AppUser user){
-        Order order = new OrderBuilder()
+        Order order = new OrderEntityBuilder()
                 .setUser(user)
                 .setShippingAddress(user.getAddresses().get(0))
                 .setStatus(OrderStatus.PAID)
@@ -38,12 +38,16 @@ public class OrderWithPaymentData {
     public List<OrderedItem> createOrderItems(){
         List<Item> itemList = itemJpaRepository.findAll();
         Date now = new DateTimeHelper().now();
+
         OrderedItem orderedItem = new OrderedItem(now, now, itemList.get(0), 4);
-        orderedItem.setOrderPrice(itemList.get(0).getPriceHistories().get(0));
+        float orderItemPrice = itemList.get(0).getPriceHistories().get(0).getValue();
+        orderedItem.setPrice(orderItemPrice);
+
         List<OrderedItem> orderedItems = new ArrayList<>();
         orderedItems.add(orderedItem);
         orderedItems.add(new OrderedItem(now, now, itemList.get(1), 2));
         orderedItems.add(new OrderedItem(now, now, itemList.get(3), 6));
+
         return orderedItems;
     }
 

@@ -1,7 +1,7 @@
 package com.xtsshop.app.features.orders;
 
 import com.xtsshop.app.db.entities.*;
-import com.xtsshop.app.db.entities.builder.OrderBuilder;
+import com.xtsshop.app.features.orders.entitybuilders.OrderEntityBuilder;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
 import com.xtsshop.app.db.repositories.*;
 import com.xtsshop.app.helpers.DateTimeHelper;
@@ -76,7 +76,7 @@ public class OrderTestHelper {
         orderedItems.add(new OrderedItem(now, now, itemList.get(0), 2));
         orderedItems.add(new OrderedItem(now, now, itemList.get(1), 7));
         orderedItems.add(new OrderedItem(now, now, itemList.get(3), 5));
-        Order order = new OrderBuilder()
+        Order order = new OrderEntityBuilder()
                 .setUser(user)
                 .setShippingAddress(user.getAddresses().get(0))
                 .setStatus(OrderStatus.WAITING_PAYMENT)
@@ -113,7 +113,7 @@ public class OrderTestHelper {
         orderedItems.add(new OrderedItem(now, now, itemList.get(1), 3));
         orderedItems.add(new OrderedItem(now, now, itemList.get(3), 4));
         orderedItems.add(new OrderedItem(now, now, itemList.get(2), 10));
-        Order order = new OrderBuilder()
+        Order order = new OrderEntityBuilder()
                 .setUser(user)
                 .setShippingAddress(user.getAddresses().get(0))
                 .setStatus(OrderStatus.WAITING_PAYMENT)

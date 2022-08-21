@@ -10,16 +10,18 @@ import org.springframework.boot.test.context.TestConfiguration;
 @Profile("dev")
 public class DependencyTestConfig {
     @Bean
-    public CreatePaymentIntentService createPaymentIntentService(CreateOrderService createOrderService){
+    public CreatePaymentIntentService createPaymentIntentService(CreateOrderService createOrderService, OrderTotalCalculator orderTotalCalculator){
         return new CreatePaymentIntentServiceMockImp(
-                createOrderService
+                createOrderService,
+                orderTotalCalculator
         );
     }
 
     @Bean
-    public UpdatePaymentIntentService updatePaymentIntentService(UpdateOrderServiceImp updateOrderService){
+    public UpdatePaymentIntentService updatePaymentIntentService(UpdateOrderServiceImp updateOrderService, OrderTotalCalculator orderTotalCalculator){
         return new UpdatePaymentIntentServiceMockImp(
-                 updateOrderService
+                 updateOrderService,
+                orderTotalCalculator
         );
     }
 

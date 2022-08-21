@@ -38,7 +38,7 @@ public class OrderedItemRepresentationModel implements AbstractRepresentationMod
     }
 
     public float getPrice(){
-        return orderedItemEntity.getOrderPriceValue();
+        return orderedItemEntity.getPrice();
     }
 
     public String getImgUrl(){

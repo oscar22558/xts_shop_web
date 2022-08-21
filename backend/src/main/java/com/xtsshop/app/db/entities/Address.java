@@ -32,13 +32,9 @@ public class Address extends AppEntity{
     @Column(length = 100)
     private String row2;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
-
-    @OneToMany(mappedBy = "shippingAddress")
-    private List<Order> orders;
 
     public Address(Date createdAt, Date updatedAt, String country, String city, String district, String area, String row1, String row2) {
         super(createdAt, updatedAt);

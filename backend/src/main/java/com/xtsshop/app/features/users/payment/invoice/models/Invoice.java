@@ -1,17 +1,16 @@
 package com.xtsshop.app.features.users.payment.invoice.models;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class Invoice {
     private float subItemTotal;
-    private float shippingFree;
+    private float shippingFee;
     private float total;
 
-    public Invoice(float subItemTotal, float shippingFree, float total) {
+    public Invoice(float subItemTotal, float shippingFee, float total) {
         this.subItemTotal = subItemTotal;
-        this.shippingFree = shippingFree;
+        this.shippingFee = shippingFee;
         this.total = total;
     }
 }

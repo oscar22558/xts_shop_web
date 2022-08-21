@@ -1,3 +1,4 @@
+import Invoice from "./Invoice"
 import OrderItem from "./OrderItem"
 import ShippingAddress from "./ShippingAddress"
 
@@ -7,5 +8,6 @@ type Order = {
     shippingAddress: ShippingAddress
     orderStatus: string
     orderPlaced: string
+    invoice: Invoice
 }
 export default Order

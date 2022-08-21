@@ -13,7 +13,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 @RestController
@@ -22,6 +21,7 @@ public class OrderController {
 
     private OrdersService ordersService;
     private OrderModelAssembler modelAssembler;
+
     public OrderController(OrdersService ordersService, OrderModelAssembler modelAssembler, FilePathToUrlConverter filePathToUrlConverter) {
         this.ordersService = ordersService;
         this.modelAssembler = modelAssembler;
@@ -29,17 +29,17 @@ public class OrderController {
 
     @GetMapping
     public CollectionModel<EntityModel<OrderRepresentationModel>> list(){
-        return modelAssembler.toCollectionModel(ordersService.all());
+        return modelAssembler.toCollectionModel(ordersService.getAllOrders());
     }
 
     @GetMapping("/{orderId}")
     public EntityModel<OrderRepresentationModel> get(@PathVariable @NotBlank Long orderId) throws RecordNotFoundException, UnAuthorizationException{
-        return modelAssembler.toModel(ordersService.get(orderId));
+        return modelAssembler.toModel(ordersService.getOrder(orderId));
     }
 
     @PatchMapping("/{orderId}/cancel")
     public ResponseEntity<?> cancel(@PathVariable @NotBlank Long orderId) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException {
-        Order entity = ordersService.cancel(orderId);
+        Order entity = ordersService.cancelOrder(orderId);
         return getUpdateStatusResponse(entity);
     }
 
@@ -51,7 +51,7 @@ public class OrderController {
 
     @PatchMapping("/{orderId}/ship")
     public ResponseEntity<?> ship(@PathVariable @NotBlank Long orderId) throws RecordNotFoundException, OrderStatusUpdateException, UnAuthorizationException {
-        Order entity = ordersService.ship(orderId);
+        Order entity = ordersService.startShipping(orderId);
         return getUpdateStatusResponse(entity);
     }
     @PatchMapping("/{orderId}/finish-shipping")

@@ -6,7 +6,7 @@ import com.xtsshop.app.features.authentication.UserIdentityService;
 import com.xtsshop.app.features.users.payment.models.CreateOrderRequest;
 import com.xtsshop.app.features.users.payment.models.ItemQuantity;
 import com.xtsshop.app.db.entities.*;
-import com.xtsshop.app.db.entities.builder.OrderBuilder;
+import com.xtsshop.app.features.orders.entitybuilders.OrderEntityBuilder;
 import com.xtsshop.app.helpers.DateTimeHelper;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +32,15 @@ public class CreateOrderServiceImp implements CreateOrderService {
         Address address = userPaymentRepo.findAddressByAddressId(request.getUserAddressId());
         new UserAddressAuthorization(user, address).checkPermission();
         OrderStatus status = OrderStatus.WAITING_PAYMENT;
-        Order orderEntity = new OrderBuilder()
+        Order orderEntity = new OrderEntityBuilder()
                 .setShippingAddress(address)
                 .setUser(user)
                 .setStatus(status)
                 .setOrderedItems(orderedItems)
                 .build();
         orderEntity.setPaymentIntentId(request.getPaymentIntentId());
+        request.getInvoice().setOrder(orderEntity);
+        orderEntity.setInvoice(request.getInvoice());
         user.getOrders().add(orderEntity);
         orderedItems.forEach(orderedItem ->
             updateItemStockService.updateItemStock(orderedItem.getItem(), orderedItem.getQuantity())
@@ -61,6 +63,7 @@ public class CreateOrderServiceImp implements CreateOrderService {
         orderedItem.setCreatedAt(now);
         orderedItem.setUpdatedAt(now);
         orderedItem.setItem(itemEntity);
+        orderedItem.setPrice(itemEntity.getLatestPrice());
         orderedItem.setQuantity(orderedQuantity);
         return orderedItem;
     }

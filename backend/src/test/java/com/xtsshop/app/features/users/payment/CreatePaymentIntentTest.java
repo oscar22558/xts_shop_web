@@ -50,6 +50,13 @@ public class CreatePaymentIntentTest extends TestCase {
         assertOrderIsCreate();
     }
 
+    @Test
+    public void testWhenCreatePaymentIntentRequestSentThenOrderInvoiceIsCreated() throws Exception {
+        helper.insertData();
+        sendRequest();
+        assertOrderInvoiceIsCreated();
+    }
+
     private CreatePaymentIntentForm buildPostForm(){
         long addressId = helper.getShippingAddressIdByUsername(getUserUsername());
         long itemToOrder = helper.getItemIdToOrder();
@@ -82,5 +89,11 @@ public class CreatePaymentIntentTest extends TestCase {
 
     private void assertOrderIsCreate(){
         assertEquals(helper.getItemIdToOrder(), helper.getLatestOrderItem(0).getItem().getId());
+    }
+
+    private void assertOrderInvoiceIsCreated(){
+        assertEquals(122, helper.getLatestOrderInvoice().getItemsTotal());
+        assertEquals(20, helper.getLatestOrderInvoice().getShippingFee());
+        assertEquals(142, helper.getLatestOrderInvoice().getTotal());
     }
 }
