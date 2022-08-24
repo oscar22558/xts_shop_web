@@ -1,9 +1,9 @@
 type ShippingAddress = {
-    country: string
-    city: string
-    district: string
-    area: string 
     row1: string
     row2: string
+    area: string 
+    district: string
+    city: string
+    country: string
 }
 export default ShippingAddress
