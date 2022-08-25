@@ -6,6 +6,7 @@ import useAuthentication from "../../data-sources/authentication/useAuthenticati
 import AuthenticationAction from "../../redux/authentication/AuthenticationAction"
 import { useAppDispatch } from "../../redux/Hooks"
 import AppRouteList from "../../routes/AppRouteList"
+import RegistrySection from "./RegistrySection"
 
 const SignInPage = ()=>{
     const [usernameInput, setUsernameInput] = useState("")
@@ -39,13 +40,16 @@ const SignInPage = ()=>{
         }
     }, [authentication.isUserAuthenticated, navigate, dispatch])
 
-    return <Box display="flex" justifyContent="center">
+    return <Box display="flex" justifyContent="center" flexDirection="row" height="700px">
         <Box display="flex" justifyContent="center" padding="10px" border="1px solid" alignItems="center" flexDirection="column">
-            <TextField title="username" value={usernameInput} onChange={handleUsernameInputChange}/>
-            <TextField title="password" value={passwordInput} onChange={handlePasswordInputChange}/>
+            <Box sx={{paddingY: "10px"}}>Sign in</Box>
+            <TextField label="username" title="username" value={usernameInput} onChange={handleUsernameInputChange}/>
+            <TextField label="password" title="password" value={passwordInput} onChange={handlePasswordInputChange}/>
             {<div>{authentication.error}</div>}
             <Button title="Sign-In" onClick={handleSignInBtnClick}>Sign-in</Button>
         </Box>
+        <Box>or</Box>
+        <RegistrySection />
     </Box>
 }
 export default SignInPage
