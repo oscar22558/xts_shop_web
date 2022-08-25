@@ -15,8 +15,8 @@ const AddressPage = ()=>{
 
     return <Box sx={{paddingBottom: "10px"}}>
         <Typography variant="h4">Addresses</Typography>
-        {
-            addresses.map((address, index)=><Paper key={index} sx={{paddingX: "20px", paddingY: "15px", marginBottom: "10px"}}>
+        {addresses.map((address, index)=>
+            <Paper key={index} sx={{paddingX: "20px", paddingY: "15px", marginBottom: "10px"}}>
                 <div>{address.row1}</div>
                 <div>{address.row2 || "-"}</div>
                 <div>{address.district}</div>
@@ -24,8 +24,7 @@ const AddressPage = ()=>{
                 <Box sx={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
                     <Button onClick={handleDeleteBtnClick(address.id)}>Delete</Button>
                 </Box>
-            </Paper>)
-        }
+            </Paper>)}
         <CreateAddressSection />
     </Box>
 }

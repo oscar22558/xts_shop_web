@@ -10,7 +10,7 @@ const initialState: State = {
     getInvoiceResponse: {
         data: {
             subItemTotal: 0,
-            shippingFree: 0,
+            shippingFee: 0,
             total: 0
         },
         error: null,

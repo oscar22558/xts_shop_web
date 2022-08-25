@@ -6,6 +6,7 @@ import { Box } from "@mui/material"
 import { useAppDispatch, useAppSelector } from "../../redux/Hooks"
 import { GetOrderAction } from "../../redux/order/OrderAction"
 import OrderSelector from "../../redux/order/OrderSelector"
+import OrderItem from "../OrdersPage/OrderItem"
 
 const OrderDetailPage = ()=>{
     const { orderId } = useParams()
@@ -22,6 +23,7 @@ const OrderDetailPage = ()=>{
         {label: "Shipping Fee:", value: invoice?.shippingFee},
         {label: "Total:", value: invoice?.total},
     ].map(viewModel=>({...viewModel, value: convertToCurrencyViewText(viewModel.value)}))
+    
     const address = order?.shippingAddress
     const addressViewModel = address ? [
         address.row1, 
@@ -29,7 +31,8 @@ const OrderDetailPage = ()=>{
         address.district, 
         address.area
     ] : []
-
+    
+    const itemViewModels = order?.items.map(item=>({...item, quantity: item.quantity.toString()}))
     useEffect(()=>{
         if(!orderId) return
         dispatch(GetOrderAction.async(Number.parseInt(orderId)))
@@ -40,13 +43,15 @@ const OrderDetailPage = ()=>{
             error != null 
                 ?  <div>{error}</div> 
                 : <> 
+                <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
                     <h1>Order Detail</h1>
-                    <Box sx={{display: "flex", flexDirection: "row", padding: "10px"}}>
-                        <div>Order id # {order?.id}</div>
-                        <Box sx={{background: "#ddd", width: "1px", marginX: "30px"}} />
-                        <Box>Order Placed on {order?.orderPlaced}</Box>
-                    </Box>
+                    <Box sx={{padding: "10px"}}>Order id # {order?.id}</Box>
+                </Box>
                     <Box sx={{border: "1px solid #adadad", borderRadius: "10px", paddingY: "15px", paddingX: "20px", display: "flex", justifyContent: "space-between"}}>
+                        <Box sx={{display: "flex", flexDirection: "column"}}>
+                            <div>Order Placed on</div>
+                            <div>{order?.orderPlaced}</div>
+                        </Box>
                         <Box>
                             <Box sx={{paddingBottom: "10px"}}>Shipping address</Box>
                             {addressViewModel.map((rowViewModel, index)=>(
@@ -62,6 +67,9 @@ const OrderDetailPage = ()=>{
                                 </Box>
                             ))}
                         </Box>
+                    </Box>
+                    <Box sx={{border: "1px solid #adadad", borderRadius: "10px", paddingY: "15px", paddingX: "20px", marginTop: "20px"}}>
+                        {itemViewModels?.map((item, index)=>(<OrderItem key={index} {...item}/>))}
                     </Box>
                 </>
         )

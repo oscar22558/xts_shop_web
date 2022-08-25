@@ -93,16 +93,15 @@ const PaymentPage = ()=>{
       <Typography variant="h5">Pay your order</Typography>
       <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
         {
-            debug ? <Box sx={{width: "100%", height: "500px", borderRadius: "10px", border: "1px solid #aeaeae"}}></Box>
-            :(
-            <Box sx={{width: "100%"}}>
-            {clientSecret && (
-                <Elements options={options} stripe={stripePromise}>
-                <CheckoutForm onUserFinishedPayment={setIsUserFinishedPayment}/>
-                </Elements>
-            )}
-            </Box>
-            )
+            debug 
+            ? <Box sx={{width: "100%", height: "500px", borderRadius: "10px", border: "1px solid #aeaeae"}}></Box>
+            : (<Box sx={{width: "100%"}}>
+                {clientSecret && (
+                    <Elements options={options} stripe={stripePromise}>
+                    <CheckoutForm onUserFinishedPayment={setIsUserFinishedPayment}/>
+                    </Elements>
+                )}
+            </Box>)
         }
       </Box>
     </Container>

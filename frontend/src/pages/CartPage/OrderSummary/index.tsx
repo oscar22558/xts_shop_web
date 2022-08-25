@@ -9,7 +9,8 @@ import AppRouteList from "../../../routes/AppRouteList"
 const OrderSummary = ()=>{
     useFetchInvoice()
     const { data: invoice } = useAppSelector(InvoiceSelector).getInvoiceResponse
-    const {subItemTotal, shippingFree, total} = invoice
+    const {subItemTotal, shippingFee, total} = invoice
+    const orderSummary = [subItemTotal, shippingFee, total].map(item=>Math.round(item*100)/100)
     
 
     const navigate = useNavigate()
@@ -42,9 +43,7 @@ const OrderSummary = ()=>{
             </Grid>
             <Grid item xs={3} >
                 <Box sx={{diplay: "flex", alignItems: "flex-end", flexDirection: "column", textAlign: "right"}}>
-                    <div>{subItemTotal}</div>
-                    <div>{shippingFree}</div>
-                    <div>{total}</div>
+                    {orderSummary.map((column, index)=>(<div key={index}>{column}</div>))}
                 </Box>
             </Grid>
         </Grid>

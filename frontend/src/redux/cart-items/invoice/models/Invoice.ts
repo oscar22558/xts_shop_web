@@ -1,6 +1,6 @@
 type Invoice = {
     subItemTotal: number
-    shippingFree: number
+    shippingFee: number
     total: number
 }
 export default Invoice

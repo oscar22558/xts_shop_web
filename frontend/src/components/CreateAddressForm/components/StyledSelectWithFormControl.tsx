@@ -40,8 +40,8 @@ const SelectWithFormControl = <D extends object>({
             onChange={handleChange}
         >
             {
-                menuItemViewModels.map(menuItemViewModel=>(
-                    <MenuItem value={menuItemViewModel[0]}>{menuItemViewModel[1]}</MenuItem>
+                menuItemViewModels.map((menuItemViewModel, index)=>(
+                    <MenuItem key={index} value={menuItemViewModel[0]}>{menuItemViewModel[1]}</MenuItem>
                 ))
             }
         </StyledSelect>
