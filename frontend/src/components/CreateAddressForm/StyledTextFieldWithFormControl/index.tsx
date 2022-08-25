@@ -1,5 +1,5 @@
 import { ComponentType } from "react"
-import { FormHelperText, TextField, TextFieldProps } from "@mui/material"
+import { FormHelperText, TextFieldProps } from "@mui/material"
 import StyledTextField from "./StyledTextField"
 import { StyledComponent } from "@emotion/styled"
 
@@ -10,12 +10,9 @@ type withFormControlPropsType = {
 const withFormControl = <P extends object>(
     Component: StyledComponent<P>
 ): ComponentType<P & withFormControlPropsType>=>{
-   return (props)=>{
-        const isError = props.error
-        const errorText = props.errorText
-
+   return ({error: isError, errorText, ...props})=>{
         return (<>
-            <Component {...props}/>
+            <Component {...props as P}/>
             {
                 isError 
                 ? <FormHelperText error>{errorText}</FormHelperText>

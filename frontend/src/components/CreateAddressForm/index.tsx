@@ -55,7 +55,6 @@ const CreateAddressForm = ({
     }
 
     const validateFormColumns = ()=>{
-        console.log("validate form columnes")
         const {row1, area, district} = addAddressForm
         return row1 && area && district
     }
@@ -97,7 +96,7 @@ const CreateAddressForm = ({
         return ()=>{
             clearAddAddressRequestState()
         }
-    }, [isWaitingUserSendRequest, addRequestError, addRequestLoading, clearAddAddressRequestState])
+    }, [isWaitingUserSendRequest, addRequestError, addRequestLoading, clearAddAddressRequestState, onUserFinishedAddAddress])
 
     return <Grid container direction="column">
         <Grid item sx={{display: "flex"}}>
@@ -107,7 +106,7 @@ const CreateAddressForm = ({
                         title="Street address row1*" 
                         label="Street address row1*" 
                         onChange={handleAddressRow1InputChange} 
-                        error={formColumnError.row1 != ""}
+                        error={formColumnError.row1 !== ""}
                         errorText={formColumnError.row1}
                     />
                 </Grid>
@@ -122,7 +121,7 @@ const CreateAddressForm = ({
                     <SelectWithFormControl 
                         id="District*" 
                         dataSet={District} 
-                        error={formColumnError.district != ""}
+                        error={formColumnError.district !== ""}
                         errorText={formColumnError.district}
                         onChange={handleDistrictInputChange}
                     />
@@ -131,7 +130,7 @@ const CreateAddressForm = ({
                     <SelectWithFormControl 
                         id="Area*" 
                         dataSet={Area} 
-                        error={formColumnError.area != ""}
+                        error={formColumnError.area !== ""}
                         errorText={formColumnError.area}
                         onChange={handleAreaInputChange}
                     />

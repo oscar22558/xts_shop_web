@@ -8,12 +8,10 @@ import { Elements } from "@stripe/react-stripe-js";
 import { useAppSelector } from "../../redux/Hooks";
 import AuthenticationSelector from "../../redux/authentication/AuthenticationSelector";
 import OrderSelector from "../../redux/order/OrderSelector";
-import useCacheClinetSecret from "../../redux/order/hooks/useCacheClientSecret";
 
 import useCart from "../../data-sources/cart/useCart";
 import CheckoutForm from "./CheckoutForm";
 import ApiConfig from "../../redux/ApiConfig"
-import { is } from "immer/dist/internal";
 
 const stripePromise = loadStripe("pk_test_51LS0ODIlTFFvV5CYLojONvwgp65Y0XGQ5FnXcJHdp4dJ0npvi3bmUebYlPqfv2HZwzWueAIoKdxgpqIRDY5ufQg600dws9t0jV");
 
@@ -27,21 +25,21 @@ const PaymentPage = ()=>{
     const { itemCountsInCart } = useCart()
 
     const debug = false
-    const requestUrl = `${ApiConfig.baseURL}/payment-intent`
-    const headers = { 
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${data.token}`
-    }
-    const itemQuantities = Object.entries(itemCountsInCart).map(carEntity=>({ 
-        itemId: Number.parseInt(carEntity[0]), 
-        quantity: carEntity[1]
-    }))
-    const createPaymentIntentForm = {
-        itemQuantities,
-        userAddressId
-    }
 
     useEffect(() => {
+        const requestUrl = `${ApiConfig.baseURL}/payment-intent`
+        const headers = { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${data.token}`
+        }
+        const itemQuantities = Object.entries(itemCountsInCart).map(carEntity=>({ 
+            itemId: Number.parseInt(carEntity[0]), 
+            quantity: carEntity[1]
+        }))
+        const createPaymentIntentForm = {
+            itemQuantities,
+            userAddressId
+        }
         fetch(requestUrl, {
             method: "POST",
             headers,
@@ -50,9 +48,14 @@ const PaymentPage = ()=>{
             .then((response) => response.json())
             .then((data: any)=> setClientSecret(data.clientSecret));
 
-    }, []);
+    }, [itemCountsInCart, userAddressId, data.token]);
 
     useEffect(()=>{
+        const requestUrl = `${ApiConfig.baseURL}/payment-intent`
+        const headers = { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${data.token}`
+        }
         return ()=>{
             if(!clientSecret || isUserFinishedPayment){
                 return
@@ -61,8 +64,6 @@ const PaymentPage = ()=>{
                setIsWaitingUserPay(true) 
                return
             }
-            console.log("Unmount payment page.....")
-            console.log("Canceling order.....")
             stripePromise
                 .then(stripe=>stripe?.retrievePaymentIntent(clientSecret))
                 .then(paymentIntentResult=>{
@@ -78,7 +79,7 @@ const PaymentPage = ()=>{
                 }).then(()=>{})
                 .catch(error=>console.error(error))
         }
-    }, [clientSecret, isUserFinishedPayment, isWaitingUserPay])
+    }, [clientSecret, isUserFinishedPayment, isWaitingUserPay, data.token])
 
     const appearance: Appearance = {
         theme: 'stripe',
