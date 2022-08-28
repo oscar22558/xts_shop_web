@@ -1,30 +1,58 @@
 import { Box, TextField, Button } from "@mui/material"
 import React, { useState } from "react"
+import { useAppDispatch } from "../../../redux/Hooks"
+import RegistryAction from "../../../redux/registry/RegistryAction"
+import RegistryForm from "../../../redux/registry/RegistrygForm"
 
 export default ()=>{
-    const [emailInput, setEmailInput] = useState("")
-    const [usernameInput, setUsernameInput] = useState("")
-    const [passwordInput, setPasswordInput] = useState("")
-
-    const handleUsernameInputChange = ({target}: React.ChangeEvent<HTMLTextAreaElement>)=>{
-        setUsernameInput(target.value)
+    const dispatch = useAppDispatch()
+    const [registryForm, setRegistryForm] = useState<RegistryForm>({
+        username: "",
+        password: "",
+        email: "",
+        phone: ""
+    })
+    
+    const handleChange = ({target}: React.ChangeEvent<HTMLTextAreaElement>)=>{
+        setRegistryForm({...registryForm, [target.name]: target.value})
     }
-
-    const handlePasswordInputChange = ({target}: React.ChangeEvent<HTMLTextAreaElement>)=>{
-        setPasswordInput(target.value)
-    }
-
-    const handleEmailInputChange = ({target}: React.ChangeEvent<HTMLTextAreaElement>)=>{
-        setEmailInput(target.value)
+    const handleSubmit = ()=>{
+        dispatch(RegistryAction.async(registryForm))
     }
 
     return (
         <Box display="flex" justifyContent="center" padding="10px" border="1px solid" alignItems="center" flexDirection="column">
             <Box sx={{paddingY: "10px"}}>Create a account</Box>
-            <TextField title="username" value={usernameInput} onChange={handleUsernameInputChange}/>
-            <TextField title="email" value={emailInput} onChange={handleEmailInputChange}/>
-            <TextField title="password" type="password" value={passwordInput} onChange={handlePasswordInputChange}/>
-            <Button title="Create">Create</Button>
+            <TextField
+                name="username"
+                title="username" 
+                label="username" 
+                value={registryForm.username} 
+                onChange={handleChange}
+            />
+            <TextField
+                name="email" 
+                title="email" 
+                label="email" 
+                value={registryForm.email} 
+                onChange={handleChange}
+            />
+            <TextField
+                name="password"  
+                title="password" 
+                label="password" 
+                type="password" 
+                value={registryForm.password} 
+                onChange={handleChange}
+            />
+            <TextField
+                name="phone" 
+                title="phone" 
+                label="phone"
+                value={registryForm.phone} 
+                onChange={handleChange}
+            />
+            <Button title="Create" onClick={handleSubmit}>Create</Button>
         </Box>
     )
 }

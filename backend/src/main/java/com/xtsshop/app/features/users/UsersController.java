@@ -1,7 +1,7 @@
 package com.xtsshop.app.features.users;
 
 import com.xtsshop.app.advices.exception.UnAuthenticationException;
-import com.xtsshop.app.features.users.exceptions.UserModelAssembler;
+import com.xtsshop.app.features.users.models.UserModelAssembler;
 import com.xtsshop.app.features.users.models.*;
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.features.users.models.UserRepresentationModel;

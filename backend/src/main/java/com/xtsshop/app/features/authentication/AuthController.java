@@ -1,7 +1,7 @@
 package com.xtsshop.app.features.authentication;
 
 import com.xtsshop.app.features.authentication.models.AuthRequest;
-import com.xtsshop.app.features.users.exceptions.UserModelAssembler;
+import com.xtsshop.app.features.users.models.UserModelAssembler;
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.features.users.models.UserRepresentationModel;
 import org.springframework.hateoas.EntityModel;

@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UsersService {
@@ -48,7 +50,7 @@ public class UsersService {
 
     public AppUser create(UserCreateForm userCreateForm){
         Date now = getCurrentTimestamp();
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(roleJpaRepository.findByName(RoleType.ROLE_USER.name()));
         AppUser newUser = new AppUser(
                 now,
@@ -56,9 +58,11 @@ public class UsersService {
                 userCreateForm.getUsername(),
                 encoder.encode(userCreateForm.getPassword()),
                 userCreateForm.getEmail(),
-                userCreateForm.getPhone(),
-                roles
+                userCreateForm.getPhone()
         );
+        newUser.setRoles(roles);
+        newUser.setAddresses(new ArrayList<>());
+        newUser.setOrders(new ArrayList<>());
         return repository.save(newUser);
     }
 

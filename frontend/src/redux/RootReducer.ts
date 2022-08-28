@@ -9,6 +9,7 @@ import order from "./order/OrderReducer"
 import user from "./user/UserReducer"
 import userAddresses from "./user-addresses/UserAddressesReducer";
 import { InvoiceReducer as invoice } from "./cart-items/invoice/InvoiceSlice"
+import {RegistryReducer as registry} from "./registry/RegistrySlice"
 
 const RootReducer = combineReducers({
     routes,
@@ -20,6 +21,7 @@ const RootReducer = combineReducers({
     order,
     user,
     userAddresses,
-    invoice
+    invoice,
+    registry
 })
 export default RootReducer

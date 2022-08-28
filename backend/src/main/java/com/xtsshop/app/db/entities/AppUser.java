@@ -60,22 +60,8 @@ public class AppUser extends AppEntity{
     )
     private Set<Item> cart;
 
-    public AppUser(Date createdAt, Date updatedAt, String username, String password, String email, String phone, List<Role> roles) {
-        super(createdAt, updatedAt);
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phone = phone;
-    }
     public AppUser(Date createdAt, Date updatedAt, String username, String password, String email, String phone) {
         super(createdAt, updatedAt);
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phone = phone;
-    }
-
-    public AppUser(String username, String password, String email, String phone) {
         this.username = username;
         this.password = password;
         this.email = email;

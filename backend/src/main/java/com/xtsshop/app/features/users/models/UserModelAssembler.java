@@ -1,4 +1,4 @@
-package com.xtsshop.app.features.users.exceptions;
+package com.xtsshop.app.features.users.models;
 
 import com.xtsshop.app.AbstractModelAssembler;
 import com.xtsshop.app.features.users.UsersController;
