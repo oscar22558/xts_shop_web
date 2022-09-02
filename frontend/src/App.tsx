@@ -1,6 +1,6 @@
 import './App.css';
 import {Provider} from "react-redux";
-import {store} from "./redux/Store";
+import {store} from "./features/Store";
 import FetchApiRoutes from "./data-sources/api-routes/FetchApiRoutes";
 import FetchCategories from "./data-sources/categories/FetchCategories";
 import AppRoutes from "./routes/AppRoutes"

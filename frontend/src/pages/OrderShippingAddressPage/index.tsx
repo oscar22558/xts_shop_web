@@ -1,8 +1,8 @@
 import { Box, Typography, Grid, Button } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import { useAppSelector } from "../../redux/Hooks"
-import OrderSelector from "../../redux/order/OrderSelector"
-import UserSelector from "../../redux/user/UserSelector"
+import { useAppSelector } from "../../features/Hooks"
+import OrderSelector from "../../features/order/OrderSelector"
+import UserSelector from "../../features/user/UserSelector"
 import CreateAddressSection from "../SettingsPage/AddressPage/CreateAddressSection"
 import AddressSelectionForm from "./AddressSelectionForm"
 

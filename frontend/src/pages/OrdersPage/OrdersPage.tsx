@@ -1,10 +1,10 @@
-import { Box, Button, Container, Divider } from "@mui/material"
+import { Box, Button, Divider } from "@mui/material"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { host } from "../../redux/ApiConfig"
-import { useAppDispatch, useAppSelector } from "../../redux/Hooks"
-import { OrdersAction } from "../../redux/order/OrderAction"
-import OrderSelector from "../../redux/order/OrderSelector"
+import { host } from "../../features/ApiConfig"
+import { useAppDispatch, useAppSelector } from "../../features/Hooks"
+import { OrdersAction } from "../../features/order/OrderAction"
+import OrderSelector from "../../features/order/OrderSelector"
 import AppRouteList from "../../routes/AppRouteList"
 import OrderDetailColumn from "./OrderDetailColumn"
 import OrderItem from "./OrderItem"
@@ -21,7 +21,7 @@ const OrdersPage = ()=>{
 
     useEffect(()=>{
         dispatch(OrdersAction.async())
-    }, [])
+    }, [dispatch])
 
     return <>
         <h1>Your Orders</h1>

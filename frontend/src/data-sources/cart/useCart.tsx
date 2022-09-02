@@ -1,5 +1,5 @@
-import { useAppSelector } from "../../redux/Hooks";
-import CartItemsSelector from "../../redux/cart-items/CartItemsSelector"
+import { useAppSelector } from "../../features/Hooks";
+import CartItemsSelector from "../../features/cart-items/CartItemsSelector"
 import useCartCookie from "./useCartCookie";
 import CartCookieType from "./models/CartCookieType";
 

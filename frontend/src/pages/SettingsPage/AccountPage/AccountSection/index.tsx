@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Box, Button, Divider, Grid, Typography, useScrollTrigger } from "@mui/material"
-import useUser from "../../../../redux/user/hooks/useUser"
+import useUser from "../../../../features/user/hooks/useUser"
 import EditAccountForm from "./EditAccountForm"
 
 const AccountSection = ()=>{

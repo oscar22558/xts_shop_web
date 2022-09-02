@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import useFetchItems from "../../../../../data-sources/items/useFetchItems"
-import brandsSelector from "../../../../../redux/brands/BrandsSelector"
-import { useAppDispatch, useAppSelector } from "../../../../../redux/Hooks"
-import itemActions from "../../../../../redux/items/ItemsAction"
-import categorySelector from "../../../../../redux/categories/CategoriesSelector"
+import brandsSelector from "../../../../../features/brands/BrandsSelector"
+import { useAppDispatch, useAppSelector } from "../../../../../features/Hooks"
+import itemActions from "../../../../../features/items/ItemsAction"
+import categorySelector from "../../../../../features/categories/CategoriesSelector"
 const useViewModel = ()=>{
     const [checkBoxStates, setCheckBoxStates] = useState(getInitStates(5))
     const {allBrands} = useAppSelector(brandsSelector)

@@ -1,5 +1,5 @@
-import {useAppSelector} from "../../../../../../../redux/Hooks";
-import CategoriesSelector from "../../../../../../../redux/categories/CategoriesSelector"
+import {useAppSelector} from "../../../../../../../features/Hooks";
+import CategoriesSelector from "../../../../../../../features/categories/CategoriesSelector"
 import useFetchCategory from "../../../../../../../data-sources/category/useFetchCategory";
 import useFetchItems from "../../../../../../../data-sources/items/useFetchItems";
 

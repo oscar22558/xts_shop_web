@@ -1,8 +1,8 @@
 import { Box, TextField, Button } from "@mui/material"
 import React, { useState } from "react"
-import { useAppDispatch } from "../../../redux/Hooks"
-import RegistryAction from "../../../redux/registry/RegistryAction"
-import RegistryForm from "../../../redux/registry/RegistrygForm"
+import { useAppDispatch } from "../../../features/Hooks"
+import RegistryAction from "../../../features/registry/RegistryAction"
+import RegistryForm from "../../../features/registry/RegistrygForm"
 
 const RegistrySection = ()=>{
     const dispatch = useAppDispatch()
@@ -22,7 +22,7 @@ const RegistrySection = ()=>{
 
     return (
         <Box display="flex" justifyContent="flex-start" paddingX="50px" alignItems="center" flexDirection="column" height="400px">
-            <Box sx={{height: "50px", paddingY: "10px"}}>Create a account</Box>
+            <Box sx={{height: "50px", paddingY: "10px"}}>New to the site?</Box>
             <TextField
                 name="username"
                 title="username" 
@@ -57,7 +57,7 @@ const RegistrySection = ()=>{
                 onChange={handleChange}
             />
 
-            <Button title="Create" onClick={handleSubmit}>Create</Button>
+            <Button title="Create" onClick={handleSubmit}>Create Account</Button>
         </Box>
     )
 }

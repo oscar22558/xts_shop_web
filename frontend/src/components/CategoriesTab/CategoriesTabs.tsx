@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../redux/Hooks";
+import {useAppDispatch, useAppSelector} from "../../features/Hooks";
 
-import CategoriesSelector from "../../redux/categories/CategoriesSelector"
-import CategoriesActions from "../../redux/categories/CategoriesAction";
+import CategoriesSelector from "../../features/categories/CategoriesSelector"
+import CategoriesActions from "../../features/categories/CategoriesAction";
 
 import useViewModel from "./useViewMode"
 import StyledTabs from "./StyledTabs";

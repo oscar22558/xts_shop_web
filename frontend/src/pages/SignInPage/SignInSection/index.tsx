@@ -1,11 +1,11 @@
 import { Box, Button, FormControl, FormHelperText, TextField } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import AuthenticationRequest from "../../../redux/authentication/models/AuthenticationRequest"
+import AuthenticationRequest from "../../../features/authentication/models/AuthenticationRequest"
 import useAuthenticateUser from "../../../data-sources/authentication/useAuthenticateUser"
 import useAuthentication from "../../../data-sources/authentication/useAuthentication"
-import AuthenticationAction from "../../../redux/authentication/AuthenticationAction"
-import { useAppDispatch } from "../../../redux/Hooks"
+import AuthenticationAction from "../../../features/authentication/AuthenticationAction"
+import { useAppDispatch } from "../../../features/Hooks"
 import AppRouteList from "../../../routes/AppRouteList"
 
 const SignInPage = ()=>{
@@ -42,7 +42,7 @@ const SignInPage = ()=>{
         <FormControl>
 
         <Box display="flex" justifyContent="flex-start" paddingX="50px" alignItems="center" flexDirection="column" height="400px">
-            <Box sx={{height: "50px", paddingY: "10px"}}>Sign in</Box>
+            <Box sx={{height: "50px", paddingY: "10px"}}>Already have account?</Box>
             <TextField name="username" label="username" title="username" value={authenticationRequest.username} onChange={handleInputChange} sx={{marginBottom: "15px", width: "275px"}}/>
             <TextField name="password" label="password" title="password" value={authenticationRequest.password} onChange={handleInputChange} sx={{marginBottom: "15px", width: "275px"}}/>
             {error && <FormHelperText error>{error}</FormHelperText>}

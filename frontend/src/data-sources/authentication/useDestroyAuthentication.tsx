@@ -1,5 +1,5 @@
-import { DestroyAuthenticationAction } from "../../redux/authentication/AuthenticationAction"
-import { useAppDispatch } from "../../redux/Hooks"
+import { DestroyAuthenticationAction } from "../../features/authentication/AuthenticationAction"
+import { useAppDispatch } from "../../features/Hooks"
 
 const useDestroyAuthentication = ()=>{
     const dispatch = useAppDispatch()

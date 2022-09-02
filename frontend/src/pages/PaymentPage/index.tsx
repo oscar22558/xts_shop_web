@@ -5,13 +5,13 @@ import { Box, Container, Typography } from "@mui/material";
 import { Appearance, loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-import { useAppSelector } from "../../redux/Hooks";
-import AuthenticationSelector from "../../redux/authentication/AuthenticationSelector";
-import OrderSelector from "../../redux/order/OrderSelector";
+import { useAppSelector } from "../../features/Hooks";
+import AuthenticationSelector from "../../features/authentication/AuthenticationSelector";
+import OrderSelector from "../../features/order/OrderSelector";
 
 import useCart from "../../data-sources/cart/useCart";
 import CheckoutForm from "./CheckoutForm";
-import ApiConfig from "../../redux/ApiConfig"
+import ApiConfig from "../../features/ApiConfig"
 
 const stripePromise = loadStripe("pk_test_51LS0ODIlTFFvV5CYLojONvwgp65Y0XGQ5FnXcJHdp4dJ0npvi3bmUebYlPqfv2HZwzWueAIoKdxgpqIRDY5ufQg600dws9t0jV");
 

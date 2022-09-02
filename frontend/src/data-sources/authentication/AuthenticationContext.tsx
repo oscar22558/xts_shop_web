@@ -1,5 +1,5 @@
 import { createContext } from "react"
-import AuthenticationResponse from "../../redux/authentication/models/AuthenticationResponse"
+import AuthenticationResponse from "../../features/authentication/models/AuthenticationResponse"
 
 type ContextType = AuthenticationResponse | undefined
 

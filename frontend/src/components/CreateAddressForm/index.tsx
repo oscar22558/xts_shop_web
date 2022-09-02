@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { Button, FormHelperText, Grid } from "@mui/material"
-import useSentAddAddressRequest from "../../redux/user-addresses/hooks/useSendAddAddressRequest"
-import AddAddressForm from "../../redux/user-addresses/models/AddAddressForm"
+import useSentAddAddressRequest from "../../features/user-addresses/hooks/useSendAddAddressRequest"
+import AddAddressForm from "../../features/user-addresses/models/AddAddressForm"
 import StyledTextFieldWithFormControl from "./StyledTextFieldWithFormControl"
 import SelectWithFormControl from "./components/StyledSelectWithFormControl"
 import District from "./models/District"
 import Area from "./models/Area"
-import { useAppSelector } from "../../redux/Hooks"
-import UserAddressesSelector from "../../redux/user-addresses/UserAddressesSelector"
-import useClearAddAddressRequestState from "../../redux/user-addresses/hooks/useClearAddAddressRequestState"
+import { useAppSelector } from "../../features/Hooks"
+import UserAddressesSelector from "../../features/user-addresses/UserAddressesSelector"
+import useClearAddAddressRequestState from "../../features/user-addresses/hooks/useClearAddAddressRequestState"
 
 const initialFormState = {
     country: "China",

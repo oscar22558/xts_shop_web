@@ -1,5 +1,5 @@
-import {useAppDispatch, useAppSelector} from "../../redux/Hooks";
-import ItemsAction from "../../redux/items/ItemsAction";
+import {useAppDispatch, useAppSelector} from "../../features/Hooks";
+import ItemsAction from "../../features/items/ItemsAction";
 
 const useFetchItems = ()=>{
     const appDispatch = useAppDispatch()

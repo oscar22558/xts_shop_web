@@ -2,8 +2,8 @@ import { Box, Button, Divider, Grid } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import useAuthentication from "../../../data-sources/authentication/useAuthentication"
 import useFetchInvoice from "../../../data-sources/cart/useFetchInvoice"
-import InvoiceSelector from "../../../redux/cart-items/invoice/InvoiceSelector"
-import { useAppSelector } from "../../../redux/Hooks"
+import InvoiceSelector from "../../../features/cart-items/invoice/InvoiceSelector"
+import { useAppSelector } from "../../../features/Hooks"
 import AppRouteList from "../../../routes/AppRouteList"
 
 const OrderSummary = ()=>{

@@ -1,7 +1,7 @@
 import { Box, Button, Paper, Typography } from "@mui/material"
-import { useAppSelector } from "../../../redux/Hooks"
-import useSendDeleteAddressRequest from "../../../redux/user-addresses/hooks/useSendDeleteAddressRequest"
-import UserSelector from "../../../redux/user/UserSelector"
+import { useAppSelector } from "../../../features/Hooks"
+import useSendDeleteAddressRequest from "../../../features/user-addresses/hooks/useSendDeleteAddressRequest"
+import UserSelector from "../../../features/user/UserSelector"
 import CreateAddressSection from "./CreateAddressSection"
 
 const AddressPage = ()=>{

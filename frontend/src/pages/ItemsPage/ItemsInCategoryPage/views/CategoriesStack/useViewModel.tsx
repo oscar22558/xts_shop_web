@@ -1,6 +1,6 @@
-import {useAppSelector} from "../../../../../redux/Hooks";
-import CategoriesSelector from "../../../../../redux/categories/CategoriesSelector"
-import {Category} from "../../../../../redux/categories/models/Category";
+import {useAppSelector} from "../../../../../features/Hooks";
+import CategoriesSelector from "../../../../../features/categories/CategoriesSelector"
+import {Category} from "../../../../../features/categories/models/Category";
 import CategoryStackItemModel from "./models/CategoryStackItemModel";
 
 const useViewModel = ()=>{

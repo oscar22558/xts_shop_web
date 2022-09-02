@@ -1,7 +1,7 @@
 import { useEffect } from "react"
-import ApiRouteSelector from "../../redux/api-routes/ApiRoutesSelector"
-import CartItemsAction from "../../redux/cart-items/CartItemsAction"
-import { useAppSelector, useAppDispatch } from "../../redux/Hooks"
+import ApiRouteSelector from "../../features/api-routes/ApiRoutesSelector"
+import CartItemsAction from "../../features/cart-items/CartItemsAction"
+import { useAppSelector, useAppDispatch } from "../../features/Hooks"
 import useCart from "./useCart"
 
 const useFetchCartItemsByIds = ()=>{

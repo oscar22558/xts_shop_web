@@ -2,12 +2,12 @@ import FormControl from "@mui/material/FormControl"
 import MenuItem from "@mui/material/MenuItem"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector } from "../../../../../redux/Hooks"
+import { useAppDispatch, useAppSelector } from "../../../../../features/Hooks"
 import SortingOption from "./SortingOption"
 import StyledInputBase from "./StyledInputBase"
-import ItemsAction from "../../../../../redux/items/ItemsAction"
+import ItemsAction from "../../../../../features/items/ItemsAction"
 import useFetchItems from "../../../../../data-sources/items/useFetchItems"
-import categorySelector from "../../../../../redux/categories/CategoriesSelector"
+import categorySelector from "../../../../../features/categories/CategoriesSelector"
 const ItemsSortingOption = ()=>{
     const [value, setValue] = useState<string>(SortingOption.Latest+"")
     const dispatch = useAppDispatch()

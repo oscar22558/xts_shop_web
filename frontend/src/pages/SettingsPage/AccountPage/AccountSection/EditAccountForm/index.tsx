@@ -1,10 +1,10 @@
 import { Box, Button, Divider, TextField } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector } from "../../../../../redux/Hooks"
-import useUpdateUser from "../../../../../redux/user/hooks/useUpdateUser"
-import User from "../../../../../redux/user/models/User"
-import { UpdateUserAction } from "../../../../../redux/user/UserAction"
-import UserSelector from "../../../../../redux/user/UserSelector"
+import { useAppDispatch, useAppSelector } from "../../../../../features/Hooks"
+import useUpdateUser from "../../../../../features/user/hooks/useUpdateUser"
+import User from "../../../../../features/user/models/User"
+import { UpdateUserAction } from "../../../../../features/user/UserAction"
+import UserSelector from "../../../../../features/user/UserSelector"
 
 type Props = {
     initialData: User

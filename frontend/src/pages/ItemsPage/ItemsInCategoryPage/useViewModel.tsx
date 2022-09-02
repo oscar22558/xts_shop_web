@@ -1,4 +1,4 @@
-import {useAppSelector} from "../../../redux/Hooks";
-import ItemsSelector from "../../../redux/items/ItemsSelector"
+import {useAppSelector} from "../../../features/Hooks";
+import ItemsSelector from "../../../features/items/ItemsSelector"
 const useViewModel = ()=> useAppSelector(ItemsSelector).all.of.data
 export default useViewModel

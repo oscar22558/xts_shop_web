@@ -1,9 +1,9 @@
 import { Box, Button, FormHelperText } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useAppSelector } from "../../../../../redux/Hooks"
-import useClearUpdatePasswordState from "../../../../../redux/user/hooks/useClearUpdatePasswordState"
-import useUpdatePassword from "../../../../../redux/user/hooks/useUpdatePassword"
-import UserSelector from "../../../../../redux/user/UserSelector"
+import { useAppSelector } from "../../../../../features/Hooks"
+import useClearUpdatePasswordState from "../../../../../features/user/hooks/useClearUpdatePasswordState"
+import useUpdatePassword from "../../../../../features/user/hooks/useUpdatePassword"
+import UserSelector from "../../../../../features/user/UserSelector"
 import PasswordInputField from "./PasswordInputField"
 
 type Props = {

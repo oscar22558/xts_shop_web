@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom"
 
 import { Box } from "@mui/material"
 
-import { useAppDispatch, useAppSelector } from "../../redux/Hooks"
-import { GetOrderAction } from "../../redux/order/OrderAction"
-import OrderSelector from "../../redux/order/OrderSelector"
+import { useAppDispatch, useAppSelector } from "../../features/Hooks"
+import { GetOrderAction } from "../../features/order/OrderAction"
+import OrderSelector from "../../features/order/OrderSelector"
 import OrderItem from "../OrdersPage/OrderItem"
 
 const OrderDetailPage = ()=>{

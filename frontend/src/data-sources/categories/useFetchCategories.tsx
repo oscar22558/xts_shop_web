@@ -1,6 +1,6 @@
-import {useAppDispatch, useAppSelector} from "../../redux/Hooks";
-import CategoriesActions from "../../redux/categories/CategoriesAction";
-import routesSelector from "../../redux/api-routes/ApiRoutesSelector"
+import {useAppDispatch, useAppSelector} from "../../features/Hooks";
+import CategoriesActions from "../../features/categories/CategoriesAction";
+import routesSelector from "../../features/api-routes/ApiRoutesSelector"
 
 const useFetchCategories = () => {
     const { data } = useAppSelector(routesSelector).get

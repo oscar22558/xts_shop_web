@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import AuthenticationSelector from "../../redux/authentication/AuthenticationSelector"
-import { useAppSelector } from "../../redux/Hooks"
+import AuthenticationSelector from "../../features/authentication/AuthenticationSelector"
+import { useAppSelector } from "../../features/Hooks"
 import AuthenticationContext from "./AuthenticationContext"
 
 const useAuthentication = ()=>{

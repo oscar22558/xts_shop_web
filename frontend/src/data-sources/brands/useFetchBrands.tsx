@@ -1,6 +1,6 @@
-import { useAppDispatch, useAppSelector} from "../../redux/Hooks"
-import routesSelector from "../../redux/api-routes/ApiRoutesSelector"
-import BrandsAction from "../../redux/brands/BrandsAction"
+import { useAppDispatch, useAppSelector} from "../../features/Hooks"
+import routesSelector from "../../features/api-routes/ApiRoutesSelector"
+import BrandsAction from "../../features/brands/BrandsAction"
 
 const useFetchBrands = ()=>{
     const { data } = useAppSelector(routesSelector).get
