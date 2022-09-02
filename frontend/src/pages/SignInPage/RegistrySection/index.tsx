@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../redux/Hooks"
 import RegistryAction from "../../../redux/registry/RegistryAction"
 import RegistryForm from "../../../redux/registry/RegistrygForm"
 
-export default ()=>{
+const RegistrySection = ()=>{
     const dispatch = useAppDispatch()
     const [registryForm, setRegistryForm] = useState<RegistryForm>({
         username: "",
@@ -21,12 +21,13 @@ export default ()=>{
     }
 
     return (
-        <Box display="flex" justifyContent="center" padding="10px" border="1px solid" alignItems="center" flexDirection="column">
-            <Box sx={{paddingY: "10px"}}>Create a account</Box>
+        <Box display="flex" justifyContent="flex-start" paddingX="50px" alignItems="center" flexDirection="column" height="400px">
+            <Box sx={{height: "50px", paddingY: "10px"}}>Create a account</Box>
             <TextField
                 name="username"
                 title="username" 
                 label="username" 
+                sx={{marginBottom: "15px", width: "275px"}}
                 value={registryForm.username} 
                 onChange={handleChange}
             />
@@ -34,7 +35,16 @@ export default ()=>{
                 name="email" 
                 title="email" 
                 label="email" 
+                sx={{marginBottom: "15px", width: "275px"}}
                 value={registryForm.email} 
+                onChange={handleChange}
+            />
+            <TextField
+                name="phone" 
+                title="phone" 
+                label="phone"
+                sx={{marginBottom: "15px", width: "275px"}}
+                value={registryForm.phone} 
                 onChange={handleChange}
             />
             <TextField
@@ -42,17 +52,13 @@ export default ()=>{
                 title="password" 
                 label="password" 
                 type="password" 
+                sx={{marginBottom: "15px", width: "275px"}}
                 value={registryForm.password} 
                 onChange={handleChange}
             />
-            <TextField
-                name="phone" 
-                title="phone" 
-                label="phone"
-                value={registryForm.phone} 
-                onChange={handleChange}
-            />
+
             <Button title="Create" onClick={handleSubmit}>Create</Button>
         </Box>
     )
 }
+export default RegistrySection
