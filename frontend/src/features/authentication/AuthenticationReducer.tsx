@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import HttpResponse from "../models/HttpResponse";
+import AuthenticationFormError from "./models/AuthenticationFormError";
 import Authentication from "./models/AuthenticationResponse";
 
 
 type State = {
-    authentication: HttpResponse<Authentication>
+    authentication: HttpResponse<Authentication, AuthenticationFormError>
 }
 
 const initialState: State ={
@@ -14,7 +15,11 @@ const initialState: State ={
             username: null
         },
         loading: false,
-        error: null
+        error: {
+            username: "",
+            password: "",
+            form: ""
+        }
     }
 }
 
@@ -29,14 +34,14 @@ export const AuthenticationSlice = createSlice({
             state.authentication.loading = false
         },
         authenticationSucceed: (state: State, action: PayloadAction<Authentication>)=>{
-            state.authentication.error = null
+            state.authentication.error = initialState.authentication.error
             state.authentication.data = action.payload 
         },
-        authenticationFail: (state: State, action: PayloadAction<string>)=>{
+        authenticationFail: (state: State, action: PayloadAction<AuthenticationFormError>)=>{
             state.authentication.error = action.payload
         },
         clearAuthenticationError: (state: State)=>{
-            state.authentication.error = null
+            state.authentication.error = initialState.authentication.error
         },
         destroyAuthentication: (state: State)=>{
             state.authentication.data = {

@@ -1,13 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import EmptyHttpResponse from "../models/EmptyHttpResponse";
+import PostRegistryError from "./models/PostRegistryError";
 
 type State = {
-    postRegistryResponse: EmptyHttpResponse
+    postRegistryResponse: EmptyHttpResponse<PostRegistryError>
 }
 
-const initialState: State = {
+export const initialState: State = {
     postRegistryResponse: {
-        error: null,
+        error: {
+            username: "",
+            password: "",
+            email: "",
+            phone: ""
+        },
         loading: false
     }
 }
@@ -23,9 +29,9 @@ const RegistrySlice = createSlice({
             state.postRegistryResponse.loading = true
         },
         postRegistrySucceed: (state: State)=>{
-            state.postRegistryResponse.error = null
+            state.postRegistryResponse.error = initialState.postRegistryResponse.error
         },
-        postRegistryFail: (state: State, {payload}:PayloadAction<string>)=>{
+        postRegistryFail: (state: State, {payload}:PayloadAction<PostRegistryError>)=>{
             state.postRegistryResponse.error = payload
         }
     }

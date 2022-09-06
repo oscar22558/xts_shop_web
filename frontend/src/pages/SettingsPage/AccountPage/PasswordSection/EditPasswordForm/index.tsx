@@ -1,8 +1,9 @@
 import { Box, Button, FormHelperText } from "@mui/material"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useAppSelector } from "../../../../../features/Hooks"
 import useClearUpdatePasswordState from "../../../../../features/user/hooks/useClearUpdatePasswordState"
 import useUpdatePassword from "../../../../../features/user/hooks/useUpdatePassword"
+import UpdatePasswordForm from "../../../../../features/user/models/UpdatePasswordForm"
 import UserSelector from "../../../../../features/user/UserSelector"
 import PasswordInputField from "./PasswordInputField"
 
@@ -10,32 +11,31 @@ type Props = {
     onUserFinishedUpdate?: ()=>void
 }
 
+const initialUpdatePasswordForm = {
+    newPassword: "",
+    password: "",
+    passwordConfirmation: ""
+}
+
 const EditPasswordForm = ({
     onUserFinishedUpdate
 }: Props)=>{
     const [waitingUserClickUpdate, setWaitingUserClickUpdate] = useState(true)
-    const [password, setPassword] = useState<string>("")
-    const [newPassword, setNewPassword] = useState<string>("")
-    const [passwordError, setPasswordError] = useState<string|undefined>(undefined)
-    const [newPasswordError, setNewPasswordError] = useState<string|undefined>(undefined)
+    const [updatePasswordForm, setUpdatePasswordForm] = useState<UpdatePasswordForm>(initialUpdatePasswordForm)
     
     const {error: updateRequestError, loading: updateRequestLoading} = useAppSelector(UserSelector).updatePasswordResponse
     
     const updatePassword = useUpdatePassword()
     const clearUpdatePasswordState = useClearUpdatePasswordState()
 
+    const handleUpdatePasswordFormChange = ({target}: React.ChangeEvent<HTMLTextAreaElement>)=>{
+        setUpdatePasswordForm({...updatePasswordForm, [target.name]: target.value})
+    }
+
     const handleUpdateBtnClick = ()=>{
-        if(password == null){
-            setPasswordError("Cannot be blank.")
-            return 
-        }
-        if(newPassword == null){
-            setNewPasswordError("Cannot be blank.")
-            return
-        }
-        setNewPasswordError(undefined)
+        const {newPassword} = updatePasswordForm
         setWaitingUserClickUpdate(false)
-        updatePassword({password, newPassword, passwordConfirmation: newPassword})
+        updatePassword({...updatePasswordForm, passwordConfirmation: newPassword})
     }
 
     useEffect(()=>{
@@ -54,16 +54,18 @@ const EditPasswordForm = ({
     
     return <Box flexDirection="column" display="flex">
         <PasswordInputField 
-            value={password} 
-            onChange={setPassword}
+            value={updatePasswordForm.password} 
+            onChange={handleUpdatePasswordFormChange}
             error={updateRequestError != null && updateRequestError?.column === "password"}
             errorText={updateRequestError?.error}
         />
         <Box sx={{marginTop: "10px"}}>
             <PasswordInputField 
-                label="New Password" 
-                value={newPassword} 
-                onChange={setNewPassword}
+                label="newPassword"
+                title="newPassword"
+                name="newPassword"
+                value={updatePasswordForm.newPassword} 
+                onChange={handleUpdatePasswordFormChange}
                 error={updateRequestError != null && updateRequestError?.column === "newPassword"}
                 errorText={updateRequestError?.error}
             />

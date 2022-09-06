@@ -1,22 +1,19 @@
 package com.xtsshop.app.features.authentication.models;
 
+import com.xtsshop.app.features.authentication.exceptions.AuthenticationRequestInvalidCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Setter
 @Getter
 @NoArgsConstructor
 public class AuthRequest {
-    @NotBlank
+    @NotEmpty(message = AuthenticationRequestInvalidCode.USERNAME_EMPTY)
     private String username;
-    @NotBlank
+    @NotEmpty(message = AuthenticationRequestInvalidCode.PASSWORD_EMPTY)
     private String password;
-
-    public AuthRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 }

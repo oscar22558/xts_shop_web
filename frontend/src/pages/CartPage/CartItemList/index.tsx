@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material"
 import useCart from "../../../data-sources/cart/useCart"
 import CheckBoxList from "./CheckBoxList"
-import QuantityInput from "./QuantityInput"
+import QuantityInput from "./CartItemQuantityInput"
 
 const CartItemList = ()=>{
 
@@ -14,7 +14,7 @@ const CartItemList = ()=>{
                 <Grid item xs={10}>
                     <Grid container>
                         <Grid item xs={2}>
-                            <img  src={item.imgUrl}/>
+                            <img  src={item.imgUrl} alt={item.name}/>
                         </Grid>
                         <Grid item xs={10}>
                             <div>{id}: {itemCountsInCart ? itemCountsInCart[id]: 0}</div>

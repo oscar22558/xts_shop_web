@@ -1,0 +1,14 @@
+src\pages\SignInPage\RegistrySection\index.tsx
+  Line 36:58:  Expected '!==' and instead saw '!='  eqeqeq
+  Line 37:52:  Expected '!==' and instead saw '!='  eqeqeq
+  Line 38:52:  Expected '!==' and instead saw '!='  eqeqeq
+  Line 61:44:  Expected '!==' and instead saw '!='  eqeqeq
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in src\pages\SignInPage\RegistrySection\index.tsx
+  Line 36:58:  Expected '!==' and instead saw '!='  eqeqeq
+  Line 37:52:  Expected '!==' and instead saw '!='  eqeqeq
+  Line 38:52:  Expected '!==' and instead saw '!='  eqeqeq
+  Line 61:44:  Expected '!==' and instead saw '!='  eqeqeq

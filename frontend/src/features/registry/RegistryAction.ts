@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit"
-import RegistryForm from "./RegistrygForm"
+import RegistryForm from "./models/RegistrygForm"
 import RegistrySlice from "./RegistrySlice"
 
 const actions = RegistrySlice.actions

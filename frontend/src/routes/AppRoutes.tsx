@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import AppRootPage from "../pages/AppRootPage"
 import CartPage from "../pages/CartPage"
 import FooterPage from "../pages/FooterPage"
+import ItemPage from "../pages/ItemPage"
 import ItemsPage from "../pages/ItemsPage"
 import HomePage from "../pages/ItemsPage/HomePage"
 import ItemsInCateogryPage from "../pages/ItemsPage/ItemsInCategoryPage"
@@ -32,11 +33,12 @@ const AppRoutes = ()=>{
                             <Route path={AppRouteList.settings.account} element={<AccountPage />} />
                             <Route path={AppRouteList.settings.addresses} element={<AddressPage />} />
                         </Route>
+                        <Route path={AppRouteList.item.route+"/*"} element={<ItemPage />}/>
                     </Route>
                     <Route path="" element={<MiniFooterPage />}>
                         <Route path={AppRouteList.orderShippingAddresses} element={<OrderShippingAddressPage />}/>
                         <Route path={AppRouteList.orders} element={<OrdersPage />}/>
-                        <Route path={AppRouteList.order} element={<OrderDetailPage />}/>
+                        <Route path={AppRouteList.order.route} element={<OrderDetailPage />}/>
                         <Route path={AppRouteList.cart} element={<CartPage />}/>
                         <Route path={AppRouteList.payment} element={<PaymentPage />}/>
                     </Route>

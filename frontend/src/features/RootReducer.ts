@@ -2,6 +2,7 @@ import {combineReducers} from "redux";
 import categories from "./categories/CategoriesReducer"
 import routes from "./api-routes/ApiRoutesReducer"
 import items from "./items/ItemsReducer"
+import { ItemDetailReducer as itemDetail } from "./item-detail/ItemDetailSlice";
 import brands from "./brands/BrandsReducer"
 import cartItems from "./cart-items/CartItemsReducer"
 import authentication from "./authentication/AuthenticationReducer"
@@ -15,6 +16,7 @@ const RootReducer = combineReducers({
     routes,
     categories,
     items,
+    itemDetail,
     brands,
     cartItems,
     authentication,
@@ -22,6 +24,6 @@ const RootReducer = combineReducers({
     user,
     userAddresses,
     invoice,
-    registry
+    registry,
 })
 export default RootReducer

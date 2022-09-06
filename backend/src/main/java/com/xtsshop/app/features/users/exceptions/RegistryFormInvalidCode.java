@@ -1,7 +1,8 @@
 package com.xtsshop.app.features.users.exceptions;
 
-public class UserRegistryException {
+public class RegistryFormInvalidCode {
     public static final String COLUMN_EMPTY = "COLUMN_EMPTY";
+    public static final String USERNAME_LESS_THAN_1_CHARS = "USERNAME_LESS_THAN_1_CHARS";
     public static final String USERNAME_LESS_THAN_2_CHARS = "USERNAME_LESS_THAN_2_CHARS";
     public static final String PASSWORD_LESS_THAN_8_CHARS = "PASSWORD_LESS_THAN_8_CHARS";
     public static final String USERNAME_CONTAINS_INVALID_CHARS = "USERNAME_CONTAINS_INVALID_CHARS";

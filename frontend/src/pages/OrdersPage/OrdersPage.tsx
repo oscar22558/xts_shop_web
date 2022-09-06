@@ -10,13 +10,14 @@ import OrderDetailColumn from "./OrderDetailColumn"
 import OrderItem from "./OrderItem"
 
 const OrdersPage = ()=>{
+    const {route, params} = AppRouteList.order
     const orderList = useAppSelector(OrderSelector).getOrderListResponse.data
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
     const handleViewDetailBtnClick = (orderId: number)=>()=>{
-        const route = AppRouteList.order.replace(":orderId", orderId.toString())
-        navigate(route)
+        const navigationRoute = route.replace(`${params[0]}`, orderId.toString())
+        navigate(navigationRoute)
     }
 
     useEffect(()=>{
@@ -34,7 +35,7 @@ const OrdersPage = ()=>{
                 {label: "Order Total", content: "HKD $"+(Math.round(order.invoice.total*100)/100).toString()}
             ],
             orderId: order.id,
-            items: order.items.map(item=>({...item, quantity: item.quantity.toString(), imgUrl: `${host}/${item.imgUrl}`}))
+            items: order.items.slice(0, 4).map(item=>({...item, quantity: item.quantity.toString(), imgUrl: `${host}/${item.imgUrl}`}))
         })).map((viewModel, index)=> <Box key={index} sx={{borderRadius: "10px", overflow: "hidden", border: "1px solid #dedede"}}>
             <Box sx={{display: "flex", flexDirection: "row", backgroundColor: "#dedede", paddingY: "10px", paddingX: "20px"}}>{
                 viewModel.columns.map((column, index)=>(<OrderDetailColumn key={index} {...column}/>))

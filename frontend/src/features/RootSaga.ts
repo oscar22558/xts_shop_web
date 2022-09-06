@@ -6,6 +6,7 @@ import {postAuthenticationSaga} from "./authentication/AuthenticationSaga"
 import {getAllBrandsSaga as getAllBrandsSaga} from "./brands/BrandsSaga"
 
 import {getItemsByIdSaga as getCartItemsByIdSaga} from "./cart-items/CartItemsSaga"
+import getItemDetailSaga from "./item-detail/ItemDetailSaga"
 import getInvoiceSaga from "./cart-items/invoice/InvoiceSaga"
 import {
     getAllSaga as getAllCategoriesSaga,
@@ -35,6 +36,7 @@ export const rootSaga = [
     getAllCategoriesSaga,
     getCategorySaga,
     getAllItemsSaga,
+    getItemDetailSaga,
     getOrdetrListSaga,
     getOrderSaga,
     postRegistrySaga,

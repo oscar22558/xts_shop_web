@@ -1,5 +1,5 @@
 import ApiRequest from "../ApiRequest";
-import RegistryForm from "./RegistrygForm";
+import RegistryForm from "./models/RegistrygForm";
 
 export default (data: RegistryForm)=>ApiRequest({
     method: "POST",

@@ -1,4 +1,4 @@
-package com.xtsshop.app.features.users;
+package com.xtsshop.app.features.users.models;
 
 public class UpdatePasswordErrorCode {
     public static final String CANNOT_BE_BLANK = "PASSWORD_CANNOT_BE_BLANK";

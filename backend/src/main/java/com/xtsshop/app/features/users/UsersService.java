@@ -48,7 +48,7 @@ public class UsersService {
         return repository.findAll();
     }
 
-    public AppUser create(UserCreateForm userCreateForm){
+    public AppUser registry(UserCreateForm userCreateForm){
         Date now = getCurrentTimestamp();
         Set<Role> roles = new HashSet<>();
         roles.add(roleJpaRepository.findByName(RoleType.ROLE_USER.name()));
