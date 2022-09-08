@@ -41,6 +41,7 @@ public class JWTService {
                 .signWith(secretKey)
                 .compact();
     }
+
     public Map<String, Object> parseToken(String token) {
         Key secretKey = Keys.hmacShaKeyFor(KEY.getBytes());
 

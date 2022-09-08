@@ -30,8 +30,7 @@ public class UserPaymentController {
             @Valid
             CreatePaymentIntentForm createPaymentIntentForm
     ) {
-        String clientSecret = createPaymentIntentService.createIntent(createPaymentIntentForm);
-        CreatePaymentIntentResponse response = new CreatePaymentIntentResponse(clientSecret);
+        CreatePaymentIntentResponse response = createPaymentIntentService.createIntent(createPaymentIntentForm);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -4,6 +4,7 @@ import com.xtsshop.app.db.entities.Invoice;
 import com.xtsshop.app.features.users.payment.models.CreateOrderRequest;
 import com.xtsshop.app.features.users.payment.models.CreatePaymentIntentForm;
 
+import com.xtsshop.app.features.users.payment.models.CreatePaymentIntentResponse;
 import com.xtsshop.app.features.users.payment.models.FakePaymentDetail;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class CreatePaymentIntentServiceMockImp implements CreatePaymentIntentSer
         this.orderTotalCalculator = orderTotalCalculator;
     }
 
-    public String createIntent(CreatePaymentIntentForm form){
+    public CreatePaymentIntentResponse createIntent(CreatePaymentIntentForm form){
         this.form = form;
         buildInvoice();
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(
@@ -29,7 +30,7 @@ public class CreatePaymentIntentServiceMockImp implements CreatePaymentIntentSer
                 invoice
         );
         createOrderService.create(createOrderRequest);
-        return FakePaymentDetail.CLIENT_SECRET;
+        return new CreatePaymentIntentResponse(FakePaymentDetail.CLIENT_SECRET, invoice.getTotal());
     }
 
     private void buildInvoice(){

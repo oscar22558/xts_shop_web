@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthController {
 
     private JWTService jwtService;
@@ -30,7 +30,7 @@ public class AuthController {
         this.assembler = assembler;
     }
 
-    @PostMapping
+    @PostMapping("/api/auth")
     public ResponseEntity<Map<String, String>> issueToken(@Valid @RequestBody AuthRequest request) {
         String token = jwtService.generateToken(request, authenticationManager);
         Map<String, String> response = Collections.singletonMap("token", token);
@@ -38,15 +38,12 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/parse")
-    public ResponseEntity<Map<String, Object>> parseToken(@RequestBody Map<String, String> request) {
-        String token = request.get("token");
-        Map<String, Object> response = jwtService.parseToken(token);
+//    @PostMapping("/api/auth/valid")
+//    public ResponseEntity<Map<String, Object>> validToken() {
+//        return ResponseEntity.ok().build();
+//    }
 
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/user")
+    @GetMapping("/api/auth/user")
     public EntityModel<UserRepresentationModel> user(){
         AppUser user = userIdentityService.getUser();
         return assembler.toModel(user);

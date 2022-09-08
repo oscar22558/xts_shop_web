@@ -1,9 +1,9 @@
-import axiosInstance from "../ApiRequest";
+import { ApiRequestWithoutToken } from "../ApiRequest";
 import qs from "qs"
 
 export const ItemsApi = {
     getAll: {
-        of: (getConfig: any)=>axiosInstance({
+        of: (getConfig: any)=>ApiRequestWithoutToken({
             ...getConfig,
             paramsSerializer: (params: any) => qs.stringify(params, {arrayFormat: "brackets"})
         })

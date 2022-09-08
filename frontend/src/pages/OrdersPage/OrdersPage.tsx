@@ -36,18 +36,20 @@ const OrdersPage = ()=>{
             ],
             orderId: order.id,
             items: order.items.slice(0, 4).map(item=>({...item, quantity: item.quantity.toString(), imgUrl: `${host}/${item.imgUrl}`}))
-        })).map((viewModel, index)=> <Box key={index} sx={{borderRadius: "10px", overflow: "hidden", border: "1px solid #dedede"}}>
-            <Box sx={{display: "flex", flexDirection: "row", backgroundColor: "#dedede", paddingY: "10px", paddingX: "20px"}}>{
-                viewModel.columns.map((column, index)=>(<OrderDetailColumn key={index} {...column}/>))
-            }</Box>
-            <Box sx={{padding: "15px"}}>
-                {viewModel.items.map((item, index)=>(<OrderItem key={index} {...item}/>))}
+        })).map((viewModel, index)=> (
+            <Box key={index} sx={{borderRadius: "10px", overflow: "hidden", border: "1px solid #dedede", marginBottom: "20px"}}>
+                <Box sx={{display: "flex", flexDirection: "row", backgroundColor: "#dedede", paddingY: "10px", paddingX: "20px"}}>{
+                    viewModel.columns.map((column, index)=>(<OrderDetailColumn key={index} {...column}/>))
+                }</Box>
+                <Box sx={{padding: "15px"}}>
+                    {viewModel.items.map((item, index)=>(<OrderItem key={index} {...item}/>))}
+                </Box>
+                <Divider />
+                <Box sx={{padding: "10px", display: "flex", justifyContent: "flex-end"}}>
+                    <Button variant="contained" onClick={handleViewDetailBtnClick(viewModel.orderId)}>View Detail</Button>
+                </Box>
             </Box>
-            <Divider />
-            <Box sx={{padding: "10px", display: "flex", justifyContent: "flex-end"}}>
-                <Button variant="contained" onClick={handleViewDetailBtnClick(viewModel.orderId)}>View Detail</Button>
-            </Box>
-        </Box>)
+        ))
     }</>
 }
 export default OrdersPage

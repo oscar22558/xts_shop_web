@@ -1,10 +1,10 @@
-import axiosInstance from "../ApiRequest";
+import axiosInstance, { ApiRequestWithoutToken } from "../ApiRequest";
 
 export const CategoriesApi = {
-    getAll: (url: string)=>axiosInstance({
+    getAll: (url: string)=>ApiRequestWithoutToken({
         url
     }),
-    get: (url: string)=>axiosInstance({
+    get: (url: string)=>ApiRequestWithoutToken({
         url,
     })
 }

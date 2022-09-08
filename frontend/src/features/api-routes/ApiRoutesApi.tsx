@@ -1,7 +1,7 @@
-import axiosInstance from "../ApiRequest";
+import axiosInstance, { ApiRequestWithoutToken } from "../ApiRequest";
 
 export const ApiRoutesApi = {
-    get: ()=>axiosInstance({
+    get: ()=>ApiRequestWithoutToken({
         url: "",
     })
 }

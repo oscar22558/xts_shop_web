@@ -5,13 +5,16 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import { Box } from "@mui/material";
 
 type Props = {
+  paymentTotal: number
   onUserFinishedPayment?: (isUserFinishedPayment: boolean)=>void
 }
-export default function CheckoutForm({
+const CheckoutForm: React.FC<Props> = ({
+  paymentTotal,
   onUserFinishedPayment
-}: Props) {
+})=> {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -26,7 +29,6 @@ export default function CheckoutForm({
     const clientSecret = new URLSearchParams(window.location.search).get(
       "payment_intent_client_secret"
     );
-
     if (!clientSecret) {
       return;
     }
@@ -77,13 +79,16 @@ export default function CheckoutForm({
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-      <PaymentElement id="payment-element" />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-      </button>
+      <PaymentElement id="payment-element"/>
+      <Box sx={{display: "flex", paddingY: "10px", justifyContent: "flex-end"}}>
+        <button disabled={isLoading || !stripe || !elements} id="submit" style={{padding: "10px"}}>
+          <span id="button-text">
+            {isLoading ? "Payment processing..." : `Pay now (HKD $${paymentTotal})`}
+          </span>
+        </button>
+      </Box>
       {message && <div id="payment-message">{message}</div>}
     </form>
   );
 }
+export default CheckoutForm

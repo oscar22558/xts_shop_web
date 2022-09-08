@@ -33,6 +33,9 @@ const RegistrySlice = createSlice({
         },
         postRegistryFail: (state: State, {payload}:PayloadAction<PostRegistryError>)=>{
             state.postRegistryResponse.error = payload
+        },
+        clearRegistryError: (state: State)=>{
+            state.postRegistryResponse.error = initialState.postRegistryResponse.error
         }
     }
 })

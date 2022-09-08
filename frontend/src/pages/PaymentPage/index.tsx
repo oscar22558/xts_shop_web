@@ -16,6 +16,8 @@ import ApiConfig from "../../features/ApiConfig"
 const stripePromise = loadStripe("pk_test_51LS0ODIlTFFvV5CYLojONvwgp65Y0XGQ5FnXcJHdp4dJ0npvi3bmUebYlPqfv2HZwzWueAIoKdxgpqIRDY5ufQg600dws9t0jV");
 
 const PaymentPage = ()=>{
+
+    const [paymentTotal, setPaymentTotal] = useState(0)
     const [ isWaitingUserPay, setIsWaitingUserPay ] = useState(true)
     const [ isUserFinishedPayment, setIsUserFinishedPayment ] = useState(false)
     const [ clientSecret, setClientSecret ] = useState("")
@@ -46,7 +48,10 @@ const PaymentPage = ()=>{
             body: JSON.stringify(createPaymentIntentForm)
         })
             .then((response) => response.json())
-            .then((data: any)=> setClientSecret(data.clientSecret));
+            .then(({clientSecret, orderTotal}: any)=> {
+                setPaymentTotal(orderTotal)
+                setClientSecret(clientSecret)
+            });
 
     }, [itemCountsInCart, userAddressId, data.token]);
 
@@ -91,7 +96,7 @@ const PaymentPage = ()=>{
 
   return (
     <Container sx={{paddingY: "20px"}} maxWidth="sm">
-      <Typography variant="h5">Pay your order</Typography>
+      <Typography variant="h5" sx={{marginY: "10px"}}>Pay your order</Typography>
       <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
         {
             debug 
@@ -99,7 +104,7 @@ const PaymentPage = ()=>{
             : (<Box sx={{width: "100%"}}>
                 {clientSecret && (
                     <Elements options={options} stripe={stripePromise}>
-                    <CheckoutForm onUserFinishedPayment={setIsUserFinishedPayment}/>
+                    <CheckoutForm onUserFinishedPayment={setIsUserFinishedPayment} paymentTotal={paymentTotal}/>
                     </Elements>
                 )}
             </Box>)

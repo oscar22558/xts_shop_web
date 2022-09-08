@@ -8,5 +8,6 @@ export default {
     end: actions.postRegistryEnd,
     succeed: actions.postRegistrySucceed,
     fail: actions.postRegistryFail,
-    async: createAction<RegistryForm>("post-registry/async")
+    async: createAction<RegistryForm>("post-registry/async"),
+    clearError: actions.clearRegistryError
 }

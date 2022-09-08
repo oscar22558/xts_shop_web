@@ -2,6 +2,8 @@ package com.xtsshop.app.features.orders;
 
 import com.xtsshop.app.advices.exception.UnAuthorizationException;
 import com.xtsshop.app.db.entities.AppUser;
+import com.xtsshop.app.db.entities.Order;
+import com.xtsshop.app.db.entities.OrderStatus;
 import com.xtsshop.app.features.orders.models.OrderModelAssembler;
 import com.xtsshop.app.features.orders.models.OrderRepresentationModel;
 import com.xtsshop.app.features.users.TargetUserService;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users/{username}/orders")
@@ -28,6 +32,11 @@ public class UserOrderController {
     @GetMapping
     public CollectionModel<EntityModel<OrderRepresentationModel>> list(@NotBlank @PathVariable String username) throws UnAuthorizationException {
         AppUser user = targetUserService.getUser(username);
-        return modelAssembler.toCollectionModel(user.getOrders());
+        List<Order> orders = user
+                .getOrders()
+                .stream()
+                .filter(order-> order.getStatus() != OrderStatus.WAITING_PAYMENT)
+                .collect(Collectors.toList());
+        return modelAssembler.toCollectionModel(orders);
     }
 }

@@ -1,11 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { setAuthorizationHeader } from "../ApiRequest";
+import EmptyHttpResponse from "../models/EmptyHttpResponse";
 import HttpResponse from "../models/HttpResponse";
 import AuthenticationFormError from "./models/AuthenticationFormError";
 import Authentication from "./models/AuthenticationResponse";
+import ValidAuthTokenErrorCode from "./models/ValidAuthTokenErrorCode";
 
 
 type State = {
     authentication: HttpResponse<Authentication, AuthenticationFormError>
+    validAuthToken: EmptyHttpResponse<string>
 }
 
 const initialState: State ={
@@ -20,6 +24,10 @@ const initialState: State ={
             password: "",
             form: ""
         }
+    },
+    validAuthToken: {
+        error: "",
+        loading: false
     }
 }
 
@@ -48,8 +56,20 @@ export const AuthenticationSlice = createSlice({
                 token: null,
                 username: null
             }
+            setAuthorizationHeader("")
         },
-
+        validAuthTokenStart: (state: State)=>{
+            state.validAuthToken.loading = true
+        },
+        validAuthTokenEnd: (state: State)=>{
+            state.validAuthToken.loading = false
+        },
+        validAuthTokenSucceed: (state: State)=>{
+            state.validAuthToken.error = ""
+        },
+        validAuthTokenFail: (state: State)=>{
+            state.validAuthToken.error = ValidAuthTokenErrorCode.TOKEN_INVALID
+        }
     }
 })
 

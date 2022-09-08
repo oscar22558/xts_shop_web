@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from "react"
 import { Box, TextField, Button, FormHelperText } from "@mui/material"
-import React, { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../features/Hooks"
 import RegistryAction from "../../../features/registry/RegistryAction"
 import RegistryForm from "../../../features/registry/models/RegistrygForm"
@@ -34,6 +34,10 @@ const RegistrySection = ()=>{
         {label: "email", isError: emailColumnError !== "", errorMessage: emailColumnError, value: registryForm.email},
         {label: "phone", isError: phoneColumnError !== "", errorMessage: phoneColumnError, value: registryForm.phone},
     ]
+
+    useEffect(()=>{
+        dispatch(RegistryAction.clearError())
+    },[])
 
     return (
         <Box display="flex" justifyContent="flex-start" paddingX="50px" alignItems="center" flexDirection="column" height="400px">

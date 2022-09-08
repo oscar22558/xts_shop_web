@@ -10,9 +10,9 @@ import order from "./order/OrderReducer"
 import user from "./user/UserReducer"
 import userAddresses from "./user-addresses/UserAddressesReducer";
 import { InvoiceReducer as invoice } from "./cart-items/invoice/InvoiceSlice"
-import {RegistryReducer as registry} from "./registry/RegistrySlice"
+import {RegistryReducer as userRegistry} from "./registry/RegistrySlice"
 
-const RootReducer = combineReducers({
+const CombinedReducers = {
     routes,
     categories,
     items,
@@ -24,6 +24,10 @@ const RootReducer = combineReducers({
     user,
     userAddresses,
     invoice,
-    registry,
-})
+    userRegistry: userRegistry,
+}
+
+export type ReducerKeysType = keyof typeof CombinedReducers
+
+const RootReducer = combineReducers(CombinedReducers)
 export default RootReducer

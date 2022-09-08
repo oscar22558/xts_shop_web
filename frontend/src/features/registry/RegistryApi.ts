@@ -1,7 +1,7 @@
-import ApiRequest from "../ApiRequest";
+import ApiRequest, { ApiRequestWithoutToken } from "../ApiRequest";
 import RegistryForm from "./models/RegistrygForm";
 
-export default (data: RegistryForm)=>ApiRequest({
+export default (data: RegistryForm)=>ApiRequestWithoutToken({
     method: "POST",
     url: "/users",
     data

@@ -2,6 +2,7 @@ package com.xtsshop.app.features.authentication;
 
 import com.google.common.net.HttpHeaders;
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
+import com.xtsshop.app.advices.exception.UnAuthorizationException;
 import com.xtsshop.app.features.users.models.SpringUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,23 +31,26 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (authHeader != null) {
-            String accessToken = authHeader.replace("Bearer ", "");
-
-            Map<String, Object> claims = jwtService.parseToken(accessToken);
-            Integer id = (Integer) claims.get("userId");
-            try {
-                SpringUser userDetails = springUserService.loadUserById(Integer.toUnsignedLong(id));
-                Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (RecordNotFoundException e) {
-                e.printStackTrace();
-                throw new IOException(e);
-            }
-        }
-
+        authorizeUser(request);
         filterChain.doFilter(request, response);
+    }
+
+    private void authorizeUser(HttpServletRequest request){
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if(authHeader == null) return;
+        String accessToken = authHeader.replace("Bearer ", "");
+        if(accessToken.isBlank()) throw new UnAuthorizationException();
+
+        Map<String, Object> claims = jwtService.parseToken(accessToken);
+        Integer id = (Integer) claims.get("userId");
+        try {
+            SpringUser userDetails = springUserService.loadUserById(Integer.toUnsignedLong(id));
+            Authentication authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (RecordNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,6 +1,6 @@
-import ApiRequest from "../ApiRequest";
+import { ApiRequestWithoutToken } from "../ApiRequest";
 
-const ItemDetailApi = (itemId: number)=>ApiRequest({
+const ItemDetailApi = (itemId: number)=>ApiRequestWithoutToken({
     url: `/items/${itemId}`,
     method: "GET"
 })

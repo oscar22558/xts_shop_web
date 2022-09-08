@@ -1,5 +1,4 @@
 import { Box, Grid } from "@mui/material"
-import { useEffect } from "react"
 import useFetchCartItemsByIds from "../../data-sources/cart/useFetchCartItemsByIds"
 import CartItemList from "./CartItemList"
 import OrderSummary from "./OrderSummary"

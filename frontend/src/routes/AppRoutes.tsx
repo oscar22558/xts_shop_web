@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import AuthenticationSelector from "../features/authentication/AuthenticationSelector"
+import { useAppSelector } from "../features/Hooks"
 
 import AppRootPage from "../pages/AppRootPage"
 import CartPage from "../pages/CartPage"
@@ -12,6 +14,7 @@ import OrderDetailPage from "../pages/OrderDetailPage"
 import OrderShippingAddressPage from "../pages/OrderShippingAddressPage"
 import OrdersPage from "../pages/OrdersPage/OrdersPage"
 import PaymentPage from "../pages/PaymentPage"
+import PleaseSignInPage from "../pages/PleaseSignInPage"
 import SettingsPage from "../pages/SettingsPage"
 import AccountPage from "../pages/SettingsPage/AccountPage"
 import AddressPage from "../pages/SettingsPage/AddressPage"
@@ -19,6 +22,7 @@ import SignInPage from "../pages/SignInPage"
 import AppRouteList from "./AppRouteList"
 
 const AppRoutes = ()=>{
+    const authToken = useAppSelector(AuthenticationSelector).authentication.data.token
     return (
         <BrowserRouter>
             <Routes>
@@ -28,19 +32,28 @@ const AppRoutes = ()=>{
                             <Route index element={<HomePage />} />
                             <Route path={AppRouteList.itemsInCaregory+"/*"} element={<ItemsInCateogryPage />}/>
                         </Route>
-                        <Route path={AppRouteList.signIn} element={<SignInPage />}/>
-                        <Route path={AppRouteList.settings.index} element={<SettingsPage />}>
-                            <Route path={AppRouteList.settings.account} element={<AccountPage />} />
-                            <Route path={AppRouteList.settings.addresses} element={<AddressPage />} />
-                        </Route>
                         <Route path={AppRouteList.item.route+"/*"} element={<ItemPage />}/>
+                        <Route path={AppRouteList.signIn} element={<SignInPage />}/>
+                        {authToken ? (
+                            <>
+                            
+                                <Route path={AppRouteList.settings.index} element={<SettingsPage />}>
+                                    <Route path={AppRouteList.settings.account} element={<AccountPage />} />
+                                    <Route path={AppRouteList.settings.addresses} element={<AddressPage />} />
+                                </Route>
+                            </>
+                        ): <Route path="*" element={<PleaseSignInPage />}/>}
                     </Route>
                     <Route path="" element={<MiniFooterPage />}>
-                        <Route path={AppRouteList.orderShippingAddresses} element={<OrderShippingAddressPage />}/>
-                        <Route path={AppRouteList.orders} element={<OrdersPage />}/>
-                        <Route path={AppRouteList.order.route} element={<OrderDetailPage />}/>
                         <Route path={AppRouteList.cart} element={<CartPage />}/>
-                        <Route path={AppRouteList.payment} element={<PaymentPage />}/>
+                        {authToken ? (
+                            <>
+                                <Route path={AppRouteList.orderShippingAddresses} element={<OrderShippingAddressPage />}/>
+                                <Route path={AppRouteList.orders} element={<OrdersPage />}/>
+                                <Route path={AppRouteList.order.route} element={<OrderDetailPage />}/>
+                                <Route path={AppRouteList.payment} element={<PaymentPage />}/>
+                            </>
+                        ): <Route path="*" element={<PleaseSignInPage />}/>}
                     </Route>
                 </Route>
             </Routes>

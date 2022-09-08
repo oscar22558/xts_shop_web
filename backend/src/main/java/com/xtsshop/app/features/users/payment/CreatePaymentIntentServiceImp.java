@@ -1,6 +1,7 @@
 package com.xtsshop.app.features.users.payment;
 
 import com.xtsshop.app.db.entities.Invoice;
+import com.xtsshop.app.features.users.payment.models.CreatePaymentIntentResponse;
 import org.springframework.stereotype.Service;
 
 import com.stripe.Stripe;
@@ -24,7 +25,7 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
         this.orderTotalCalculator = orderTotalCalculator;
     }
 
-    public String createIntent(CreatePaymentIntentForm form){
+    public CreatePaymentIntentResponse createIntent(CreatePaymentIntentForm form){
         this.form = form;
         buildInvoice();
         PaymentIntent paymentIntent = buildPaymentIntent();
@@ -35,7 +36,9 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
                 invoice
         );
         createOrderService.create(createOrderRequest);
-        return paymentIntent.getClientSecret();
+
+        String clientSecret = paymentIntent.getClientSecret();
+        return new CreatePaymentIntentResponse(clientSecret, invoice.getTotal());
     }
 
     private void buildInvoice(){

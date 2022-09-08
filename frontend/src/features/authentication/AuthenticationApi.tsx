@@ -1,7 +1,7 @@
-import axiosInstance from "../ApiRequest";
+import ApiRequest, { ApiRequestWithoutToken } from "../ApiRequest";
 import AuthenticationRequest from "./models/AuthenticationRequest";
 
-const AuthenticationApi = ( data: AuthenticationRequest)=>axiosInstance({
+const AuthenticationApi = ( data: AuthenticationRequest)=>ApiRequestWithoutToken({
     method: "post",
     url: "/auth",
     data,

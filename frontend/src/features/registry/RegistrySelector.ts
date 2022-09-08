@@ -1,4 +1,4 @@
 import { RootState } from "../Store";
 
-const RegistrySelector = (rootState: RootState)=>rootState.registry
+const RegistrySelector = (rootState: RootState)=>rootState.userRegistry
 export default RegistrySelector

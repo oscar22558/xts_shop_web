@@ -1,5 +1,5 @@
-import axiosInstance from "../ApiRequest"
 import qs from "qs"
+import { ApiRequestWithoutToken } from "../ApiRequest"
 
 type GetCartItemsRequest = {
     url: string,
@@ -8,7 +8,7 @@ type GetCartItemsRequest = {
     }
 }
 
-const GetItemsByIdApi = (request: GetCartItemsRequest)=>axiosInstance({
+const GetItemsByIdApi = (request: GetCartItemsRequest)=>ApiRequestWithoutToken({
     ...request,
     paramsSerializer: (params: any) => qs.stringify(params, {arrayFormat: "brackets"})
 })

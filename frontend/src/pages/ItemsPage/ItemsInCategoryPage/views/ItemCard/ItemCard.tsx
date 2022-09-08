@@ -15,7 +15,7 @@ const ItemCard = ({index}: {index: number})=>{
     return (
         <Card sx={{width: 240, marginBottom: 4, marginRight: 4}}>
             <CardMedia
-                sx={{width: 240, height: 240, objectFit: "contain"}}
+                sx={{width: 240, height: 240, objectFit: "contain", cursor: "pointer"}}
                 component="img"
                 image={viewModel.imgUrl}
                 alt={viewModel.name}
