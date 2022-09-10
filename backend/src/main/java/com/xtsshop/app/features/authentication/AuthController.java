@@ -38,10 +38,10 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-//    @PostMapping("/api/auth/valid")
-//    public ResponseEntity<Map<String, Object>> validToken() {
-//        return ResponseEntity.ok().build();
-//    }
+    @PostMapping("/api/auth/valid")
+    public ResponseEntity<Map<String, Object>> validToken() {
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/api/auth/user")
     public EntityModel<UserRepresentationModel> user(){
