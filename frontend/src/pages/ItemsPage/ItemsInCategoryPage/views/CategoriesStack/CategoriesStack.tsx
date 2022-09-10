@@ -9,13 +9,13 @@ const CategoriesStack = ()=>{
     const fetchCategory = useFetchCategory()
     const fetchItems = useFetchItems()
     return (
-        <div style={{paddingTop: "10px", paddingBottom: "10px"}}>{viewModel?.map((itemModel, index)=>(
+        <div style={{paddingTop: "10px", paddingBottom: "10px"}}>{viewModel?.map(({url, id, name}, index)=>(
              <Box key={index}>
                 {index !== 0 && <span>{">"}</span>}
-                <Link to={itemModel.url} onClick={()=>{
-                    fetchCategory(itemModel.apiUrl)
-                    fetchItems(itemModel.itemUrl)
-                }}>{itemModel.name}</Link>
+                <Link to={url} onClick={()=>{
+                    fetchCategory(id)
+                    fetchItems(id)
+                }}>{name}</Link>
             </Box>
         ))}</div>
     )

@@ -1,13 +1,11 @@
 import useCart from "../../../data-sources/cart/useCart"
-import { useNavigate } from "react-router-dom"
 import AppRouteList from "../../../routes/AppRouteList"
+import { Link } from "@mui/material"
+
 const ShoppingCartIcon = ()=>{
     const {itemTotalCountInCart: itemCountInCart} = useCart()
-    const navigate = useNavigate()
     return <>
-        <div onClick={()=>{
-           navigate(AppRouteList.cart) 
-        }}>Shopping Cart ({itemCountInCart()})</div>
+        <Link href={AppRouteList.cart} color="#fff" underline="none">Shopping Cart ({itemCountInCart()})</Link>
     </>
 }
 export default ShoppingCartIcon

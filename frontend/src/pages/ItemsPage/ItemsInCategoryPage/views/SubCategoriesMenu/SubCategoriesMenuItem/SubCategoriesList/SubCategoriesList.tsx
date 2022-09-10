@@ -9,11 +9,11 @@ const SubCategoriesList = ({
 }: Props)=>{
     const viewModel = useViewModel(index)
     return <Box sx={{border: "1px solid rgba(0,0,0,0.1)", borderRadius: "5px"}}>
-        {viewModel.categories?.map((category, index)=>(
+        {viewModel.categories?.map(({id, name}, index)=>(
             <SubCategoriesListItem 
                 key={index}
-                label={category.name} 
-                onClick={viewModel.onClick(category._links.self.href, category._links.items.href)}
+                label={name} 
+                onClick={viewModel.onClick(id)}
             />
         ))}
     </Box>

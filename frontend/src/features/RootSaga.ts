@@ -2,8 +2,9 @@ import createSagaMiddleware, {Saga} from "redux-saga";
 
 import {getSaga as getAllRoutesSaga} from "./api-routes/ApiRoutesSaga";
 import {postAuthenticationSaga} from "./authentication/AuthenticationSaga"
+import validateAuthTokenSaga from "./authentication/ValidateAuthTokenSaga";
 
-import {getAllBrandsSaga as getAllBrandsSaga} from "./brands/BrandsSaga"
+import {getAllBrandsSaga} from "./brands/BrandsSaga"
 
 import {getItemsByIdSaga as getCartItemsByIdSaga} from "./cart-items/CartItemsSaga"
 import getItemDetailSaga from "./item-detail/ItemDetailSaga"
@@ -30,6 +31,7 @@ export const sagaMiddleware = createSagaMiddleware()
 export const rootSaga = [
     getAllRoutesSaga,
     postAuthenticationSaga,
+    validateAuthTokenSaga,
     getAllBrandsSaga,
     getCartItemsByIdSaga,
     getInvoiceSaga,

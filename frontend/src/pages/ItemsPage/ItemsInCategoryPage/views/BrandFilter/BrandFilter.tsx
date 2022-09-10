@@ -1,5 +1,5 @@
-import { Box, Card, Checkbox, FormControlLabel, FormGroup, Stack } from "@mui/material"
-import React, { ChangeEvent } from "react"
+import { Box, Card, Checkbox, FormControlLabel, FormGroup } from "@mui/material"
+import { ChangeEvent } from "react"
 import useViewModel from "./useViewModel"
 
 const BrandFilter = ()=>{

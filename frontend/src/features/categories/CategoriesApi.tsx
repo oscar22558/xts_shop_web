@@ -1,11 +1,11 @@
-import axiosInstance, { ApiRequestWithoutToken } from "../ApiRequest";
+import { ApiRequestWithoutToken } from "../ApiRequest";
 
 export const CategoriesApi = {
-    getAll: (url: string)=>ApiRequestWithoutToken({
-        url
+    getAll: ()=>ApiRequestWithoutToken({
+        url: "/categories"
     }),
-    get: (url: string)=>ApiRequestWithoutToken({
-        url,
+    get: (categoryId: number)=>ApiRequestWithoutToken({
+        url: `/categories/${categoryId}`,
     })
 }
 export default CategoriesApi

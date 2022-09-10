@@ -3,8 +3,8 @@ import qs from "qs"
 
 export const ItemsApi = {
     getAll: {
-        of: (getConfig: any)=>ApiRequestWithoutToken({
-            ...getConfig,
+        of: (getRequestConfig: any)=>ApiRequestWithoutToken({
+            ...getRequestConfig,
             paramsSerializer: (params: any) => qs.stringify(params, {arrayFormat: "brackets"})
         })
     },

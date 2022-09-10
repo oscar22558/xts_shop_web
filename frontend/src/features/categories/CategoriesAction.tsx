@@ -15,7 +15,7 @@ const CategoriesActions = {
         end     : sliceActions.getCategoryEnd,
         success : sliceActions.getCategorySuccess,
         fail    : sliceActions.getCategoryFail,
-        async: createAction<string>("categories/getAsync")
+        async: createAction<number>("categories/getAsync")
     },
     setSelectedCategoryTabIndex: sliceActions.setSelectedCategoryTabIndex
 }

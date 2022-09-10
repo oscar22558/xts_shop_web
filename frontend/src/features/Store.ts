@@ -1,4 +1,4 @@
-import { configureStore, Store } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import { persistReducer, persistStore } from 'redux-persist';
 
 import middlewares  from "./middleware";
@@ -6,13 +6,13 @@ import {runSagas, rootSaga} from "./RootSaga";
 import RootReducer from "./RootReducer";
 import PersistReducerConfig from './PersistReducerConfig';
 import { setAuthorizationHeader } from './ApiRequest';
-
+import thunk from "redux-thunk"
 
 const configureAppStore = ()=>{
-    const persistedReducer = persistReducer(PersistReducerConfig, RootReducer)
+    const persistedReducer = persistReducer( PersistReducerConfig, RootReducer)
     const store = configureStore({
         reducer: persistedReducer,
-        middleware: (getDefaultMiddleware)=>[...middlewares, ...getDefaultMiddleware()]
+        middleware: ()=>[...middlewares, thunk]
     })
     const persistor = persistStore(store, null, ()=>{
         const authToken = store.getState().authentication.authentication.data.token ?? ""

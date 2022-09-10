@@ -10,7 +10,7 @@ import order from "./order/OrderReducer"
 import user from "./user/UserReducer"
 import userAddresses from "./user-addresses/UserAddressesReducer";
 import { InvoiceReducer as invoice } from "./cart-items/invoice/InvoiceSlice"
-import {RegistryReducer as userRegistry} from "./registry/RegistrySlice"
+import {RegistryReducer as registry} from "./registry/RegistrySlice"
 
 const CombinedReducers = {
     routes,
@@ -24,7 +24,7 @@ const CombinedReducers = {
     user,
     userAddresses,
     invoice,
-    userRegistry: userRegistry,
+    registry,
 }
 
 export type ReducerKeysType = keyof typeof CombinedReducers

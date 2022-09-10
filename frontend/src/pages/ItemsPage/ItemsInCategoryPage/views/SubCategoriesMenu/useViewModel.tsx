@@ -9,9 +9,9 @@ const useViewModel = ()=>{
     const fetchCategory = useFetchCategory()
     const fetchItems = useFetchItems()
 
-    const onClick = (selfUrl: string, itemsUrl: string)=>()=>{
-        fetchCategory(selfUrl)
-        fetchItems(itemsUrl)
+    const onClick = (categoryId: number)=>()=>{
+        fetchCategory(categoryId)
+        fetchItems(categoryId)
     }
     return {
         data,

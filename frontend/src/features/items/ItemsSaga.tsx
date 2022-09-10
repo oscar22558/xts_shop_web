@@ -5,14 +5,13 @@ import {PayloadAction} from "@reduxjs/toolkit";
 import ItemsSelector from "./ItemsSelector"
 import FetchItemOptions from "../../data-sources/models/FetchItemOptions";
 
-function* getAllOf(action: PayloadAction<string>): Generator<any, any, any>{
+function* getAllOf({payload}: PayloadAction<number>): Generator<any, any, any>{
     const { start, end, success, fail } = ItemsAction.getAll.of
-    const selectedCategoryItemUrl = action.payload
     yield put(start())
     try{
         const fetchItemOptions = (yield select(ItemsSelector)).fetchItemOptions as FetchItemOptions
-        const urlWithRequestParams = addRequestParams(selectedCategoryItemUrl, fetchItemOptions)
-        const res = yield call(ItemsApi.getAll.of, urlWithRequestParams)
+        const getRequestConfig = addRequestParams(payload, fetchItemOptions)
+        const res = yield call(ItemsApi.getAll.of, getRequestConfig)
         yield put(success(res.data?._embedded?.itemRepresentationModelList ?? []))
     }catch (ex: any) {
         console.error(ex)
@@ -22,7 +21,7 @@ function* getAllOf(action: PayloadAction<string>): Generator<any, any, any>{
     }
 }
 
-function addRequestParams(url: string, option: FetchItemOptions){
+function addRequestParams(categoryId: number, option: FetchItemOptions){
     let getRequestConfig = {}
 
     if(option.sorting != null){
@@ -36,7 +35,7 @@ function addRequestParams(url: string, option: FetchItemOptions){
         ...option.filter,
     }
     const getConfig = {
-        url,
+        url: `/categories/${categoryId}/items`,
         params: getRequestConfig
     }
     return getConfig

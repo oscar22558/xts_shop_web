@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react"
 import useFetchItems from "../../../../../data-sources/items/useFetchItems"
-import brandsSelector from "../../../../../features/brands/BrandsSelector"
 import { useAppDispatch, useAppSelector } from "../../../../../features/Hooks"
+import brandsSelector from "../../../../../features/brands/BrandsSelector"
 import itemActions from "../../../../../features/items/ItemsAction"
 import categorySelector from "../../../../../features/categories/CategoriesSelector"
+
 const useViewModel = ()=>{
     const [checkBoxStates, setCheckBoxStates] = useState(getInitStates(5))
     const {allBrands} = useAppSelector(brandsSelector)
     const checkBoxModelList = allBrands.data
     const dispatch = useAppDispatch()
     const updateBrandFilterItemAction = itemActions.setFetchItemOptions.brandFilter    
-    const getItemsUnderCategoryUrl = useAppSelector(categorySelector)
+    const categoryId = useAppSelector(categorySelector)
         ?.getCategoryResponse?.data
-        ?._links?.items.href
+        ?.id
     const fetchItems = useFetchItems()
 
     const getCheckBoxViewModels =  ()=>{
@@ -34,12 +35,12 @@ const useViewModel = ()=>{
     const updateItemApiBrandFilter = ()=>{
         const selectedBrandIds = checkBoxStates
             .map((state, index)=>state ? checkBoxModelList[index].id : -1)
-            .filter((brandId)=>brandId != -1)
+            .filter((brandId)=>brandId !== -1)
         dispatch(updateBrandFilterItemAction({brandIds: selectedBrandIds}))
-        getItemsUnderCategoryUrl && fetchItems(getItemsUnderCategoryUrl)
+        categoryId && fetchItems(categoryId)
     }
 
-    useEffect(updateItemApiBrandFilter, [checkBoxStates])
+    useEffect(updateItemApiBrandFilter, [dispatch, checkBoxStates, categoryId, checkBoxModelList, updateBrandFilterItemAction, fetchItems])
 
     return getCheckBoxViewModels()
 

@@ -1,15 +1,10 @@
-import { useNavigate } from "react-router-dom"
+import { Link } from "@mui/material"
 import AppRouteList from "../../../routes/AppRouteList"
 
 const SignInIcon = ()=>{
-    const navigate = useNavigate()
-    const handleClick = ()=>{
-        navigate(AppRouteList.signIn)
-    }
-
-    return <span onClick={handleClick}>
+    return <Link href={AppRouteList.signIn} color="#fff" underline="none">
         Sign-In
-    </span>
+    </Link>
 }
 
 export default SignInIcon

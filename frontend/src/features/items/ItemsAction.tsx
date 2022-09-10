@@ -9,7 +9,7 @@ export const ItemsAction = {
             end    : sliceActions.getAllOfCategoryEnd,
             success: sliceActions.getAllOfCategorySuccess,
             fail   : sliceActions.getAllOfCategoryFail,
-            async  : createAction<string>("items/getAll/of/category/async")
+            async  : createAction<number>("items/getAll/of/category/async")
         }
     },
     setFetchItemOptions: {

@@ -1,8 +1,8 @@
 import ApiRequest from "../ApiRequest";
 
-const ValidAuthTokenApi = ()=>ApiRequest({
+const ValidateAuthTokenApi = ()=>ApiRequest({
     method: "post",
     url: "/auth/valid",
 })
 
-export default ValidAuthTokenApi
+export default ValidateAuthTokenApi

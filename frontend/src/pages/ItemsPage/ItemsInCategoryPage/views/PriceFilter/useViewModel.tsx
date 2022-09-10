@@ -6,9 +6,7 @@ import PriceFilter from "../../../../../data-sources/models/PriceFilter"
 import itemsActions from "../../../../../features/items/ItemsAction"
 
 const useViewModel = ()=>{
-    const getItemsUndeCategoryUrl = useAppSelector(CategoriesSelector)
-        ?.getCategoryResponse?.data
-        ?._links?.items.href
+    const categoryId = useAppSelector(CategoriesSelector)?.getCategoryResponse?.data?.id
     const fetchItems = useFetchItems()
     const dispatch = useAppDispatch()
 
@@ -22,12 +20,11 @@ const useViewModel = ()=>{
     }
 
     const fetchItemsWithOptions = ()=>{
-        getItemsUndeCategoryUrl &&
-        fetchItems(getItemsUndeCategoryUrl)
+        categoryId && fetchItems(categoryId)
     }
     useEffect(()=>{
         dispatch(itemsActions.setFetchItemOptions.priceFilter({maxPrice: 10000, minPrice: 0}))
-    }, [])
+    }, [dispatch])
     return {
         handleSearchBtnClick
     }

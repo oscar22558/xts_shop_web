@@ -5,9 +5,9 @@ const useViewModel = ()=>{
     const fetchItems = useFetchItems()
     const fetchCategory = useFetchCategory()
     return {
-        handleItemClick: (subCategoriesUrl: string, itemsUrl: string)=>{
-            fetchCategory(subCategoriesUrl)
-            fetchItems(itemsUrl)
+        handleItemClick: (categoryId: number)=>{
+            fetchCategory(categoryId)
+            fetchItems(categoryId)
         }
     }
 }

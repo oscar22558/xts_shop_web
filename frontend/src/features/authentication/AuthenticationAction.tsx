@@ -12,7 +12,7 @@ export const AuthenticationAction = {
     clearError: actions.clearAuthenticationError,
 }
 
-export const ValidAuthTokenAction = {
+export const ValidateAuthTokenAction = {
     start: actions.validAuthTokenStart,
     end: actions.validAuthTokenEnd,
     succeed: actions.validAuthTokenSucceed,

@@ -3,7 +3,7 @@ import CategoriesActions from "../../features/categories/CategoriesAction";
 
 const useFetchCategory = () => {
     const appDispatch = useAppDispatch()
-    return (url: string)=>{ appDispatch(CategoriesActions.getCategory.async(url)) }
+    return (categoryId: number)=>{ appDispatch(CategoriesActions.getCategory.async(categoryId)) }
 }
 
 export default useFetchCategory

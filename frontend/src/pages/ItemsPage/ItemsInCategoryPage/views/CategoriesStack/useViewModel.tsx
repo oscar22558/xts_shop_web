@@ -27,7 +27,7 @@ const findPath = (root: Category, id: number): CategoryStackItemModel[] | null =
     for (const node of root.subCategories) {
         const target = findPath(node, id)
         if(target != null){
-            return [{name: node.name, url: "/categories/"+ node.name, apiUrl: node._links.self.href, itemUrl: node._links.items.href}, ...target]
+            return [{id: node.id, name: node.name, url: "/categories/"+ node.name, apiUrl: node._links.self.href, itemUrl: node._links.items.href}, ...target]
         }
     }
     return null

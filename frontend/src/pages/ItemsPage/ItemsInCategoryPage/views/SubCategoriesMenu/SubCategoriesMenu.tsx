@@ -8,12 +8,12 @@ const SubCategoriesMenu = ()=>{
         <Card>
             <Box sx={{paddingTop: "20px",paddingLeft: "20px", paddingRight: "20px", fontSize: "20px", fontWeight: "bold"}}>Categories</Box>
             <ListContainer>
-                {viewModel.data?.subCategories.map((subcategory, index)=>(
+                {viewModel.data?.subCategories.map(({id, name}, index)=>(
                     <SubCategoriesMenuItem 
                         key={index}
                         index={index}
-                        label={subcategory.name}
-                        onClick={viewModel.onClick(subcategory._links.self.href, subcategory._links.items.href)} 
+                        label={name}
+                        onClick={viewModel.onClick(id)} 
                     />
                 ))}
             </ListContainer>

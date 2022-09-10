@@ -9,7 +9,7 @@ import ValidAuthTokenErrorCode from "./models/ValidAuthTokenErrorCode";
 
 type State = {
     authentication: HttpResponse<Authentication, AuthenticationFormError>
-    validAuthToken: EmptyHttpResponse<string>
+    validateAuthToken: EmptyHttpResponse<string>
 }
 
 const initialState: State ={
@@ -25,7 +25,7 @@ const initialState: State ={
             form: ""
         }
     },
-    validAuthToken: {
+    validateAuthToken: {
         error: "",
         loading: false
     }
@@ -59,16 +59,16 @@ export const AuthenticationSlice = createSlice({
             setAuthorizationHeader("")
         },
         validAuthTokenStart: (state: State)=>{
-            state.validAuthToken.loading = true
+            state.validateAuthToken.loading = true
         },
         validAuthTokenEnd: (state: State)=>{
-            state.validAuthToken.loading = false
+            state.validateAuthToken.loading = false
         },
         validAuthTokenSucceed: (state: State)=>{
-            state.validAuthToken.error = ""
+            state.validateAuthToken.error = ""
         },
         validAuthTokenFail: (state: State)=>{
-            state.validAuthToken.error = ValidAuthTokenErrorCode.TOKEN_INVALID
+            state.validateAuthToken.error = ValidAuthTokenErrorCode.TOKEN_INVALID
         }
     }
 })

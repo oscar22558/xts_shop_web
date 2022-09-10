@@ -37,7 +37,7 @@ const CategoriesTabs = ()=>{
                     label={category.name} 
                     {...a11yProps(index)}
                     onClick={()=>{
-                        viewModel.handleItemClick(category._links.self.href, category._links.items.href)
+                        viewModel.handleItemClick(category.id)
                         navigate(`/categories/${category.name}`)
                     }}
                 />
