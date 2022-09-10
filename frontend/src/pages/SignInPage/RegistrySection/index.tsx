@@ -46,7 +46,7 @@ const RegistrySection = ()=>{
                 <Box key={index} display="flex" flexDirection="column" marginBottom="15px">
                     <TextField
                         name={label}  
-                        type={label} 
+                        type="text" 
                         title={label}
                         label={label}
                         error={isError}

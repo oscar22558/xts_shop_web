@@ -22,7 +22,11 @@ const initialState: State = {
     },
     cachedOrderCreateForm: {
        userAddressId: -1,
-       clientSecret: ""
+       clientSecret: "",
+       lastName: "",
+       firstName: "",
+       email: "",
+       phone: ""
     }
 }
 
