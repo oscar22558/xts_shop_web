@@ -1,10 +1,9 @@
-package com.xtsshop.app.features.users.validations;
+package com.xtsshop.app.validations;
 
 
-import com.xtsshop.app.features.users.validations.groups.ColumnEmpty;
-import com.xtsshop.app.features.users.validations.groups.ColumnLength;
-import com.xtsshop.app.features.users.validations.groups.ColumnPattern;
-import org.apache.naming.java.javaURLContextFactory;
+import com.xtsshop.app.validations.groups.ColumnEmpty;
+import com.xtsshop.app.validations.groups.ColumnLength;
+import com.xtsshop.app.validations.groups.ColumnPattern;
 
 import javax.validation.GroupSequence;
 import javax.validation.groups.Default;

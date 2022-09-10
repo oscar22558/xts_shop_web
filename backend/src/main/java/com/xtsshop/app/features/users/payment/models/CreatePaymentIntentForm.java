@@ -1,22 +1,34 @@
 package com.xtsshop.app.features.users.payment.models;
 
+import com.xtsshop.app.validations.groups.ColumnEmpty;
+import com.xtsshop.app.validations.groups.ColumnLength;
+import com.xtsshop.app.validations.groups.ColumnPattern;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Getter
 @Setter
 public class CreatePaymentIntentForm {
+    @NotBlank(groups = ColumnEmpty.class)
+    @Size(max = 100, groups = ColumnLength.class)
+    private String recipientName;
 
-    @Size(min = 1)
-    @NotNull
+    @NotBlank(groups = ColumnEmpty.class)
+    @Email(groups = ColumnPattern.class)
+    private String recipientEmail;
+
+    @NotBlank(groups = ColumnEmpty.class)
+    @Size(max = 15, groups = ColumnLength.class)
+    private String recipientPhone;
+
+    @NotNull(groups = ColumnEmpty.class)
+    @Size(min = 1, groups = ColumnLength.class)
     private List<@NotNull ItemQuantity> itemQuantities;
-    @Min(-1)
+
+    @NotNull(groups = ColumnEmpty.class)
     private long userAddressId;
 
 }

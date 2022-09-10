@@ -52,4 +52,15 @@ public class OrderRepresentationModel implements AbstractRepresentationModel {
         return new Invoice(itemsTotal, shippingFee, total);
     }
 
+    public String getRecipientName(){
+        return entity.getRecipientName();
+    }
+
+    public String getRecipientEmail(){
+        return entity.getRecipientEmail();
+    }
+
+    public String getRecipientPhone(){
+       return entity.getRecipientPhone();
+    }
 }
