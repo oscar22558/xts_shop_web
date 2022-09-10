@@ -11,7 +11,7 @@ import HomePage from "../pages/ItemsPage/HomePage"
 import ItemsInCateogryPage from "../pages/ItemsPage/ItemsInCategoryPage"
 import MiniFooterPage from "../pages/MiniFooterPage"
 import OrderDetailPage from "../pages/OrderDetailPage"
-import OrderShippingAddressPage from "../pages/OrderShippingAddressPage"
+import OrderShippingAddressPage from "../pages/OrderRecipientPage"
 import OrdersPage from "../pages/OrdersPage/OrdersPage"
 import PaymentPage from "../pages/PaymentPage"
 import PleaseSignInPage from "../pages/PleaseSignInPage"
@@ -48,7 +48,7 @@ const AppRoutes = ()=>{
                         <Route path={AppRouteList.cart} element={<CartPage />}/>
                         {authToken ? (
                             <>
-                                <Route path={AppRouteList.orderShippingAddresses} element={<OrderShippingAddressPage />}/>
+                                <Route path={AppRouteList.orderRecipient} element={<OrderShippingAddressPage />}/>
                                 <Route path={AppRouteList.orders} element={<OrdersPage />}/>
                                 <Route path={AppRouteList.order.route} element={<OrderDetailPage />}/>
                                 <Route path={AppRouteList.payment} element={<PaymentPage />}/>

@@ -17,11 +17,7 @@ const ShippingAddressFormPage = ()=>{
 
     return <Box sx={{paddingY: "25px"}}>
         <h1>Select Shipping address</h1>
-        <Grid container spacing="20px">
-            <Grid item xs={9}>
-                <AddressSelectionForm /> 
-                <CreateAddressSection />
-            </Grid>
+        <Grid container spacing="20px" direction="column">
             <Grid item xs={3} >
                 <Box sx={{borderRadius: "15px", border: "1px solid", display: "flex", flexDirection: "column" , padding: "20px"}}>
                     <Box sx={{flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
@@ -36,6 +32,10 @@ const ShippingAddressFormPage = ()=>{
                         <Button disabled={address == null} variant="contained" onClick={handleNextBtnClick}>Next</Button>
                     </Box>
                 </Box>
+            </Grid>
+            <Grid item xs={9}>
+                <AddressSelectionForm /> 
+                <CreateAddressSection />
             </Grid>
         </Grid>
     </Box>

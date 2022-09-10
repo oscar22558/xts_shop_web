@@ -23,12 +23,7 @@ public class CreatePaymentIntentServiceMockImp implements CreatePaymentIntentSer
     public CreatePaymentIntentResponse createIntent(CreatePaymentIntentForm form){
         this.form = form;
         buildInvoice();
-        CreateOrderRequest createOrderRequest = new CreateOrderRequest(
-                form.getItemQuantities(),
-                form.getUserAddressId(),
-                FakePaymentDetail.PAYMENT_INTENT_ID,
-                invoice
-        );
+        CreateOrderRequest createOrderRequest = buildCreateOrderRequest();
         createOrderService.create(createOrderRequest);
         return new CreatePaymentIntentResponse(FakePaymentDetail.CLIENT_SECRET, invoice.getTotal());
     }
@@ -36,5 +31,17 @@ public class CreatePaymentIntentServiceMockImp implements CreatePaymentIntentSer
     private void buildInvoice(){
         orderTotalCalculator.setItemQuantities(form.getItemQuantities());
         invoice = orderTotalCalculator.getInvoice();
+    }
+
+    private CreateOrderRequest buildCreateOrderRequest(){
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+        createOrderRequest.setItemQuantities(form.getItemQuantities());
+        createOrderRequest.setUserAddressId(form.getUserAddressId());
+        createOrderRequest.setPaymentIntentId(FakePaymentDetail.PAYMENT_INTENT_ID);
+        createOrderRequest.setInvoice(invoice);
+        createOrderRequest.setRecipientEmail(form.getRecipientEmail());
+        createOrderRequest.setRecipientPhone(form.getRecipientPhone());
+        createOrderRequest.setRecipientEmail(form.getRecipientEmail());
+        return createOrderRequest;
     }
 }

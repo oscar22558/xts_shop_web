@@ -2,7 +2,7 @@ const AppRouteList = {
     home: "/",
     cart: "/cart",
     signIn: "/sign-in",
-    orderShippingAddresses: "/shipping-address",
+    orderRecipient: "/recipient",
     itemsInCaregory: "/categories",
     orders: "/orders",
     order: {route: "/order/:orderId", params: [":orderId"]},
