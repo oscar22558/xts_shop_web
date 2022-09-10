@@ -5,8 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
@@ -19,6 +21,7 @@ public class Item extends AppEntity{
     private String name;
 
     @Column(nullable = false)
+    @Min(0)
     private float price;
 
     @Column(nullable = false)
@@ -27,10 +30,10 @@ public class Item extends AppEntity{
     @Column(nullable = false)
     private int stock;
 
-    @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Image image;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OrderBy(value = "createdAt DESC ")
     private List<PriceHistory> priceHistories;
 
@@ -40,6 +43,10 @@ public class Item extends AppEntity{
 
     @ManyToMany(mappedBy = "cart")
     private Set<AppUser> users;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
 
     public Item(long id) {
         super(id);
@@ -54,4 +61,15 @@ public class Item extends AppEntity{
         this.stock = stock;
     }
 
+    public float getLatestPrice(){
+        return getLatestPriceHistory()
+                .flatMap(priceHistory -> Optional.of(priceHistory.getValue())).orElse(0f);
+    }
+
+    public Optional<PriceHistory> getLatestPriceHistory(){
+        int index = priceHistories.size() - 1;
+        return Optional.ofNullable(
+                index <= -1 ? null : priceHistories.get(index)
+        );
+    }
 }

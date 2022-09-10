@@ -1,56 +1,49 @@
 package com.xtsshop.app.db.entities;
 
-import com.xtsshop.app.db.entities.payment.Payment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 @Table(name = "orders")
 public class Order extends AppEntity {
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "shipping_address")
-    private Address shippingAddress;
-
-    @OneToOne(mappedBy = "order")
-    private Payment payment;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private ShippingAddress shippingAddress;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
-
-    @OneToMany(mappedBy = "order")
-    private List<Coupon> coupon;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @ManyToMany
-    @JoinTable(
-            name = "orders_price_histories",
-            joinColumns = @JoinColumn(
-                    name = "order_id", referencedColumnName = "id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "price_history_id", referencedColumnName = "id"
-            )
-    )
-    private Set<PriceHistory> priceHistories;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderedItem> orderedItems;
 
-    public void addPriceHistory(PriceHistory priceHistory){
-        this.priceHistories.add(priceHistory);
-        priceHistory.getOrders().add(this);
+    @Column(name = "payment_intent_id", nullable = false)
+    private String paymentIntentId;
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Invoice invoice;
+
+    public void addOrderItems(OrderedItem orderedItem){
+        orderedItem.setOrder(this);
+        if(orderedItems != null)
+            orderedItems.add(orderedItem);
     }
-    public void removePriceHistory(PriceHistory priceHistory){
-        this.priceHistories.remove(priceHistory);
-        priceHistory.getOrders().remove(this);
+    public void removeOrderItems(Long orderItemId){
+        if(orderedItems != null){
+            orderedItems.stream().filter(item->item.getId() == orderItemId).findAny().ifPresent(item->{
+                item.setOrder(null);
+                orderedItems.remove(item);
+            });
+        }
     }
 }

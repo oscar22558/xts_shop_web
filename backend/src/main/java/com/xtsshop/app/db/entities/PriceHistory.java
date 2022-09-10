@@ -20,7 +20,4 @@ public class PriceHistory extends AppEntity{
     @ManyToOne
     @JoinColumn(nullable = false, name = "item_id")
     private Item item;
-
-    @ManyToMany(mappedBy = "priceHistories")
-    private Set<Order> orders;
 }

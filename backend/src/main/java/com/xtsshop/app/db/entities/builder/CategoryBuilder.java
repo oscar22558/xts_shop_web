@@ -1,9 +1,10 @@
 package com.xtsshop.app.db.entities.builder;
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.util.DateTimeUtil;
+import com.xtsshop.app.helpers.DateTimeHelper;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryBuilder {
@@ -11,7 +12,10 @@ public class CategoryBuilder {
     private Category parent;
     private List<Category> subCategories;
     private List<Item> items;
-
+    public CategoryBuilder(){
+        subCategories = new ArrayList<>();
+        items = new ArrayList<>();
+    }
     public CategoryBuilder setName(String name) {
         this.name = name;
         return this;
@@ -32,7 +36,7 @@ public class CategoryBuilder {
         return this;
     }
     public Category build(){
-        Date now = new DateTimeUtil().now();
+        Date now = new DateTimeHelper().now();
         Category category = new Category();
         category.setParent(parent);
         category.setName(name);
