@@ -1,9 +1,9 @@
 package com.xtsshop.app.features.users.models;
 
 import com.xtsshop.app.features.users.exceptions.RegistryFormInvalidCode;
-import com.xtsshop.app.features.users.validations.groups.ColumnEmpty;
-import com.xtsshop.app.features.users.validations.groups.ColumnLength;
-import com.xtsshop.app.features.users.validations.groups.ColumnPattern;
+import com.xtsshop.app.validations.groups.ColumnEmpty;
+import com.xtsshop.app.validations.groups.ColumnLength;
+import com.xtsshop.app.validations.groups.ColumnPattern;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

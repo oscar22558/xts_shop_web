@@ -38,13 +38,19 @@ public class CreateOrderServiceImp implements CreateOrderService {
                 .setStatus(status)
                 .setOrderedItems(orderedItems)
                 .build();
+
         orderEntity.setPaymentIntentId(request.getPaymentIntentId());
+
         request.getInvoice().setOrder(orderEntity);
         orderEntity.setInvoice(request.getInvoice());
+
         user.getOrders().add(orderEntity);
         orderedItems.forEach(orderedItem ->
             updateItemStockService.updateItemStock(orderedItem.getItem(), orderedItem.getQuantity())
         );
+        orderEntity.setRecipientName(request.getRecipientName());
+        orderEntity.setRecipientEmail(request.getRecipientEmail());
+        orderEntity.setRecipientPhone(request.getRecipientPhone());
         userPaymentRepo.saveOrder(orderEntity);
     }
 

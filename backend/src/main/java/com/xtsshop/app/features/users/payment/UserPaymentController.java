@@ -3,10 +3,12 @@ package com.xtsshop.app.features.users.payment;
 import javax.validation.Valid;
 
 import com.xtsshop.app.features.users.payment.models.*;
+import com.xtsshop.app.validations.ValidationSequence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,7 +29,7 @@ public class UserPaymentController {
     @PostMapping("/api/payment-intent")
     public ResponseEntity<?> createPaymentIntent(
             @RequestBody
-            @Valid
+            @Validated(ValidationSequence.class)
             CreatePaymentIntentForm createPaymentIntentForm
     ) {
         CreatePaymentIntentResponse response = createPaymentIntentService.createIntent(createPaymentIntentForm);

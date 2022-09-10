@@ -13,6 +13,14 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "orders")
 public class Order extends AppEntity {
+    @Column(name = "recipient_name")
+    private String recipientName;
+
+    @Column(name = "recipient_email")
+    private String recipientEmail;
+
+    @Column(name = "recipient_phone")
+    private String recipientPhone;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private ShippingAddress shippingAddress;

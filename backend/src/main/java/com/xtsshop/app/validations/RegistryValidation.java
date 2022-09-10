@@ -1,4 +1,4 @@
-package com.xtsshop.app.features.users.validations;
+package com.xtsshop.app.validations;
 
 import com.xtsshop.app.db.repositories.UserJpaRepository;
 import com.xtsshop.app.features.users.exceptions.UsernameExistsException;

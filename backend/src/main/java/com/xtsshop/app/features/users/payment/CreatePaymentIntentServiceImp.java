@@ -19,6 +19,7 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
     private OrderTotalCalculator orderTotalCalculator;
     private CreatePaymentIntentForm form;
     private Invoice invoice;
+    private PaymentIntent paymentIntent;
 
     public CreatePaymentIntentServiceImp(CreateOrderService createOrderService, OrderTotalCalculator orderTotalCalculator) {
         this.createOrderService = createOrderService;
@@ -28,13 +29,8 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
     public CreatePaymentIntentResponse createIntent(CreatePaymentIntentForm form){
         this.form = form;
         buildInvoice();
-        PaymentIntent paymentIntent = buildPaymentIntent();
-        CreateOrderRequest createOrderRequest = new CreateOrderRequest(
-                form.getItemQuantities(),
-                form.getUserAddressId(),
-                paymentIntent.getId(),
-                invoice
-        );
+        paymentIntent = buildPaymentIntent();
+        CreateOrderRequest createOrderRequest = buildCreateOrderRequest();
         createOrderService.create(createOrderRequest);
 
         String clientSecret = paymentIntent.getClientSecret();
@@ -46,9 +42,9 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
         invoice = orderTotalCalculator.getInvoice();
     }
 
-    private PaymentIntent buildPaymentIntent(){
+    private PaymentIntent buildPaymentIntent() {
         Stripe.apiKey = StripeApiSecret.API_KEY;
-        long amount = (long)(invoice.getTotal() * 100);
+        long amount = (long) (invoice.getTotal() * 100);
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
                 .setAmount(amount)
                 .setCurrency("HKD")
@@ -59,11 +55,22 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
                                 .build()
                 )
                 .build();
-        try{
+        try {
             return PaymentIntent.create(params);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
 
+    private CreateOrderRequest buildCreateOrderRequest(){
+        CreateOrderRequest request = new CreateOrderRequest();
+        request.setItemQuantities(form.getItemQuantities());
+        request.setUserAddressId(form.getUserAddressId());
+        request.setPaymentIntentId(paymentIntent.getId());
+        request.setInvoice(invoice);
+        request.setRecipientName(form.getRecipientName());
+        request.setRecipientEmail(form.getRecipientEmail());
+        request.setRecipientPhone(form.getRecipientPhone());
+        return request;
+    }
 }
