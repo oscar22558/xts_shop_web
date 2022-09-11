@@ -1,20 +1,14 @@
-import { Box, Grid } from "@mui/material"
-import useFetchCartItemsByIds from "../../data-sources/cart/useFetchCartItemsByIds"
-import CartItemList from "./CartItemList"
-import OrderSummary from "./OrderSummary"
+import { Box } from "@mui/material"
+import useCart from "../../data-sources/cart/useCart"
+import CartSummary from "./CartSummary"
+import NotItemInCartAlert from "./NoItemInCartAlert"
 
 const CartPage = ()=>{
-    useFetchCartItemsByIds() 
+    const {itemTotalCountInCart} = useCart()
+    const isNoItemInCartAlertShown = itemTotalCountInCart() <= 0
     return <Box sx={{paddingY: "25px"}}>
         <h1>Shopping Cart</h1>
-        <Grid container direction="row">
-            <Grid item xs={9}>
-                <CartItemList />
-            </Grid>
-            <Grid item xs={3}>
-                <OrderSummary />
-            </Grid>
-        </Grid>
+        {isNoItemInCartAlertShown ? <NotItemInCartAlert /> : <CartSummary />}
     </Box>
 }
 

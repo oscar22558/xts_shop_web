@@ -1,17 +1,11 @@
 import { Box, Button, Link } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
 import useCart from "../../data-sources/cart/useCart";
 import stripe from "../PaymentPage/StripePromise";
 
 const PaymentSuccessPage = ()=>{
-    const navigate = useNavigate()
     const cart = useCart()
     const [message, setMessage] = useState("")
-
-    const handleContinueShoppingBtnClick = ()=>{
-       navigate("/") 
-    }
 
     useEffect(() => {
         const clientSecret = new URLSearchParams(window.location.search).get(
@@ -46,7 +40,11 @@ const PaymentSuccessPage = ()=>{
     return ( 
         <div style={{height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
             <Box sx={{paddingY: "20px"}}>{message}</Box>
-            <Button onClick={handleContinueShoppingBtnClick} variant="outlined">Continue shopping</Button>
+            <Button variant="outlined" sx={{padding: "0px"}}>
+                <Link href="/" underline="none" sx={{paddingY: "5px", paddingX: "15px"}}>
+                    Continue Shopping
+                </Link>
+            </Button>
         </div>
     )
 }
