@@ -1,7 +1,6 @@
 import { Box, Button, FormHelperText } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { useAppSelector } from "../../../../../features/Hooks"
-import useClearUpdatePasswordState from "../../../../../features/user/hooks/useClearUpdatePasswordState"
 import useUpdatePassword from "../../../../../features/user/hooks/useUpdatePassword"
 import UpdatePasswordForm from "../../../../../features/user/models/UpdatePasswordForm"
 import UserSelector from "../../../../../features/user/UserSelector"
@@ -26,7 +25,6 @@ const EditPasswordForm = ({
     const {error: updateRequestError, loading: updateRequestLoading} = useAppSelector(UserSelector).updatePasswordResponse
     
     const updatePassword = useUpdatePassword()
-    const clearUpdatePasswordState = useClearUpdatePasswordState()
 
     const handleUpdatePasswordFormChange = ({target}: React.ChangeEvent<HTMLTextAreaElement>)=>{
         setUpdatePasswordForm({...updatePasswordForm, [target.name]: target.value})
@@ -46,11 +44,8 @@ const EditPasswordForm = ({
             setWaitingUserClickUpdate(true)    
             return
         }
-        onUserFinishedUpdate && onUserFinishedUpdate()
-        return ()=>{
-            clearUpdatePasswordState()
-        }
-    }, [waitingUserClickUpdate, updateRequestError, updateRequestLoading, clearUpdatePasswordState, onUserFinishedUpdate])
+        onUserFinishedUpdate?.()
+    }, [waitingUserClickUpdate, updateRequestError, updateRequestLoading, onUserFinishedUpdate])
     
      
     return <Box flexDirection="column" display="flex">

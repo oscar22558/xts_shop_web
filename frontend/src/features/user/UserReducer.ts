@@ -79,7 +79,7 @@ export const UsersSlice = createSlice({
             state.updatePasswordResponse.error = action.payload
         },
         clearUpdatePasswordError: (state: State)=>{
-            state.updateUserResponse.error = null  
+            state.updatePasswordResponse.error = null  
         }
     }
 })
