@@ -1,6 +1,5 @@
 type CachedOrderCreateForm = {
     userAddressId: number
-    clientSecret: string
     firstName: string
     lastName: string
     email: string

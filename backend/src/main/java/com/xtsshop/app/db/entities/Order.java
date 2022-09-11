@@ -13,8 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "orders")
 public class Order extends AppEntity {
-    @Column(name = "recipient_name")
-    private String recipientName;
+    @Column(name = "recipient_last_name")
+    private String recipientLastName;
+
+    @Column(name = "recipient_first_name")
+    private String recipientFirstName;
 
     @Column(name = "recipient_email")
     private String recipientEmail;

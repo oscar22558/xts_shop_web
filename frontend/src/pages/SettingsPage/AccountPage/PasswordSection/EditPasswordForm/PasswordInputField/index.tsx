@@ -9,8 +9,9 @@ type Props = ComponentProps<typeof OutlinedInput> & {
 
 const PasswordInputField = ({
     name = "password",
-    title = "password",
-    label = "password",
+    title = "Password",
+    label = "Password",
+    autoComplete = "password",
     errorText = "",
     error,
     ...outlinedInputProps
@@ -34,6 +35,7 @@ const PasswordInputField = ({
             title={title}
             label={label}
             error={error}
+            autoComplete={autoComplete}
             type={showPassword ? "text" : "password"}
             endAdornment={
                 <InputAdornment position="end">

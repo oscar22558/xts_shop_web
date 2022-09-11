@@ -48,7 +48,8 @@ public class CreateOrderServiceImp implements CreateOrderService {
         orderedItems.forEach(orderedItem ->
             updateItemStockService.updateItemStock(orderedItem.getItem(), orderedItem.getQuantity())
         );
-        orderEntity.setRecipientName(request.getRecipientName());
+        orderEntity.setRecipientFirstName(request.getRecipientFirstName());
+        orderEntity.setRecipientLastName(request.getRecipientLastName());
         orderEntity.setRecipientEmail(request.getRecipientEmail());
         orderEntity.setRecipientPhone(request.getRecipientPhone());
         userPaymentRepo.saveOrder(orderEntity);

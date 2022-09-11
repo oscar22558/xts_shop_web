@@ -12,6 +12,7 @@ const AppRouteList = {
         addresses: "addresses"
     },
     payment: "/payment",
+    paymentConfirmation: "/payment/confirmation",
     item: {route: "/item/:itemId", params: [":itemId"]}
 }
 export default AppRouteList

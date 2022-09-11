@@ -14,6 +14,8 @@ import OrderDetailPage from "../pages/OrderDetailPage"
 import OrderShippingAddressPage from "../pages/OrderRecipientPage"
 import OrdersPage from "../pages/OrdersPage/OrdersPage"
 import PaymentPage from "../pages/PaymentPage"
+import CheckoutFormContainer from "../pages/PaymentPage/CheckoutFormContainer"
+import PaymentSuccessPage from "../pages/PaymentSuccessPage"
 import PleaseSignInPage from "../pages/PleaseSignInPage"
 import SettingsPage from "../pages/SettingsPage"
 import AccountPage from "../pages/SettingsPage/AccountPage"
@@ -43,6 +45,7 @@ const AppRoutes = ()=>{
                                 </Route>
                             </>
                         ): <Route path="*" element={<PleaseSignInPage />}/>}
+
                     </Route>
                     <Route path="" element={<MiniFooterPage />}>
                         <Route path={AppRouteList.cart} element={<CartPage />}/>
@@ -52,6 +55,7 @@ const AppRoutes = ()=>{
                                 <Route path={AppRouteList.orders} element={<OrdersPage />}/>
                                 <Route path={AppRouteList.order.route} element={<OrderDetailPage />}/>
                                 <Route path={AppRouteList.payment} element={<PaymentPage />}/>
+                                <Route path={AppRouteList.paymentConfirmation} element={<PaymentSuccessPage />}/>
                             </>
                         ): <Route path="*" element={<PleaseSignInPage />}/>}
                     </Route>

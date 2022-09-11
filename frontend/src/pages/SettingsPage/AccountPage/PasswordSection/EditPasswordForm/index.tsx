@@ -52,28 +52,32 @@ const EditPasswordForm = ({
         }
     }, [waitingUserClickUpdate, updateRequestError, updateRequestLoading, clearUpdatePasswordState, onUserFinishedUpdate])
     
+     
     return <Box flexDirection="column" display="flex">
-        <PasswordInputField 
-            value={updatePasswordForm.password} 
-            onChange={handleUpdatePasswordFormChange}
-            error={updateRequestError != null && updateRequestError?.column === "password"}
-            errorText={updateRequestError?.error}
-        />
-        <Box sx={{marginTop: "10px"}}>
+        <form>
             <PasswordInputField 
-                label="newPassword"
-                title="newPassword"
-                name="newPassword"
-                value={updatePasswordForm.newPassword} 
+                value={updatePasswordForm.password} 
                 onChange={handleUpdatePasswordFormChange}
-                error={updateRequestError != null && updateRequestError?.column === "newPassword"}
+                error={updateRequestError != null && updateRequestError?.column === "password"}
                 errorText={updateRequestError?.error}
             />
-        </Box>
-        {updateRequestError && updateRequestError.column === "" ? <FormHelperText error>{updateRequestError.error}</FormHelperText> : undefined}
-        <Box sx={{marginTop: "10px"}} flexDirection="column" display="flex">
-            <Button variant="contained" onClick={handleUpdateBtnClick}>Update</Button>
-        </Box>
+            <Box sx={{marginTop: "10px"}}>
+                <PasswordInputField 
+                    label="New Password"
+                    title="New Password"
+                    name="newPassword"
+                    autoComplete="new-password"
+                    value={updatePasswordForm.newPassword} 
+                    onChange={handleUpdatePasswordFormChange}
+                    error={updateRequestError != null && updateRequestError?.column === "newPassword"}
+                    errorText={updateRequestError?.error}
+                />
+            </Box>
+            {updateRequestError && updateRequestError.column === "" ? <FormHelperText error>{updateRequestError.error}</FormHelperText> : undefined}
+            <Box sx={{marginTop: "10px"}} flexDirection="column" display="flex">
+                <Button variant="contained" onClick={handleUpdateBtnClick}>Update</Button>
+            </Box>
+        </form>       
     </Box>
 }
 export default EditPasswordForm

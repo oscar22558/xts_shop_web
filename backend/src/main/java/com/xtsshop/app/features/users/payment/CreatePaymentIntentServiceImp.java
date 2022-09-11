@@ -68,7 +68,8 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
         request.setUserAddressId(form.getUserAddressId());
         request.setPaymentIntentId(paymentIntent.getId());
         request.setInvoice(invoice);
-        request.setRecipientName(form.getRecipientName());
+        request.setRecipientFirstName(form.getRecipientFirstName());
+        request.setRecipientLastName(form.getRecipientLastName());
         request.setRecipientEmail(form.getRecipientEmail());
         request.setRecipientPhone(form.getRecipientPhone());
         return request;

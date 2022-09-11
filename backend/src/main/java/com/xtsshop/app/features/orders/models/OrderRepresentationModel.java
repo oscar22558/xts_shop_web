@@ -6,7 +6,6 @@ import com.xtsshop.app.features.storage.FilePathToUrlConverter;
 import com.xtsshop.app.features.users.payment.invoice.models.Invoice;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,8 +51,12 @@ public class OrderRepresentationModel implements AbstractRepresentationModel {
         return new Invoice(itemsTotal, shippingFee, total);
     }
 
-    public String getRecipientName(){
-        return entity.getRecipientName();
+    public String getRecipientFirstName(){
+        return entity.getRecipientFirstName();
+    }
+
+    public String getRecipientLastName(){
+        return entity.getRecipientLastName();
     }
 
     public String getRecipientEmail(){

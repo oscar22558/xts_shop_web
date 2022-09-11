@@ -7,6 +7,7 @@ import brands from "./brands/BrandsReducer"
 import cartItems from "./cart-items/CartItemsReducer"
 import authentication from "./authentication/AuthenticationReducer"
 import order from "./order/OrderReducer"
+import {OrderPaymentReducer as orderPayment} from "./order/payment/OrderPaymentSlice"
 import user from "./user/UserReducer"
 import userAddresses from "./user-addresses/UserAddressesReducer";
 import { InvoiceReducer as invoice } from "./cart-items/invoice/InvoiceSlice"
@@ -21,6 +22,7 @@ const CombinedReducers = {
     cartItems,
     authentication,
     order,
+    orderPayment,
     user,
     userAddresses,
     invoice,
