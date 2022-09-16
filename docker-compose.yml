@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  react: 
+    container_name: xts-shop-react
+    tty: true
+    image: xts-shop-react
+    build:
+      context: ./frontend
+    ports: 
+      - 3000:3000
+    volumes:
+      - ./src:/www/src
+    networks:
+      - xts-app-network
+  spring:
+    container_name: xts-shop-spring
+    tty: true
+    image: xts-shop-spring
+    build:
+      context: ./backend
+    ports:
+      - 8080:8000
+    networks:
+      - xts-app-network
+  # db:
+  #   container_name: xts-shop-db
+  #   tty: true
+  #   image: 'postgres:13'
+  #   ports: 
+  #     - 5432:5432
+  #   volumes:
+  #     - xts-shop-dbdata:/var/lib/postgresql/data
+  #   networks:
+  #     - xts-app-network
+
+networks:
+  xts-app-network:
+    driver: bridge
+
+# volumes:
+#   dbdata:
+#     drive: local
