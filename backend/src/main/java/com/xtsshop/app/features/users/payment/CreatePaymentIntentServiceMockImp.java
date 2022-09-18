@@ -44,5 +44,4 @@ public class CreatePaymentIntentServiceMockImp implements CreatePaymentIntentSer
         createOrderRequest.setRecipientEmail(form.getRecipientEmail());
         return createOrderRequest;
     }
-
 }

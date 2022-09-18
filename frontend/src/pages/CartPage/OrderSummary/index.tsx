@@ -21,7 +21,7 @@ const OrderSummary = ()=>{
     }
     
     const navigateToShippingAddressFormPage = ()=>{
-        navigate(AppRouteList.orderShippingAddresses)
+        navigate(AppRouteList.orderRecipient)
     }
 
     const handleCheckOutBtnClick = ()=>{

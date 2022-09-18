@@ -1,15 +1,20 @@
 import { Button, Grid, Typography } from "@mui/material"
 import { useState } from "react"
+import useClearUpdatePasswordState from "../../../../features/user/hooks/useClearUpdatePasswordState"
 import EditPasswordForm from "./EditPasswordForm"
 
 const PasswordSection = ()=>{
     const [isEditPasswordFormShown, setIsEditPasswordFormShown] = useState(false)
+    const clearUpdatePasswordState = useClearUpdatePasswordState()
 
     const hideEditPasswordForm = ()=>setIsEditPasswordFormShown(false)
     const showEditPasswordForm = ()=>setIsEditPasswordFormShown(true)
 
     const handleUpdateBtnClick = showEditPasswordForm
-    const handleCancelBtnClick = hideEditPasswordForm
+    const handleCancelBtnClick = ()=>{
+        hideEditPasswordForm()
+        clearUpdatePasswordState()
+    }
     const handleUserFinishedUpdate = hideEditPasswordForm
 
     return (<Grid container>

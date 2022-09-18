@@ -14,7 +14,11 @@ import java.util.List;
 public class CreatePaymentIntentForm {
     @NotBlank(groups = ColumnEmpty.class)
     @Size(max = 100, groups = ColumnLength.class)
-    private String recipientName;
+    private String recipientFirstName;
+
+    @NotBlank(groups = ColumnEmpty.class)
+    @Size(max = 100, groups = ColumnLength.class)
+    private String recipientLastName;
 
     @NotBlank(groups = ColumnEmpty.class)
     @Email(groups = ColumnPattern.class)

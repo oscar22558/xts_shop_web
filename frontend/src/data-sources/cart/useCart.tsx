@@ -35,13 +35,18 @@ const useCart = ()=>{
         return itemCounts.reduce((total, itemCount)=> total+itemCount, 0)
     }
 
+    const removeAllItems = ()=>{
+        setCartCookie({})
+    }
+
     return {
         itemCountsInCart: cartCookie,
         itemsInCart: itemsInCartApiResponse.data,
         addCartItem,
         minusItemQunity,
         itemTotalCountInCart,
-        removeItems
+        removeItems,
+        removeAllItems
     }
 }
 export default useCart

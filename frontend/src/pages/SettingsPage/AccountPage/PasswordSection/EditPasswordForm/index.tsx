@@ -1,7 +1,6 @@
 import { Box, Button, FormHelperText } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { useAppSelector } from "../../../../../features/Hooks"
-import useClearUpdatePasswordState from "../../../../../features/user/hooks/useClearUpdatePasswordState"
 import useUpdatePassword from "../../../../../features/user/hooks/useUpdatePassword"
 import UpdatePasswordForm from "../../../../../features/user/models/UpdatePasswordForm"
 import UserSelector from "../../../../../features/user/UserSelector"
@@ -26,7 +25,6 @@ const EditPasswordForm = ({
     const {error: updateRequestError, loading: updateRequestLoading} = useAppSelector(UserSelector).updatePasswordResponse
     
     const updatePassword = useUpdatePassword()
-    const clearUpdatePasswordState = useClearUpdatePasswordState()
 
     const handleUpdatePasswordFormChange = ({target}: React.ChangeEvent<HTMLTextAreaElement>)=>{
         setUpdatePasswordForm({...updatePasswordForm, [target.name]: target.value})
@@ -46,34 +44,35 @@ const EditPasswordForm = ({
             setWaitingUserClickUpdate(true)    
             return
         }
-        onUserFinishedUpdate && onUserFinishedUpdate()
-        return ()=>{
-            clearUpdatePasswordState()
-        }
-    }, [waitingUserClickUpdate, updateRequestError, updateRequestLoading, clearUpdatePasswordState, onUserFinishedUpdate])
+        onUserFinishedUpdate?.()
+    }, [waitingUserClickUpdate, updateRequestError, updateRequestLoading, onUserFinishedUpdate])
     
+     
     return <Box flexDirection="column" display="flex">
-        <PasswordInputField 
-            value={updatePasswordForm.password} 
-            onChange={handleUpdatePasswordFormChange}
-            error={updateRequestError != null && updateRequestError?.column === "password"}
-            errorText={updateRequestError?.error}
-        />
-        <Box sx={{marginTop: "10px"}}>
+        <form>
             <PasswordInputField 
-                label="newPassword"
-                title="newPassword"
-                name="newPassword"
-                value={updatePasswordForm.newPassword} 
+                value={updatePasswordForm.password} 
                 onChange={handleUpdatePasswordFormChange}
-                error={updateRequestError != null && updateRequestError?.column === "newPassword"}
+                error={updateRequestError != null && updateRequestError?.column === "password"}
                 errorText={updateRequestError?.error}
             />
-        </Box>
-        {updateRequestError && updateRequestError.column === "" ? <FormHelperText error>{updateRequestError.error}</FormHelperText> : undefined}
-        <Box sx={{marginTop: "10px"}} flexDirection="column" display="flex">
-            <Button variant="contained" onClick={handleUpdateBtnClick}>Update</Button>
-        </Box>
+            <Box sx={{marginTop: "10px"}}>
+                <PasswordInputField 
+                    label="New Password"
+                    title="New Password"
+                    name="newPassword"
+                    autoComplete="new-password"
+                    value={updatePasswordForm.newPassword} 
+                    onChange={handleUpdatePasswordFormChange}
+                    error={updateRequestError != null && updateRequestError?.column === "newPassword"}
+                    errorText={updateRequestError?.error}
+                />
+            </Box>
+            {updateRequestError && updateRequestError.column === "" ? <FormHelperText error>{updateRequestError.error}</FormHelperText> : undefined}
+            <Box sx={{marginTop: "10px"}} flexDirection="column" display="flex">
+                <Button variant="contained" onClick={handleUpdateBtnClick}>Update</Button>
+            </Box>
+        </form>       
     </Box>
 }
 export default EditPasswordForm

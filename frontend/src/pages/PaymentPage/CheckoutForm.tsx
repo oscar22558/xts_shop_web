@@ -1,56 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
   PaymentElement,
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
-import { Box } from "@mui/material";
+import { Box, FormHelperText } from "@mui/material";
 
 type Props = {
   paymentTotal: number
-  onUserFinishedPayment?: (isUserFinishedPayment: boolean)=>void
 }
 const CheckoutForm: React.FC<Props> = ({
-  paymentTotal,
-  onUserFinishedPayment
+  paymentTotal
 })=> {
   const stripe = useStripe();
   const elements = useElements();
-
   const [message, setMessage] = useState<string|null|undefined>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (!stripe) {
-      return;
-    }
-
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
-    );
-    if (!clientSecret) {
-      return;
-    }
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent?.status) {
-        case "succeeded":
-          setMessage("Payment succeeded!");
-          onUserFinishedPayment && onUserFinishedPayment(true)
-          break;
-        case "processing":
-          setMessage("Your payment is processing.");
-          break;
-        case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
-          break;
-        default:
-          setMessage("Something went wrong.");
-          break;
-      }
-    })
-
-  }, [stripe]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -64,7 +30,7 @@ const CheckoutForm: React.FC<Props> = ({
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:3000/payment/confirmation",
       },
     });
 
@@ -80,6 +46,7 @@ const CheckoutForm: React.FC<Props> = ({
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element"/>
+      {message && <FormHelperText error id="payment-message">{message}</FormHelperText>}
       <Box sx={{display: "flex", paddingY: "10px", justifyContent: "flex-end"}}>
         <button disabled={isLoading || !stripe || !elements} id="submit" style={{padding: "10px"}}>
           <span id="button-text">
@@ -87,7 +54,6 @@ const CheckoutForm: React.FC<Props> = ({
           </span>
         </button>
       </Box>
-      {message && <div id="payment-message">{message}</div>}
     </form>
   );
 }

@@ -1,4 +1,4 @@
-import { put, call, takeEvery, select } from "@redux-saga/core/effects"
+import { put, call, takeEvery } from "@redux-saga/core/effects"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { AxiosError, AxiosResponse } from "axios"
 import HttpStatusCode from "../models/HttpStatusCode"
@@ -12,7 +12,7 @@ function* getOrder(orderId: number){
 
 function handleError(error: AxiosError){
     const status = error.response?.status
-    if(status == HttpStatusCode.Forbidden){
+    if(status === HttpStatusCode.Forbidden){
         return "You do not have permission to access."
     }
     return "Error on fetching order."

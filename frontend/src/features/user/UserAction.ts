@@ -27,6 +27,6 @@ export const UpdatePasswordAction = {
     succeed: actions.updatePasswordSucceed,
     fail: actions.updatePasswordFail,
     async: createAction<UpdatePasswordForm>("update-password/async"),
-    clearError: actions.clearUpdateUserError
+    clearError: actions.clearUpdatePasswordError
 }
 export default GetUserAction

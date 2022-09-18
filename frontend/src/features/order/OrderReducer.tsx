@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import HttpResponse from "../models/HttpResponse";
-import CachedOrderCreateForm from "./models/CachedOrder";
+import CachedOrderCreateForm from "./models/CachedOrderCreateForm";
 import Order from "./models/Order";
 
 type State = {
@@ -22,7 +22,10 @@ const initialState: State = {
     },
     cachedOrderCreateForm: {
        userAddressId: -1,
-       clientSecret: ""
+       lastName: "",
+       firstName: "",
+       email: "",
+       phone: ""
     }
 }
 

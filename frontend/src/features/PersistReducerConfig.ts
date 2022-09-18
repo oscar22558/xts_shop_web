@@ -4,8 +4,6 @@ import { ReducerKeysType } from './RootReducer';
 
 const migrations = {
     1: (state: any)=>{
-       console.log("...migrate redux persisted state") 
-       console.log(state) 
         const initialRegistryState = {
             postRegistryResponse: {
                 error: {

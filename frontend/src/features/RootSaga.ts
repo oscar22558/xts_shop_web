@@ -18,6 +18,7 @@ import {getAllOfSaga as getAllItemsSaga} from "./items/ItemsSaga";
 
 import getOrdetrListSaga from "./order/GetOrderListSaga";
 import getOrderSaga from "./order/GetOrderSaga";
+import createOrderSaga from "./order/payment/OrderPaymentSaga"
 
 import postRegistrySaga from "./registry/RegistrySaga";
 
@@ -41,6 +42,7 @@ export const rootSaga = [
     getItemDetailSaga,
     getOrdetrListSaga,
     getOrderSaga,
+    createOrderSaga,
     postRegistrySaga,
     getUserSaga,
     updateUserSaga,
