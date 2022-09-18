@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  ui: 
+    container_name: xts-ui-dev
+    tty: true
+    image: xts-ui-dev
+    build:
+      context: ./frontend
+      target: dev
+    ports: 
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/www/src
+    networks:
+      - xts-app-network
+  api:
+    platform: linux/x86_64
+    container_name: xts-api-dev
+    environment:
+      - DOCKER_BUILDKIT=0
+      - COMPOSE_DOCKER_CLI_BUILD=0
+    tty: true
+    image: xts-api-dev
+    build:
+      context: ./backend
+    ports:
+      - 8080:8080
+    networks:
+      - xts-app-network
+  nginx:
+    container_name: xts-nginx-dev
+    tty: true
+    image: xts-nginx-dev
+    build:
+      context: ./nginx
+    ports: 
+      - 80:80
+    networks:
+      - xts-app-network
+
+networks:
+  xts-app-network:
+    driver: bridge

@@ -1,6 +1,6 @@
 import axiosInstance, { ApiRequestWithoutToken } from "../ApiRequest";
 
-export const getAllBrandsApi = (url: string)=>ApiRequestWithoutToken({
-    url,
+export const getAllBrandsApi = ()=>ApiRequestWithoutToken({
+    url: "/brands",
 })
 

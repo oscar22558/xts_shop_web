@@ -21,5 +21,6 @@ public class RoutePresentationModel {
     private String items =
             linkTo(ItemsController.class).withRel("items").getHref();
     private String authentication = "auth";
+    private String testingRoute = "testing-route";
 
 }

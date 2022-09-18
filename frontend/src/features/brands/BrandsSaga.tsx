@@ -25,12 +25,7 @@ function* tryToGetAllBrands(action: Action): Generator<any, any, any>{
 }
 
 function* getAllBrands(): Generator<any, any, any>{
-    const routes = (yield select(routesSelector)) as RootState["routes"]
-    const getAllBrandsUrl = routes.get.data?.brands
-    if(!getAllBrandsUrl){
-        throw Error("Url is null")
-    }
-    const response = yield call(getAllBrandsApi, getAllBrandsUrl)
+    const response = yield call(getAllBrandsApi)
     const brands = (response.data as GetAllBrandsResponse)
         ._embedded
         .brandRepresentationModelList
