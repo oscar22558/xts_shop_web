@@ -1,11 +1,13 @@
 import { Box, Grid, Button, TextField, FormHelperText } from "@mui/material"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+
+import AddressSelectionDialog from "./AddressSelectionDialog"
+
 import { useAppSelector } from "../../features/Hooks"
 import useUpdateOrderCreateForm from "../../features/order/hooks/useUpdateOrderCreateform"
 import OrderSelector from "../../features/order/OrderSelector"
 import UserSelector from "../../features/user/UserSelector"
-import AddressSelectionDialog from "./AddressSelectionDialog"
 
 const OrderRecipientPage = ()=>{
     const navigate = useNavigate()
@@ -35,10 +37,10 @@ const OrderRecipientPage = ()=>{
     }
 
     const viewModels = [
-        {name: "lastName", hint: "Last Name",value: lastName, error: "", helperText: ""},
-        {name: "firstName", hint: "First Name", value: firstName, error: "", helperText: ""},
-        {name: "email", hint: "Email", value: email, error: "", helperText: "Provide your email address to us so that we can inform you the order latest state in email."},
-        {name: "phone", hint: "Phone",value: phone, error: "", helperText: "Provide your phone number so that you can get informed about the shipping state of the order."},
+        {name: "lastName", hint: "Last Name *",value: lastName, error: "", helperText: ""},
+        {name: "firstName", hint: "First Name *", value: firstName, error: "", helperText: ""},
+        {name: "email", hint: "Email *", value: email, error: "", helperText: "Provide your email address to us so that we can inform you the order latest state in email."},
+        {name: "phone", hint: "Phone(Optional)",value: phone, error: "", helperText: "Provide your phone number so that you can get informed about the shipping state of the order."},
     ]
     const addressTextFieldData = [
         {name: "row1", hint: "Address Row 1", value: address?.row1 ?? ""},
@@ -46,6 +48,7 @@ const OrderRecipientPage = ()=>{
         {name: "district", hint: "District", value: address?.district ?? ""},
         {name: "area", hint: "Area", value: address?.area ?? ""}
     ]
+    const isNextBtnDisable = address == null || firstName === "" || lastName === "" || email === ""
     return <Box display="flex" flexDirection="column" alignItems="center">
         <Box display="flex" justifyContent="flex-start" width="500px">
             <h1>Order Recipient</h1>
@@ -56,6 +59,7 @@ const OrderRecipientPage = ()=>{
                     viewModels.map(({name, hint, value, error, helperText}, index)=>(
                         <Box key={index} display="flex" flexDirection="column" marginBottom="15px">
                             <TextField
+                                autoComplete={name}
                                 name={name}  
                                 type="text" 
                                 title={hint}
@@ -97,7 +101,7 @@ const OrderRecipientPage = ()=>{
             </Grid>
         </Grid>
         <Box sx={{display: "flex", justifyContent: "center", marginTop: "20px"}}>
-            <Button disabled={address == null} variant="contained" onClick={handleNextBtnClick}>Next</Button>
+            <Button disabled={isNextBtnDisable} variant="contained" onClick={handleNextBtnClick}>Next</Button>
         </Box>
     </Box>
 

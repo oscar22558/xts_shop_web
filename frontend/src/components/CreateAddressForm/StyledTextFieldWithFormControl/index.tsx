@@ -12,7 +12,7 @@ const withFormControl = <P extends object>(
 ): ComponentType<P & withFormControlPropsType>=>{
    return ({error: isError, errorText, ...props})=>{
         return (<>
-            <Component {...props as P}/>
+            <Component {...props as P} error={isError}/>
             {
                 isError 
                 ? <FormHelperText error>{errorText}</FormHelperText>

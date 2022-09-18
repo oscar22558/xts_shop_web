@@ -1,4 +1,6 @@
-import { Box, Button, Paper, Typography } from "@mui/material"
+import { Box, Button, IconButton, Paper, Typography } from "@mui/material"
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import { useAppSelector } from "../../../features/Hooks"
 import useSendDeleteAddressRequest from "../../../features/user-addresses/hooks/useSendDeleteAddressRequest"
 import UserSelector from "../../../features/user/UserSelector"
@@ -15,16 +17,22 @@ const AddressPage = ()=>{
 
     return <Box sx={{paddingBottom: "10px"}}>
         <Typography variant="h4">Addresses</Typography>
-        {addresses.map((address, index)=>
-            <Paper key={index} sx={{paddingX: "20px", paddingY: "15px", marginBottom: "10px"}}>
-                <div>{address.row1}</div>
-                <div>{address.row2 || "-"}</div>
-                <div>{address.district}</div>
-                <div>{address.area}</div>
-                <Box sx={{display: "flex", flexDirection: "row", justifyContent: "flex-end"}}>
-                    <Button onClick={handleDeleteBtnClick(address.id)}>Delete</Button>
-                </Box>
-            </Paper>)}
+        {addresses.map((address, index)=>(
+                <Paper key={index} sx={{display: "flex", flexDirection: "row",paddingX: "20px", paddingY: "15px", marginBottom: "10px"}}>
+                    <Box sx={{flex: 1}}>
+                        <div style={{paddingBottom: "5px"}}>{address.row1}</div>
+                        <div style={{paddingBottom: "5px"}}>{address.row2 || "-"}</div>
+                        <div style={{paddingBottom: "5px"}}>{address.district}</div>
+                        <div style={{paddingBottom: "5px"}}>{address.area}</div>
+                    </Box>
+                    <Box sx={{display: "flex", alignItems: "center"}}>
+                    <IconButton aria-label="delete" onClick={handleDeleteBtnClick(address.id)}>
+                        <DeleteIcon />
+                    </IconButton>
+                    </Box>
+                </Paper>
+            
+            ))}
         <CreateAddressSection />
     </Box>
 }

@@ -103,6 +103,7 @@ const CreateAddressForm = ({
             <Grid container spacing="10px" direction="column">
                 <Grid item>
                     <StyledTextFieldWithFormControl
+                        name="row1"
                         title="Street address row1*" 
                         label="Street address row1*" 
                         onChange={handleAddressRow1InputChange} 
@@ -112,8 +113,9 @@ const CreateAddressForm = ({
                 </Grid>
                 <Grid item>
                     <StyledTextFieldWithFormControl 
-                        title="Street address row2"
-                        label="Street address row2" 
+                        name="row2"
+                        title="Street address row2(Optional)"
+                        label="Street address row2(Optional)" 
                         onChange={handleAddressRow2InputChange}
                     />
                 </Grid>
