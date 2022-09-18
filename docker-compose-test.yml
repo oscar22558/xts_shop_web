@@ -2,9 +2,9 @@ version: "3.8"
 
 services:
   ui: 
-    container_name: xts-ui-dev
+    container_name: xts-ui-test
     tty: true
-    image: xts-ui-dev
+    image: xts-ui-test
     build:
       context: ./frontend
       target: dev
@@ -16,12 +16,12 @@ services:
       - xts-app-network
   api:
     platform: linux/x86_64
-    container_name: xts-api-dev
+    container_name: xts-api-test
     environment:
       - DOCKER_BUILDKIT=0
       - COMPOSE_DOCKER_CLI_BUILD=0
     tty: true
-    image: xts-api-dev
+    image: xts-api-test
     build:
       context: ./backend
     ports:
@@ -29,9 +29,9 @@ services:
     networks:
       - xts-app-network
   nginx:
-    container_name: xts-nginx-dev
+    container_name: xts-nginx-test
     tty: true
-    image: xts-nginx-dev
+    image: xts-nginx-test
     build:
       context: ./nginx
     ports: 

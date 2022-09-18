@@ -6,7 +6,9 @@ RUN yarn install
 COPY . .
 
 FROM base as production
+ENV NODE_ENV=production
 RUN yarn build
 
-FROM base as dev
+FROM base as test
+ENV NODE_ENV=test
 CMD ["yarn", "start"]
