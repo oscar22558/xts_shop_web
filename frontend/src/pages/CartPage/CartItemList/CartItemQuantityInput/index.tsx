@@ -9,11 +9,11 @@ const CartItemQuantityInput = ({itemId}: Props)=>{
     const {itemCountsInCart, addCartItem, minusItemQunity} = useCart()
     const itemCount = itemCountsInCart[itemId]
     const handleRemoveBtnClick = ()=>{
-        addCartItem(itemId)
+        minusItemQunity(itemId)
     }
 
     const handleAddBtnClick = ()=>{
-        minusItemQunity(itemId)
+        addCartItem(itemId)
     }
 
     return <QuantityInput onAddBtnClick={handleAddBtnClick} onRemoveBtnClick={handleRemoveBtnClick} quantity={itemCount}/>
