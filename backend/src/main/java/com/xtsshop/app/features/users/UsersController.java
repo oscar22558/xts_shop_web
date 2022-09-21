@@ -51,7 +51,7 @@ public class UsersController {
     }
 
     @PutMapping()
-    public ResponseEntity<?> update(@Valid @RequestBody UserUpdateForm userUpdateForm) {
+    public ResponseEntity<?> update(@Validated(ValidationSequence.class) @RequestBody UserUpdateForm userUpdateForm) {
         AppUser updatedUser = usersService.update(userUpdateForm);
         EntityModel<UserRepresentationModel> userModel = assembler.toModel(updatedUser);
         return ResponseEntity.ok(userModel);
