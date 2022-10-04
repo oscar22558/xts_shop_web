@@ -4,8 +4,6 @@ import com.xtsshop.app.AbstractModelAssembler;
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.features.items.ItemsController;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.features.storage.FilePathToUrlConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +13,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class ItemModelAssembler extends
         AbstractModelAssembler<ItemRepresentationModel, Item> {
-    private FilePathToUrlConverter filePathToUrlConvertor;
-
-    @Autowired
-    public void setFilePathToUrlConvertor(FilePathToUrlConverter filePathToUrlConvertor) {
-        this.filePathToUrlConvertor = filePathToUrlConvertor;
-    }
 
     @Override
     public EntityModel<ItemRepresentationModel> toModel(Item entity) {
@@ -65,7 +57,6 @@ public class ItemModelAssembler extends
     private ItemRepresentationModel getItemViewModel(Item entity){
         return new ItemModelBuilder()
                 .setItemEntity(entity)
-                .setFilePathToUrlConverter(filePathToUrlConvertor)
                 .setBrand(entity.getBrand())
                 .build();
     }

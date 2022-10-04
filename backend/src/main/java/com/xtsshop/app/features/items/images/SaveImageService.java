@@ -7,12 +7,12 @@ import com.xtsshop.app.db.repositories.ImageJpaRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SaveImage {
+public class SaveImageService {
 
     private ImageJpaRepository repository;
     private Item item;
 
-    public SaveImage(
+    public SaveImageService(
             ImageJpaRepository repository
     ) {
         this.repository = repository;

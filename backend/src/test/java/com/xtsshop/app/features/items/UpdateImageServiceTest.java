@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-class UpdateItemImageTest extends TestCase {
+class UpdateImageServiceTest extends TestCase {
 	@Autowired
 	private ItemTestHelper itemTestHelper;
 

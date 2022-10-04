@@ -9,7 +9,7 @@ import java.sql.Date;
 
 public class ImageBuilder extends AppEntity {
     private String uri;
-    private String fileName;
+    private String description;
     private String extension;
     private Item item;
 
@@ -18,8 +18,8 @@ public class ImageBuilder extends AppEntity {
         return this;
     }
 
-    public ImageBuilder setFileName(String fileName) {
-        this.fileName = fileName;
+    public ImageBuilder setDescription(String description) {
+        this.description = description;
         return this;
     }
 
@@ -38,7 +38,7 @@ public class ImageBuilder extends AppEntity {
         img.setCreatedAt(now);
         img.setUpdatedAt(now);
         img.setUri(uri);
-        img.setDescription(fileName);
+        img.setDescription(description);
         img.setExtension(extension);
         img.setItem(item);
         return img;

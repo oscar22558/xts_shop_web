@@ -1,6 +1,8 @@
 package com.xtsshop.app.features.storage;
 
-import com.xtsshop.app.features.storage.config.StorageDevTestProperties;
+import com.xtsshop.app.features.storage.config.StorageProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -20,15 +22,13 @@ import java.util.stream.Stream;
 @Service
 @Qualifier("FileStorageService")
 public class FileStorageService implements StorageService{
-
+    private Logger logger = LoggerFactory.getLogger(FileStorageService.class);
     protected Path root;
-    protected Path envRoot;
     protected Util util;
-    protected StorageDevTestProperties properties;
-    public FileStorageService(StorageDevTestProperties properties, Util util) {
+    protected StorageProperties properties;
+    public FileStorageService(StorageProperties properties, Util util) {
         this.properties = properties;
-        this.root = Paths.get(properties.getEnvRoot());
-        this.envRoot = Paths.get(properties.getEnvRoot());
+        this.root = Paths.get(properties.getRoot()).toAbsolutePath();
         this.util = util;
     }
 
@@ -41,7 +41,7 @@ public class FileStorageService implements StorageService{
             String extension = util.getExtension(file);
             if(extension == null)
                 throw new StorageException("Cannot resolve file extension.");
-            String uniqueFileName = UUID.randomUUID().toString()+ "." + extension;
+            String uniqueFileName = UUID.randomUUID() + "." + extension;
             Path destFile = this.root.resolve(
                             Paths.get(uniqueFileName));
             Path destFileAbsolutePath = destFile
@@ -67,7 +67,7 @@ public class FileStorageService implements StorageService{
         try {
             return Files.walk(this.root, 1)
                     .filter(path -> !path.equals(this.root))
-                    .map(this.root::relativize);
+                    .map(Path::toAbsolutePath);
         }
         catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
@@ -84,17 +84,13 @@ public class FileStorageService implements StorageService{
     public Resource loadAsResource(String filename) {
         try {
             Path file = load(filename);
+            logger.info("Load resource: " + file);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             }
-            else {
-                throw new StorageFileNotFoundException(
-                        "Could not read file: " + filename);
-
-            }
-        }
-        catch (MalformedURLException e) {
+            throw new StorageFileNotFoundException("Could not read file: " + filename);
+        } catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
         }
     }
@@ -117,8 +113,9 @@ public class FileStorageService implements StorageService{
     @Override
     public void init() {
         try {
-            if(Files.notExists(envRoot)){
-                Files.createDirectories(envRoot);
+            if(Files.notExists(root)){
+                logger.info("Initialize storage root: " + root.toAbsolutePath());
+                Files.createDirectories(root);
             }
         }
         catch (IOException e) {

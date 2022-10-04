@@ -2,7 +2,6 @@ package com.xtsshop.app.features.orders.models;
 
 import com.xtsshop.app.AbstractRepresentationModel;
 import com.xtsshop.app.db.entities.Order;
-import com.xtsshop.app.features.storage.FilePathToUrlConverter;
 import com.xtsshop.app.features.users.payment.invoice.models.Invoice;
 
 import java.sql.Date;
@@ -12,11 +11,9 @@ import java.util.stream.Collectors;
 
 public class OrderRepresentationModel implements AbstractRepresentationModel {
     private Order entity;
-    private FilePathToUrlConverter filePathToUrlConverter;
 
-    public OrderRepresentationModel(Order entity, FilePathToUrlConverter filePathToUrlConverter){
+    public OrderRepresentationModel(Order entity){
         this.entity = entity;
-        this.filePathToUrlConverter = filePathToUrlConverter;
     }
 
     public long getId(){
@@ -36,7 +33,6 @@ public class OrderRepresentationModel implements AbstractRepresentationModel {
                 .stream()
                 .map(OrderedItemRepresentationModel::new)
                 .collect(Collectors.toList());
-        models.forEach(model->model.setFilePathToUrlConverter(filePathToUrlConverter));
         return models;
     }
 

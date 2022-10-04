@@ -1,6 +1,6 @@
 package com.xtsshop.app;
 
-import com.xtsshop.app.features.storage.config.StorageDevTestProperties;
+import com.xtsshop.app.features.storage.config.StorageProperties;
 import com.xtsshop.app.features.storage.StorageService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@EnableConfigurationProperties({StorageDevTestProperties.class})
+@EnableConfigurationProperties({StorageProperties.class})
 public class XtsShopApplication {
 
 	public static void main(String[] args) {
@@ -31,10 +31,10 @@ public class XtsShopApplication {
 		};
 	}
 	@Bean
-	public CommandLineRunner init(@Qualifier("FileStorageService") StorageService storageService, @Qualifier("ImageStorageService") StorageService imageStorageService) {
+	public CommandLineRunner init(@Qualifier("ImageStorageService") StorageService imageStorageService) {
 		return (args) -> {
 			try{
-			imageStorageService.init();
+				imageStorageService.init();
 			}catch(Exception ex){
 				
 			}

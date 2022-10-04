@@ -2,7 +2,6 @@ package com.xtsshop.app.features.items.models;
 
 import com.xtsshop.app.db.entities.Brand;
 import com.xtsshop.app.db.entities.Item;
-import com.xtsshop.app.features.storage.FilePathToUrlConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +10,6 @@ import java.util.Optional;
 public class ItemModelBuilder {
 
     private Item itemEntity;
-    private FilePathToUrlConverter filePathToUrlConverter;
     private Optional<PriceHistoryPresentationModel> priceHistoryModel;
     private String brand;
     public ItemModelBuilder(){
@@ -19,11 +17,6 @@ public class ItemModelBuilder {
     }
     public ItemModelBuilder setItemEntity(Item itemEntity) {
         this.itemEntity = itemEntity;
-        return this;
-    }
-
-    public ItemModelBuilder setFilePathToUrlConverter(FilePathToUrlConverter converter) {
-        filePathToUrlConverter = converter;
         return this;
     }
 
@@ -39,13 +32,12 @@ public class ItemModelBuilder {
 
     public ItemRepresentationModel build(){
         if(itemEntity == null ) throw new NullPointerException("itemEntity cannot be null");
-        if(filePathToUrlConverter == null) throw new NullPointerException("storageService cannot be null");
         Logger logger = LoggerFactory.getLogger(ItemModelBuilder.class);
         if(itemEntity.getImage() == null){
             logger.info("=== item without image=====");
             logger.info(itemEntity.getName());
         }
-        String imgUrl = filePathToUrlConverter.getUrl(itemEntity.getImage().getUri());
+        String imgUrl = itemEntity.getImage().getUri();
         // price = null if no record
         PriceHistoryPresentationModel price = priceHistoryModel.orElse(
                 itemEntity.getLatestPriceHistory()

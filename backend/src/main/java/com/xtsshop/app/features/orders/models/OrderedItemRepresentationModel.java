@@ -2,18 +2,12 @@ package com.xtsshop.app.features.orders.models;
 
 import com.xtsshop.app.AbstractRepresentationModel;
 import com.xtsshop.app.db.entities.OrderedItem;
-import com.xtsshop.app.features.storage.FilePathToUrlConverter;
 
 public class OrderedItemRepresentationModel implements AbstractRepresentationModel {
-    private FilePathToUrlConverter filePathToUrlConverter;
     private OrderedItem orderedItemEntity;
 
     public OrderedItemRepresentationModel(OrderedItem orderedItemEntity) {
         this.orderedItemEntity = orderedItemEntity;
-    }
-
-    public void setFilePathToUrlConverter(FilePathToUrlConverter filePathToUrlConverter){
-            this.filePathToUrlConverter = filePathToUrlConverter;
     }
 
     public long getItemId(){
@@ -37,7 +31,6 @@ public class OrderedItemRepresentationModel implements AbstractRepresentationMod
     }
 
     public String getImgUrl(){
-        String filePath = orderedItemEntity.getItem().getImage().getUri();
-        return filePathToUrlConverter.getUrl(filePath);
+        return orderedItemEntity.getItem().getImage().getUri();
     }
 }

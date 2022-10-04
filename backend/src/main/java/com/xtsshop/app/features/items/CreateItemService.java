@@ -8,7 +8,7 @@ import com.xtsshop.app.db.entities.builder.ItemBuilder;
 import com.xtsshop.app.db.repositories.BrandJpaRepository;
 import com.xtsshop.app.db.repositories.CategoryJpaRepository;
 import com.xtsshop.app.db.repositories.ItemJpaRepository;
-import com.xtsshop.app.features.items.images.CreateItemImage;
+import com.xtsshop.app.features.items.images.CreateImageService;
 import com.xtsshop.app.features.items.price.CreatePriceHistories;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +18,7 @@ import java.util.List;
 public class CreateItemService {
 
     private ItemJpaRepository repository;
-    private CreateItemImage createItemImage;
+    private CreateImageService createImageService;
     private CategoryJpaRepository categoryJpaRepository;
     private BrandJpaRepository brandJpaRepository;
     private CreatePriceHistories createPriceHistories;
@@ -26,9 +26,9 @@ public class CreateItemService {
     private Brand brand;
     private Item item;
 
-    public CreateItemService(ItemJpaRepository repository, CreateItemImage createItemImage, CategoryJpaRepository categoryJpaRepository, BrandJpaRepository brandJpaRepository, CreatePriceHistories createPriceHistories) {
+    public CreateItemService(ItemJpaRepository repository, CreateImageService createImageService, CategoryJpaRepository categoryJpaRepository, BrandJpaRepository brandJpaRepository, CreatePriceHistories createPriceHistories) {
         this.repository = repository;
-        this.createItemImage = createItemImage;
+        this.createImageService = createImageService;
         this.categoryJpaRepository = categoryJpaRepository;
         this.brandJpaRepository = brandJpaRepository;
         this.createPriceHistories = createPriceHistories;
@@ -67,7 +67,7 @@ public class CreateItemService {
     }
 
     public void setImage(MultipartFile file){
-        Image image = createItemImage
+        Image image = createImageService
             .create(new CreateItemImageInput(
                 file,
                 item

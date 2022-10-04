@@ -1,5 +1,7 @@
 package com.xtsshop.app.features.storage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -13,43 +15,41 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("storage")
+@RequestMapping("storage/images")
 public class FileController {
+    private Logger logger = LoggerFactory.getLogger(FileController.class);
     private StorageService service;
-    private FilePathToUrlConverter filePathToUrlConverter;
+    private UriPathConverter uriPathConverter;
     public FileController(
-            @Qualifier("FileStorageService") StorageService service,
-            FilePathToUrlConverter filePathToUrlConverter
+            @Qualifier("ImageStorageService") StorageService service,
+            UriPathConverter uriPathConverter
     ){
         this.service = service;
-        this.filePathToUrlConverter = filePathToUrlConverter;
+        this.uriPathConverter = uriPathConverter;
     }
 
     @GetMapping()
     public List<String> all() throws IOException {
-       return service.loadAll().map(path ->
-            MvcUriComponentsBuilder.fromMethodName(
-                FileController.class,
-                "serveFile",
-                path.getFileName().toString()
-            ).build().toUri().toString()
+        return service.loadAll().map(path ->
+                uriPathConverter.getUri(path)
         ).collect(Collectors.toList());
     }
 
     @GetMapping("/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
         Resource file = service.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(file);
     }
 
     @PostMapping()
     public String handleFileUpload(
         @RequestParam("files") MultipartFile file
     ) {
+        logger.info("Handling file upload...");
+
         Path path = service.store(file);
-        return filePathToUrlConverter.getUrl(path);
+        return uriPathConverter.getUri(path);
     }
 }

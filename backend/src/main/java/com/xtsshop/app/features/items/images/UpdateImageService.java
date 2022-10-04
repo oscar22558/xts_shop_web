@@ -10,24 +10,24 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UpdateItemImage {
+public class UpdateImageService {
 
     private StorageService storageService;
-    private SaveImage saveImage;
-    private SaveImageToStorage saveImageToStorage;
+    private SaveImageService saveImageService;
+    private StoreImageService storeImageService;
     private ImageJpaRepository imageJpaRepository;
     private UpdateItemImageInput input;
     private Item item;
 
-    public UpdateItemImage(
+    public UpdateImageService(
             @Qualifier("ImageStorageService") StorageService storageService,
-            SaveImage saveImage,
-            SaveImageToStorage saveImageToStorage,
+            SaveImageService saveImageService,
+            StoreImageService storeImageService,
             ImageJpaRepository imageJpaRepository
     ) {
         this.storageService = storageService;
-        this.saveImage = saveImage;
-        this.saveImageToStorage = saveImageToStorage;
+        this.saveImageService = saveImageService;
+        this.storeImageService = storeImageService;
         this.imageJpaRepository = imageJpaRepository;
     }
 
@@ -45,9 +45,9 @@ public class UpdateItemImage {
     }
 
     public Image createNewImage(){
-        saveImageToStorage.save(input.getNewImage());
-        ImageBuilder imageBuilder = saveImageToStorage.configImageBuilder(new ImageBuilder());
-        saveImage.setItem(item);
-        return saveImage.create(imageBuilder);
+        storeImageService.store(input.getNewImage());
+        ImageBuilder imageBuilder = storeImageService.configImageBuilder(new ImageBuilder());
+        saveImageService.setItem(item);
+        return saveImageService.create(imageBuilder);
     }
 }

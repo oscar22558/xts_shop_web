@@ -1,19 +1,18 @@
 package com.xtsshop.app.features.storage.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Profile;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@ConfigurationProperties("storage-config-dev-test")
-@Profile({"test", "dev"})
-public class StorageDevTestProperties {
+@ConfigurationProperties("storage-config")
+public class StorageProperties {
 
+    private String root = "storage";
     private String imageFolder = "images";
 
     protected Path getRootPath(){
-        return Paths.get("");
+        return Paths.get(root).toAbsolutePath();
     }
     public String getEnvRoot(){
         return getRoot();

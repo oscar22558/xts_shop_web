@@ -1,19 +1,19 @@
 version: "3.8"
 
 services:
-  ui: 
-    container_name: xts-ui-test
-    tty: true
-    image: xts-ui-test
-    build:
-      context: ./frontend
-      target: test
-    ports: 
-      - 3000:3000
-    volumes:
-      - ./frontend/src:/www/src
-    networks:
-      - xts-app-network
+  # ui: 
+  #   container_name: xts-ui-test
+  #   tty: true
+  #   image: xts-ui-test
+  #   build:
+  #     context: ./frontend
+  #     target: test
+  #   ports: 
+  #     - 3000:3000
+  #   volumes:
+  #     - ./frontend/src:/www/src
+  #   networks:
+  #     - xts-app-network
   api:
     platform: linux/x86_64
     container_name: xts-api-test
@@ -35,20 +35,9 @@ services:
     image: xts-nginx-test
     build:
       context: ./nginx
+      target: test
     ports: 
       - 80:80
-    networks:
-      - xts-app-network
-  storage:
-    container_name: storage
-    tty: true
-    image: xts-storage
-    build:
-      context: ./storage
-    volumes:
-      - ./storage/images:/www/images
-    ports:
-      - 8081:80
     networks:
       - xts-app-network
 

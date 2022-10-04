@@ -2,7 +2,6 @@ package com.xtsshop.app.features.orders;
 
 import com.xtsshop.app.features.orders.exceptions.OrderStatusUpdateException;
 import com.xtsshop.app.features.orders.models.OrderModelAssembler;
-import com.xtsshop.app.features.storage.FilePathToUrlConverter;
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.advices.exception.UnAuthorizationException;
 import com.xtsshop.app.db.entities.Order;
