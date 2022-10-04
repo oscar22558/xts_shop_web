@@ -1,5 +1,6 @@
 package com.xtsshop.app.features.storage;
 
+import com.xtsshop.app.features.storage.config.StorageProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 

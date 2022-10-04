@@ -1,4 +1,4 @@
-package com.xtsshop.app.features.storage;
+package com.xtsshop.app.features.storage.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

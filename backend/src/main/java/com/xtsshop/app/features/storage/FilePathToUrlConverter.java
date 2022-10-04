@@ -1,5 +1,6 @@
 package com.xtsshop.app.features.storage;
 
+import com.xtsshop.app.features.storage.config.StorageProperties;
 import org.springframework.stereotype.Component;
 import java.nio.file.Path;
 import java.nio.file.Paths;
