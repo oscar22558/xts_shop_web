@@ -1,6 +1,6 @@
 package com.xtsshop.app.features.storage;
 
-import com.xtsshop.app.features.storage.config.StorageProperties;
+import com.xtsshop.app.features.storage.config.StorageDevTestProperties;
 import org.springframework.stereotype.Component;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,7 +11,7 @@ public class FilePathToUrlConverter {
     private Path storageRootFolder;
     private String urlRoot;
 
-    public FilePathToUrlConverter(StorageProperties properties){
+    public FilePathToUrlConverter(StorageDevTestProperties properties){
         this.storageRootFolder = Paths.get(properties.getEnvRoot());
         this.urlRoot = "storage";
     }

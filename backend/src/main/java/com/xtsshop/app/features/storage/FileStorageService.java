@@ -1,6 +1,6 @@
 package com.xtsshop.app.features.storage;
 
-import com.xtsshop.app.features.storage.config.StorageProperties;
+import com.xtsshop.app.features.storage.config.StorageDevTestProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -24,8 +24,8 @@ public class FileStorageService implements StorageService{
     protected Path root;
     protected Path envRoot;
     protected Util util;
-    protected StorageProperties properties;
-    public FileStorageService(StorageProperties properties, Util util) {
+    protected StorageDevTestProperties properties;
+    public FileStorageService(StorageDevTestProperties properties, Util util) {
         this.properties = properties;
         this.root = Paths.get(properties.getEnvRoot());
         this.envRoot = Paths.get(properties.getEnvRoot());

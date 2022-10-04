@@ -1,8 +1,7 @@
 package com.xtsshop.app;
 
-import com.xtsshop.app.features.storage.config.StorageProperties;
+import com.xtsshop.app.features.storage.config.StorageDevTestProperties;
 import com.xtsshop.app.features.storage.StorageService;
-import com.xtsshop.app.features.storage.config.StorageUrlProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@EnableConfigurationProperties({StorageProperties.class, StorageUrlProperties.class})
+@EnableConfigurationProperties({StorageDevTestProperties.class})
 public class XtsShopApplication {
 
 	public static void main(String[] args) {
