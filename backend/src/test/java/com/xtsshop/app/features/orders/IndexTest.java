@@ -1,6 +1,6 @@
 package com.xtsshop.app.features.orders;
 
-import com.xtsshop.app.db.seed.DevelopmentDataSeed;
+import com.xtsshop.app.db.seed.TestDataSeed;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.*;
 @Transactional
 public class IndexTest extends OrdersTest {
     @Autowired
-    private DevelopmentDataSeed dataSeed;
+    private TestDataSeed dataSeed;
 
     @Test
     void test() throws Exception {

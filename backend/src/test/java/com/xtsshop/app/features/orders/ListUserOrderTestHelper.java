@@ -1,6 +1,6 @@
 package com.xtsshop.app.features.orders;
 
-import com.xtsshop.app.db.seed.DevelopmentDataSeed;
+import com.xtsshop.app.db.seed.TestDataSeed;
 import com.xtsshop.app.features.orders.data.FakeNewUserDataSet;
 import com.xtsshop.app.features.orders.data.FakeOrderDataSetBuilder;
 import org.springframework.boot.test.context.TestComponent;
@@ -11,17 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ListUserOrderTestHelper {
     private FakeOrderDataSetBuilder fakeOrderDataSetBuilder;
-    private DevelopmentDataSeed developmentDataSeed;
+    private TestDataSeed testDataSeed;
     private FakeNewUserDataSet fakeNewUserDataSet;
 
-    public ListUserOrderTestHelper(FakeOrderDataSetBuilder fakeOrderDataSetBuilder, DevelopmentDataSeed developmentDataSeed, FakeNewUserDataSet fakeNewUserDataSet) {
+    public ListUserOrderTestHelper(FakeOrderDataSetBuilder fakeOrderDataSetBuilder, TestDataSeed testDataSeed, FakeNewUserDataSet fakeNewUserDataSet) {
         this.fakeOrderDataSetBuilder = fakeOrderDataSetBuilder;
-        this.developmentDataSeed = developmentDataSeed;
+        this.testDataSeed = testDataSeed;
         this.fakeNewUserDataSet = fakeNewUserDataSet;
     }
 
     public void insertData(){
-        developmentDataSeed.insertData();
+        testDataSeed.insertData();
         fakeNewUserDataSet
                 .setUsername("mario123")
                 .insertData();

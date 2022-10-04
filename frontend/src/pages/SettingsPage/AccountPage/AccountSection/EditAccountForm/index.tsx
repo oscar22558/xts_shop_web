@@ -1,4 +1,4 @@
-import { Box, Button, Divider, TextField } from "@mui/material"
+import { Box, Button, Divider, FormHelperText, TextField } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../../../../features/Hooks"
 import useUpdateUser from "../../../../../features/user/hooks/useUpdateUser"
@@ -12,16 +12,14 @@ type Props = {
 }
 
 const initialColumnValidationState = {
-    username: true,
-    email: true,
-    phone: true
+    username: "",
+    email: "",
+    phone: ""
 }
 
 const rowContentCss = {padding: "10px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}
-
 const labelCss = {flex: 25}
-
-const textFieldCss= {flex: 75, padding: "0px"}
+const inputFieldContainerCss = {flex: 75, padding: "0px"}
 
 const EditAccountPage = ({
     initialData,
@@ -34,22 +32,43 @@ const EditAccountPage = ({
     const dispatch = useAppDispatch()
     const {error: updateUserError, loading: updateUserLoading} = useAppSelector(UserSelector).updateUserResponse
 
-    const validateUsername = (username: string)=>{
-        const isValid = true
-        setColumnValidation({...columnValidation, username: isValid})
+    const validateUsername = ()=>{
+        const username = updatedUser.username
+        const isValid = username != null && username !== ""
+        const message = isValid ? "" : "Missing username." 
+        console.log("validate username");
+        message && console.error(message);
+        setColumnValidation(prevState=>({...prevState, username: message}))
+        return isValid
     }
 
-    const validateEmail = (email: string)=>{        
-        const isValid = true
-        setColumnValidation({...columnValidation, email: isValid})
+    const validateEmail = ()=>{        
+        const email = updatedUser.email
+        const isValid = email != null && email !== ""
+        const message = isValid ? "" : "Missing email." 
+        console.log("validate email");
+        message && console.error(message);
+        setColumnValidation(prevState=>({...prevState, email: message}))
+        return isValid
     }
 
-    const validatePhone = (phone: string)=>{
-        const isValid = true
-        setColumnValidation({...columnValidation, phone: isValid})
+    const validatePhone = ()=>{
+        const phone = updatedUser.phone
+        const isValid = phone != null && phone !== ""
+        const message = isValid ? "" : "Missing phone." 
+        console.log("validate phone");
+        message && console.error(message);
+        setColumnValidation(prevState=>({...prevState, phone: message}))
+        return isValid
     }
 
     const handleUpdateBtnClick = ()=>{
+        const usernameValid = validateUsername()
+        const emailValid = validateEmail()
+        const phoneValid = validatePhone()
+        const isFormValid = usernameValid && emailValid && phoneValid
+        if(!isFormValid) return
+        
         setWaitingUserClickUpdate(false)
         sendUpdateUserPutRequest(updatedUser)
     }
@@ -57,10 +76,9 @@ const EditAccountPage = ({
     useEffect(()=>{
         if(waitingUserClickUpdate) return
         if(updateUserLoading) return
-        
-        if(updateUserError != null){
+        const columnError = Object.values(updateUserError).find(error=>error !== "") ?? ""
+        if(columnError !== ""){
             setWaitingUserClickUpdate(true)
-            console.error("update user error")
             return
         }
         handleFinishEditing && handleFinishEditing()
@@ -72,31 +90,25 @@ const EditAccountPage = ({
     const viewModel = [
         {
             label: "Username",
-            textFieldLabel: (columnValidation.username ? undefined : "Error"),
             value: updatedUser.username,
-            error: !columnValidation.username,
+            error: columnValidation.username || updateUserError.username,
             handleChange: (username: string)=>{
-                validateUsername(username)
                 setUpdatedUser({...updatedUser, username})
             }
         },
         {
             label: "Email",
-            textFieldLabel: (columnValidation.email ? undefined : "Error"),
             value: updatedUser.email,
-            error: !columnValidation.email,
+            error: columnValidation.email || updateUserError.email,
             handleChange: (email: string)=>{
-                validateEmail(email)
                 setUpdatedUser({...updatedUser, email})
             }
         },
         {
             label: "Phone",
-            textFieldLabel: (columnValidation.phone ? undefined : "Error"),
             value: updatedUser.phone,
-            error: !columnValidation.phone,
+            error: columnValidation.phone || updateUserError.phone,
             handleChange: (phone: string)=>{
-                validatePhone(phone)
                 setUpdatedUser({...updatedUser, phone})
             }
         }
@@ -108,16 +120,18 @@ const EditAccountPage = ({
                 <Box key={index}>
                     <Box sx={rowContentCss}>
                         <Box sx={labelCss}>{itemData.label}</Box>
-                        <TextField 
-                            error={itemData.error}
-                            label={itemData.textFieldLabel}
-                            sx={textFieldCss} 
-                            value={itemData.value} 
-                            onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>)=>(
-                                itemData.handleChange(event.target.value)
-                            )}
-                            helperText={undefined}
-                        />
+                        <Box sx={{display: "flex", flexDirection: "column", ...inputFieldContainerCss}}>
+                            <TextField 
+                                error={itemData.error !== ""}
+                                label={itemData.label}
+                                value={itemData.value} 
+                                onChange={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>)=>(
+                                    itemData.handleChange(event.target.value)
+                                )}
+                                helperText={undefined}
+                            />
+                            {itemData.error !== "" ? <FormHelperText error={itemData.error !== ""}>{itemData.error}</FormHelperText> : undefined}
+                        </Box>
                     </Box>
                     <Divider />
                 </Box>

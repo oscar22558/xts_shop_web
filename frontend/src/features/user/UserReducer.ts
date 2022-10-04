@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import HttpResponse from "../models/HttpResponse"
 import UpdatePasswordError from "./models/UpdatePasswordError"
+import UpdateUserColumnErrors from "./models/UpdateUserColumnErrors"
+import UpdateUserErrorResponse from "./models/UpdateUserErrorResponse"
 import User from "./models/User"
 
 type State = {
     getUserResponse: HttpResponse<User>
-    updateUserResponse: HttpResponse<null>,
+    updateUserResponse: HttpResponse<null, UpdateUserColumnErrors>,
     updatePasswordResponse: HttpResponse<null, UpdatePasswordError | null>
 }
 
@@ -23,7 +25,11 @@ const initialState: State = {
     },
     updateUserResponse: {
         data: null,
-        error: null,
+        error: {
+            username: "",
+            email: "",
+            phone: ""
+        },
         loading: false
     },
     updatePasswordResponse: {
@@ -56,15 +62,15 @@ export const UsersSlice = createSlice({
         updateUserEnd: (state: State)=>{
             state.updateUserResponse.loading = false
         },
-        updateUserSucceed: (state: State, action: PayloadAction<User>)=>{
-            state.getUserResponse.data = action.payload
-            state.updateUserResponse.error = null
+        updateUserSucceed: (state: State, {payload}: PayloadAction<User>)=>{
+            state.getUserResponse.data = payload
+            state.updateUserResponse.error = initialState.updateUserResponse.error
         },
-        updateUserFail: (state: State, action: PayloadAction<string>)=>{
-            state.updateUserResponse.error = action.payload
+        updateUserFail: (state: State, {payload}: PayloadAction<UpdateUserColumnErrors>)=>{
+            state.updateUserResponse.error = payload
         },
         clearUpdateUserError: (state: State)=>{
-            state.updateUserResponse.error = null
+            state.updateUserResponse.error = initialState.updateUserResponse.error
         },
         updatePasswordStart: (state: State)=>{
             state.updatePasswordResponse.loading = true

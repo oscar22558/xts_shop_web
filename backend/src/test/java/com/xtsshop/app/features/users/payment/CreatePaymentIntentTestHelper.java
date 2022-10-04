@@ -8,7 +8,7 @@ import com.xtsshop.app.db.entities.OrderedItem;
 import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import com.xtsshop.app.db.repositories.OrderJpaRepository;
 import com.xtsshop.app.db.repositories.UserJpaRepository;
-import com.xtsshop.app.db.seed.DevelopmentDataSeed;
+import com.xtsshop.app.db.seed.TestDataSeed;
 import org.springframework.boot.test.context.TestComponent;
 
 import javax.transaction.Transactional;
@@ -20,9 +20,9 @@ public class CreatePaymentIntentTestHelper {
     private UserJpaRepository userJpaRepository;
     private ItemJpaRepository itemJpaRepository;
     private OrderJpaRepository orderJpaRepository;
-    private DevelopmentDataSeed data;
+    private TestDataSeed data;
 
-    public CreatePaymentIntentTestHelper(UserJpaRepository userJpaRepository, ItemJpaRepository itemJpaRepository, OrderJpaRepository orderJpaRepository, DevelopmentDataSeed data) {
+    public CreatePaymentIntentTestHelper(UserJpaRepository userJpaRepository, ItemJpaRepository itemJpaRepository, OrderJpaRepository orderJpaRepository, TestDataSeed data) {
         this.userJpaRepository = userJpaRepository;
         this.itemJpaRepository = itemJpaRepository;
         this.orderJpaRepository = orderJpaRepository;

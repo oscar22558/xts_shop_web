@@ -1,8 +1,6 @@
-import { MiscellaneousServices } from "@mui/icons-material";
 import { takeEvery, put, call } from "@redux-saga/core/effects"
 import { PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError, AxiosResponse } from "axios";
-import UpdatePasswordError from "../models/UpdatePasswordError";
 import UpdateUserErrorResponse from "../models/UpdateUserErrorResponse";
 import User from "../models/User";
 import UserErrorCode from "../models/UserErrorCode";
@@ -47,15 +45,21 @@ function handlePhoneError(errorCode: string){
 
 function handleAxiosError(error: AxiosError<UpdateUserErrorResponse>){
     const errorResponse = error.response?.data
+    const errorMessages = {
+        username: "",
+        email: "",
+        phone: ""
+    }
     if(errorResponse?.username != null){
-        return handleUserColumnError(errorResponse.username)
+        errorMessages.username = handleUserColumnError(errorResponse.username)
     }
     if(errorResponse?.email != null){
-        return handleUserEmailError(errorResponse.email)
+        errorMessages.email = handleUserEmailError(errorResponse.email)
     }
     if(errorResponse?.phone != null){
-        return handlePhoneError(errorResponse.phone)
+        errorMessages.phone = handlePhoneError(errorResponse.phone)
     }
+    return errorMessages
 }
 
 function* updateUser(user: User){
@@ -70,7 +74,8 @@ function* tryUpdateUser(action: PayloadAction<User>){
     try{
         yield call(updateUser, action.payload)
     }catch(ex: any){
-        yield put(fail(ex?.message ?? ""))
+        const errorMessage = handleAxiosError(ex)
+        yield put(fail(errorMessage))
     }finally{
         yield put(end())
     }

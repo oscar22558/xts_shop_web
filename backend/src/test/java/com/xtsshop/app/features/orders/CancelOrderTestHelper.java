@@ -3,7 +3,7 @@ package com.xtsshop.app.features.orders;
 import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.db.repositories.ItemJpaRepository;
-import com.xtsshop.app.db.seed.DevelopmentDataSeed;
+import com.xtsshop.app.db.seed.TestDataSeed;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -13,11 +13,11 @@ import javax.transaction.Transactional;
 public class CancelOrderTestHelper {
 
     private OrderTestHelper orderTestHelper;
-    private DevelopmentDataSeed dataSeed;
+    private TestDataSeed dataSeed;
     private ItemJpaRepository itemJpaRepository;
     private String route = "/api/orders/{orderId}/cancel";
 
-    public CancelOrderTestHelper(OrderTestHelper orderTestHelper, DevelopmentDataSeed dataSeed, ItemJpaRepository itemJpaRepository) {
+    public CancelOrderTestHelper(OrderTestHelper orderTestHelper, TestDataSeed dataSeed, ItemJpaRepository itemJpaRepository) {
         this.orderTestHelper = orderTestHelper;
         this.dataSeed = dataSeed;
         this.itemJpaRepository = itemJpaRepository;

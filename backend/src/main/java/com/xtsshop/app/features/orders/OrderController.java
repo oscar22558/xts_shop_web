@@ -22,7 +22,7 @@ public class OrderController {
     private OrdersService ordersService;
     private OrderModelAssembler modelAssembler;
 
-    public OrderController(OrdersService ordersService, OrderModelAssembler modelAssembler, FilePathToUrlConverter filePathToUrlConverter) {
+    public OrderController(OrdersService ordersService, OrderModelAssembler modelAssembler) {
         this.ordersService = ordersService;
         this.modelAssembler = modelAssembler;
     }

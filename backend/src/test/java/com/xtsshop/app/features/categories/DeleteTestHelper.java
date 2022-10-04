@@ -1,15 +1,15 @@
 package com.xtsshop.app.features.categories;
 
 import com.xtsshop.app.db.repositories.CategoryJpaRepository;
-import com.xtsshop.app.db.seed.DevelopmentDataSeed;
+import com.xtsshop.app.db.seed.TestDataSeed;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DeleteTestHelper {
     private String route = "/api/categories/{id}";
     private CategoryJpaRepository repository;
-    private DevelopmentDataSeed seed;
-    public DeleteTestHelper(CategoryJpaRepository repository, DevelopmentDataSeed seed) {
+    private TestDataSeed seed;
+    public DeleteTestHelper(CategoryJpaRepository repository, TestDataSeed seed) {
         this.repository = repository;
         this.seed = seed;
     }

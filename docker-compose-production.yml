@@ -20,6 +20,7 @@ services:
     environment:
       - DOCKER_BUILDKIT=0
       - COMPOSE_DOCKER_CLI_BUILD=0
+      - SPRING_PROFILES_ACTIVE=production
     tty: true
     image: xts-api
     build:
@@ -33,11 +34,22 @@ services:
     tty: true
     image: xts-nginx
     build:
-      context: ./ngnix
+      context: ./nginx
     ports: 
       - 80:80
     networks:
-      - bridge
+      - xts-app-network
+  storage:
+    container_name: storage
+    tty: true
+    image: xts-storage
+    build:
+      context: ./storage
+    volumes:
+      - ./file-server/images:/www/images
+    ports:
+      - 8081:80
+    networks:
       - xts-app-network
       
   # db:

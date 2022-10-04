@@ -5,7 +5,7 @@ import com.xtsshop.app.features.users.payment.data.FakeOrderData;
 import com.xtsshop.app.features.users.payment.models.FakePaymentDetail;
 import com.xtsshop.app.db.entities.Order;
 import com.xtsshop.app.db.repositories.OrderJpaRepository;
-import com.xtsshop.app.db.seed.DevelopmentDataSeed;
+import com.xtsshop.app.db.seed.TestDataSeed;
 import org.springframework.boot.test.context.TestComponent;
 
 import javax.transaction.Transactional;
@@ -13,11 +13,11 @@ import javax.transaction.Transactional;
 @TestComponent
 @Transactional
 public class CancelPaymentIntentTestHelper {
-    private DevelopmentDataSeed dataSet;
+    private TestDataSeed dataSet;
     private OrderJpaRepository orderJpaRepository;
     private FakeOrderData fakeOrderData;
 
-    public CancelPaymentIntentTestHelper(DevelopmentDataSeed dataSet, OrderJpaRepository orderJpaRepository, FakeOrderData fakeOrderData) {
+    public CancelPaymentIntentTestHelper(TestDataSeed dataSet, OrderJpaRepository orderJpaRepository, FakeOrderData fakeOrderData) {
         this.dataSet = dataSet;
         this.orderJpaRepository = orderJpaRepository;
         this.fakeOrderData = fakeOrderData;

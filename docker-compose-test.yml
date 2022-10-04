@@ -7,7 +7,7 @@ services:
     image: xts-ui-test
     build:
       context: ./frontend
-      target: dev
+      target: test
     ports: 
       - 3000:3000
     volumes:
@@ -20,6 +20,7 @@ services:
     environment:
       - DOCKER_BUILDKIT=0
       - COMPOSE_DOCKER_CLI_BUILD=0
+      - SPRING_PROFILES_ACTIVE=test
     tty: true
     image: xts-api-test
     build:
@@ -36,6 +37,18 @@ services:
       context: ./nginx
     ports: 
       - 80:80
+    networks:
+      - xts-app-network
+  storage:
+    container_name: storage
+    tty: true
+    image: xts-storage
+    build:
+      context: ./storage
+    volumes:
+      - ./storage/images:/www/images
+    ports:
+      - 8081:80
     networks:
       - xts-app-network
 

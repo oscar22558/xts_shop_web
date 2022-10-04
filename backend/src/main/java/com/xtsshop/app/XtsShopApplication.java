@@ -35,9 +35,6 @@ public class XtsShopApplication {
 	public CommandLineRunner init(@Qualifier("FileStorageService") StorageService storageService, @Qualifier("ImageStorageService") StorageService imageStorageService) {
 		return (args) -> {
 			try{
-
-			storageService.deleteAll();
-			storageService.init();
 			imageStorageService.init();
 			}catch(Exception ex){
 				

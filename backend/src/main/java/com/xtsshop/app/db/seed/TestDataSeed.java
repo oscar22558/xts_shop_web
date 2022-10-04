@@ -12,7 +12,7 @@ import java.util.*;
 
 @Component
 @Transactional
-public class DevelopmentDataSeed {
+public class TestDataSeed {
 
     private CategoryJpaRepository repository;
     private ItemJpaRepository itemJpaRepository;
@@ -23,7 +23,7 @@ public class DevelopmentDataSeed {
     private BrandJpaRepository brandJpaRepository;
     private PriceHistoryJpaRepository priceHistoryJpaRepository;
 
-    public DevelopmentDataSeed(CategoryJpaRepository repository, ItemJpaRepository itemJpaRepository, ImageJpaRepository imageJpaRepository, UserJpaRepository userJpaRepository, RoleJpaRepository roleJpaRepository, PrivilegeJpaRepository privilegeJpaRepository, BrandJpaRepository brandJpaRepository, PriceHistoryJpaRepository priceHistoryJpaRepository) {
+    public TestDataSeed(CategoryJpaRepository repository, ItemJpaRepository itemJpaRepository, ImageJpaRepository imageJpaRepository, UserJpaRepository userJpaRepository, RoleJpaRepository roleJpaRepository, PrivilegeJpaRepository privilegeJpaRepository, BrandJpaRepository brandJpaRepository, PriceHistoryJpaRepository priceHistoryJpaRepository) {
         this.repository = repository;
         this.itemJpaRepository = itemJpaRepository;
         this.imageJpaRepository = imageJpaRepository;
@@ -118,7 +118,7 @@ public class DevelopmentDataSeed {
         List<Item> items = itemJpaRepository.findAll();
         imageJpaRepository.save(
             new ImageBuilder()
-                .setPath("storage/develop/images/apple.png")
+                .setPath("/storage/develop/images/apple.jpg")
                 .setFileName("apple")
                 .setExtension("png")
                 .setItem(items.get(0))
@@ -126,24 +126,24 @@ public class DevelopmentDataSeed {
         );
         imageJpaRepository.save(
                 new ImageBuilder()
-                        .setPath("storage/develop/images/orange.png")
+                        .setPath("/storage/develop/images/orange.jpg")
                         .setFileName("orange")
-                        .setExtension("png")
+                        .setExtension("jpg")
                         .setItem(items.get(1)).build()
         );
         imageJpaRepository.save(
                 new ImageBuilder()
-                .setPath("storage/develop/images/usb_data_cable.png")
-                .setFileName("usb_data_cable")
-                .setExtension("png")
+                .setPath("/storage/develop/images/usb-cable.jpg")
+                .setFileName("usb-cable")
+                .setExtension("jpg")
                 .setItem(items.get(2))
                 .build()
         );
         imageJpaRepository.save(
                 new ImageBuilder()
-                        .setPath("storage/develop/images/stand.png")
-                        .setFileName("stand")
-                        .setExtension("png")
+                        .setPath("/storage/develop/images/mobile-phone-stand.jpg")
+                        .setFileName("mobile-phone-stand")
+                        .setExtension("jpg")
                         .setItem(items.get(3))
                         .build()
         );

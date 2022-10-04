@@ -1,13 +1,13 @@
 package com.xtsshop.app.dataset;
 
-import com.xtsshop.app.db.seed.DevelopmentDataSeed;
+import com.xtsshop.app.db.seed.TestDataSeed;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DataSet {
-    private DevelopmentDataSeed seed;
+    private TestDataSeed seed;
 
-    public DataSet(DevelopmentDataSeed seed) {
+    public DataSet(TestDataSeed seed) {
         this.seed = seed;
     }
 
