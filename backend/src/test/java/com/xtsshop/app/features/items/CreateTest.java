@@ -1,14 +1,9 @@
 package com.xtsshop.app.features.items;
 
-import com.xtsshop.app.DependencyTestConfig;
-import com.xtsshop.app.LoadDatabaseTestConfig;
 import com.xtsshop.app.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -115,7 +110,7 @@ class CreateTest extends TestCase {
 		response.andExpect(jsonPath("$.imgUrl", is(
 				itemTestHelper
 						.getFilePathToUrlConverter()
-						.getUrl(itemTestHelper.latestImage().getPath())
+						.getUrl(itemTestHelper.latestImage().getUri())
 		)));
 	}
 
@@ -128,7 +123,7 @@ class CreateTest extends TestCase {
 	}
 
 	private void assertItemImageIsInStorage(){
-		assertTrue(Paths.get(itemTestHelper.latestImage().getPath()).toFile().exists());
+		assertTrue(Paths.get(itemTestHelper.latestImage().getUri()).toFile().exists());
 	}
 
 	@Test

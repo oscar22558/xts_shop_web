@@ -12,11 +12,11 @@ import java.sql.Date;
 @Entity
 @Table(name = "images")
 public class Image extends AppEntity {
-    @Column(name = "path")
-    private String path;
+    @Column(name = "uri")
+    private String uri;
 
-    @Column(name = "file_name")
-    private String fileName;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "extension")
     private String extension;
@@ -29,10 +29,10 @@ public class Image extends AppEntity {
         super(id);
     }
 
-    public Image(Date createdAt, Date updatedAt, String path, String fileName, String extension, Item item){
+    public Image(Date createdAt, Date updatedAt, String uri, String description, String extension, Item item){
         super(createdAt, updatedAt);
-        this.path = path;
-        this.fileName = fileName;
+        this.uri = uri;
+        this.description = description;
         this.extension = extension;
         this.item = item;
     }

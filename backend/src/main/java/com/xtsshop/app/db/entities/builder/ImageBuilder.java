@@ -8,13 +8,13 @@ import com.xtsshop.app.helpers.DateTimeHelper;
 import java.sql.Date;
 
 public class ImageBuilder extends AppEntity {
-    private String path;
+    private String uri;
     private String fileName;
     private String extension;
     private Item item;
 
-    public ImageBuilder setPath(String path) {
-        this.path = path;
+    public ImageBuilder setUri(String uri) {
+        this.uri = uri;
         return this;
     }
 
@@ -37,8 +37,8 @@ public class ImageBuilder extends AppEntity {
         Image img = new Image();
         img.setCreatedAt(now);
         img.setUpdatedAt(now);
-        img.setPath(path);
-        img.setFileName(fileName);
+        img.setUri(uri);
+        img.setDescription(fileName);
         img.setExtension(extension);
         img.setItem(item);
         return img;

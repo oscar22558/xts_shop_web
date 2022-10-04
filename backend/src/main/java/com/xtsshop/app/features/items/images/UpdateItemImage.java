@@ -40,7 +40,7 @@ public class UpdateItemImage {
 
     public void deleteOriginalImage() {
         Image image = item.getImage();
-        storageService.delete(image.getFileName());
+        storageService.delete(image.getDescription());
         imageJpaRepository.delete(image);
     }
 

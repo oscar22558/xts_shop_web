@@ -45,7 +45,7 @@ public class ItemModelBuilder {
             logger.info("=== item without image=====");
             logger.info(itemEntity.getName());
         }
-        String imgUrl = filePathToUrlConverter.getUrl(itemEntity.getImage().getPath());
+        String imgUrl = filePathToUrlConverter.getUrl(itemEntity.getImage().getUri());
         // price = null if no record
         PriceHistoryPresentationModel price = priceHistoryModel.orElse(
                 itemEntity.getLatestPriceHistory()

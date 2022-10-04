@@ -163,6 +163,6 @@ public class ItemTestHelper {
                 .findAll()
                 .get(index)
                 .getImage()
-                .getPath();
+                .getUri();
     }
 }

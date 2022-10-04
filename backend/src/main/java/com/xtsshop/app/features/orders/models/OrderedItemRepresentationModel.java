@@ -3,11 +3,6 @@ package com.xtsshop.app.features.orders.models;
 import com.xtsshop.app.AbstractRepresentationModel;
 import com.xtsshop.app.db.entities.OrderedItem;
 import com.xtsshop.app.features.storage.FilePathToUrlConverter;
-import com.xtsshop.app.features.users.addresses.models.AddressRepresentationModel;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.io.File;
 
 public class OrderedItemRepresentationModel implements AbstractRepresentationModel {
     private FilePathToUrlConverter filePathToUrlConverter;
@@ -42,7 +37,7 @@ public class OrderedItemRepresentationModel implements AbstractRepresentationMod
     }
 
     public String getImgUrl(){
-        String filePath = orderedItemEntity.getItem().getImage().getPath();
+        String filePath = orderedItemEntity.getItem().getImage().getUri();
         return filePathToUrlConverter.getUrl(filePath);
     }
 }

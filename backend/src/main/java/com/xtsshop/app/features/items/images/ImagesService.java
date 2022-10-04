@@ -28,7 +28,7 @@ public class ImagesService {
 
     public void delete(Long id){
         Image image = get(id);
-        storageService.delete(image.getFileName());
+        storageService.delete(image.getDescription());
         repository.delete(image);
     }
 }

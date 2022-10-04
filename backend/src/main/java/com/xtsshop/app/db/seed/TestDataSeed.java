@@ -118,7 +118,7 @@ public class TestDataSeed {
         List<Item> items = itemJpaRepository.findAll();
         imageJpaRepository.save(
             new ImageBuilder()
-                .setPath("/storage/develop/images/apple.jpg")
+                .setUri("/storage/develop/images/apple.jpg")
                 .setFileName("apple")
                 .setExtension("png")
                 .setItem(items.get(0))
@@ -126,14 +126,14 @@ public class TestDataSeed {
         );
         imageJpaRepository.save(
                 new ImageBuilder()
-                        .setPath("/storage/develop/images/orange.jpg")
+                        .setUri("/storage/develop/images/orange.jpg")
                         .setFileName("orange")
                         .setExtension("jpg")
                         .setItem(items.get(1)).build()
         );
         imageJpaRepository.save(
                 new ImageBuilder()
-                .setPath("/storage/develop/images/usb-cable.jpg")
+                .setUri("/storage/develop/images/usb-cable.jpg")
                 .setFileName("usb-cable")
                 .setExtension("jpg")
                 .setItem(items.get(2))
@@ -141,7 +141,7 @@ public class TestDataSeed {
         );
         imageJpaRepository.save(
                 new ImageBuilder()
-                        .setPath("/storage/develop/images/mobile-phone-stand.jpg")
+                        .setUri("/storage/develop/images/mobile-phone-stand.jpg")
                         .setFileName("mobile-phone-stand")
                         .setExtension("jpg")
                         .setItem(items.get(3))

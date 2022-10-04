@@ -37,7 +37,7 @@ public class SaveImageToStorage {
     public ImageBuilder configImageBuilder(ImageBuilder imageBuilder){
         return imageBuilder
                 .setFileName(fileName)
-                .setPath(path)
+                .setUri(path)
                 .setExtension(extension);
     }
 }
