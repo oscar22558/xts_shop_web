@@ -3,8 +3,8 @@ RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 WORKDIR app
 ARG JAR_FILE=build/libs/app-0.0.1.jar
-COPY ${JAR_FILE} ./
+COPY --chown=spring:spring ${JAR_FILE} ./
 WORKDIR storage/images
-COPY storage/images ./
+COPY --chown=spring:spring storage/images ./
 WORKDIR /app
 ENTRYPOINT ["java","-jar","./app-0.0.1.jar"]
