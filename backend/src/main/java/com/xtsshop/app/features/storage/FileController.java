@@ -1,15 +1,17 @@
 package com.xtsshop.app.features.storage;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,12 +37,14 @@ public class FileController {
         ).collect(Collectors.toList());
     }
 
-    @GetMapping("/{filename:.+}")
+    @GetMapping(value = "/{filename:.+}", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        Resource file = service.loadAsResource(filename);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(file);
+    public byte[] serveFile(@PathVariable String filename) throws IOException {
+        Path path = service.load(filename);
+        logger.info("Load resource: " + path);
+        File file = path.toFile();
+        InputStream inputStream = new FileInputStream(file);
+        return IOUtils.toByteArray(inputStream);
     }
 
     @PostMapping()
