@@ -15,7 +15,6 @@ const ItemPage = ()=>{
         dispatch(ItemDetailAction.async(Number.parseInt(itemId)))
     }, [routeParams, dispatch])
     return <Box>
-        <h2>Item name</h2>
         <ItemDetailSection />
         <Box sx={{paddingY: "20px"}}>Item Description</Box>
         <Divider />

@@ -3,6 +3,7 @@ import { useState } from "react"
 import QuantityInput from "../../../components/QuantityInput"
 import { useAppSelector } from "../../../features/Hooks"
 import ItemDetailSelector from "../../../features/item-detail/ItemDetailSelector"
+import { toUpperCaseAt } from "../../../utli"
 import ItemDescriptionRow from "./ItemDescriptionRow"
 
 const ItemDetailSection = ()=>{
@@ -10,7 +11,7 @@ const ItemDetailSection = ()=>{
     const {data: item} = useAppSelector(ItemDetailSelector).getItemDetailResponse
     const itemPrice = item?.price.value ?? 0
     const itemImgUrl = item?.imgUrl ?? ""
-    const itemName = item?.name ?? ""
+    const itemName = toUpperCaseAt(item?.name ?? "", 0)
     const viewModels = [
         {label: "Price", content: itemPrice.toString()},
         {label: "Brand", content: item?.brand ?? ""},
@@ -27,6 +28,7 @@ const ItemDetailSection = ()=>{
     }
     return (
         <Box>
+            <h2>{itemName}</h2>
             <Grid container>
                 <Grid item>
                     <img src={itemImgUrl} alt={itemName} style={{width: "300px", height: "400px"}}/>
@@ -50,9 +52,7 @@ const ItemDetailSection = ()=>{
                     </Box>
                 </Grid>
             </Grid>
-
         </Box>
-
     )
 }
 export default ItemDetailSection
