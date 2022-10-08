@@ -3,7 +3,7 @@ import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useAppDispatch } from "../../features/Hooks"
 import ItemDetailAction from "../../features/item-detail/ItemDetailAction"
-import ItemDetailSection from "./ItemDetailSection"
+import ItemDetailSectionContainer from "./ItemDetailSectionContainer"
 
 const ItemPage = ()=>{
     const routeParams = useParams()
@@ -15,7 +15,7 @@ const ItemPage = ()=>{
         dispatch(ItemDetailAction.async(Number.parseInt(itemId)))
     }, [routeParams, dispatch])
     return <Box>
-        <ItemDetailSection />
+        <ItemDetailSectionContainer />
         <Box sx={{paddingY: "20px"}}>Item Description</Box>
         <Divider />
         <Box sx={{paddingY: "20px"}}>Other items</Box>

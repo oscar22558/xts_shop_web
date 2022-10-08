@@ -6,17 +6,18 @@ import CartCookieType from "./models/CartCookieType";
 const useCart = ()=>{
     const {itemsInCart: itemsInCartApiResponse} = useAppSelector(CartItemsSelector)
     const {cartCookie, setCartCookie} = useCartCookie()
-    const addCartItem = (itemId: number)=>{
+    const addCartItem = (itemId: number, quantity: number = 1)=>{
         if(cartCookie[itemId] === undefined){
             cartCookie[itemId] = 0
         }
-        cartCookie[itemId] += 1
+        cartCookie[itemId] += quantity
         setCartCookie(cartCookie)
     }
 
-    const minusItemQunity = (itemId: number)=>{
-        if(cartCookie[itemId] != null && cartCookie[itemId] > 1){
-            cartCookie[itemId] -= 1
+    const minusItemQunity = (itemId: number, quantity: number = 1)=>{
+        const currentItemQuantity = cartCookie[itemId]
+        if(currentItemQuantity != null && currentItemQuantity > quantity){
+            cartCookie[itemId] -= quantity
         }
         setCartCookie(cartCookie)
     }
