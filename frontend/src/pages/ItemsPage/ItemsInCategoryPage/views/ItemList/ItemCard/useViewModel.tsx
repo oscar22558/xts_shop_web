@@ -1,7 +1,7 @@
-import {useAppSelector} from "../../../../../features/Hooks";
-import ItemsSelector from "../../../../../features/items/ItemsSelector"
-import {domain, port, protocol} from "../../../../../features/ApiConfig"
-import useCart from "../../../../../data-sources/cart/useCart";
+import {useAppSelector} from "../../../../../../features/Hooks";
+import ItemsSelector from "../../../../../../features/items/ItemsSelector"
+import {domain, port, protocol} from "../../../../../../features/ApiConfig"
+import useCart from "../../../../../../data-sources/cart/useCart";
 
 const useViewModel = (index: number)=>{
     const {addCartItem} = useCart()

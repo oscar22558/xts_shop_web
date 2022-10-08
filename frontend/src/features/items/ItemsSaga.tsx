@@ -4,15 +4,33 @@ import ItemsApi from "./ItemsApi"
 import {PayloadAction} from "@reduxjs/toolkit";
 import ItemsSelector from "./ItemsSelector"
 import FetchItemOptions from "../../data-sources/models/FetchItemOptions";
+import { RootState } from "../Store";
+import { AxiosResponse } from "axios";
+import ItemModelListResponse from "./models/ItemModelListResponse";
 
-function* getAllOf({payload}: PayloadAction<number>): Generator<any, any, any>{
-    const { start, end, success, fail } = ItemsAction.getAll.of
+function* getAllItems(categoryId: number){
+    const { success } = ItemsAction.getAll.of
+    const url = buildUrl(categoryId)
+    const res: AxiosResponse<ItemModelListResponse> = yield call(ItemsApi.getAll.of, {url})
+    yield put(success(res.data?._embedded?.itemRepresentationModelList ?? []))
+}
+
+function* getAllItemsOfCategory(categoryId: number){
+    const { success } = ItemsAction.getAll.of
+    const itemState: RootState["items"] = yield select(ItemsSelector)
+    const fetchItemOptions = itemState.fetchItemOptions
+
+    const getRequestConfig = addRequestParams(categoryId, fetchItemOptions)
+    const res: AxiosResponse<ItemModelListResponse> = yield call(ItemsApi.getAll.of, getRequestConfig)
+    yield put(success(res.data?._embedded?.itemRepresentationModelList ?? []))
+}
+
+function* getAllOf({payload}: PayloadAction<number>){
+    const { start, end, fail } = ItemsAction.getAll.of
     yield put(start())
     try{
-        const fetchItemOptions = (yield select(ItemsSelector)).fetchItemOptions as FetchItemOptions
-        const getRequestConfig = addRequestParams(payload, fetchItemOptions)
-        const res = yield call(ItemsApi.getAll.of, getRequestConfig)
-        yield put(success(res.data?._embedded?.itemRepresentationModelList ?? []))
+        const apiGenerator = payload == -1 ? getAllItems : getAllItemsOfCategory
+        yield call(apiGenerator, payload)
     }catch (ex: any) {
         console.error(ex)
         yield put(fail(ex.message))
@@ -35,10 +53,14 @@ function addRequestParams(categoryId: number, option: FetchItemOptions){
         ...option.filter,
     }
     const getConfig = {
-        url: `/categories/${categoryId}/items`,
+        url: buildUrl(categoryId),
         params: getRequestConfig
     }
     return getConfig
+}
+
+function buildUrl(categoryId: number){
+    return categoryId === -1 ? `/items` : `/categories/${categoryId}/items`
 }
 
 export function* getAllOfSaga(){

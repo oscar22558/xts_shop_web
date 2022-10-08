@@ -8,16 +8,13 @@ import Item from "./models/Item";
 
 interface State {
     all: {
-        of: {
-            categoryId: number | null
-        } & HttpResponse<Item[]>
+        of: HttpResponse<Item[]>
     },
     fetchItemOptions: FetchItemOptions
 }
 const initState: State = {
     all: {
         of: {
-            categoryId: null,
             data: [],
             error: null,
             loading: false

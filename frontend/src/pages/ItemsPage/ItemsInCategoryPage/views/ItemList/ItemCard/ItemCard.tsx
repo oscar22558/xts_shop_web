@@ -2,7 +2,7 @@ import {Card, CardHeader, CardMedia, CardContent, IconButton, Box} from "@mui/ma
 import useViewModel from "./useViewModel";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useNavigate } from "react-router-dom";
-import AppRouteList from "../../../../../routes/AppRouteList";
+import AppRouteList from "../../../../../../routes/AppRouteList";
 
 const ItemCard = ({index}: {index: number})=>{
     const navigate = useNavigate()
@@ -13,7 +13,7 @@ const ItemCard = ({index}: {index: number})=>{
         navigate(navigationRoute)
     }
     return (
-        <Card sx={{width: 240, marginBottom: 4, marginRight: 4}}>
+        <Card sx={{minWidth: 240, marginBottom: 4, marginRight: 4}}>
             <CardMedia
                 sx={{width: 240, height: 240, objectFit: "contain", cursor: "pointer"}}
                 component="img"
