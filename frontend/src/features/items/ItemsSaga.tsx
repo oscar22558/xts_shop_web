@@ -29,7 +29,7 @@ function* getAllOf({payload}: PayloadAction<number>){
     const { start, end, fail } = ItemsAction.getAll.of
     yield put(start())
     try{
-        const apiGenerator = payload == -1 ? getAllItems : getAllItemsOfCategory
+        const apiGenerator = payload === -1 ? getAllItems : getAllItemsOfCategory
         yield call(apiGenerator, payload)
     }catch (ex: any) {
         console.error(ex)

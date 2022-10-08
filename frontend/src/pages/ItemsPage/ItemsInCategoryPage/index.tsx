@@ -2,8 +2,6 @@ import {Grid, Stack} from "@mui/material";
 import Box from "@mui/material/Box";
 import SubCategoriesMenu from "./views/SubCategoriesMenu/SubCategoriesMenu";
 import CategoriesStack from "./views/CategoriesStack/CategoriesStack";
-import ItemCard from "./views/ItemList/ItemCard/ItemCard";
-import useViewModel from "./views/ItemList/useViewModel";
 import ItemsSortingOptionFilter from "./views/ItemsSortingOptionFilter/ItemsSortingOptionFilter";
 import ItemListPagination from "./views/ItemListPagination/ItemListPagination";
 import PriceFilter from "./views/PriceFilter/PriceFilter";

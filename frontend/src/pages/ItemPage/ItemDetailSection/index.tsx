@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid } from "@mui/material"
+import { Box, Button, Grid } from "@mui/material"
 import { useState } from "react"
 import QuantityInput from "../../../components/QuantityInput"
 import { useAppSelector } from "../../../features/Hooks"
@@ -50,10 +50,7 @@ const ItemDetailSection = ()=>{
                     </Box>
                 </Grid>
             </Grid>
-            <Box sx={{paddingY: "20px"}}>Item Description</Box>
-            <Divider />
-            <Box sx={{paddingY: "20px"}}>Other items</Box>
-            <Divider />
+
         </Box>
 
     )

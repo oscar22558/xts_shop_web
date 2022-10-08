@@ -8,7 +8,7 @@ const HomePage = ()=>{
     const dispatch = useAppDispatch()
     useEffect(()=>{
         dispatch(ItemsAction.getAll.of.async(-1))
-    }, [])
+    }, [dispatch])
     return <Box sx={{paddingY: "40px"}}>
         <ItemList />
     </Box>

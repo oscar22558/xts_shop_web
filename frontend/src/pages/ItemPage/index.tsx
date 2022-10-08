@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Box, Divider } from "@mui/material"
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useAppDispatch } from "../../features/Hooks"
@@ -17,6 +17,10 @@ const ItemPage = ()=>{
     return <Box>
         <h2>Item name</h2>
         <ItemDetailSection />
+        <Box sx={{paddingY: "20px"}}>Item Description</Box>
+        <Divider />
+        <Box sx={{paddingY: "20px"}}>Other items</Box>
+        <Divider />
     </Box>
 }
 export default ItemPage
