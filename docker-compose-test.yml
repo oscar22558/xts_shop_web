@@ -27,7 +27,37 @@ services:
       - 80:80
     networks:
       - xts-app-network
+  db:
+    container_name: xts-db-test
+    image: postgres
+    environment:
+      POSTGRES_USER: xts
+      POSTGRES_PASSWORD: xts
+      PGDATA: /data/postgres
+    volumes:
+      - xts-db-test:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - xts-app-network
+  dbadmin:
+    container_name: xts-dbadmin-test
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: xts@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: xts
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - xts-dbadmin-test:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    networks:
+      - xts-app-network
 
 networks:
   xts-app-network:
     driver: bridge
+
+volumes:
+  xts-db-test:
+  xts-dbadmin-test:
