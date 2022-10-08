@@ -6,16 +6,16 @@ import useCart from "../../../../data-sources/cart/useCart"
 import Item from "../../../../features/items/models/Item"
 import { toUpperCaseAt } from "../../../../utli"
 import ItemDescriptionRow from "../ItemDescriptionRow"
+import {host} from "../../../../features/ApiConfig"
 
 const ItemDetailSection: React.FC<Item> = ({
-    id, price, imgUrl, name, brand, manufacturer
+    id, name, price, imgUrl, brand, manufacturer
 })=>{
-    const priceValue = price.value
     const [quantity, setQuantity] = useState(1)
     const {addCartItem} = useCart()
     const itemName = toUpperCaseAt(name,  0)
     const viewModels = [
-        {label: "Price", content: priceValue.toString()},
+        {label: "Price", content: price.toString()},
         {label: "Brand", content: brand ?? ""},
         {label: "Manufacturer", content: manufacturer ?? ""},
     ]
@@ -38,7 +38,7 @@ const ItemDetailSection: React.FC<Item> = ({
             <h2>{itemName}</h2>
             <Grid container>
                 <Grid item>
-                    <img src={imgUrl} alt={itemName} style={{width: "300px", height: "400px"}}/>
+                    <img src={`${host}/${imgUrl}`} alt={itemName} style={{width: "400px", height: "400px"}}/>
                 </Grid>
                 <Grid item xs sx={{marginLeft: "40px"}}>
                     {viewModels.map(({label, content}, index)=>(

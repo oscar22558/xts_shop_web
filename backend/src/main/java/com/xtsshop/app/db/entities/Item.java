@@ -13,12 +13,14 @@ import java.util.Set;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "items")
 public class Item extends AppEntity{
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private String description;
 
     @Column(nullable = false)
     @Min(0)
@@ -48,14 +50,20 @@ public class Item extends AppEntity{
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
+    public Item(){
+        description = "";
+    }
+
     public Item(long id) {
         super(id);
+        description = "";
     }
 
     public Item(Date createdAt, Date updatedAt, String name, float price, String manufacturer, Category category, int stock) {
         super(createdAt, updatedAt);
         this.name = name;
         this.price = price;
+        this.description = "";
         this.manufacturer = manufacturer;
         this.category = category;
         this.stock = stock;

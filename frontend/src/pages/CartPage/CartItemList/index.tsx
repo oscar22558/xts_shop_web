@@ -4,6 +4,7 @@ import CheckBoxList from "./CheckBoxList"
 import QuantityInput from "./CartItemQuantityInput"
 import AppRouteList from "../../../routes/AppRouteList"
 import { useNavigate } from "react-router-dom"
+import {host} from "../../../features/ApiConfig"
 
 const CartItemList = ()=>{
 
@@ -20,8 +21,13 @@ const CartItemList = ()=>{
             return (<Grid container>
                 <Grid item xs={10}>
                     <Grid container>
-                        <Grid item xs={2}>
-                            <img  src={item.imgUrl} alt={item.name} onClick={handleItemClick(item.id)} style={{cursor: "pointer"}}/>
+                        <Grid item xs={2} sx={{display: "flex"}}>
+                            <img 
+                                src={`${host}/${item.imgUrl}`} 
+                                alt={item.name} 
+                                onClick={handleItemClick(item.id)} 
+                                style={{cursor: "pointer", width: "60px", height: "60px"}}
+                            />
                         </Grid>
                         <Grid item xs={10}>
                             <div>{id}: {itemCountsInCart ? itemCountsInCart[id]: 0}</div>
@@ -29,7 +35,7 @@ const CartItemList = ()=>{
                                 sx={{cursor: "pointer"}}
                                 onClick={handleItemClick(item.id)}
                             >{item.name}</Link>
-                            <div>HKD ${item.price.value}</div>
+                            <div>HKD ${item.price}</div>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -22,7 +22,7 @@ const ItemCard = ({index}: {index: number})=>{
                 onClick={handleItemImgClick}
             />
             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-                <CardHeader sx={{"& .MuiCardHeader-title": {fontSize: "25px", color: "#ff0000"}}} title={"HKD $"+viewModel.price.value}/>
+                <CardHeader sx={{"& .MuiCardHeader-title": {fontSize: "25px", color: "#ff0000"}}} title={"HKD $"+viewModel.price}/>
                 <IconButton 
                     color="primary" 
                     aria-label="add to shopping cart" 

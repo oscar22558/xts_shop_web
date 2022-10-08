@@ -10,6 +10,10 @@ public class OrderedItemRepresentationModel implements AbstractRepresentationMod
         this.orderedItemEntity = orderedItemEntity;
     }
 
+    public String getDescription(){
+        return orderedItemEntity.getItem().getDescription();
+    }
+
     public long getItemId(){
         return orderedItemEntity.getItem().getId();
     }

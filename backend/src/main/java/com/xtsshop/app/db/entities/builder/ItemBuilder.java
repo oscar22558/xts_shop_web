@@ -15,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class ItemBuilder {
     private String name;
+    private String description;
     private float price;
     private String manufacturer;
     private int stock;
@@ -24,6 +25,11 @@ public class ItemBuilder {
     private Brand brand;
     public ItemBuilder setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public ItemBuilder setDescription(String description) {
+        this.description = description;
         return this;
     }
 
@@ -39,13 +45,6 @@ public class ItemBuilder {
 
     public ItemBuilder setImage(Image image) {
         this.image = image;
-        return this;
-    }
-
-    public ItemBuilder addPriceHistory(PriceHistory priceHistory) {
-        if(priceHistories == null) priceHistories = new ArrayList<>();
-        this.priceHistories.add(priceHistory);
-        price = priceHistory.getValue();
         return this;
     }
 
@@ -70,6 +69,7 @@ public class ItemBuilder {
         item.setCreatedAt(now);
         item.setUpdatedAt(now);
         item.setName(name);
+        item.setDescription(description);
         item.setPrice(price);
         item.setManufacturer(manufacturer);
         item.setStock(stock);

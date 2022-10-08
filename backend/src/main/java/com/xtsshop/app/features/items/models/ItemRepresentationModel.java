@@ -1,23 +1,42 @@
 package com.xtsshop.app.features.items.models;
 
 import com.xtsshop.app.AbstractRepresentationModel;
+import com.xtsshop.app.db.entities.Item;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.Optional;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class ItemRepresentationModel implements AbstractRepresentationModel {
-    private long id;
-    private Date createdAt;
-    private Date updatedAt;
-    private String name;
-    private PriceHistoryPresentationModel price;
-    private String imgUrl;
-    private String manufacturer;
-    private Integer stock;
-    private String brand;
+    private Item item;
+
+    public ItemRepresentationModel(Item item){
+       this.item = item;
+    }
+
+    public long getId(){
+        return item.getId();
+    }
+    public String getDescription(){
+        return item.getDescription();
+    }
+
+    public String getName(){
+        return item.getName();
+    }
+    public float getPrice(){
+        return item.getLatestPrice();
+    }
+    public String getImgUrl(){
+        return item.getImage().getUri();
+    };
+    public String getManufacturer(){
+        return item.getManufacturer();
+    };
+    public String getBrand(){
+        return item.getBrand().getName();
+    }
+
 }

@@ -70,6 +70,7 @@ public class TestDataSeed {
         List<Brand> brands = brandJpaRepository.findAll();
         Item item1 = itemJpaRepository.save(new ItemBuilder()
                 .setName("apple")
+                .setDescription("Apple from Japan.")
                 .setManufacturer("manufacturer 1")
                 .setCategory(category3)
                 .setStock(100)
@@ -81,6 +82,7 @@ public class TestDataSeed {
         Item item2 = itemJpaRepository.save(new ItemBuilder()
                 .setName("orange")
                 .setManufacturer("manufacturer 2")
+                .setDescription("Orange from Austria.")
                 .setCategory(category3)
                 .setStock(101)
                 .setBrand(brands.get(1))
@@ -90,6 +92,7 @@ public class TestDataSeed {
         setPriceForItem(item2, 23.2f);
         Item item3 = itemJpaRepository.save(new ItemBuilder()
                 .setName("2M USB 3.0 data cable")
+                .setDescription("USB cable made in China.")
                 .setManufacturer("manufacturer 1")
                 .setCategory(usbCableCategory)
                 .setStock(102)
@@ -99,6 +102,7 @@ public class TestDataSeed {
         );
         setPriceForItem(item3, 44.2f);
         Item item4 = itemJpaRepository.save(new ItemBuilder().setName("ABC stand")
+                .setDescription("Mobile phone stand.")
                 .setManufacturer("manufacturer 2")
                 .setCategory(phoneStandCategory)
                 .setStock(103)
@@ -118,7 +122,7 @@ public class TestDataSeed {
         List<Item> items = itemJpaRepository.findAll();
         imageJpaRepository.save(
             new ImageBuilder()
-                .setUri("/storage/develop/images/apple.jpg")
+                .setUri("storage/images/apple.jpg")
                 .setDescription("apple")
                 .setExtension("png")
                 .setItem(items.get(0))
@@ -126,14 +130,14 @@ public class TestDataSeed {
         );
         imageJpaRepository.save(
                 new ImageBuilder()
-                        .setUri("/storage/develop/images/orange.jpg")
+                        .setUri("storage/images/orange.jpg")
                         .setDescription("orange")
                         .setExtension("jpg")
                         .setItem(items.get(1)).build()
         );
         imageJpaRepository.save(
                 new ImageBuilder()
-                .setUri("/storage/develop/images/usb-cable.jpg")
+                .setUri("storage/images/usb-cable.jpg")
                 .setDescription("usb-cable")
                 .setExtension("jpg")
                 .setItem(items.get(2))
@@ -141,7 +145,7 @@ public class TestDataSeed {
         );
         imageJpaRepository.save(
                 new ImageBuilder()
-                        .setUri("/storage/develop/images/mobile-phone-stand.jpg")
+                        .setUri("storage/images/mobile-phone-stand.jpg")
                         .setDescription("mobile-phone-stand")
                         .setExtension("jpg")
                         .setItem(items.get(3))

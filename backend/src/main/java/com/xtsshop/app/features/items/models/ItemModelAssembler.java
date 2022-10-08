@@ -55,9 +55,6 @@ public class ItemModelAssembler extends
         );
     }
     private ItemRepresentationModel getItemViewModel(Item entity){
-        return new ItemModelBuilder()
-                .setItemEntity(entity)
-                .setBrand(entity.getBrand())
-                .build();
+        return new ItemRepresentationModel(entity);
     }
 }
