@@ -13,26 +13,26 @@ repositories {
 }
 
 dependencies {
+	implementation 'commons-io:commons-io:2.6'
+
+	implementation 'com.h2database:h2'
+	implementation 'com.google.code.gson:gson:2.9.0'
+	implementation 'com.google.guava:guava:26.0-jre'
+	implementation 'com.stripe:stripe-java:20.127.0'
+
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	implementation 'junit:junit:4.13.1'
+
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.jobrunr:jobrunr-spring-boot-starter:5.1.6'
+	implementation 'org.projectlombok:lombok:1.18.22'
+
 	implementation 'org.springframework:spring-web:5.3.13'
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-
-	implementation 'commons-io:commons-io:2.6'
-	implementation 'com.h2database:h2'
-
-	implementation 'com.stripe:stripe-java:20.127.0'
-
-	implementation 'com.google.code.gson:gson:2.9.0'
-	implementation 'com.google.guava:guava:26.0-jre'
-
-	implementation 'org.jobrunr:jobrunr-spring-boot-starter:5.1.6'
-	implementation 'org.projectlombok:lombok:1.18.22'
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
-	implementation 'junit:junit:4.13.1'
-
 
 	annotationProcessor 'org.projectlombok:lombok:1.18.22'
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
@@ -43,6 +43,7 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2', 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	runtimeOnly 'org.postgresql:postgresql'
 
 }
 

@@ -25,6 +25,12 @@ public class Order extends AppEntity {
     @Column(name = "recipient_phone")
     private String recipientPhone;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    @Column(name = "payment_intent_id", nullable = false)
+    private String paymentIntentId;
+
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private ShippingAddress shippingAddress;
 
@@ -32,14 +38,8 @@ public class Order extends AppEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderedItem> orderedItems;
-
-    @Column(name = "payment_intent_id", nullable = false)
-    private String paymentIntentId;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Invoice invoice;

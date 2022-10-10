@@ -13,10 +13,10 @@ import javax.persistence.*;
 @Table(name = "invoices")
 public class Invoice extends AppEntity {
 
-    @Column(nullable = false)
+    @Column(name = "items_total", nullable = false)
     private float itemsTotal;
 
-    @Column(nullable = false)
+    @Column(name = "shipping_fee", nullable = false)
     private float shippingFee;
 
     @Column(nullable = false)
