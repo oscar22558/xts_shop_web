@@ -72,8 +72,7 @@ CREATE TABLE users(
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL,
     phone VARCHAR(20) NOT NULL,
-    last_login_at TIMESTAMP,
-    role_id BIGINT REFERENCES roles(id) NOT NULL
+    last_login_at TIMESTAMP
 );
 
 CREATE TABLE users_roles(

@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.6.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "org.flywaydb.flyway" version "9.0.1"
 }
 
 group = 'com.xtsshop'
@@ -45,6 +46,14 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2', 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 	runtimeOnly 'org.postgresql:postgresql'
 
+}
+
+flyway {
+	url = 'jdbc:postgresql://localhost:5432/xts'
+	user = 'xts'
+	password = 'xts'
+	cleanDisabled = false
+	locations = ['classpath:db/migration']
 }
 
 test {
