@@ -1,6 +1,6 @@
 package com.xtsshop.app.features.categories;
 
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -12,9 +12,9 @@ public class CategoryItemsIndexTestHelper {
 
     private MockMvc mockMvc;
     private String route = "/api/categories";
-    private TestDataSeed seed;
+    private DevDataSeed seed;
 
-    public CategoryItemsIndexTestHelper(MockMvc mockMvc, TestDataSeed seed) {
+    public CategoryItemsIndexTestHelper(MockMvc mockMvc, DevDataSeed seed) {
         this.mockMvc = mockMvc;
         this.seed = seed;
     }

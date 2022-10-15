@@ -1,7 +1,7 @@
 package com.xtsshop.app.db;
 
 
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import com.xtsshop.app.db.seed.OrderData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +15,11 @@ import org.springframework.context.annotation.Profile;
 public class LoadDatabaseConfig {
 
     @Bean
-    public CommandLineRunner initDatabase(TestDataSeed seed, OrderData orderData) {
+    public CommandLineRunner initDatabase(DevDataSeed seed, OrderData orderData) {
         Logger logger = LoggerFactory.getLogger(LoadDatabaseConfig.class);
         logger.info("Set up database for test environment");
-        seed.insertData();
-        orderData.insert();
+//        seed.insertData();
+//        orderData.insert();
         return args -> {};
     }
 }

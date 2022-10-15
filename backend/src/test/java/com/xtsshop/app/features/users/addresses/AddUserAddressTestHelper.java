@@ -1,7 +1,7 @@
 package com.xtsshop.app.features.users.addresses;
 
 import com.xtsshop.app.db.repositories.UserJpaRepository;
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -9,10 +9,10 @@ import javax.transaction.Transactional;
 @Transactional
 @Component
 public class AddUserAddressTestHelper {
-    private TestDataSeed data;
+    private DevDataSeed data;
     private UserJpaRepository userJpaRepository;
 
-    public AddUserAddressTestHelper(TestDataSeed data, UserJpaRepository userJpaRepository) {
+    public AddUserAddressTestHelper(DevDataSeed data, UserJpaRepository userJpaRepository) {
         this.data = data;
         this.userJpaRepository = userJpaRepository;
     }

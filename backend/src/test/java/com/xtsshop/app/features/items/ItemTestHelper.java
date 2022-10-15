@@ -8,7 +8,7 @@ import com.xtsshop.app.db.repositories.BrandJpaRepository;
 import com.xtsshop.app.db.repositories.ImageJpaRepository;
 import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import com.xtsshop.app.db.repositories.PriceHistoryJpaRepository;
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import com.xtsshop.app.features.storage.FilePathToUrlConverter;
 import lombok.Getter;
 import org.springframework.boot.test.context.TestComponent;
@@ -31,7 +31,7 @@ public class ItemTestHelper {
     private FilePathToUrlConverter filePathToUrlConverter;
     private BrandJpaRepository brandJpaRepository;
     private PriceHistoryJpaRepository priceHistoryJpaRepository;
-    private TestDataSeed seed;
+    private DevDataSeed seed;
 
     public ItemTestHelper(
         ItemJpaRepository repository,
@@ -39,7 +39,7 @@ public class ItemTestHelper {
         FilePathToUrlConverter filePathToUrlConverter,
         BrandJpaRepository brandJpaRepository,
         PriceHistoryJpaRepository priceHistoryJpaRepository,
-        TestDataSeed seed
+        DevDataSeed seed
     ){
         this.repository = repository;
         this.imageJpaRepository = imageJpaRepository;

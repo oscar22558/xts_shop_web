@@ -12,7 +12,7 @@ import java.util.*;
 
 @Component
 @Transactional
-public class TestDataSeed {
+public class DevDataSeed {
 
     private CategoryJpaRepository repository;
     private ItemJpaRepository itemJpaRepository;
@@ -23,7 +23,7 @@ public class TestDataSeed {
     private BrandJpaRepository brandJpaRepository;
     private PriceHistoryJpaRepository priceHistoryJpaRepository;
 
-    public TestDataSeed(CategoryJpaRepository repository, ItemJpaRepository itemJpaRepository, ImageJpaRepository imageJpaRepository, UserJpaRepository userJpaRepository, RoleJpaRepository roleJpaRepository, PrivilegeJpaRepository privilegeJpaRepository, BrandJpaRepository brandJpaRepository, PriceHistoryJpaRepository priceHistoryJpaRepository) {
+    public DevDataSeed(CategoryJpaRepository repository, ItemJpaRepository itemJpaRepository, ImageJpaRepository imageJpaRepository, UserJpaRepository userJpaRepository, RoleJpaRepository roleJpaRepository, PrivilegeJpaRepository privilegeJpaRepository, BrandJpaRepository brandJpaRepository, PriceHistoryJpaRepository priceHistoryJpaRepository) {
         this.repository = repository;
         this.itemJpaRepository = itemJpaRepository;
         this.imageJpaRepository = imageJpaRepository;

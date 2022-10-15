@@ -1,7 +1,7 @@
 package com.xtsshop.app.features.categories.items;
 
 import com.xtsshop.app.db.repositories.CategoryJpaRepository;
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -10,8 +10,8 @@ public class ListAllCategoryItemTestHelper {
     private CategoryJpaRepository categoryJpaRepository;
     private MockMvc mockMvc;
     private String route = "/api/categories";
-    private TestDataSeed seed;
-    public ListAllCategoryItemTestHelper(MockMvc mockMvc, CategoryJpaRepository categoryJpaRepository, TestDataSeed seed){
+    private DevDataSeed seed;
+    public ListAllCategoryItemTestHelper(MockMvc mockMvc, CategoryJpaRepository categoryJpaRepository, DevDataSeed seed){
         this.mockMvc = mockMvc;
         this.categoryJpaRepository = categoryJpaRepository;
         this.seed = seed;

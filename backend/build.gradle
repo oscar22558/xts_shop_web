@@ -53,7 +53,7 @@ flyway {
 	user = 'xts'
 	password = 'xts'
 	cleanDisabled = false
-	locations = ['classpath:db/migration']
+	locations = ['classpath:db/migration/postgresql']
 }
 
 test {

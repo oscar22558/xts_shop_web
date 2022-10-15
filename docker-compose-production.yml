@@ -6,14 +6,12 @@ services:
     tty: true
     image: xts-ui
     build:
-      target: production
       context: ./frontend
-    ports: 
+      target: production
+    ports:
       - 3000:3000
-    volumes:
-      - ./frontend/src:/www/src
     networks:
-      - xts-app-network
+      - app-network
   api:
     platform: linux/x86_64
     container_name: xts-api
@@ -28,45 +26,49 @@ services:
     ports:
       - 8080:8080
     networks:
-      - xts-app-network
+      - app-network
   nginx:
     container_name: xts-nginx
     tty: true
     image: xts-nginx
     build:
       context: ./nginx
+      target: production
     ports: 
       - 80:80
     networks:
-      - xts-app-network
-  storage:
-    container_name: storage
-    tty: true
-    image: xts-storage
-    build:
-      context: ./storage
+      - app-network
+  db:
+    container_name: xts-db
+    image: postgres
+    environment:
+      POSTGRES_USER: xts
+      POSTGRES_PASSWORD: xts
+      PGDATA: /data/postgres
     volumes:
-      - ./file-server/images:/www/images
+      - db:/data/postgres
     ports:
-      - 8081:80
+      - 5432:5432
     networks:
-      - xts-app-network
-      
-  # db:
-  #   container_name: xts-db
-  #   tty: true
-  #   image: 'postgres:13'
-  #   ports: 
-  #     - 5432:5432
-  #   volumes:
-  #     - xts-dbdata:/var/lib/postgresql/data
-  #   networks:
-  #     - xts-db-network
+      - app-network
+  dbadmin:
+    container_name: xts-dbadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: xts@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: xts
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - dbadmin:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    networks:
+      - app-network
 
 networks:
-  xts-app-network:
+  app-network:
     driver: bridge
 
-# volumes:
-#   xts-dbdata:
-#     drive: local
+volumes:
+  db:
+  dbadmin:

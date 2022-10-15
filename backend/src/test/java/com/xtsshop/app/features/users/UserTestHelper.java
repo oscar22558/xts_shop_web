@@ -1,7 +1,7 @@
 package com.xtsshop.app.features.users;
 
 import com.xtsshop.app.db.repositories.UserJpaRepository;
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +14,9 @@ public class UserTestHelper {
     private String updatePasswordRoute = "/api/users/password";
     private String oneRoute = "/api/users/{username}";
     private UserJpaRepository userJpaRepository;
-    private TestDataSeed seed;
+    private DevDataSeed seed;
 
-    public UserTestHelper(UserJpaRepository userJpaRepository, TestDataSeed seed) {
+    public UserTestHelper(UserJpaRepository userJpaRepository, DevDataSeed seed) {
         this.userJpaRepository = userJpaRepository;
         this.seed = seed;
     }

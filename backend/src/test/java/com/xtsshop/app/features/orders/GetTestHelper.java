@@ -1,7 +1,7 @@
 package com.xtsshop.app.features.orders;
 
 import com.xtsshop.app.db.entities.Order;
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -9,10 +9,10 @@ import javax.transaction.Transactional;
 @Component
 @Transactional
 public class GetTestHelper {
-    private TestDataSeed dataSeed;
+    private DevDataSeed dataSeed;
     private OrderTestHelper orderTestHelper;
 
-    public GetTestHelper(TestDataSeed dataSeed, OrderTestHelper orderTestHelper) {
+    public GetTestHelper(DevDataSeed dataSeed, OrderTestHelper orderTestHelper) {
         this.dataSeed = dataSeed;
         this.orderTestHelper = orderTestHelper;
     }

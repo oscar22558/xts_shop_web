@@ -2,16 +2,16 @@ package com.xtsshop.app.features.categories;
 
 import com.xtsshop.app.db.entities.Category;
 import com.xtsshop.app.db.repositories.CategoryJpaRepository;
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CategoryUpdateTestHelper {
 
     private CategoryJpaRepository repository;
-    private TestDataSeed seed;
+    private DevDataSeed seed;
 
-    public CategoryUpdateTestHelper(CategoryJpaRepository repository, TestDataSeed seed) {
+    public CategoryUpdateTestHelper(CategoryJpaRepository repository, DevDataSeed seed) {
         this.repository = repository;
         this.seed = seed;
     }

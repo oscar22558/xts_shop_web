@@ -4,7 +4,7 @@ import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Address;
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.db.repositories.UserJpaRepository;
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -13,10 +13,10 @@ import java.util.Optional;
 @Component
 @Transactional
 public class DeleteAddressTestHelper {
-    private TestDataSeed data;
+    private DevDataSeed data;
     private UserJpaRepository userJpaRepository;
 
-    public DeleteAddressTestHelper(TestDataSeed data, UserJpaRepository userJpaRepository) {
+    public DeleteAddressTestHelper(DevDataSeed data, UserJpaRepository userJpaRepository) {
         this.data = data;
         this.userJpaRepository = userJpaRepository;
     }

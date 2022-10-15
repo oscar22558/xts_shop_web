@@ -4,7 +4,7 @@ import com.xtsshop.app.advices.exception.RecordNotFoundException;
 import com.xtsshop.app.db.entities.Address;
 import com.xtsshop.app.db.entities.AppUser;
 import com.xtsshop.app.db.repositories.UserJpaRepository;
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -14,10 +14,10 @@ import java.util.Optional;
 @Transactional
 public class EditAddressTestHelper {
     private AppUser user;
-    private TestDataSeed data;
+    private DevDataSeed data;
     private UserJpaRepository userJpaRepository;
 
-    public EditAddressTestHelper(UserJpaRepository userJpaRepository, TestDataSeed data) {
+    public EditAddressTestHelper(UserJpaRepository userJpaRepository, DevDataSeed data) {
         this.userJpaRepository = userJpaRepository;
         this.data = data;
     }

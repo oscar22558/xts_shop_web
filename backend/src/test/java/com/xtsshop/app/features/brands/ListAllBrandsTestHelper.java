@@ -1,15 +1,15 @@
 package com.xtsshop.app.features.brands;
 
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ListAllBrandsTestHelper {
 
-    private TestDataSeed seed;
+    private DevDataSeed seed;
     private String route = "/api/brands";
 
-    public ListAllBrandsTestHelper(TestDataSeed seed) {
+    public ListAllBrandsTestHelper(DevDataSeed seed) {
         this.seed = seed;
     }
 

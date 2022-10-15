@@ -4,7 +4,7 @@ import com.xtsshop.app.db.entities.*;
 import com.xtsshop.app.features.orders.entitybuilders.OrderEntityBuilder;
 import com.xtsshop.app.db.entities.builder.PriceHistoryBuilder;
 import com.xtsshop.app.db.repositories.*;
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 import com.xtsshop.app.features.orders.models.UserOrderCreateForm;
 import com.xtsshop.app.features.users.cart.models.OrderedItemCreateForm;
 import com.xtsshop.app.helpers.DateTimeHelper;
@@ -26,9 +26,9 @@ public class UserOrderTestHelper {
     private OrderJpaRepository orderJpaRepository;
     private RoleJpaRepository roleJpaRepository;
     private AddressJpaRepository addressJpaRepository;
-    private TestDataSeed seed;
+    private DevDataSeed seed;
 
-    public UserOrderTestHelper(ItemJpaRepository itemJpaRepository, UserJpaRepository userJpaRepository, OrderJpaRepository orderJpaRepository, RoleJpaRepository roleJpaRepository, AddressJpaRepository addressJpaRepository, TestDataSeed seed) {
+    public UserOrderTestHelper(ItemJpaRepository itemJpaRepository, UserJpaRepository userJpaRepository, OrderJpaRepository orderJpaRepository, RoleJpaRepository roleJpaRepository, AddressJpaRepository addressJpaRepository, DevDataSeed seed) {
         this.itemJpaRepository = itemJpaRepository;
         this.userJpaRepository = userJpaRepository;
         this.orderJpaRepository = orderJpaRepository;

@@ -9,14 +9,14 @@ import com.xtsshop.app.features.users.payment.data.FakeOrderData;
 import com.xtsshop.app.db.repositories.ItemJpaRepository;
 import com.xtsshop.app.db.repositories.OrderJpaRepository;
 import com.xtsshop.app.db.repositories.UserJpaRepository;
-import com.xtsshop.app.db.seed.TestDataSeed;
+import com.xtsshop.app.db.seed.DevDataSeed;
 
 @TestComponent
 @Transactional
 public class UpdatePaymentIntentTestHelper extends CreatePaymentIntentTestHelper {
     private FakeOrderData fakeOrderData;
 
-    public UpdatePaymentIntentTestHelper(UserJpaRepository userJpaRepository, ItemJpaRepository itemJpaRepository, OrderJpaRepository orderJpaRepository, TestDataSeed data, FakeOrderData fakeOrderData) {
+    public UpdatePaymentIntentTestHelper(UserJpaRepository userJpaRepository, ItemJpaRepository itemJpaRepository, OrderJpaRepository orderJpaRepository, DevDataSeed data, FakeOrderData fakeOrderData) {
         super(userJpaRepository, itemJpaRepository, orderJpaRepository, data);
         this.fakeOrderData = fakeOrderData;
     }
