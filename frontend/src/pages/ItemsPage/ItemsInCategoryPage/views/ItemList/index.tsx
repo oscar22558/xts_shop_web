@@ -6,7 +6,7 @@ const ItemList = ()=>{
     
     const data = useViewModel()
     return (
-        <Box sx={{flexDirection: "row", display: "flex"}}>
+        <Box sx={{flexDirection: "row", display: "flex", flexWrap: "wrap"}}>
             {data.map((vm, index)=>(<ItemCard key={index} index={index} />))}
         </Box>
     )

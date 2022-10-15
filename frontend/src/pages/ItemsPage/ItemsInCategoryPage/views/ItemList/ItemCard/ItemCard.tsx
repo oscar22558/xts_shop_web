@@ -1,4 +1,4 @@
-import {Card, CardHeader, CardMedia, CardContent, IconButton, Box} from "@mui/material";
+import {Card, CardHeader, CardMedia, CardContent, IconButton, Box, Divider} from "@mui/material";
 import useViewModel from "./useViewModel";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ const ItemCard = ({index}: {index: number})=>{
         navigate(navigationRoute)
     }
     return (
-        <Card sx={{minWidth: 240, marginBottom: 4, marginRight: 4}}>
+        <Card sx={{width: 240, marginBottom: 4, marginRight: 4}}>
             <CardMedia
                 sx={{width: 240, height: 240, objectFit: "contain", cursor: "pointer"}}
                 component="img"
@@ -31,7 +31,8 @@ const ItemCard = ({index}: {index: number})=>{
                     <AddShoppingCartIcon />
                 </IconButton>
             </Box>
-            <CardContent sx={{paddingX: "16px", paddingY: "0px"}}>
+            <Divider />
+            <CardContent sx={{paddingX: "16px", paddingTop: "10px"}}>
                 <div>{viewModel.brand}</div>
                 <div>{viewModel.name}</div>
             </CardContent>
