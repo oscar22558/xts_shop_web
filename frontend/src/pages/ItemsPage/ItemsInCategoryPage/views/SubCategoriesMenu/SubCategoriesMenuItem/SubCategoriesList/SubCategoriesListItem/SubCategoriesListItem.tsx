@@ -9,6 +9,8 @@ const SubCategoriesListItem = ({
     label,
     onClick
 }: Props)=>{
-    return <Button onClick={onClick}><Text>{label}</Text></Button>
+    return <Button sx={{width: "100%"}} onClick={onClick}>
+        <Text sx={{textAlign: "start", paddingLeft: "20px"}}>{label}</Text>
+    </Button>
 }
 export default SubCategoriesListItem

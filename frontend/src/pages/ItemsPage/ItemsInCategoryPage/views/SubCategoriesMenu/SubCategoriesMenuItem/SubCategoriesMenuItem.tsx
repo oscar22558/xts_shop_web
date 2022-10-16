@@ -6,6 +6,8 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
 import SubCategoriesList from "./SubCategoriesList/SubCategoriesList";
+import { useAppSelector } from "../../../../../../features/Hooks";
+import CategoriesSelector from "../../../../../../features/categories/CategoriesSelector";
 
 interface Props {
     index: number
@@ -17,13 +19,16 @@ const SubCategoriesMenuItem = ({
     label,
     onClick
 }: Props)=>{
+
+    const { data: category } = useAppSelector(CategoriesSelector).getCategoryResponse
+    const subCategoriesCount = category?.subCategories[index].subCategories.length
     const [isExpanded, setIsExpanded] = useState(false)
     const handleExpandBtnClick = ()=>{
         setIsExpanded(!isExpanded)
     }
 
     return (
-        <Item sx={{display: "flex", flexDirection: "column"}}>
+        <Item sx={{width: "100%", display: "flex", flexDirection: "column"}}>
             <Box sx={{
                     width: "100%",
                     display: "flex", 
@@ -35,12 +40,17 @@ const SubCategoriesMenuItem = ({
                 <Button sx={{flexGrow: 1, textAlign: "start", textTransform: "none"}} onClick={onClick}>
                     <Text>{label}</Text>
                 </Button>
-                <IconButton 
-                    onClick={handleExpandBtnClick}
-                    sx={{":hover": {background: "rgba(0,0,0,0)"}}}
-                >{ 
-                    isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />
-                }</IconButton>
+                {
+                    subCategoriesCount != null && subCategoriesCount > 0 ? (
+                        <IconButton 
+                            onClick={handleExpandBtnClick}
+                            sx={{":hover": {background: "rgba(0,0,0,0)"}}}
+                        >{ 
+                            isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />
+                        }</IconButton>
+                    )
+                    : <></>
+                }
             </Box>
             { isExpanded
                 ? (<SubCategoriesList index={index}/>)

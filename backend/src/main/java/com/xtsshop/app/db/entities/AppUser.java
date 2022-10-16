@@ -21,6 +21,9 @@ public class AppUser extends AppEntity{
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "password_encrypted_at")
+    private Date passwordEncryptedAt;
+
     @Column(nullable = false, length = 100)
     private String email;
 

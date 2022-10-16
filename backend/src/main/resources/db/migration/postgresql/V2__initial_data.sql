@@ -245,3 +245,56 @@ INSERT INTO images (created_at, updated_at, uri, description, extension, item_id
 VALUES (NOW()::timestamp, NOW()::timestamp, 'storage/images/batkev-9x12-inches-sketchbook.jpg', 'BATKEV 9 x 12 inches Sketchbook 100 Sheets', 'jpg', 16);
 INSERT INTO price_histories (created_at, updated_at, value, item_id)
 VALUES (NOW()::timestamp, NOW()::timestamp, 102.0, 16);
+
+INSERT INTO roles (created_at, updated_at, name)
+VALUES (NOW()::timestamp, NOW()::timestamp, 'ROLE_ADMIN');
+INSERT INTO roles (created_at, updated_at, name)
+VALUES (NOW()::timestamp, NOW()::timestamp, 'ROLE_USER');
+
+INSERT INTO privileges (created_at, updated_at, name)
+VALUES (NOW()::timestamp, NOW()::timestamp, 'READ_PRIVILEGE');
+INSERT INTO privileges (created_at, updated_at, name)
+VALUES (NOW()::timestamp, NOW()::timestamp, 'WRITE_PRIVILEGE');
+
+INSERT INTO roles_privileges (role_id, privilege_id) VALUES (1, 1);
+INSERT INTO roles_privileges (role_id, privilege_id) VALUES (1, 2);
+INSERT INTO roles_privileges (role_id, privilege_id) VALUES (2, 1);
+INSERT INTO roles_privileges (role_id, privilege_id) VALUES (2, 2);
+
+INSERT INTO users (created_at, updated_at, username, password, password_encrypted_at, email, phone)
+VALUES (NOW()::timestamp, NOW()::timestamp, 'ken1234', '123', null,'ken1234@gmail.com', '87654321');
+
+INSERT INTO users (created_at, updated_at, username, password, password_encrypted_at, email, phone)
+VALUES (NOW()::timestamp, NOW()::timestamp, 'marry1234', '123', null,'marry1234@gmail.com', '12345678');
+
+INSERT INTO users_roles (user_id, role_id) VALUES (1, 1);
+INSERT INTO users_roles (user_id, role_id) VALUES (2, 2);
+
+INSERT INTO addresses (created_at, updated_at, row1, row2, area, district, city, country, user_id)
+VALUES (NOW()::timestamp, NOW()::timestamp, 'MB164, Main Building, HKU', '', 'Sai Ying Pun', 'Hong Kong', 'Hong Kong', 'China', 2);
+
+INSERT INTO orders
+    (created_at, updated_at, recipient_last_name, recipient_first_name, recipient_phone, recipient_email, status, payment_intent_id, user_id)
+VALUES
+    (NOW()::timestamp, NOW()::timestamp, 'Wong', 'Marry', '12345678', 'marry1234@gmail.com', 'PAID', 'mdevlkv1924´´£5j34otigmefdgoiv19241312', '2');
+
+INSERT INTO ordered_items
+    (created_at, updated_at, quantity, price, item_id, order_id)
+VALUES
+    (NOW()::timestamp, NOW()::timestamp, 3, 1499.0, 1, 1);
+
+INSERT INTO ordered_items
+    (created_at, updated_at, quantity, price, item_id, order_id)
+VALUES
+    (NOW()::timestamp, NOW()::timestamp, 2, 1500.0, 4, 1);
+
+INSERT INTO invoices
+    (created_at, updated_at, items_total, shipping_fee, total, order_id)
+VALUES
+    (NOW()::timestamp, NOW()::timestamp, 7497.0, 20.0, 7517.0, 1);
+
+INSERT INTO shipping_addresses
+    (created_at ,updated_at, row1, row2, area, district, city, country, order_id)
+VALUES
+    (NOW()::timestamp, NOW()::timestamp, 'MB164, Main Building, HKU', '', 'Sai Ying Pun', 'Hong Kong', 'Hong Kong', 'China', 1);
+

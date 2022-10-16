@@ -1,5 +1,6 @@
 import { Box, Grid, Link } from "@mui/material"
 import { useNavigate } from "react-router-dom"
+import { host } from "../../features/ApiConfig"
 import AppRouteList from "../../routes/AppRouteList"
 type Props = {
     itemId: number
@@ -18,7 +19,7 @@ const OrderItem = ({itemId, name, quantity, imgUrl, price}: Props)=>{
     return <Box sx={{height: "100px", marginBottom: "20px"}}>
         <Grid container direction="row" sx={{height: "100%"}}>
             <Grid item xs={2}>
-                <img height="100px" width="100px" src={imgUrl} alt={name} 
+                <img height="100px" width="100px" src={`${host}/${imgUrl}`} alt={name} 
                 style={{cursor: "pointer"}}
                 onClick={handleItemClick}
                 />
