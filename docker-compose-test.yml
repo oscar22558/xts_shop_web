@@ -15,7 +15,7 @@ services:
     ports:
       - 8080:8080
     networks:
-      - xts-app-network
+      - app-network
   nginx:
     container_name: xts-nginx-test
     tty: true
@@ -26,7 +26,7 @@ services:
     ports: 
       - 80:80
     networks:
-      - xts-app-network
+      - app-network
   db:
     container_name: xts-db-test
     image: postgres
