@@ -1,8 +1,8 @@
 import { Container, Typography, Box } from "@mui/material"
 
 import CheckoutForm from "./CheckoutForm"
-import { useAppSelector } from "../../features/Hooks"
-import OrderPaymentSelector from "../../features/order/payment/OrderPaymentSelector"
+import { useAppSelector } from "../../../features/Hooks"
+import OrderPaymentSelector from "../../../features/order/payment/OrderPaymentSelector"
 
 
 const CheckoutFormContainer = ()=>{

@@ -1,6 +1,6 @@
 import { Box, Button, Link } from "@mui/material";
 import { useEffect, useState } from "react";
-import useCart from "../../data-sources/cart/useCart";
+import useCart from "../../../data-sources/cart/useCart";
 import stripe from "../PaymentPage/StripePromise";
 
 const PaymentSuccessPage = ()=>{

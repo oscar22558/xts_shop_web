@@ -3,12 +3,12 @@ import { useEffect } from "react";
 import { Appearance } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-import { useAppDispatch, useAppSelector } from "../../features/Hooks";
-import OrderSelector from "../../features/order/OrderSelector";
+import { useAppDispatch, useAppSelector } from "../../../features/Hooks";
+import OrderSelector from "../../../features/order/OrderSelector";
 
-import useCart from "../../data-sources/cart/useCart";
-import { CreatePaymentIntentAction } from "../../features/order/payment/OrderPaymentAction";
-import OrderPaymentSelector from "../../features/order/payment/OrderPaymentSelector";
+import useCart from "../../../data-sources/cart/useCart";
+import { CreatePaymentIntentAction } from "../../../features/order/payment/OrderPaymentAction";
+import OrderPaymentSelector from "../../../features/order/payment/OrderPaymentSelector";
 import stripePromise from "./StripePromise";
 import CheckoutFormContainer from "./CheckoutFormContainer";
 
