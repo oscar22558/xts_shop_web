@@ -29,8 +29,7 @@ public class CreateOrderServiceImp implements CreateOrderService {
     public void create(CreateOrderRequest request) throws RecordNotFoundException, UnAuthorizationException {
         List<OrderedItem> orderedItems = buildOrderItemList(request.getItemQuantities());
         AppUser user = getPaymentIntentUser();
-        Address address = userPaymentRepo.findAddressByAddressId(request.getUserAddressId());
-        new UserAddressAuthorization(user, address).checkPermission();
+        ShippingAddress address = mapToShippingAddress(request);
         OrderStatus status = OrderStatus.WAITING_PAYMENT;
         Order orderEntity = new OrderEntityBuilder()
                 .setShippingAddress(address)
@@ -55,6 +54,19 @@ public class CreateOrderServiceImp implements CreateOrderService {
         userPaymentRepo.saveOrder(orderEntity);
     }
 
+    private ShippingAddress mapToShippingAddress(CreateOrderRequest request){
+        Date now = new DateTimeHelper().now();
+        ShippingAddress address = new ShippingAddress();
+        address.setCreatedAt(now);
+        address.setUpdatedAt(now);
+        address.setRow1(request.getRow1());
+        address.setRow2(request.getRow2());
+        address.setCountry(request.getCountry());
+        address.setCity(request.getCity());
+        address.setArea(request.getArea());
+        address.setDistrict(request.getDistrict());
+        return address;
+    }
     private List<OrderedItem> buildOrderItemList(List<ItemQuantity> itemQuantities){
        return itemQuantities.stream()
                .map(this::buildOrderedItem)

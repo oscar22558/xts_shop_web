@@ -54,7 +54,6 @@ const AppRoutes = ()=>{
                                 <Route path={AppRouteList.orderRecipient} element={<CheckoutPages />}/>
                                 <Route path={AppRouteList.orders} element={<OrdersPage />}/>
                                 <Route path={AppRouteList.order.route} element={<OrderDetailPage />}/>
-                                <Route path={AppRouteList.payment} element={<PaymentPage />}/>
                                 <Route path={AppRouteList.paymentConfirmation} element={<PaymentSuccessPage />}/>
                             </>
                         ): <Route path="*" element={<PleaseSignInPage />}/>}

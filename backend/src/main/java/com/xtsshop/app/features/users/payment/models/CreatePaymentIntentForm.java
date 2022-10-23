@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CreatePaymentIntentForm {
+public class CreatePaymentIntentForm extends Address {
     @NotBlank(groups = ColumnEmpty.class)
     @Size(max = 100, groups = ColumnLength.class)
     private String recipientFirstName;
@@ -31,8 +31,4 @@ public class CreatePaymentIntentForm {
     @NotNull(groups = ColumnEmpty.class)
     @Size(min = 1, groups = ColumnLength.class)
     private List<@NotNull ItemQuantity> itemQuantities;
-
-    @NotNull(groups = ColumnEmpty.class)
-    private long userAddressId;
-
 }

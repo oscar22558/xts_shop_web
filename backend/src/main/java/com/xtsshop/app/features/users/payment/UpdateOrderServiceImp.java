@@ -54,16 +54,14 @@ public class UpdateOrderServiceImp implements UpdateOrderService {
 
     private void updateShippingAddress(){
         Date now = new DateTimeHelper().now();
-        Address address = addressJpaRepository.findById(request.getAddressId())
-                .orElseThrow(()-> new RecordNotFoundException("Address " + request.getAddressId() + " not found"));
         ShippingAddress shippingAddressEntity = order.getShippingAddress();
         shippingAddressEntity.setUpdatedAt(now);
-        shippingAddressEntity.setRow1(address.getRow1());
-        shippingAddressEntity.setRow2(address.getRow2());
-        shippingAddressEntity.setDistrict(address.getDistrict());
-        shippingAddressEntity.setArea(address.getArea());
-        shippingAddressEntity.setCity(address.getCity());
-        shippingAddressEntity.setCountry(address.getCountry());
+        shippingAddressEntity.setRow1(request.getRow1());
+        shippingAddressEntity.setRow2(request.getRow2());
+        shippingAddressEntity.setDistrict(request.getDistrict());
+        shippingAddressEntity.setArea(request.getArea());
+        shippingAddressEntity.setCity(request.getCity());
+        shippingAddressEntity.setCountry(request.getCountry());
     }
 
     private void updateInvoice(){

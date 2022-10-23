@@ -28,9 +28,14 @@ public class UpdatePaymentIntentServiceImp implements UpdatePaymentIntentService
         PaymentIntent paymentIntent = tryToUpdateIntent();
         UpdateOrderRequest request = new UpdateOrderRequest();
         request.setItemQuantities(form.getItemQuantities());
-        request.setAddressId(form.getUserAddressId());
         request.setPaymentIntentId(paymentIntent.getId());
         request.setInvoice(newInvoice);
+        request.setCountry(form.getCountry());
+        request.setCity(form.getCity());
+        request.setArea(form.getArea());
+        request.setDistrict(form.getDistrict());
+        request.setRow1(form.getRow1());
+        request.setRow2(form.getRow2());
         updateOrderService.update(request);
     }
 

@@ -65,13 +65,18 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
     private CreateOrderRequest buildCreateOrderRequest(){
         CreateOrderRequest request = new CreateOrderRequest();
         request.setItemQuantities(form.getItemQuantities());
-        request.setUserAddressId(form.getUserAddressId());
         request.setPaymentIntentId(paymentIntent.getId());
         request.setInvoice(invoice);
         request.setRecipientFirstName(form.getRecipientFirstName());
         request.setRecipientLastName(form.getRecipientLastName());
         request.setRecipientEmail(form.getRecipientEmail());
         request.setRecipientPhone(form.getRecipientPhone());
+        request.setCountry(form.getCountry());
+        request.setCity(form.getCity());
+        request.setArea(form.getArea());
+        request.setDistrict(form.getDistrict());
+        request.setRow1(form.getRow1());
+        request.setRow2(form.getRow2());
         return request;
     }
 }

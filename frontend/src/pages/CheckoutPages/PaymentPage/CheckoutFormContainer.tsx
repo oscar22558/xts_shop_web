@@ -10,8 +10,8 @@ const CheckoutFormContainer = ()=>{
     const {orderTotal: paymentTotal} = useAppSelector(OrderPaymentSelector).createPaymentIntentResponse.data
 
     return (
-        <Container sx={{paddingY: "20px"}} maxWidth="sm">
-            <Typography variant="h5" sx={{marginY: "10px"}}>Settle Payment</Typography>
+        <Container sx={{paddingY: "20px", width: "500px"}}>
+            <Typography variant="h5" sx={{marginY: "10px"}}>Payment</Typography>
             <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
                 <Box sx={{width: "100%"}}>
                     <CheckoutForm paymentTotal={paymentTotal}/>

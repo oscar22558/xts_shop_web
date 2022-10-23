@@ -23,11 +23,9 @@ const CheckoutPages = ()=>{
         <Box sx={{ width: '100%', height: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Stepper activeStep={step} sx={{height: "100px", width: "550px"}}>
                 {checkoutSteps.map((label, index) => {
-                const stepProps: { completed?: boolean } = {};
-                const labelProps = {};
                 return (
-                    <Step key={label} {...stepProps}>
-                        <StepLabel {...labelProps}>{label}</StepLabel>
+                    <Step key={label} >
+                        <StepLabel>{label}</StepLabel>
                     </Step>
                 );
                 })}

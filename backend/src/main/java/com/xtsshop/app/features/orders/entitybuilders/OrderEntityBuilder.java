@@ -8,7 +8,7 @@ import java.util.List;
 
 public class OrderEntityBuilder {
 
-    private Address shippingAddress;
+    private ShippingAddress shippingAddress;
     private AppUser user;
     private OrderStatus status;
     private List<OrderedItem> orderedItems;
@@ -23,7 +23,7 @@ public class OrderEntityBuilder {
         return this;
     }
 
-    public OrderEntityBuilder setShippingAddress(Address shippingAddress) {
+    public OrderEntityBuilder setShippingAddress(ShippingAddress shippingAddress) {
         this.shippingAddress = shippingAddress;
         return this;
     }
@@ -39,9 +39,8 @@ public class OrderEntityBuilder {
         order.setCreatedAt(now);
         order.setUpdatedAt(now);
 
-        ShippingAddress shippingAddressEntity = new ShippingAddressEntityBuilder(this.shippingAddress).build();
-        shippingAddressEntity.setOrder(order);
-        order.setShippingAddress(shippingAddressEntity);
+        shippingAddress.setOrder(order);
+        order.setShippingAddress(shippingAddress);
 
         order.setUser(user);
         order.setStatus(status);

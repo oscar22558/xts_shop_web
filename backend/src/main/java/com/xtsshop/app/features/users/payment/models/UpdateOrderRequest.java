@@ -8,9 +8,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UpdateOrderRequest {
+public class UpdateOrderRequest extends Address {
     private List<ItemQuantity> itemQuantities;
-    private long addressId;
     private String paymentIntentId;
     private Invoice invoice;
 }

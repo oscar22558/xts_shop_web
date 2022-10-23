@@ -23,7 +23,6 @@ const OrderRecipientPage: React.FC<Props> = ({onPreviousClick, onNextClick})=>{
     
     const handleNextBtnClick = ()=>{
         onNextClick?.()
-        navigate("/payment")
     }
 
     const handlePreviousClick = ()=>{

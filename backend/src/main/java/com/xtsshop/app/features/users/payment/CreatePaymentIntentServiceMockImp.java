@@ -36,12 +36,17 @@ public class CreatePaymentIntentServiceMockImp implements CreatePaymentIntentSer
     private CreateOrderRequest buildCreateOrderRequest(){
         CreateOrderRequest createOrderRequest = new CreateOrderRequest();
         createOrderRequest.setItemQuantities(form.getItemQuantities());
-        createOrderRequest.setUserAddressId(form.getUserAddressId());
         createOrderRequest.setPaymentIntentId(FakePaymentDetail.PAYMENT_INTENT_ID);
         createOrderRequest.setInvoice(invoice);
         createOrderRequest.setRecipientEmail(form.getRecipientEmail());
         createOrderRequest.setRecipientPhone(form.getRecipientPhone());
         createOrderRequest.setRecipientEmail(form.getRecipientEmail());
+        createOrderRequest.setCountry(form.getCountry());
+        createOrderRequest.setCity(form.getCity());
+        createOrderRequest.setArea(form.getArea());
+        createOrderRequest.setDistrict(form.getDistrict());
+        createOrderRequest.setRow1(form.getRow1());
+        createOrderRequest.setRow2(form.getRow2());
         return createOrderRequest;
     }
 }
