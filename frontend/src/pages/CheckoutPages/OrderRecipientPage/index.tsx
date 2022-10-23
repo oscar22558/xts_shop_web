@@ -9,7 +9,11 @@ import useUpdateOrderCreateForm from "../../../features/order/hooks/useUpdateOrd
 import OrderSelector from "../../../features/order/OrderSelector"
 import UserSelector from "../../../features/user/UserSelector"
 
-const OrderRecipientPage = ()=>{
+type Props = {
+    onPreviousClick?: ()=>void
+    onNextClick?: ()=>void
+}
+const OrderRecipientPage: React.FC<Props> = ({onPreviousClick, onNextClick})=>{
     const navigate = useNavigate()
     const updateOrderCreateForm = useUpdateOrderCreateForm()
     const cachedOrder = useAppSelector(OrderSelector).cachedOrderCreateForm
@@ -21,7 +25,12 @@ const OrderRecipientPage = ()=>{
     const address = addresses.find(address=>address.id === cachedOrder.userAddressId)
     
     const handleNextBtnClick = ()=>{
+        onNextClick?.()
         navigate("/payment")
+    }
+
+    const handlePreviousClick = ()=>{
+        onPreviousClick?.()
     }
 
     const handleOrderCreateFormChange = ({target}: React.ChangeEvent<HTMLTextAreaElement>)=>{
@@ -49,61 +58,61 @@ const OrderRecipientPage = ()=>{
         {name: "area", hint: "Area", value: address?.area ?? ""}
     ]
     const isNextBtnDisable = address == null || firstName === "" || lastName === "" || email === ""
-    return <Box display="flex" flexDirection="column" alignItems="center">
-        <Box display="flex" justifyContent="flex-start" width="500px">
-            <h1>Order Recipient</h1>
-        </Box>
-        <Grid container spacing="20px" direction="column" maxWidth="500px">
-            <Grid item xs>
-                {
-                    viewModels.map(({name, hint, value, error, helperText}, index)=>(
-                        <Box key={index} display="flex" flexDirection="column" marginBottom="15px">
+    return <Box display="flex" flexDirection="column" alignItems="center" maxWidth="500px">
+            <Box display="flex" justifyContent="flex-start" width="100%" paddingBottom="20px">
+                <Box fontSize="20px" fontWeight="bond" marginRight="20px">Order Recipient</Box>
+            </Box>
+            <Grid container direction="column" width="100%">
+                <Grid item xs>
+                    {
+                        viewModels.map(({name, hint, value, error, helperText}, index)=>(
+                            <Box key={index} display="flex" flexDirection="column" marginBottom="15px">
+                                <TextField
+                                    autoComplete={name}
+                                    name={name}  
+                                    type="text" 
+                                    title={hint}
+                                    label={hint}
+                                    error={error !== ""}
+                                    sx={{width: "500px"}}
+                                    value={value} 
+                                    onChange={handleOrderCreateFormChange}
+                                    helperText={helperText}
+                                />
+                                {error !== "" && <FormHelperText error>{error}</FormHelperText>}
+                            </Box>
+                        ))
+                    }
+
+                </Grid>
+                <Grid item xs>
+                    <AddressSelectionDialog isShown={isSelectAddressDialogShown} onClose={handleSelectAddressDialogClose}/>
+                    <Box marginBottom="30px" display="flex" flexDirection="row" justifyContent="space-between">
+                        <Box fontSize="20px" fontWeight="bond" marginRight="20px">Shipping address</Box>
+                        <Button variant="outlined" onClick={handleShownSelectAddressDialogClick}>Edit</Button>
+                    </Box>
+                    <Box sx={{display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center"}}>
+                        {addressTextFieldData.map(({name, hint, value}, index)=>(
                             <TextField
-                                autoComplete={name}
+                                key={index}
                                 name={name}  
                                 type="text" 
                                 title={hint}
                                 label={hint}
-                                error={error !== ""}
-                                sx={{width: "500px"}}
+                                sx={{width: "500px", marginBottom: "15px"}}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
                                 value={value} 
-                                onChange={handleOrderCreateFormChange}
-                                helperText={helperText}
                             />
-                            {error !== "" && <FormHelperText error>{error}</FormHelperText>}
-                        </Box>
-                    ))
-                }
-
+                        ))}
+                    </Box>
+                </Grid>
             </Grid>
-            <Grid item xs>
-                <AddressSelectionDialog isShown={isSelectAddressDialogShown} onClose={handleSelectAddressDialogClose}/>
-                <Box marginBottom="30px" display="flex" flexDirection="row" justifyContent="space-between">
-                    <Box fontSize="20px" fontWeight="bond" marginRight="20px">Shipping address</Box>
-                    <Button variant="outlined" onClick={handleShownSelectAddressDialogClick}>Edit</Button>
-                </Box>
-                <Box sx={{display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center"}}>
-                    {addressTextFieldData.map(({name, hint, value}, index)=>(
-                        <TextField
-                            key={index}
-                            name={name}  
-                            type="text" 
-                            title={hint}
-                            label={hint}
-                            sx={{width: "500px", marginBottom: "15px"}}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            value={value} 
-                        />
-                    ))}
-                </Box>
-            </Grid>
-        </Grid>
-        <Box sx={{display: "flex", justifyContent: "center", marginTop: "20px"}}>
-            <Button disabled={isNextBtnDisable} variant="contained" onClick={handleNextBtnClick}>Next</Button>
-        </Box>
+            <Box sx={{display: "flex", justifyContent: "space-around", marginTop: "20px", width: "100%"}}>
+                <Button sx={{width: "200px"}} variant="text" onClick={handlePreviousClick}>Previous</Button>
+                <Button sx={{width: "200px"}} disabled={isNextBtnDisable} variant="contained" onClick={handleNextBtnClick}>Next</Button>
+            </Box>
     </Box>
-
 }
 export default OrderRecipientPage
