@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom"
 
 import AddressSelectionDialog from "./AddressSelectionDialog"
 
-import { useAppSelector } from "../../../features/Hooks"
+import { useAppDispatch, useAppSelector } from "../../../features/Hooks"
 import useUpdateOrderCreateForm from "../../../features/order/hooks/useUpdateOrderCreateform"
 import OrderSelector from "../../../features/order/OrderSelector"
-import UserSelector from "../../../features/user/UserSelector"
 
 type Props = {
     onPreviousClick?: ()=>void
@@ -17,12 +16,10 @@ const OrderRecipientPage: React.FC<Props> = ({onPreviousClick, onNextClick})=>{
     const navigate = useNavigate()
     const updateOrderCreateForm = useUpdateOrderCreateForm()
     const cachedOrder = useAppSelector(OrderSelector).cachedOrderCreateForm
-    const {addresses} = useAppSelector(UserSelector).getUserResponse.data
 
     const [isSelectAddressDialogShown, setIsSelectAddressDialogShown] = useState(false)
 
-    const {firstName, lastName, email, phone} = cachedOrder
-    const address = addresses.find(address=>address.id === cachedOrder.userAddressId)
+    const {firstName, lastName, email, phone, area, district, row1, row2} = cachedOrder
     
     const handleNextBtnClick = ()=>{
         onNextClick?.()
@@ -45,6 +42,10 @@ const OrderRecipientPage: React.FC<Props> = ({onPreviousClick, onNextClick})=>{
         setIsSelectAddressDialogShown(false)
     }
 
+    const handleShippingAddressColumnsChange = ({target}: React.ChangeEvent<HTMLTextAreaElement>)=>{
+        updateOrderCreateForm({...cachedOrder, [target.name]: target.value})
+    }
+
     const viewModels = [
         {name: "lastName", hint: "Last Name *",value: lastName, error: "", helperText: ""},
         {name: "firstName", hint: "First Name *", value: firstName, error: "", helperText: ""},
@@ -52,12 +53,18 @@ const OrderRecipientPage: React.FC<Props> = ({onPreviousClick, onNextClick})=>{
         {name: "phone", hint: "Phone(Optional)",value: phone, error: "", helperText: "Provide your phone number so that you can get informed about the shipping state of the order."},
     ]
     const addressTextFieldData = [
-        {name: "row1", hint: "Address Row 1", value: address?.row1 ?? ""},
-        {name: "row2", hint: "Address Row 2", value: address?.row2 ?? ""},
-        {name: "district", hint: "District", value: address?.district ?? ""},
-        {name: "area", hint: "Area", value: address?.area ?? ""}
+        {name: "row1", hint: "Address Row 1", value: row1 ?? ""},
+        {name: "row2", hint: "Address Row 2", value: row2 ?? ""},
+        {name: "district", hint: "District", value: district ?? ""},
+        {name: "area", hint: "Area", value: area ?? ""}
     ]
-    const isNextBtnDisable = address == null || firstName === "" || lastName === "" || email === ""
+    const isNextBtnDisable = row1 === "" 
+        || district === ""
+        || area === ""
+        || firstName === "" 
+        || lastName === "" 
+        || email === ""
+
     return <Box display="flex" flexDirection="column" alignItems="center" maxWidth="500px">
             <Box display="flex" justifyContent="flex-start" width="100%" paddingBottom="20px">
                 <Box fontSize="20px" fontWeight="bond" marginRight="20px">Order Recipient</Box>
@@ -89,8 +96,8 @@ const OrderRecipientPage: React.FC<Props> = ({onPreviousClick, onNextClick})=>{
                     <AddressSelectionDialog isShown={isSelectAddressDialogShown} onClose={handleSelectAddressDialogClose}/>
                     <Box marginBottom="30px" display="flex" flexDirection="row" justifyContent="space-between">
                         <Box fontSize="20px" fontWeight="bond" marginRight="20px">Shipping address</Box>
-                        <Button variant="outlined" onClick={handleShownSelectAddressDialogClick}>Edit</Button>
                     </Box>
+                    <Button variant="outlined" onClick={handleShownSelectAddressDialogClick} sx={{textTransform: "none"}}>Choose from Saved Addresses</Button>
                     <Box sx={{display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center"}}>
                         {addressTextFieldData.map(({name, hint, value}, index)=>(
                             <TextField
@@ -100,10 +107,8 @@ const OrderRecipientPage: React.FC<Props> = ({onPreviousClick, onNextClick})=>{
                                 title={hint}
                                 label={hint}
                                 sx={{width: "500px", marginBottom: "15px"}}
-                                InputProps={{
-                                    readOnly: true,
-                                }}
                                 value={value} 
+                                onChange={handleShippingAddressColumnsChange}
                             />
                         ))}
                     </Box>

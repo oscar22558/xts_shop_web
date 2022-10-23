@@ -25,9 +25,9 @@ function* tryToCreatePaymentIntent({payload: itemQuantities}: PayloadAction<NewO
     const { 
         email: recipientEmail,
         phone: recipientPhone, 
-        userAddressId, 
         firstName: recipientFirstName, 
-        lastName: recipientLastName 
+        lastName: recipientLastName,
+        ...shippingAddress
     } = cachedOrderCreateForm
     const form: CreatePaymentIntentForm = {
             itemQuantities,
@@ -35,7 +35,7 @@ function* tryToCreatePaymentIntent({payload: itemQuantities}: PayloadAction<NewO
             recipientFirstName,
             recipientLastName,
             recipientPhone,
-            userAddressId
+            ...shippingAddress 
         }
 
     const {start, end, fail} = CreatePaymentIntentAction

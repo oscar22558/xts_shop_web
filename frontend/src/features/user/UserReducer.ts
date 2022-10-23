@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import HttpResponse from "../models/HttpResponse"
 import UpdatePasswordError from "./models/UpdatePasswordError"
 import UpdateUserColumnErrors from "./models/UpdateUserColumnErrors"
-import UpdateUserErrorResponse from "./models/UpdateUserErrorResponse"
 import User from "./models/User"
 
 type State = {

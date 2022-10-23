@@ -21,11 +21,16 @@ const initialState: State = {
         loading: false
     },
     cachedOrderCreateForm: {
-       userAddressId: -1,
        lastName: "",
        firstName: "",
        email: "",
-       phone: ""
+       phone: "",
+       country: "",
+       city: "",
+       area: "",
+       district: "",
+       row1: "",
+       row2: "",
     }
 }
 

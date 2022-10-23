@@ -1,8 +1,9 @@
+import Address from "../../user/models/Address"
+
 type CachedOrderCreateForm = {
-    userAddressId: number
     firstName: string
     lastName: string
     email: string
     phone: string
-}
+} & Omit<Address, "id">
 export default CachedOrderCreateForm
