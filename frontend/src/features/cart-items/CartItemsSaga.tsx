@@ -15,7 +15,6 @@ function* getListItemByIdApiRoute(){
 function* getItemsById(ids: number[]){
     const apiRoute: string = yield call(getListItemByIdApiRoute)
     const response: AxiosResponse = yield call(CartItemsByIdApi, {
-        url: apiRoute,
         params: {
             ids
         }

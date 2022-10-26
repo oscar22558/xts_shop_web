@@ -16,10 +16,11 @@ const OrderItem = ({itemId, name, quantity, imgUrl, price}: Props)=>{
     const handleItemClick = ()=>{
         navigate(route.replace(params[0], itemId.toString()))
     }
+    const regex = /^(\/)/i
     return <Box sx={{height: "100px", marginBottom: "20px"}}>
         <Grid container direction="row" sx={{height: "100%"}}>
             <Grid item xs={2}>
-                <img height="100px" width="100px" src={`${host}/${imgUrl}`} alt={name} 
+                <img height="100px" width="100px" src={`${host}/${imgUrl?.replace(regex, '')}`} alt={name} 
                 style={{cursor: "pointer"}}
                 onClick={handleItemClick}
                 />
