@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 openjdk:18-jdk-alpine
+FROM openjdk:18-jdk-alpine
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 WORKDIR app
