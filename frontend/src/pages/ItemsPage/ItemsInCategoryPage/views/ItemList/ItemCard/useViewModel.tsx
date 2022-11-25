@@ -9,7 +9,7 @@ const useViewModel = (index: number)=>{
     const handleAddItemToCartBtnClick = ()=>{
         addCartItem(data.id)
     }
-    return {...data, imgUrl: `${protocol}://${domain}:${port}/${data.imgUrl}`, handleAddItemToCartBtnClick}
+    return {...data, imgUrl: `/${data.imgUrl}`, handleAddItemToCartBtnClick}
 
 }
 export default useViewModel

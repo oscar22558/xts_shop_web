@@ -49,7 +49,7 @@ dependencies {
 }
 
 flyway {
-	url = 'jdbc:postgresql://localhost:5432/xts'
+	url = 'jdbc:postgresql://localhost:5436/xts'
 	user = 'xts'
 	password = 'xts'
 	cleanDisabled = false

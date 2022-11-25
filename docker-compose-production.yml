@@ -8,8 +8,6 @@ services:
     build:
       context: ./frontend
       target: production
-    ports:
-      - 3000:3000
     networks:
       - app-network
   api:
@@ -47,7 +45,7 @@ services:
     volumes:
       - db:/data/postgres
     ports:
-      - 5432:5432
+      - 5436:5432
     networks:
       - app-network
   dbadmin:
