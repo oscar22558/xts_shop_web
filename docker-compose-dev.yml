@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: xts-db-dev
+    image: postgres
+    environment:
+      POSTGRES_USER: xts
+      POSTGRES_PASSWORD: xts
+      PGDATA: /data/postgres
+    volumes:
+      - db-dev:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - app-network
+  dbadmin:
+    container_name: xts-dbadmin-dev
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: xts@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: xts
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - dbadmin-dev:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-dev:
+  dbadmin-dev:

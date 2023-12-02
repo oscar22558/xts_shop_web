@@ -1,45 +1,41 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import {Tab, Tabs} from "@mui/material";
-import StyledTab from "./StyledTab";
-import StyledTabs from "./StyledTabs";
-import CategoriesTabs from "./CategoriesTabs";
+
+import ShoppingCartIcon from './components/ShoppingCartIcon';
+import SignInIcon from './components/SignInIcon';
+import useAuthentication from '../../data-sources/authentication/useAuthentication';
+import AppRouteList from '../../routes/AppRouteList';
+import UserMenu from './components/UserMenu';
+import HomePageLogoBtn from './components/HomePageLogoBtn';
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+    const authentication = useAuthentication()
+    const navigate = useNavigate()
+
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
     };
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
     return (
         <AppBar position="static">
-            <Container maxWidth="xl" sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+            <Container maxWidth="xl" sx={{height: "60px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "stretch", paddingY: "10px"}}>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
                         <IconButton
                             size="large"
@@ -77,54 +73,25 @@ const ResponsiveAppBar = () => {
                         </Menu>
                     </Box>
 
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-                    >
-                        LOGO
-                    </Typography>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-                    >
-                        LOGO
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        <CategoriesTabs />
+                    <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center"}}>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems: "center"}}>
+                            <HomePageLogoBtn />
+                        </Box>
+                        <Box sx={{ mr: 2, display: { xs: 'none', md: 'flex' } , alignItems: "center" }}>
+                            <HomePageLogoBtn />
+                        </Box>
                     </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
+                    <Box sx={{ flexGrow: 0, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: 'center'}}>
+                        <Box sx={{marginRight: "20px", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                            {authentication.isUserAuthenticated ? undefined : <SignInIcon />}
+                        </Box>
+                        <Box sx={{marginRight: "20px"}}>
+                            <ShoppingCartIcon />
+                        </Box>
+                        <Box>
+                            <UserMenu />
+                        </Box>
                     </Box>
             </Container>
         </AppBar>

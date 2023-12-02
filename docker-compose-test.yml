@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  api:
+    platform: linux/x86_64
+    container_name: xts-api-test
+    environment:
+      - DOCKER_BUILDKIT=0
+      - COMPOSE_DOCKER_CLI_BUILD=0
+      - SPRING_PROFILES_ACTIVE=test
+    tty: true
+    image: xts-api-test
+    build:
+      context: ./backend
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
+  nginx:
+    container_name: xts-nginx-test
+    tty: true
+    image: xts-nginx-test
+    build:
+      context: ./nginx
+      target: test
+    ports: 
+      - 80:80
+    networks:
+      - app-network
+  db:
+    container_name: xts-db-test
+    image: postgres
+    environment:
+      POSTGRES_USER: xts
+      POSTGRES_PASSWORD: xts
+      PGDATA: /data/postgres
+    volumes:
+      - db-test:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - app-network
+  dbadmin:
+    container_name: xts-dbadmin-test
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: xts@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: xts
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - dbadmin-test:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-test:
+  dbadmin-test:

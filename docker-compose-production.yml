@@ -1,0 +1,71 @@
+version: "3.8"
+
+services:
+  ui: 
+    container_name: xts-ui
+    tty: true
+    image: xts-ui
+    build:
+      context: ./frontend
+      target: production
+    networks:
+      - app-network
+  api:
+    container_name: xts-api
+    environment:
+      - DOCKER_BUILDKIT=0
+      - COMPOSE_DOCKER_CLI_BUILD=0
+      - SPRING_PROFILES_ACTIVE=production
+    tty: true
+    image: xts-api
+    build:
+      context: ./backend
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
+  nginx:
+    container_name: xts-nginx
+    tty: true
+    image: xts-nginx
+    build:
+      context: ./nginx
+      target: production
+    ports: 
+      - 80:80
+    networks:
+      - app-network
+  db:
+    container_name: xts-db
+    image: postgres
+    environment:
+      POSTGRES_USER: xts
+      POSTGRES_PASSWORD: xts
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
+    ports:
+      - 5436:5432
+    networks:
+      - app-network
+  dbadmin:
+    container_name: xts-dbadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: xts@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: xts
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - dbadmin:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db:
+  dbadmin:
