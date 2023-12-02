@@ -17,16 +17,17 @@ import java.util.Optional;
 @Service
 public class HandlePostPaymentEventServiceImp implements PostPaymentEventService {
     private static final Logger logger = LoggerFactory.getLogger(HandlePostPaymentEventServiceImp.class);
-    private String endpointSecret = StripeApiSecret.END_POINT_SECRET;
+    private String endpointSecret;
     private PaymentIntentSucceededService paymentIntentSucceededService;
     private PaymentIntentCanceledService paymentIntentCanceledService;
 
     private Event event;
     private StripeObject stripeObject;
 
-    public HandlePostPaymentEventServiceImp(PaymentIntentSucceededService paymentIntentSucceededService, PaymentIntentCanceledService paymentIntentCanceledService) {
+    public HandlePostPaymentEventServiceImp(PaymentIntentSucceededService paymentIntentSucceededService, PaymentIntentCanceledService paymentIntentCanceledService, StripeApiSecret stripeApiSecret) {
         this.paymentIntentSucceededService = paymentIntentSucceededService;
         this.paymentIntentCanceledService = paymentIntentCanceledService;
+        this.endpointSecret = stripeApiSecret.END_POINT_SECRET;
     }
 
     public void handle(PostPaymentEvent postPaymentEvent){

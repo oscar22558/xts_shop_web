@@ -20,10 +20,12 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
     private CreatePaymentIntentForm form;
     private Invoice invoice;
     private PaymentIntent paymentIntent;
+    private StripeApiSecret stripeApiSecret;
 
-    public CreatePaymentIntentServiceImp(CreateOrderService createOrderService, OrderTotalCalculator orderTotalCalculator) {
+    public CreatePaymentIntentServiceImp(CreateOrderService createOrderService, OrderTotalCalculator orderTotalCalculator, StripeApiSecret stripeApiSecret) {
         this.createOrderService = createOrderService;
         this.orderTotalCalculator = orderTotalCalculator;
+        this.stripeApiSecret = stripeApiSecret;
     }
 
     public CreatePaymentIntentResponse createIntent(CreatePaymentIntentForm form){
@@ -43,7 +45,7 @@ public class CreatePaymentIntentServiceImp implements CreatePaymentIntentService
     }
 
     private PaymentIntent buildPaymentIntent() {
-        Stripe.apiKey = StripeApiSecret.API_KEY;
+        Stripe.apiKey = stripeApiSecret.API_KEY;
         long amount = (long) (invoice.getTotal() * 100);
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
                 .setAmount(amount)

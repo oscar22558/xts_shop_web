@@ -16,10 +16,12 @@ public class UpdatePaymentIntentServiceImp implements UpdatePaymentIntentService
     private UpdateOrderService updateOrderService;
     private UpdatePaymentIntentForm form;
     private Invoice newInvoice;
+    private StripeApiSecret stripeApiSecret;
 
-    public UpdatePaymentIntentServiceImp(OrderTotalCalculator orderAmountCalculator, UpdateOrderService updateOrderService) {
+    public UpdatePaymentIntentServiceImp(OrderTotalCalculator orderAmountCalculator, UpdateOrderService updateOrderService, StripeApiSecret stripeApiSecret) {
         this.orderAmountCalculator = orderAmountCalculator;
         this.updateOrderService = updateOrderService;
+        this.stripeApiSecret = stripeApiSecret;
     }
 
     public void execute(UpdatePaymentIntentForm form){
@@ -45,7 +47,7 @@ public class UpdatePaymentIntentServiceImp implements UpdatePaymentIntentService
     }
 
     private PaymentIntent tryToUpdateIntent(){
-        Stripe.apiKey = StripeApiSecret.API_KEY;
+        Stripe.apiKey = stripeApiSecret.API_KEY;
         long newAmount = (long)(newInvoice.getTotal() * 100);
         PaymentIntent paymentIntent;
         try {
